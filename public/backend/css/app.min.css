@@ -4,6 +4,15 @@ html {
     min-height: 100%
 }
 
+i.fa-thumbs-styling.fa.fa-thumbs-down {
+    font-size: 20px;
+    color: #ea3a3c;
+}
+
+i.fa-thumbs-styling.fa.fa-thumbs-up {
+    font-size: 20px;
+}
+
 body {
     overflow-x: hidden
 }
@@ -2114,10 +2123,10 @@ body.boxed-layout.enlarged .footer {
 
 /*!
  * Waves v0.7.6
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE */
 
 .waves-effect {

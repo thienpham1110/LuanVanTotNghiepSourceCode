@@ -64,5 +64,6 @@
         <script src="{{asset('public/frontend/js/ajax-mail.js')}}"></script>
         <script src="{{asset('public/frontend/js/plugins.js')}}"></script>
         <script src="{{asset('public/frontend/js/main.js')}}"></script>
+
     </body>
 </html>

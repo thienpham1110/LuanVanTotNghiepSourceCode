@@ -10,7 +10,8 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="index_save_add.php" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Save</a>
+                                <a href="{{URL::to('/product-type')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/product-type-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
@@ -29,51 +30,28 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="p-2">
-                                    <form action="{{ URL::to('product-type-save') }}" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                    @foreach ($edit_product_type as $key => $pro_type)
+                                    <form action="{{ URL::to('product-type-save-edit/'.$pro_type->id) }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                         {{ csrf_field() }}
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label" >Product Type Information</label>
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Name</label>
-                                                <input type="text" name="product_type_name" id="simpleinput" class="form-control" placeholder="Example: AF1,..">
+                                                <input type="text" name="product_type_name" value="{{ $pro_type->loaisanpham_ten }}" required="" class="form-control" placeholder="Example: AF1,..">
 
                                                 <label class="col-form-label">Description</label>
-                                                <textarea name="product_type_description" class="form-control" placeholder="Des.."></textarea>
+                                                <textarea name="product_type_description" required="" class="form-control">{{ $pro_type->loaisanpham_mo_ta }}</textarea>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label" for="example-fileinput">Images</label>
-                                            <div class="col-sm-10 dropzone">
-                                                <div class="fallback">
-                                                    <input name="product_type_img" type="file" multiple="">
+                                            <label class="col-sm-2 col-form-label">Images</label>
+                                            <div class="col-sm-10">
+                                                <div class="fileupload btn btn-primary waves-effect mt-1">
+                                                    <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
+                                                    <input type="file" class="upload" value="{{ $pro_type->loaisanpham_anh }}" name="product_type_img" multiple="" id="files">
                                                 </div>
-                                                <div class="dz-message needsclick">
-                                                    <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
-                                                    <h3>Drop files here or click to upload.</h3>
-                                                </div>
-                                                <div class="dropzone-previews mt-3" id="file-previews"></div>
-                                                <div class="d-none" id="uploadPreviewTemplate">
-                                                    <div class="card mt-1 mb-0 shadow-none border">
-                                                        <div class="p-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-auto">
-                                                                    <img data-dz-thumbnail="" class="avatar-sm rounded bg-light" alt="">
-                                                                </div>
-                                                                <div class="col pl-0">
-                                                                    <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name=""></a>
-                                                                    <p class="mb-0" data-dz-size=""></p>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <!-- Button -->
-                                                                    <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove="">
-                                                                        <i class="mdi mdi-close-circle"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <img width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/producttype/'.$pro_type->loaisanpham_anh)}}" />
                                             </div>
                                         </div>
                                         <hr>
@@ -82,8 +60,9 @@
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Status</label>
                                                 <select name="product_type_status" class="form-control">
-                                                    <option value="0">Ẩn</option>
-                                                    <option value="1">Sử Dụng</option>
+                                                    <option value="{{ $pro_type->loaisanpham_trang_thai }}">{{ $pro_type->loaisanpham_trang_thai?'Show':'Hide' }}</option>
+                                                    <option value="0">Hide</option>
+                                                    <option value="1">Show</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -91,11 +70,12 @@
                                         <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <div class="text-lg-right mt-3 mt-lg-0">
-                                                    <button type="submit" name="product_type_add" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Add Type</button>
+                                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Save</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

@@ -5,7 +5,7 @@
             <ul class="metismenu" id="side-menu">
                 <li class="menu-title">RGUWB</li>
                 <li>
-                    <a href="index.php" class="waves-effect">
+                    <a href="{{URL::to('/dashboard')}}" class="waves-effect">
                         <i class="remixicon-dashboard-line"></i>
                         <span> Dashboards </span>
                     </a>
@@ -18,22 +18,22 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="index_product.php">Product</a>
+                            <a href="{{URL::to('/product')}}">Product</a>
                         </li>
                         <li>
-                            <a href="index_product_discount.php">Discount Products</a>
+                            <a href="{{URL::to('/product-discount')}}">Discount Products</a>
                         </li>
                         <li>
-                            <a href="index_brand.php">Brand</a>
+                            <a href="{{URL::to('/brand')}}">Brand</a>
                         </li>
                         <li>
                             <a href="{{URL::to('/product-type')}}">Product Type</a>
                         </li>
                         <li>
-                            <a href="index_collection.php">Collection</a>
+                            <a href="{{URL::to('/collection')}}">Collection</a>
                         </li>
                         <li>
-                            <a href="index_coupon_code.php">Coupon Code</a>
+                            <a href="{{URL::to('/coupon-code')}}">Coupon Code</a>
                         </li>
 
                     </ul>
@@ -46,18 +46,22 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="index_product_import.php">Product Import</a>
+                            <a href="{{URL::to('/product-import')}}">Product Import</a>
                         </li>
                         <li>
-                            <a href="index_supplier.php">Supplier</a>
+                            <a href="{{URL::to('/supplier')}}">Supplier</a>
+                        </li>
+                        <li>
+                            <a href="{{URL::to('/size')}}">Size</a>
                         </li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class="remixicon-layout-line"></i>
-                        <span class="badge badge-pink float-right">New</span>
+                        {{-- <span class="badge badge-pink float-right">New</span> --}}
                         <span>Manage Order</span>
+                        <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
@@ -79,10 +83,10 @@
                     </a>
                     <ul class="nav-second-level nav" aria-expanded="false">
                         <li>
-                            <a href="index_about_store.php">About Store</a>
+                            <a href="{{URL::to('/about-store')}}">About Store</a>
                         </li>
                         <li>
-                            <a href="index_news.php">News</a>
+                            <a href="{{URL::to('/product-news')}}">News</a>
                         </li>
                         <li>
                             <a href="index_discount.php">Discount</a>
@@ -93,10 +97,10 @@
                             </a>
                             <ul class="nav-third-level nav" aria-expanded="false">
                                 <li>
-                                    <a href="index_slideshow.php">Slideshow</a>
+                                    <a href="{{URL::to('/slideshow')}}">Slideshow</a>
                                 </li>
                                 <li>
-                                    <a href="index_header_news.php">Header</a>
+                                    <a href="{{URL::to('/headershow')}}">Header</a>
                                 </li>
 
                             </ul>

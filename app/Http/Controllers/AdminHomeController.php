@@ -14,11 +14,20 @@ class AdminHomeController extends Controller
     public function index(){
     	return view('admin.pages.auth.login');
     }
-    public function show_dashboard(){
+
+    public function AuthLogin(){
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return Redirect::to('/dashboard');
+        }else{
+            return Redirect::to('/admin')->send();
+        }
+    }
+    public function ShowDashboard(){
+        $this->AuthLogin();
     	return view('admin.pages.dashboard');
     }
-    public function dashboard(Request $request){
-
+    public function Dashboard(Request $request){
         $admin_email=$request->admin_email;
         $admin_password=md5($request->admin_password);
         $result = DB::table('tbl_users')->where('user_email',$admin_email)->where('user_password',$admin_password)->first();
@@ -32,17 +41,19 @@ class AdminHomeController extends Controller
         }
     }
 
-    public function logout(){
+    public function Logout(){
+        $this->AuthLogin();
         Session::put('admin_name',null);
         Session::put('admin_id',null);
         return Redirect::to('/admin');
     }
 
-    public function reset_password(){
+    public function ResetPassword(){
+
     	return view('admin.pages.auth.reset_password');
     }
 
-    public function login_admin(){
+    public function Login_Admin(){
     	return view('admin.pages.auth.login_admin');
     }
 }

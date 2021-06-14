@@ -42,11 +42,18 @@
                     <div class="col-12">
                         <div class="card-box">
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
+                                <?php
+                                    $message=Session::get('message');
+                                    if($message){
+                                        echo '<p class="text-muted">'.$message.'</p>';
+                                        Session::put('message',null);
+                                    }
+                                ?>
                                 <thead class="bg-light">
                                 <tr>
+                                    <th class="font-weight-medium">Images</th>
                                     <th class="font-weight-medium">Name</th>
                                     <th class="font-weight-medium">Description</th>
-                                    <th class="font-weight-medium">Images</th>
                                     <th class="font-weight-medium">Status</th>
                                     <th class="font-weight-medium">Action</th>
                                 </tr>
@@ -55,26 +62,38 @@
                                     @foreach ($all_product_type as $key=>$pro_type)
                                     <tr>
                                         <td>
+                                            <a href="javascript: void(0);">
+                                                <img src="{{asset('public/uploads/admin/producttype/'.$pro_type->loaisanpham_anh)}}" alt="contact-img" title="contact-img" class="avatar-lg rounded-circle img-thumbnail">
+                                            </a>
+                                        </td>
+                                        <td>
                                             {{ $pro_type->loaisanpham_ten }}
                                         </td>
                                         <td>
                                             {{ $pro_type->loaisanpham_mo_ta }}
                                         </td>
-
                                         <td>
-                                            <a href="javascript: void(0);">
-                                                <img src="assets\images\users\avatar-10.jpg" alt="contact-img" title="contact-img" class="avatar-sm rounded-circle img-thumbnail">
-                                                {{ $pro_type->loaisanpham_anh }}
-                                            </a>
+                                            <span class="badge">
+                                                <?php
+                                                if($pro_type->loaisanpham_trang_thai==1)
+                                                { ?>
+                                                <a href="{{URL::to ('/unactive-product-type/'.$pro_type->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
+                                                <?php
+                                                }else
+                                                { ?>
+                                                    <a href="{{URL::to ('/active-product-type/'.$pro_type->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
+                                                <?php
+                                                }
+                                                ?>
+                                               </span>
                                         </td>
-                                        <td>
-                                            <span class="badge badge-success">{{ $pro_type->loaisanpham_trang_thai?"show":"hide" }}</span>
-                                        </td>
-
-
                                         <td>
                                             <div class="btn-group dropdown">
-                                                <a href="{{URL::to('/product-type-edit')}}" class=" btn btn-danger btn-sm"><i class="mdi mdi-pencil"></i></a>
+                                                <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="{{URL::to('/product-type-edit/'.$pro_type->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
+                                                    <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

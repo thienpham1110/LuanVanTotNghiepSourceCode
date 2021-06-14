@@ -25,17 +25,19 @@
          <div class="col-12">
              <div class="breadcrumb_content hr3">
                  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-
                      <div class="carousel-inner">
+                         @foreach ($header_show as $key => $header)
+                         @if($header->headerquangcao_thu_tu==$header_min)
                          <div class="carousel-item hr2 active">
-                            Pham Hong Thien
+                            {{ $header->headerquangcao_noi_dung }}
                          </div>
+                         @else
                          <div class="carousel-item hr2">
-                             11-10-1999
+                            {{ $header->headerquangcao_noi_dung }}
                          </div>
-                         <div class="carousel-item hr2">
-                             0961682847
-                         </div>
+                         @endif
+
+                         @endforeach
                      </div>
                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
 

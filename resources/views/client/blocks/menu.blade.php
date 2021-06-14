@@ -6,34 +6,10 @@
                     <div class="main_menu d-none d-lg-block">
                         <nav>
                             <ul>
-                                <li class="active"><a href="index.php">Home</a>
-                                    <div class="mega_menu jewelry">
-                                        <div class="mega_items jewelry">
-                                            <ul>
-                                                <li><a href="index.html">Home 1</a></li>
-                                                <li><a href="index-2.html">Home 2</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <li class="active"><a href="{{URL::to ('/')}}">Home</a>
+
                                 </li>
-                                <li><a href="index_product.php">shop</a>
-                                    <div class="mega_menu jewelry">
-                                        <div class="mega_items jewelry">
-                                            <ul>
-                                                <li><a href="index_product.php">Product</a></li>
-                                                <li><a href="index_product_detail.php">Product Detail</a></li>
-                                                <li><a href="index_accout.php">Accout</a></li>
-                                                <li><a href="index_login.php">Login</a></li>
-                                                <li><a href="index_cart.php">Cart</a></li>
-                                                <li><a href="index_checkout.php">Checkout</a></li>
-                                                <li><a href="index_wishlist.php">Wishlist</a></li>
-                                                <li><a href="index_about_us.php">About US</a></li>
-                                                <li><a href="index_news.php">news</a></li>
-                                                <li><a href="index_news_detail.php">News Detail</a></li>
-                                                <li><a href="index_404.php">404</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <li><a href="{{URL::to ('/shop-now')}}">shop now</a>
                                 </li>
                                 <li><a href="#">women</a>
                                     <div class="mega_menu">
@@ -74,10 +50,10 @@
                                         </div>
                                         <div class="mega_bottom fix">
                                             <div class="mega_thumb">
-                                                <a href="#"><img src="assets\img\banner\banner1.jpg" alt=""></a>
+                                                <a href="#"><img src="{{asset('public/frontend/img/banner/banner1.jpg')}}" alt=""></a>
                                             </div>
                                             <div class="mega_thumb">
-                                                <a href="#"><img src="assets\img\banner\banner2.jpg" alt=""></a>
+                                                <a href="#"><img src="{{asset('public/frontend/img/banner/banner2.jpg')}}" alt=""></a>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +82,7 @@
                                                 </ul>
                                             </div>
                                             <div class="mega_items">
-                                                <a href="#"><img src="assets\img\banner\banner3.jpg" alt=""></a>
+                                                <a href="#"><img src="{{asset('public/frontend/img/banner/banner3.jpg')}}" alt=""></a>
                                             </div>
                                         </div>
 
@@ -116,42 +92,33 @@
                                     <div class="mega_menu">
                                         <div class="mega_top fix">
                                             <div class="mega_items">
-                                                <h3><a href="#">Column1</a></h3>
+                                                <h3><a href="#">Brand</a></h3>
                                                 <ul>
-                                                    <li><a href="portfolio.html">Portfolio</a></li>
-                                                    <li><a href="portfolio-details.html">single portfolio </a></li>
-                                                    <li><a href="about.html">About Us </a></li>
-                                                    <li><a href="about-2.html">About Us 2</a></li>
-                                                    <li><a href="services.html">Service </a></li>
-                                                    <li><a href="my-account.html">my account </a></li>
+                                                    @foreach ($product_brand as $key => $brand)
+                                                        <li><a href="{{URL::to ('/product-brand/'.$brand->id)}}">{{ $brand->thuonghieu_ten }}</a></li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                             <div class="mega_items">
-                                                <h3><a href="#">Column2</a></h3>
+                                                <h3><a href="#">Category</a></h3>
                                                 <ul>
-                                                    <li><a href="blog.html">Blog </a></li>
-                                                    <li><a href="blog-details.html">Blog  Details </a></li>
-                                                    <li><a href="blog-fullwidth.html">Blog FullWidth</a></li>
-                                                    <li><a href="blog-sidebar.html">Blog  Sidebar</a></li>
-                                                    <li><a href="faq.html">Frequently Questions</a></li>
-                                                    <li><a href="404.html">404</a></li>
+                                                    @foreach ($product_type as $key => $pro_type)
+                                                        <li><a href="{{URL::to ('/product-category/'.$pro_type->id)}}">{{ $pro_type->loaisanpham_ten }}</a></li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                             <div class="mega_items">
-                                                <h3><a href="#">Column3</a></h3>
+                                                <h3><a href="#">Collection</a></h3>
                                                 <ul>
-                                                    <li><a href="contact.html">Contact</a></li>
-                                                    <li><a href="cart.html">cart</a></li>
-                                                    <li><a href="checkout.html">Checkout  </a></li>
-                                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                                    <li><a href="login.html">Login</a></li>
+                                                    @foreach ($product_collection as $key => $collection)
+                                                        <li><a href="{{URL::to ('/product-collection/'.$collection->id)}}">{{ $collection->dongsanpham_ten }}</a></li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
-
-                                <li><a href="blog.html">blog</a>
+                                <li><a href="blog.html">Blog</a>
                                     <div class="mega_menu jewelry">
                                         <div class="mega_items jewelry">
                                             <ul>
@@ -162,8 +129,17 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li><a href="contact.html">contact us</a></li>
-
+                                <li><a href="blog.html">About Us</a>
+                                    <div class="mega_menu jewelry">
+                                        <div class="mega_items jewelry">
+                                            <ul>
+                                                <li><a href="blog-details.html">blog details</a></li>
+                                                <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
+                                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </nav>
                     </div>

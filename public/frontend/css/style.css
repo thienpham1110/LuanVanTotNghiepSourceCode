@@ -5,9 +5,9 @@
     Version: 1.0
 
 -----------------------------------------------------------------------------------
-    
-    [Table of contents] 
-	
+
+    [Table of contents]
+
     1. Template default css (assets/css/bundle.css)
     2.  header css here
         2.1 header top css here
@@ -15,7 +15,7 @@
 		2.3 header bottom css here
 		2.4 sidebar banner css here
 		2.5 categorie menu css here
-		2.6 wishlist block css here 
+		2.6 wishlist block css here
 		2.7 popular tags css here
 		2.8newsletter block css here
 		2.9 new product css here
@@ -24,13 +24,13 @@
 		2.12 footer area css here
 		2.13 mobail menu css here
 	3. shop page css here
-	4. product page css here 
-	5. product gallery css here 
+	4. product page css here
+	5. product gallery css here
 	6. portfolio page css here
 	7. cart page css here
 	8. login page css here
 	9. checkout page css here
-	10. contact page css here 
+	10. contact page css here
 	11. 404 page css here
 	12. faq page css here
 	13. about page css here
@@ -2551,26 +2551,6 @@ a {
 
 .product_tab.product_video .product_tab_button ul li:last-child {
     margin-right: 0;
-}
-
-.product_tab.product_video .view_img {
-    opacity: 1;
-    visibility: visible;
-    top: 88%;
-    left: 39px;
-}
-
-.product_tab.product_video .view_img a {
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.5);
-    line-height: 17px;
-    color: #777676;
-    padding: 10px 0;
-    width: 139px;
-    display: inline-block;
-    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
-    border-radius: 5px;
 }
 
 
