@@ -104,19 +104,77 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.add-queue').click(function(){
-           var id = $(this).data('id_product');
-           var product_id =$('.product_id_' + id).val();
-           var product_name =$('.product_name_' + id).val();
-           var _token = $('input[name="_token"]').val();
-           $.ajax({
-            url: '{{url('/product-import-add-queue')}}',
-            method: 'POST',
-            data:{product_id:product_id,product_name:product_name,_token:_token},
-            success:function(data){
-                {{--  window.location.href = "{{url('/product-import-add')}}";  --}}
-            }
-        });
-        });
+        function load_queue(){
+            $('.add-queue').click(function(){
+                var id = $(this).data('id_product');
+                var product_id =$('.product_id_' + id).val();
+                var product_name =$('.product_name_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                 $.ajax({
+                     url: '{{url('/product-import-add-queue')}}',
+                     method: 'POST',
+                     data:{product_id:product_id,product_name:product_name,_token:_token},
+                     success:function(data){
+                         Swal.fire({
+                             title: "Add Success",
+                             type: "success",
+                             showConfirmButton: !1,
+                            timer: 500
+                             })
+                         $('#show-list-product').html(data);
+
+                     }
+                 });
+             });
+        }load_queue();
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).on('mouseup','.delete-row-queue',function(){
+        function delete_row_queue(){
+            $('.delete-row-queue').click(function(){
+                var id = $(this).data('id_product');
+                var product_id =$('.product_id_' + id).val();
+                var product_session_id =$('.product_session_id_' + id).val();
+                var product_name =$('.product_name_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                {{--  alert(product_name);  --}}
+                 $.ajax({
+                     url: '{{url('/product-import-delete-row-queue')}}',
+                     method: 'GET',
+                     data:{product_id:product_id,product_session_id:product_session_id,product_name:product_name ,_token:_token},
+                     success:function(data){
+
+                        $('#show-list-product').html(data);
+                     }
+                 });
+             });
+        }
+        delete_row_queue();
+    });
+</script>
+<script type="text/javascript">
+    $(document).click(function(){
+        function Add_product_import(){
+            $('.add-product-import').click(function(){
+                var id = $(this).data('id_product');
+                var product_id =$('.product_id_' + id).val();
+                var product_session_id =$('.product_session_id_' + id).val();
+                var product_name =$('.product_name_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                {{--  alert(product_name);  --}}
+                 $.ajax({
+                     url: '{{url('/product-import-delete-row-queue')}}',
+                     method: 'GET',
+                     data:{product_id:product_id,product_session_id:product_session_id,product_name:product_name ,_token:_token},
+                     success:function(data){
+
+                        $('#show-list-product').html(data);
+                     }
+                 });
+             });
+        }
+        delete_row_queue();
     });
 </script>

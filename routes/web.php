@@ -165,6 +165,7 @@ Route::get('/product-import-add','ProductImportController@ProductImportAdd');
 // Route::get('/product-import-add-queue/{product_id}','ProductImportController@ProductImportAddQueue');
 
 Route::post('/product-import-add-queue','ProductImportController@ProductImportAddQueue');
+Route::get('/product-import-delete-row-queue','ProductImportController@ProductImportDeleteRowQueue');
 
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');

@@ -18,7 +18,7 @@
   <div class="container box">
    <h3 align="center">Gợi ý tìm kiếm với ajax</h3><br />
    <div class="form-group">
-    <input type="text" name="country_name" id="country_name" class="form-control input-lg" placeholder="Enter Country Name" />
+    <input type="text" name="country_name" id="country_name" class="form-control" placeholder="Enter Country Name" />
     <div id="countryList"><br>
     </div>
   </div>
