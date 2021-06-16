@@ -30,7 +30,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        @foreach ($edit_pro as $key => $product)
                                         <form action="{{ URL::to('/product-save-edit/'.$product->id) }}" enctype="multipart/form-data"class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                             {{ csrf_field() }}
                                             <div class="form-group row">
@@ -137,7 +136,6 @@
                                                     <label class="col-form-label"></label>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-
                                                             <div class="button-list form-group row">
                                                                 <div class="col-sm-12">
                                                                     <div class=" mt-3 mt-lg-0">
@@ -184,7 +182,7 @@
                                                 <div class="col-sm-10">
                                                     <div class="fileupload btn btn-primary waves-effect mt-1">
                                                         <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
-                                                        <input type="file" class="upload" value="{{ $product->sanpham_anh }}" required="" name="product_img" multiple="" id="files">
+                                                        <input type="file" class="upload" value="{{ $product->sanpham_anh }}" name="product_img" id="files">
                                                     </div>
                                                     <img width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" />
                                                 </div>
@@ -222,7 +220,6 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        @endforeach
                                     </div>
                                 </div>
                             </div>

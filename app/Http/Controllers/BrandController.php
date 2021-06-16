@@ -14,7 +14,6 @@ class BrandController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        // $all_brand=DB::table('tbl_thuonghieu')->get();
         // $all_brand = Brand::orderBy('id','DESC')->paginate(5);
         $all_brand = Brand::orderBy('id','DESC')->get();
         return view('admin.pages.brand.brand')->with('all_brand',$all_brand);
@@ -40,17 +39,14 @@ class BrandController extends Controller
         $brand->thuonghieu_ten = $data['brand_name'];
         $brand->thuonghieu_mo_ta = $data['brand_description'];
         $brand->thuonghieu_trang_thai = $data['brand_status'];
-
         $get_image = $request->file('brand_img');
         $path = 'public/uploads/admin/brand';
-
         //them hinh anh
         if($get_image){
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.',$get_name_image));
             $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
             $get_image->move($path,$new_image);
-
             $brand->thuonghieu_anh = $new_image;
             $brand->save();
             Session::put('message','Add Success');
@@ -64,9 +60,9 @@ class BrandController extends Controller
 
     public function UnactiveBrand($brand_id){
         $this->AuthLogin();
-        $active_brand=Brand::find($brand_id);
-        $active_brand->thuonghieu_trang_thai=0;
-        $active_brand->save();
+        $unactive_brand=Brand::find($brand_id);
+        $unactive_brand->thuonghieu_trang_thai=0;
+        $unactive_brand->save();
         Session::put('message','Hide Success');
         return Redirect::to('/brand');
     }
@@ -87,27 +83,26 @@ class BrandController extends Controller
 
     public function BrandSaveEdit(Request $request,$brand_id){
         $this->AuthLogin();
-       $data=$request->all();
+        $data=$request->all();
         $brand= Brand::find($brand_id);
         $brand->thuonghieu_ten = $data['brand_name'];
         $brand->thuonghieu_mo_ta = $data['brand_description'];
         $brand->thuonghieu_trang_thai = $data['brand_status'];
         $old_name_img=$brand->thuonghieu_anh;
-
-       $get_image = $request->file('brand_img');
-       $path = 'public/uploads/admin/brand/';
-       if($get_image){
-                    unlink($path.$old_name_img);
-                   $get_name_image = $get_image->getClientOriginalName();
-                   $name_image = current(explode('.',$get_name_image));
-                   $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-                   $get_image->move($path,$new_image);
-                   $brand->thuonghieu_anh  = $new_image;
-                    $brand->save();
-                   Session::put('message','Update Success');
-                   return Redirect::to('/brand');
-       }
-       $brand->thuonghieu_anh = $old_name_img;
+        $get_image = $request->file('brand_img');
+        $path = 'public/uploads/admin/brand/';
+        if($get_image){
+            unlink($path.$old_name_img);
+            $get_name_image = $get_image->getClientOriginalName();
+            $name_image = current(explode('.',$get_name_image));
+            $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
+            $get_image->move($path,$new_image);
+            $brand->thuonghieu_anh  = $new_image;
+            $brand->save();
+            Session::put('message','Update Success');
+            return Redirect::to('/brand');
+        }
+        $brand->thuonghieu_anh = $old_name_img;
         $brand->save();
         Session::put('message','Update Success');
         return Redirect::to('/brand');

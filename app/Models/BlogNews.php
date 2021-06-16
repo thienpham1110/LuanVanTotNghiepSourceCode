@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogNews extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
-    	'baiviet_tieu_de', 'baiviet_noi_dung', 'baiviet_anh','thuonghieu_trang_thai','nhanvien_id'
+    	'baiviet_tieu_de', 'baiviet_noi_dung', 'baiviet_anh','thuonghieu_trang_thai'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_baiviet';

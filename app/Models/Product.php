@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
     	'sanpham_ma_san_pham', 'sanpham_ten', 'sanpham_mo_ta','sanpham_anh','sanpham_nguoi_su_dung','sanpham_mau_sac',
         'sanpham_tinh_nang','sanpham_noi_san_xuat','sanpham_phu_kien','sanpham_chat_lieu','sanpham_bao_hanh',
@@ -14,4 +15,17 @@ class Product extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_sanpham';
+
+    public function ProductType(){
+        return $this->belongsTo('App\Models\ProductType','loaisanpham_id');
+    }
+    public function Brand(){
+        return $this->belongsTo('App\Models\Brand','thuonghieu_id');
+    }
+    public function Collection(){
+        return $this->belongsTo('App\Models\Collection','dongsanpham_id');
+    }
+    public function ProductImportDetail(){
+        return $this->hasMany('App\Models\ProductImportDetail');
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wards extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
     	'xaphuongthitran_name', 'xaphuongthitran_type', 'quanhuyen_id'
     ];

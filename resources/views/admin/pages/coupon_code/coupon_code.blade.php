@@ -73,7 +73,7 @@
                                             {{ $coupon_code->makhuyenmai_so_luong }}
                                         </td>
                                         <td>
-                                            {{ $coupon_code->makhuyenmai_loai_ma }}
+                                            {{ $coupon_code->makhuyenmai_loai_ma?'Theo $':'Theo %' }}
                                         </td>
                                         <td>
                                             {{ $coupon_code->makhuyenmai_gia_tri }}

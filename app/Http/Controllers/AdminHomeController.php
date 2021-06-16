@@ -30,11 +30,15 @@ class AdminHomeController extends Controller
     public function Dashboard(Request $request){
         $admin_email=$request->admin_email;
         $admin_password=md5($request->admin_password);
-        $result = DB::table('tbl_users')->where('user_email',$admin_email)->where('user_password',$admin_password)->first();
+
+        $result = DB::table('tbl_users')->where('user_email',$admin_email)
+        ->where('user_password',$admin_password)->first();
         if($result){
-            Session::put('admin_name',$result->user_ten);
-            Session::put('admin_id',$result->id);
-            return view('admin.pages.dashboard');
+            if($result->loainguoidung_id ==2 || $result->loainguoidung_id ==1){
+                Session::put('admin_name',$result->user_ten);
+                Session::put('admin_id',$result->id);
+                return view('admin.pages.dashboard');
+            }
         }else{
             Session::put('message','Sai tài khoản hoặc mật khẩu');
             return Redirect::to('/admin');

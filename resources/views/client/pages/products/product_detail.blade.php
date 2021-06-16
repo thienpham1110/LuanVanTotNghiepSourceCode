@@ -21,7 +21,6 @@
     <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="product_tab product_video fix">
-                    @foreach ($get_product as $key => $product)
                     <div class="tab-content produc_tab_c">
                         <div class="tab-pane fade show active" id="p_tab1" role="tabpanel">
                             <div class="modal_img">
@@ -45,7 +44,6 @@
                                 </div>
                             </div>
                         </div>
-                        @endforeach
                     </div>
                     <div class="product_tab_button">
                         <ul class="nav" role="tablist">

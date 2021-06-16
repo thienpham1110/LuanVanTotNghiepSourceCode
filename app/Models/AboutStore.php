@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class AboutStore extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
-    	'cuahang_tieu_de', 'cuahang_mo_ta', 'cuahang_dia_chi','cuahang_so_dien_thoai','cuahang_anh','cuahang_trang_thai','nhanvien_id'
+    	'cuahang_tieu_de', 'cuahang_mo_ta', 'cuahang_dia_chi','cuahang_so_dien_thoai','cuahang_anh','cuahang_trang_thai'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_cuahang';

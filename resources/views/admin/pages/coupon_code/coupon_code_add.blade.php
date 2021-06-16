@@ -80,20 +80,9 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Status</label>
                                                     <select name="coupon_code_status" class="form-control">
-                                                        <option value="0">Hide</option>
                                                         <option value="1">Show</option>
+                                                        <option value="0">Hide</option>
                                                     </select>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Staff</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Staff</label>
-                                                    @foreach ($staff as $key => $st )
-                                                    <input type="hidden" value="{{ $st->id }}" name="staff_id" class="form-control" required="">
-                                                    <label class="form-control">{{ $st->nhanvien_ho }} {{ $st->nhanvien_ten }}</label>
-                                                    @endforeach
                                                 </div>
                                             </div>
                                             <hr>

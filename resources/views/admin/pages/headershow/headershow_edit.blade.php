@@ -30,7 +30,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        @foreach ($edit_headershow as $key => $headershow)
                                         <form action="{{ URL::to('headershow-save-edit/'.$headershow->id) }}" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                            {{ csrf_field() }}
                                             <div class="form-group row">
@@ -56,17 +55,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <hr>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Staff</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Staff</label>
-                                                    @foreach ($staff as $key => $st )
-                                                    <input type="hidden" value="{{ $st->id }}" name="staff_id" class="form-control" required="">
-                                                    <label class="form-control">{{ $st->nhanvien_ho }} {{ $st->nhanvien_ten }}</label>
-                                                    @endforeach
-                                                </div>
-                                            </div>
+
                                             <hr>
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
@@ -76,7 +65,6 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        @endforeach
                                     </div>
                                 </div>
                             </div>

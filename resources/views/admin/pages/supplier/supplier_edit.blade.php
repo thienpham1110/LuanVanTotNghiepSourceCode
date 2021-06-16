@@ -30,7 +30,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        @foreach ($edit_supplier as $key =>$supplier)
                                          <form action="{{ URL::to('supplier-save-edit/'.$supplier->id) }}" class="form-horizontal" enctype="multipart/form-data" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                             {{ csrf_field() }}
                                             <div class="form-group row">
@@ -67,7 +66,6 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        @endforeach
                                     </div>
                                 </div>
                             </div>

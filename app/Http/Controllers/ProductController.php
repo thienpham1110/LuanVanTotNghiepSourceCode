@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use App\Models\Product;
+use App\Models\ProductType;
+use App\Models\Brand;
+use App\Models\Collection;
+use App\Models\HeaderShow;
 use Illuminate\Support\Facades\Redirect;
 session_start();
 
@@ -12,22 +17,9 @@ class ProductController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_product=DB::table('tbl_sanpham')
-        // ->join('tbl_thuonghieu','tbl_thuonghieu.id','=','tbl_sanpham.thuonghieu_id')
-        // ->join('tbl_loaisanpham','tbl_loaisanpham.id','=','tbl_sanpham.loaisanpham_id')
-        // ->join('tbl_dongsanpham','tbl_dongsanpham.id','=','tbl_sanpham.dongsanpham_id')
-        ->orderby('tbl_sanpham.id','desc')
-        ->get();
-
-        $all_product_type=DB::table('tbl_loaisanpham')->get();
-        $all_brand=DB::table('tbl_thuonghieu')->get();
-        $all_collection=DB::table('tbl_dongsanpham')->get();
-
+        $all_product=Product::orderby('id','desc')->get();
         return view('admin.pages.products.product')
-        ->with('all_product',$all_product)
-        ->with('product_type',$all_product_type)
-        ->with('product_brand',$all_brand)
-        ->with('product_collection',$all_collection);
+        ->with('all_product',$all_product);
     }
     public function AuthLogin(){
         $admin_id = Session::get('admin_id');
@@ -40,10 +32,9 @@ class ProductController extends Controller
 
     public function ProductAdd(){
         $this->AuthLogin();
-        $all_product_type=DB::table('tbl_loaisanpham')->orderby('id','desc')->get();
-        $all_brand=DB::table('tbl_thuonghieu')->orderby('id','desc')->get();
-        $all_collection=DB::table('tbl_dongsanpham')->orderby('id','desc')->get();
-
+        $all_product_type=ProductType::orderby('id','desc')->get();
+        $all_brand=Brand::orderby('id','desc')->get();
+        $all_collection=Collection::orderby('id','desc')->get();
     	return view('admin.pages.products.product_add')
         ->with('product_type',$all_product_type)
         ->with('product_brand',$all_brand)
@@ -52,155 +43,140 @@ class ProductController extends Controller
 
     public function ProductSave(Request $request){
         $this->AuthLogin();
-        $data =array();
-        $data['sanpham_ma_san_pham']=$request->product_code;
-        $data['sanpham_ten']=$request->product_name;
-        $data['sanpham_mo_ta']=$request->product_description;
-        $data['sanpham_nguoi_su_dung']=$request->product_gender;
-        $data['sanpham_mau_sac']=$request->product_color;
-        $data['sanpham_tinh_nang']=$request->product_feature;
-        $data['sanpham_noi_san_xuat']=$request->product_production;
-        $data['sanpham_phu_kien']=$request->product_accessories;
-        $data['sanpham_chat_lieu']=$request->product_material;
-        $data['sanpham_bao_hanh']=$request->product_guarantee;
-        $data['sanpham_khuyen_mai']=$request->product_discount;
-        $data['sanpham_trang_thai']=$request->product_status;
-        $data['loaisanpham_id']=$request->product_type;
-        $data['thuonghieu_id']=$request->brand;
-        $data['dongsanpham_id']=$request->collection;
+        $data=$request->all();
+        $product= new Product();
+        $product->sanpham_ma_san_pham = $data['product_code'];
+        $product->sanpham_ten = $data['product_name'];
+        $product->sanpham_mo_ta = $data['product_description'];
+        $product->sanpham_nguoi_su_dung = $data['product_gender'];
+        $product->sanpham_mau_sac = $data['product_color'];
+        $product->sanpham_tinh_nang = $data['product_feature'];
+        $product->sanpham_noi_san_xuat = $data['product_production'];
+        $product->sanpham_phu_kien = $data['product_accessories'];
+        $product->sanpham_chat_lieu = $data['product_material'];
+        $product->sanpham_bao_hanh = $data['product_guarantee'];
+        $product->sanpham_khuyen_mai = $data['product_discount'];
+        $product->sanpham_trang_thai = $data['product_status'];
+        $product->loaisanpham_id = $data['product_type'];
+        $product->thuonghieu_id = $data['brand'];
+        $product->dongsanpham_id = $data['collection'];
 
         $get_image = $request->file('product_img');
         $path = 'public/uploads/admin/product';
-
         //them hinh anh
         if($get_image){
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.',$get_name_image));
             $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
             $get_image->move($path,$new_image);
-
-            $data['sanpham_anh'] = $new_image;
-            DB::table('tbl_sanpham')->insert($data);
+            $product->sanpham_anh = $new_image;
+            $product->save();
             Session::put('message','Add Success');
     	    return Redirect::to('/product');
         }
-        $data['sanpham_anh'] = '';
-        DB::table('tbl_sanpham')->insert($data);
+        $product->sanpham_anh = '';
+        $product->save();
         Session::put('message','Add Success');
     	return Redirect::to('/product');
     }
 
     public function UnactiveProduct($product_id){
         $this->AuthLogin();
-        DB::table('tbl_sanpham')->where('id',$product_id)->update(['sanpham_trang_thai'=>0]);
+        $unactive_product=Product::find($product_id);
+        $unactive_product->sanpham_trang_thai=0;
+        $unactive_product->save();
         Session::put('message','Hide Success');
         return Redirect::to('/product');
     }
     public function ActiveProduct($product_id){
         $this->AuthLogin();
-        DB::table('tbl_sanpham')->where('id',$product_id)->update(['sanpham_trang_thai'=>1]);
+        $active_product=Product::find($product_id);
+        $active_product->sanpham_trang_thai=1;
+        $active_product->save();
         Session::put('message','Show Success');
         return Redirect::to('/product');
     }
 
     public function ProductEdit($product_id){
         $this->AuthLogin();
-        $edit_product=DB::table('tbl_sanpham')->where('id',$product_id)->get();
-
-        $all_product_type=DB::table('tbl_loaisanpham')->orderby('id','desc')->get();
-        $all_brand=DB::table('tbl_thuonghieu')->orderby('id','desc')->get();
-        $all_collection=DB::table('tbl_dongsanpham')->orderby('id','desc')->get();
-
-        $manager_product =view('admin.pages.products.product_edit')->with('edit_pro',$edit_product)
+        $edit_product=Product::find($product_id);
+        $all_product_type=ProductType::orderby('id','desc')->get();
+        $all_brand=Brand::orderby('id','desc')->get();
+        $all_collection=Collection::orderby('id','desc')->get();
+        $manager_product =view('admin.pages.products.product_edit')
+        ->with('product',$edit_product)
         ->with('product_type',$all_product_type)
         ->with('product_brand',$all_brand)
         ->with('product_collection',$all_collection);
-
-    	return view('admin.index_layout_admin')->with('admin.pages.products.product_edit',$manager_product);
+    	return view('admin.index_layout_admin')
+        ->with('admin.pages.products.product_edit',$manager_product);
     }
 
     public function ProductSaveEdit(Request $request,$product_id){
         $this->AuthLogin();
-        $data =array();
-        $data['sanpham_ma_san_pham']=$request->product_code;
-        $data['sanpham_ten']=$request->product_name;
-        $data['sanpham_mo_ta']=$request->product_description;
-        $data['sanpham_nguoi_su_dung']=$request->product_gender;
-        $data['sanpham_mau_sac']=$request->product_color;
-        $data['sanpham_tinh_nang']=$request->product_feature;
-        $data['sanpham_noi_san_xuat']=$request->product_production;
-        $data['sanpham_phu_kien']=$request->product_accessories;
-        $data['sanpham_chat_lieu']=$request->product_material;
-        $data['sanpham_bao_hanh']=$request->product_guarantee;
-        $data['sanpham_khuyen_mai']=$request->product_discount;
-        $data['sanpham_trang_thai']=$request->product_status;
-        $data['loaisanpham_id']=$request->product_type;
-        $data['thuonghieu_id']=$request->brand;
-        $data['dongsanpham_id']=$request->collection;
-
-        $old_name=DB::table('tbl_sanpham')->select('sanpham_anh')->where('id',$product_id)->get();
-
-       $get_image = $request->file('product_img');
-       $path = 'public/uploads/admin/product/';
-       if($get_image){
-                    unlink($path.$old_name[0]->sanpham_anh);
-                   $get_name_image = $get_image->getClientOriginalName();
-                   $name_image = current(explode('.',$get_name_image));
-                   $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-                   $get_image->move($path,$new_image);
-                   $data['sanpham_anh'] = $new_image;
-                   DB::table('tbl_sanpham')->where('id',$product_id)->update($data);
-                   Session::put('message','Update Success');
-                   return Redirect::to('/product');
-       }
-        $data['sanpham_anh'] = $old_name[0]->sanpham_anh;
-        DB::table('tbl_sanpham')->where('id',$product_id)->update($data);
+        $data=$request->all();
+        $product= Product::find($product_id);
+        $product->sanpham_ma_san_pham = $data['product_code'];
+        $product->sanpham_ten = $data['product_name'];
+        $product->sanpham_mo_ta = $data['product_description'];
+        $product->sanpham_nguoi_su_dung = $data['product_gender'];
+        $product->sanpham_mau_sac = $data['product_color'];
+        $product->sanpham_tinh_nang = $data['product_feature'];
+        $product->sanpham_noi_san_xuat = $data['product_production'];
+        $product->sanpham_phu_kien = $data['product_accessories'];
+        $product->sanpham_chat_lieu = $data['product_material'];
+        $product->sanpham_bao_hanh = $data['product_guarantee'];
+        $product->sanpham_khuyen_mai = $data['product_discount'];
+        $product->sanpham_trang_thai = $data['product_status'];
+        $product->loaisanpham_id = $data['product_type'];
+        $product->thuonghieu_id = $data['brand'];
+        $product->dongsanpham_id = $data['collection'];
+        $old_name=$product->sanpham_anh;
+        $get_image = $request->file('product_img');
+        $path = 'public/uploads/admin/product/';
+        if($get_image){
+            unlink($path.$old_name);
+            $get_name_image = $get_image->getClientOriginalName();
+            $name_image = current(explode('.',$get_name_image));
+            $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
+            $get_image->move($path,$new_image);
+            $product->sanpham_anh = $new_image;
+            $product->save();
+            Session::put('message','Update Success');
+            return Redirect::to('/product');
+        }
+        $product->sanpham_anh = $old_name;
+        $product->save();
         Session::put('message','Update Success');
         return Redirect::to('/product');
     }
 
     public function ProductDetail($product_id){
-
-        $get_product=DB::table('tbl_sanpham')->where('id',$product_id)->get();
-
-        $all_product=DB::table('tbl_sanpham')
-        ->where('sanpham_trang_thai','1')
-        ->get();
-
-        $all_product_type=DB::table('tbl_loaisanpham')->where('loaisanpham_trang_thai','1')->orderby('id','desc')->get();
-        $all_brand=DB::table('tbl_thuonghieu')->where('thuonghieu_trang_thai','1')->orderby('id','desc')->get();
-        $all_collection=DB::table('tbl_dongsanpham')->where('dongsanpham_trang_thai','1')->orderby('id','desc')->get();
-
-        $all_header=DB::table('tbl_headerquangcao')->where('headerquangcao_trang_thai','1')->get();
-        $hearder_asc=DB::table('tbl_headerquangcao')->select('headerquangcao_thu_tu')
-        ->where('headerquangcao_trang_thai','1')->orderby('headerquangcao_thu_tu','asc')->first();
-
-        foreach($hearder_asc as $key=>$value){
-            $thu_tu=$value;
+        $get_product=Product::find($product_id);
+        $all_product=Product::where('sanpham_trang_thai','1')->get();
+        $all_product_type=ProductType::orderby('id','desc')->get();
+        $all_brand=Brand::orderby('id','desc')->get();
+        $all_collection=Collection::orderby('id','desc')->get();
+        $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
+        ->orderby('headerquangcao_thu_tu','ASC')->get();
+        foreach($all_header as $key=>$value){
+            $thu_tu_header=$value->headerquangcao_thu_tu;
+            break;
         }
-        foreach($get_product as $key => $value){
-            $product_type_id= $value->loaisanpham_id;
-        }
-
-        $related_product=DB::table('tbl_sanpham')
-        // ->join('tbl_thuonghieu','tbl_thuonghieu.id','=','tbl_sanpham.thuonghieu_id')
-        // ->join('tbl_loaisanpham','tbl_loaisanpham.id','=','tbl_sanpham.loaisanpham_id')
-        // ->join('tbl_dongsanpham','tbl_dongsanpham.id','=','tbl_sanpham.dongsanpham_id')
-        ->where('loaisanpham_id',$product_type_id)
+        $product_type_id= $get_product->loaisanpham_id;
+        $related_product=Product::where('loaisanpham_id',$product_type_id)
         ->where('sanpham_trang_thai','1')
         ->whereNotIn('tbl_sanpham.id',[$product_id])
         ->get();
-
     	return view('client.pages.products.product_detail')
-        ->with('get_product',$get_product)
+        ->with('product',$get_product)
         ->with('all_product',$all_product)
         ->with('product_type',$all_product_type)
         ->with('product_brand',$all_brand)
         ->with('product_collection',$all_collection)
         ->with('related_product',$related_product)
         ->with('header_show',$all_header)
-        ->with('header_min',$thu_tu);
+        ->with('header_min',$thu_tu_header);
     }
-
 
 }

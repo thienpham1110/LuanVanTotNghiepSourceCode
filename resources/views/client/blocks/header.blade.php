@@ -27,20 +27,19 @@
                  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                      <div class="carousel-inner">
                          @foreach ($header_show as $key => $header)
-                         @if($header->headerquangcao_thu_tu==$header_min)
-                         <div class="carousel-item hr2 active">
-                            {{ $header->headerquangcao_noi_dung }}
-                         </div>
-                         @else
-                         <div class="carousel-item hr2">
-                            {{ $header->headerquangcao_noi_dung }}
-                         </div>
-                         @endif
+                            @if($header->headerquangcao_thu_tu==$header_min)
+                            <div class="carousel-item hr2 active">
+                                {{ $header->headerquangcao_noi_dung }}
+                            </div>
+                            @else
+                            <div class="carousel-item hr2">
+                                {{ $header->headerquangcao_noi_dung }}
+                            </div>
+                            @endif
 
                          @endforeach
                      </div>
                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-
                      </button>
                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
 

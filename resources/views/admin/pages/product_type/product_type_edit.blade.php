@@ -30,17 +30,17 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="p-2">
-                                    @foreach ($edit_product_type as $key => $pro_type)
-                                    <form action="{{ URL::to('product-type-save-edit/'.$pro_type->id) }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+
+                                    <form action="{{ URL::to('product-type-save-edit/'.$product_type->id) }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                         {{ csrf_field() }}
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label" >Product Type Information</label>
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Name</label>
-                                                <input type="text" name="product_type_name" value="{{ $pro_type->loaisanpham_ten }}" required="" class="form-control" placeholder="Example: AF1,..">
+                                                <input type="text" name="product_type_name" value="{{ $product_type->loaisanpham_ten }}" required="" class="form-control" placeholder="Example: AF1,..">
 
                                                 <label class="col-form-label">Description</label>
-                                                <textarea name="product_type_description" required="" class="form-control">{{ $pro_type->loaisanpham_mo_ta }}</textarea>
+                                                <textarea name="product_type_description" required="" class="form-control">{{ $product_type->loaisanpham_mo_ta }}</textarea>
                                             </div>
                                         </div>
                                         <hr>
@@ -49,9 +49,9 @@
                                             <div class="col-sm-10">
                                                 <div class="fileupload btn btn-primary waves-effect mt-1">
                                                     <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
-                                                    <input type="file" class="upload" value="{{ $pro_type->loaisanpham_anh }}" name="product_type_img" multiple="" id="files">
+                                                    <input type="file" class="upload" value="{{ $product_type->loaisanpham_anh }}" name="product_type_img" multiple="" id="files">
                                                 </div>
-                                                <img width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/producttype/'.$pro_type->loaisanpham_anh)}}" />
+                                                <img width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/producttype/'.$product_type->loaisanpham_anh)}}" />
                                             </div>
                                         </div>
                                         <hr>
@@ -60,7 +60,7 @@
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Status</label>
                                                 <select name="product_type_status" class="form-control">
-                                                    <option value="{{ $pro_type->loaisanpham_trang_thai }}">{{ $pro_type->loaisanpham_trang_thai?'Show':'Hide' }}</option>
+                                                    <option value="{{ $product_type->loaisanpham_trang_thai }}">{{ $product_type->loaisanpham_trang_thai?'Show':'Hide' }}</option>
                                                     <option value="0">Hide</option>
                                                     <option value="1">Show</option>
                                                 </select>
@@ -75,7 +75,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    @endforeach
+
                                 </div>
                             </div>
                         </div>

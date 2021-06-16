@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductDiscount extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
     	'khuyenmai_id', 'sanpham_id'
     ];

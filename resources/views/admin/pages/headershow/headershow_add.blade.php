@@ -55,17 +55,6 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Staff</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Staff</label>
-                                                    @foreach ($staff as $key => $st )
-                                                    <input type="hidden" value="{{ $st->id }}" name="staff_id" class="form-control" required="">
-                                                    <label class="form-control">{{ $st->nhanvien_ho }} {{ $st->nhanvien_ten }}</label>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
                                                         <button type="submit" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Add</button>

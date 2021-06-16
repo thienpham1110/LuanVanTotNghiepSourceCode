@@ -115,28 +115,15 @@
                                         <td>
                                             {{ $product->sanpham_ten }}
                                         </td>
-                                        @foreach ($product_brand as $key=>$brand )
-                                            @if ($brand->id==$product->thuonghieu_id)
-                                            <td>
-                                                {{ $brand->thuonghieu_ten}}
-                                            </td>
-                                            @endif
-                                        @endforeach
-
-                                        @foreach ($product_type as $key=>$pro_type )
-                                            @if ($pro_type->id==$product->loaisanpham_id)
-                                            <td>
-                                                {{ $pro_type->loaisanpham_ten}}
-                                            </td>
-                                            @endif
-                                        @endforeach
-                                        @foreach ($product_collection as $key=>$collection )
-                                            @if ($collection->id==$product->dongsanpham_id)
-                                            <td>
-                                                {{ $collection->dongsanpham_ten}}
-                                            </td>
-                                            @endif
-                                        @endforeach
+                                        <td>
+                                            {{ $product->brand->thuonghieu_ten }}
+                                        </td>
+                                        <td>
+                                            {{ $product->producttype->loaisanpham_ten }}
+                                        </td>
+                                        <td>
+                                            {{ $product->collection->dongsanpham_ten }}
+                                        </td>
                                         <td>
                                             {{ $product->sanpham_khuyen_mai?'Yes':'No'}}
                                         </td>

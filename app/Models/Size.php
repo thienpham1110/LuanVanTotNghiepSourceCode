@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Size extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
-    	'size', 'size_trang_thai', 'nhanvien_id'
+    	'size', 'size_trang_thai'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_size';
