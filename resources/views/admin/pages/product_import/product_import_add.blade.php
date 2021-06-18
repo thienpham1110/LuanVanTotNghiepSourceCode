@@ -69,8 +69,8 @@
 
                                                                 <label class="col-form-label">Status</label>
                                                                 <select name="product_import_status" required="" class="form-control product_import_status">
-                                                                    <option value="1">Paid</option>
                                                                     <option value="0">Unpaid</option>
+                                                                    <option value="1">Paid</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -122,7 +122,7 @@
                                                         {{ $product_import->donnhaphang_ngay_nhap }}
                                                     </td>
                                                     <td>
-                                                        {{ $product_import->donnhaphang_tong_tien}}
+                                                        {{number_format( $product_import->donnhaphang_tong_tien).' VNĐ' }}
                                                     </td>
                                                     <td>
                                                         <span class="badge">

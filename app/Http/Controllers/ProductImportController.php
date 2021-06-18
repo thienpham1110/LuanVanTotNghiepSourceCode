@@ -436,16 +436,56 @@ class ProductImportController extends Controller {
 	public function ProductImportEditDetailSave(Request $request, $product_import_detail_id) {
 		$this->AuthLogin();
 		$data = $request->all();
-
-		$get_product_import_detail = ProductImportDetail::where('sanpham_id', '=', $data['product_import_detail_product_id'])
-        ->where('size_id', '=', $data['product_import_detail_size_id'])->first();
-        if (!$get_product_import_detail) { // sửa chi tiết sản phẩm cũ thành mới
-         echo'';
-        } else { // sửa thông tin chi tiết sản phẩm cũ
-
+        $product_import_detail_old = ProductImportDetail::where('sanpham_id','=', $data['product_import_detail_product_id'])
+        ->where('size_id','=', $data['product_import_detail_size_id'])->get();
+        $flag=1;
+        $total=0;
+        foreach ($product_import_detail_old as $key => $value) {
+            if($flag==1){
+                $import_product_detail = ProductImportDetail::find( $product_import_detail_id);
+                $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
+                $import_product_detail->chitietnhap_so_luong_con_lai =($data['product_import_detail_quantity']-$data['product_import_detail_quantity_old']) + $value->chitietnhap_so_luong_con_lai;
+                $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
+                $import_product_detail->chitietnhap_gia_ban = $data['product_import_detail_price_retail'];
+                $import_product_detail->save();
+                $flag=0;
+            }
+            $total +=($value->chitietnhap_gia_nhap*$value->chitietnhap_so_luong_nhap);
+            $import_product_detail_update=ProductImportDetail::find($value->id);
+            $import_product_detail_update->chitietnhap_so_luong_con_lai = ($data['product_import_detail_quantity']-$data['product_import_detail_quantity_old']) + $value->chitietnhap_so_luong_con_lai;
+            $import_product_detail_update->chitietnhap_gia_ban=$data['product_import_detail_price_retail'];
+            $import_product_detail_update->save();
         }
+        $import_product=ProductImport::find($data['product_import_id']);
+        $import_product->donnhaphang_tong_tien = $total + (($data['product_import_detail_price']*$data['product_import_detail_quantity'])-($data['product_import_detail_quantity_old']*$data['product_import_detail_price_old']));
+        $import_product->save();
         return Redirect::to('/product-import-show-detail/'.$data['product_import_id']);
 	}
+
+    public function ProductImportDeletetDetail(Request $request,$product_import_detail_id){
+        $this->AuthLogin();
+        $data = $request->all();
+        $product_import_detail=ProductImportDetail::find($product_import_detail_id);
+        $product_import_detail_old = ProductImportDetail::where('sanpham_id','=', $product_import_detail->sanpham_id)
+        ->where('size_id','=',$product_import_detail->size_id)->get();
+        $product_import=ProductImport::where('donnhaphang_ma_don_nhap_hang','=',$product_import_detail->chitietnhap_ma_don_nhap_hang)->get();
+        foreach($product_import_detail_old as $key=>$value){
+            $import_product_detail_update=ProductImportDetail::find($value->id);
+            $import_product_detail_update->chitietnhap_so_luong_con_lai =$value->chitietnhap_so_luong_con_lai - $product_import_detail->chitietnhap_so_luong_nhap;
+            $import_product_detail_update->save();
+            // print_r($value->chitietnhap_so_luong_con_lai);
+        }
+        foreach($product_import as $key =>$value){
+            $product_import_id=$value->id;
+            $product_import_update=ProductImport::find($product_import_detail->donnhaphang_id);
+            $product_import_update->donnhaphang_tong_tien=$value->donnhaphang_tong_tien -($product_import_detail->chitietnhap_so_luong_nhap*$product_import_detail->chitietnhap_gia_nhap);
+            $product_import_update->save();
+            break;
+        }
+        $product_import_detail->delete();
+        return Redirect::to('/product-import-show-detail/'.$product_import_id);
+    }
+
 	// public function getSearch(Request $request) {
 	// 	return view('admin.pages.product_import.cart');
 	// }

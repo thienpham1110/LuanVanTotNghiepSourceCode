@@ -153,7 +153,6 @@
                         {{--  $('#show-list-product').html(data);  --}}
                         window.location.href = "{{url('/product-import-add')}}";
                     }
-
                  });
              });
         }
@@ -178,61 +177,37 @@
     $('.total').html(total+".00 VNĐ");
     }
 </script>
-{{--
+
 <script type="text/javascript">
     $(document).ready(function(){
-        function add_save(){
-            $('.add-save').click(function(){
-                var tr=$(this).parent().parent();
-                var id = $(this).data('id_product');
-                var product_id =$('.product_id_' + id).val();
-                var product_name =$('.product_name_' + id).val();
-                var product_price_retail =$('.product_price_retail_' + id).val();
-                var product_quantity=$('.product_quantity_' + id).val();
-                var product_price=$('.product_price_' + id).val();
-                var product_size=$('.product_size_' + id).val();
-                var _token = $('input[name="_token"]').val();
+        $('.delete-product-import-detail').click(function(){
+            swal({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                confirmButtonClass: "btn-danger",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "Close",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },function(isConfirm) {
+                if(isConfirm){
+                    var id = $(this).data('id_product_import');
+                    var product_import_id = $('.product_import_id_' + id).val();
+                    $.ajax({
+                        url: '{{url('/product-import-delete-detail')}}',
+                        method: 'GET',
+                        data:{product_import_id:product_import_id,_token:_token},
+                        success:function(data){
+                            swal("success");
+                       }
+                    });
+                }
 
-                 $.ajax({
-                     url: '{{url('/product-import-refresh-queue')}}',
-                     method: 'POST',
-                     data:{product_id:product_id,
-                        product_name:product_name,
-                        product_size:product_size,
-                        product_price:product_price,
-                        product_quantity:product_quantity,
-                        product_price_retail:product_price_retail,
-                        _token:_token},
-                     success:function(data){
-                         Swal.fire({
-                             title: "Add Success",
-                             type: "success",
-                             showConfirmButton: !1,
-                            timer: 500
-                             })
-                         $('#show-list-product').html(data);
-                     }
-                 });
-             });
-        }add_save();
-    });
-</script>  --}}
-{{--  <script>
-    $(document).ready(function(){
-        $('.product-import-add-save').on('click', function(event){
-            event.preventDefault();
-            var id = $(this).data('id_product');
-            var product_id =$('.product_id_' + id).val();
-            alert(product_id);
-                $.ajax({
-                    url: '{{url('/product-import-refresh-queue')}}',
-                    method:"POST",
-                    data:$(this).serialize(),
-                    success:function(data)
-                    {
-                        $('#show-list-product').html(data);
-                    }
-                })
+            })
         });
     });
-</script>  --}}
+</script>

@@ -171,10 +171,7 @@ Route::post('/product-import-add-detail-save/{product_import_id}', 'ProductImpor
 Route::get('/product-import-edit-detail/{product_import_detail_id}', 'ProductImportController@ProductImportEditDetail');
 Route::post('/product-import-edit-detail-save/{product_import_detail_id}', 'ProductImportController@ProductImportEditDetailSave');
 
-Route::get('/product-import-add-detail/{product_import_code}', 'ProductImportController@ProductImportAddDetail');
-Route::post('/product-import-add-detail-save/{product_import_code}', 'ProductImportController@ProductImportAddtDetailSave');
-
-Route::post('/product-import-delete-detail/{product_import_detail}', 'ProductImportController@ProductImportDeletetDetail');
+Route::get('/product-import-delete-detail/{product_import_detail}', 'ProductImportController@ProductImportDeletetDetail');
 
 
 

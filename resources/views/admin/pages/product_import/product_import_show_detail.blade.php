@@ -62,8 +62,8 @@
                                                                 <select name="product_import_status" required="" class="form-control product_import_status">
                                                                     <option value="{{ $product_import->donnhaphang_trang_thai }}">
                                                                         {{ $product_import->donnhaphang_trang_thai?'Paid':'Unpaid' }}</option>
-                                                                    <option value="1">Paid</option>
-                                                                    <option value="0">Unpaid</option>
+                                                                        <option value="0">Unpaid</option>
+                                                                        <option value="1">Paid</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -118,19 +118,19 @@
                                                                 @foreach ($get_product_import_detail as $key=> $product_import_detail )
                                                                     <tr>
                                                                         <td>{{ $product_import_detail->Product->sanpham_ten}}</td>
-                                                                        <td >{{ $product_import_detail->chitietnhap_so_luong_nhap }}</td>
-                                                                        <td>{{ $product_import_detail->chitietnhap_gia_nhap }}</td>
-                                                                        <td>{{ $product_import_detail->chitietnhap_gia_ban }}</td>
+                                                                        <td >{{ $product_import_detail->chitietnhap_so_luong_nhap }} </td>
+                                                                        <td>{{number_format($product_import_detail->chitietnhap_gia_nhap ).' VNĐ' }}</td>
+                                                                        <td> {{number_format($product_import_detail->chitietnhap_gia_ban ).' VNĐ' }}</td>
                                                                         <td>{{ $product_import_detail->Size->size }}</td>
                                                                         <td>{{ $product_import_detail->chitietnhap_so_luong_da_ban }}</td>
                                                                         <td>{{ $product_import_detail->chitietnhap_so_luong_con_lai}}</td>
-                                                                        <td>{{ $product_import_detail->chitietnhap_so_luong_nhap * $product_import_detail->chitietnhap_gia_nhap}}</td>
+                                                                        <td> {{number_format($product_import_detail->chitietnhap_so_luong_nhap * $product_import_detail->chitietnhap_gia_nhap ).' VNĐ' }}</td>
                                                                         <td>
                                                                             <div class="btn-group dropdown">
                                                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                                     <a class="dropdown-item" href="{{URL::to('/product-import-edit-detail/'.$product_import_detail->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                                                    <a class="dropdown-item" href="{{URL::to('/product-import-delete-detail/'.$product_import_detail->id)}}"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                                                    <a class="dropdown-item" onclick="return confirm('You Sure?')" href="{{URL::to('/product-import-delete-detail/'.$product_import_detail->id)}}"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                                                 </div>
                                                                             </div>
                                                                         </td>

@@ -40,6 +40,12 @@
                                             </div>
                                             <label class="col-sm-2 col-form-label" ></label>
                                             <div class="col-sm-10">
+                                                <label class="col-form-label">Product</label>
+                                                <input type="text" value="{{ $product_import_detail->Product->sanpham_ten }}" required="" readonly class="form-control">
+                                                <input type="hidden" name="product_import_detail_product_id" value="{{ $product_import_detail->sanpham_id }}" required="" readonly class="form-control">
+                                            </div>
+                                            <label class="col-sm-2 col-form-label" ></label>
+                                            <div class="col-sm-10">
                                                 <label class="col-form-label">Quantity Sold</label>
                                                 <input type="text" value="{{ $product_import_detail->chitietnhap_so_luong_da_ban }}" required="" readonly class="form-control">
                                             </div>
@@ -53,31 +59,20 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label" >Product Import Detail Edit</label>
                                             <div class="col-sm-10">
-                                                <label class="col-form-label">Product Name</label>
-                                                <select name="product_import_detail_product_id" class="form-control">
-                                                    @foreach ($all_product as $key => $product)
-                                                        @if($product->id==$product_import_detail->sanpham_id)
-                                                            <option selected value="{{ $product->id }}">{{ $product->sanpham_ten }}</option>
-                                                        @else
-                                                            <option value="{{ $product->id }}">{{ $product->sanpham_ten }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <label class="col-sm-2 col-form-label" ></label>
-                                            <div class="col-sm-10">
                                                 <label class="col-form-label">Quantity</label>
-                                                <input type="text" name="product_import_detail_quantity" value="{{ $product_import_detail->chitietnhap_so_luong_nhap }}" required="" class="form-control">
+                                                <input type="text" min="1" name="product_import_detail_quantity" value="{{ $product_import_detail->chitietnhap_so_luong_nhap }}" required="" class="form-control">
+                                                <input type="hidden" min="1" name="product_import_detail_quantity_old" value="{{ $product_import_detail->chitietnhap_so_luong_nhap }}" required="" class="form-control">
                                             </div>
                                             <label class="col-sm-2 col-form-label" ></label>
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Price</label>
-                                                <input type="text" name="product_import_detail_price" value="{{ $product_import_detail->chitietnhap_gia_nhap }}" required="" class="form-control" >
+                                                <input type="text" min="1" name="product_import_detail_price" value="{{ $product_import_detail->chitietnhap_gia_nhap }}" required="" class="form-control" >
+                                                <input type="hidden" min="1" name="product_import_detail_price_old" value="{{ $product_import_detail->chitietnhap_gia_nhap }}" required="" class="form-control" >
                                             </div>
                                             <label class="col-sm-2 col-form-label" ></label>
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Price Retail</label>
-                                                <input type="text" name="product_import_detail_price_retail" value="{{ $product_import_detail->chitietnhap_gia_ban }}" required="" class="form-control">
+                                                <input type="text" min="1" name="product_import_detail_price_retail" value="{{ $product_import_detail->chitietnhap_gia_ban }}" required="" class="form-control">
                                             </div>
                                             <label class="col-sm-2 col-form-label" ></label>
                                             <div class="col-sm-10">

@@ -104,7 +104,7 @@
                                             {{ $product_import->donnhaphang_ngay_nhap }}
                                         </td>
                                         <td>
-                                            {{ $product_import->donnhaphang_tong_tien}}
+                                            {{number_format($product_import->donnhaphang_tong_tien ).' VNĐ' }}
                                         </td>
                                         <td>
                                             <span class="badge">
