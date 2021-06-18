@@ -71,11 +71,6 @@
                                             </div>
                                             <label class="col-sm-2 col-form-label" ></label>
                                             <div class="col-sm-10">
-                                                <label class="col-form-label">Price Retail</label>
-                                                <input type="text" min="1" name="product_import_detail_price_retail" value="{{ $product_import_detail->chitietnhap_gia_ban }}" required="" class="form-control">
-                                            </div>
-                                            <label class="col-sm-2 col-form-label" ></label>
-                                            <div class="col-sm-10">
                                                 <label class="col-form-label">Size</label>
                                                 <select name="product_import_detail_size_id" class="form-control">
                                                     @foreach ($all_size as $key => $size)

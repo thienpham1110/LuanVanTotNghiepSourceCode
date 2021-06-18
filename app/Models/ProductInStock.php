@@ -5,22 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductImportDetail extends Model
+class ProductInStock extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'chitietnhap_so_luong_nhap', 'chitietnhap_gia_nhap','chitietnhap_size','sanpham_id','donnhaphang_id','size_id','chitietnhap_ma_don_nhap_hang'
+    	'sanphamtonkho_so_luong_da_ban','sanphamtonkho_so_luong_ton','sanphamtonkho_gia_ban','sanpham_id','size_id'
     ];
     protected $primaryKey = 'id';
- 	protected $table = 'tbl_chitietnhap';
+ 	protected $table = 'tbl_sanphamtonkho';
 
     public function Product(){
         return $this->belongsTo('App\Models\Product','sanpham_id');
     }
     public function Size(){
         return $this->belongsTo('App\Models\Size','size_id');
-    }
-    public function ProductImport(){
-        return $this->belongsTo('App\Models\ProductImport','donnhaphang_id');
     }
 }

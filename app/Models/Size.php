@@ -20,4 +20,7 @@ class Size extends Model
     public function OrderDetail(){
         return $this->hasMany('App\Models\OrderDetail');
     }
+    public function ProductInStock(){
+        return $this->hasMany('App\Models\ProductInStock');
+    }
 }

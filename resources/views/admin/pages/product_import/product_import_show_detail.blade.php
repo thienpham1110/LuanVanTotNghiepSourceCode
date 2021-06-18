@@ -106,10 +106,7 @@
                                                                 <td>Product</td>
                                                                 <td>Quantity</td>
                                                                 <td>Price</td>
-                                                                <td>Retail Price</td>
                                                                 <td>Size</td>
-                                                                <td>Sold</td>
-                                                                <td>In Stock</td>
                                                                 <td>Total</td>
                                                                 <td>#</td>
                                                             </tr>
@@ -120,11 +117,8 @@
                                                                         <td>{{ $product_import_detail->Product->sanpham_ten}}</td>
                                                                         <td >{{ $product_import_detail->chitietnhap_so_luong_nhap }} </td>
                                                                         <td>{{number_format($product_import_detail->chitietnhap_gia_nhap ).' VNĐ' }}</td>
-                                                                        <td> {{number_format($product_import_detail->chitietnhap_gia_ban ).' VNĐ' }}</td>
                                                                         <td>{{ $product_import_detail->Size->size }}</td>
-                                                                        <td>{{ $product_import_detail->chitietnhap_so_luong_da_ban }}</td>
-                                                                        <td>{{ $product_import_detail->chitietnhap_so_luong_con_lai}}</td>
-                                                                        <td> {{number_format($product_import_detail->chitietnhap_so_luong_nhap * $product_import_detail->chitietnhap_gia_nhap ).' VNĐ' }}</td>
+                                                                        <td>{{number_format($product_import_detail->chitietnhap_so_luong_nhap * $product_import_detail->chitietnhap_gia_nhap ).' VNĐ' }}</td>
                                                                         <td>
                                                                             <div class="btn-group dropdown">
                                                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>

@@ -28,4 +28,7 @@ class Product extends Model
     public function ProductImportDetail(){
         return $this->hasMany('App\Models\ProductImportDetail');
     }
+    public function ProductInStock(){
+        return $this->hasMany('App\Models\ProductInStock');
+    }
 }
