@@ -14,6 +14,12 @@ class ProductImport extends Model
     protected $primaryKey = 'id';
  	protected $table = 'tbl_donnhaphang';
 
+    public function Admin(){
+        return $this->belongsTo('App\Models\Admin','admin_id');
+    }
+    public function Supplier(){
+        return $this->belongsTo('App\Models\Supplier','nhacungcap_id');
+    }
     public function ProductImportDetail(){
         return $this->hasMany('App\Models\ProductImportDetail');
     }

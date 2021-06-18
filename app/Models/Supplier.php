@@ -13,4 +13,8 @@ class Supplier extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_nhacungcap';
+
+    public function ProductImport(){
+        return $this->hasMany('App\Models\ProductImport');
+    }
 }

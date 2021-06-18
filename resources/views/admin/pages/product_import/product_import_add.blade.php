@@ -1,11 +1,9 @@
 @extends('admin.index_layout_admin')
 @section('content')
-
 <div class="content-page">
     <div class="content">
         <!-- Start Content-->
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -17,10 +15,9 @@
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Import Add</li>
+                            <li class="breadcrumb-item active">Product Import Edit</li>
                         </ol>
                     </div>
-
                 </div>
             </div>
             <!-- content -->
@@ -29,30 +26,47 @@
                         <div class="card-box">
                             <h4 class="header-title">Product Import</h4>
                             <hr>
+                            <?php
+                            $message=Session::get('message');
+                            if($message){
+                                echo '<p class="text-muted">'.$message.'</p>';
+                                Session::put('message',null);
+                                }
+                            ?>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                            <form action="{{URL::to('/product-import-refresh-queue')}}" method="POST" class="form-horizontal">
+                                            <form action="{{URL::to('/product-import-add-save')}}" method="POST" class="form-horizontal">
                                                 {{ csrf_field() }}
                                             <div class="form-group row">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <div class="card">
                                                     <div class="card-body">
                                                         <label class="col-form-label">Import No.</label>
-                                                        <input type="text" name="product_import_no" required="" class="form-control product_import_no" placeholder="Example: DH01,..">
+                                                        <input type="text" name="product_import_no" required="" class="form-control product_import_no">
                                                         <label class=" col-form-label">Delivery Day</label>
-                                                        <div class="input-group">
-                                                            <input type="text" name="product_import_delivery_day" required="" class="form-control product_import_delivery_day" data-provide="datepicker" >
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text"><i class="ti-calendar"></i></span>
-                                                            </div>
-                                                        </div>
+                                                        <input type="date" name="product_import_delivery_day" required="" class="form-control product_import_delivery_day" >
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
                                                                 <label  class="col-form-label">Staff</label>
-                                                                <input type="text" name="product_import_staff"required=""  class="form-control product_import_staff">
+                                                                @foreach ($get_admin as $key => $admin )
+                                                                    <input type="text" value="{{ $admin->admin_ten  }}" readonly class="form-control product_import_staff">
+                                                                    <input type="hidden" name="product_import_staff" value="{{ $admin->id }}"  class="form-control product_import_staff">
+                                                                @endforeach
                                                             </div>
                                                             <div class="form-group col-md-6">
+                                                                <label class="col-form-label">Supplier</label>
+                                                                <select name="product_import_supplier" required="" class="form-control product_import_supplier">
+                                                                    @foreach ($all_supplier as $key => $supplier)
+                                                                        <option value="{{ $supplier->id }}">{{ $supplier->nhacungcap_ten}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-12">
+
                                                                 <label class="col-form-label">Status</label>
                                                                 <select name="product_import_status" required="" class="form-control product_import_status">
                                                                     <option value="1">Paid</option>
@@ -60,226 +74,98 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <hr>
-                                                        {{--  <div class="form-group row">
-                                                            <div class="col-sm-12">
-                                                                <label class="col-form-label"></label>
-                                                                <div class="form-row">
-                                                                    <div class="form-group col-md-6">
-                                                                    <div id="con-close-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h4 class="modal-title">Size</h4>
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                                </div>
-                                                                                <div class="modal-body p-4">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12">
-                                                                                            <div class="form-group">
-                                                                                                <label for="field-1" class="control-label">Size</label>
-                                                                                                <input type="text" class="form-control" id="field-1" placeholder="40">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                                                                    <button type="button" class="btn btn-info waves-effect waves-light">Save changes</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- /.modal -->
-                                                                    <div class="button-list form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <div class=" mt-3 mt-lg-0">
-                                                                                <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal2"> <i class="mdi mdi-plus-circle mr-1"></i>Add Size</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <hr>  --}}
                                                         <div class="form-group row">
                                                             <div class="col-sm-12">
-                                                                <label class="col-form-label">Supplier</label>
-                                                                <select name="product_import_supplier" required="" class="form-control product_import_supplier">
-                                                                    @foreach ($all_supplier as $key => $supplier)
-                                                                    <option value="{{ $supplier->id }}">{{ $supplier->nhacungcap_ten }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                {{-- <label class="col-form-label"></label>
-                                                                <div class="form-row">
-                                                                    <div class="form-group col-md-6">
-                                                                        <div id="con-close-modal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                                                        <div class="modal-dialog modal-lg">
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header">
-                                                                                        <h4 class="modal-title">Supplier</h4>
-                                                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                                    </div>
-                                                                                    <div class="modal-body p-4">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="field-1" class="control-label">Name</label>
-                                                                                                    <input type="text" class="form-control" id="field-1" placeholder="Thien">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="field-2" class="control-label">Phone Number</label>
-                                                                                                    <input type="number" min="1" class="form-control" id="field-2" placeholder="0123456789">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-12">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="field-3" class="control-label">Email</label>
-                                                                                                    <input type="text" class="form-control" id="field-3" placeholder="Email">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-12">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="field-4" class="control-label">Address</label>
-                                                                                                    <input type="text" class="form-control" id="field-4" placeholder="Address">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                                                                        <button type="button" class="btn btn-info waves-effect waves-light">Save changes</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    <!-- /.modal -->
-                                                                    <div class="button-list form-group row">
-                                                                        <div class="col-sm-12">
-                                                                            <div class=" mt-3 mt-lg-0">
-                                                                                <button type="button" data-add_product_import_id="#" class="add-product-import btn btn-success waves-effect waves-light" > <i class="mdi mdi-plus-circle mr-1"></i>Add Supplier</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                                </div> --}}
+                                                                <div class="text-lg-right mt-3 mt-lg-0">
+                                                                    <button type="submit" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Save</button>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        </div
                                                     </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h4 class="header-title">Product List</h4>
-                                                            <table id="scroll-vertical-datatable" class="table dt-responsive nowrap">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Selective</th>
-                                                                        <th>Name</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @foreach ($all_product as $key=>$product)
-                                                                        <tr>
-                                                                            <td>
-                                                                                <button type="button" data-id_product="{{ $product->id}}" name="add-queue" class="btn btn-success waves-effect waves-light btn-sm add-queue">
-                                                                                <i class="mdi mdi-plus-circle mr-1"></i>Add</button>
-                                                                            </td>
-                                                                            <input type="hidden" value="{{ $product->id }}" class="product_id_{{ $product->id }}">
-                                                                            <input type="hidden" value="{{ $product->sanpham_ten }}" class="product_name_{{ $product->id }}">
-                                                                            <td>{{$product->sanpham_ten }}</td>
-                                                                        </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div> <!-- end card body-->
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    <label class="col-form-label">Product Import</label>
-                                                    <div class="table-responsive" id="ajax-queue">
-                                                        <table class="table table-hover  mb-0">
-                                                            <thead>
-                                                            <tr>
-                                                                <td>#</td>
-                                                                <td>Product Name</td>
-                                                                <td>Quantity</td>
-                                                                <td>Price</td>
-                                                                <td>Retail Price</td>
-                                                                <td>Size</td>
-                                                                <td>Total</td>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="show-list-product">
-                                                                @foreach (Session::get('queue') as $key=> $product )
-                                                                    <tr>
-                                                                        <td scope="row">
-                                                                            <button type="button" data-id_product="{{ $product['session_id']}}" name="delete-row-queue" class="delete-row-queue btn btn-danger waves-effect waves-light btn-sm">
-                                                                                <i class="mdi mdi-close mr-1"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                        <td>{{ $product['product_name'] }}</td>
-                                                                        <input type="hidden" class="product_session_id_{{ $product['session_id'] }}" value="{{ $product['session_id'] }}">
-                                                                        <input type="hidden" name="product_id[{{ $product['session_id']}}]" class="product_id_{{ $product['session_id']}}" value="{{ $product['product_id'] }}">
-                                                                        <input type="hidden" name="product_name[{{ $product['session_id']}}]" class="product_name_{{ $product['session_id']}} " value="{{ $product['product_name'] }}">
-                                                                        <input type="hidden" data-id_product="[{{ $product['session_id']}}]" class="refresh-queue">
-                                                                        <td ><input type="number" min="1" value="{{ $product['product_quantity'] }}" name="product_quantity[{{ $product['session_id']}}]" class="product_quantity_{{ $product['session_id']}} product_quantity form-control" ></td>
-                                                                        <td><input type="number" min="1" value="{{ $product['product_price'] }}" name="product_price[{{ $product['session_id']}}]" class="product_price_{{ $product['session_id'] }} product_price form-control"></td>
-                                                                        <td><input type="number" min="1" value="{{ $product['product_price_retail'] }}" name="product_price_retail[{{ $product['session_id']}}]" class="product_price_retail_{{ $product['session_id']}} form-control"></td>
-                                                                        <td><input type="number" min="1" value="{{ $product['product_size'] }}" name="product_size[{{ $product['session_id']}}]" class="product_size_{{ $product['session_id']}} form-control" ></td>
-                                                                        <td><input type="text" name="amount[]" class="form-control amount"></td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    <div class="text-lg-right mt-3 mt-lg-0">
-                                                        <button type="submit" data-id_import_product="product-import-add-save" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Save</button>
-                                                    </div>
-                                                    <div class="text-lg-left mt-3 mt-lg-0">
-                                                        <div class="float-left">
-                                                            <p><b>Sub-total :</b></p>
-                                                            <h3 class="total"></h3>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card-box">
+
+                                        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
+                                            <?php
+                                            $message=Session::get('message');
+                                            if($message){
+                                                echo '<p class="text-muted">'.$message.'</p>';
+                                                Session::put('message',null);
+                                            }
+                                        ?>
+                                            <thead class="bg-light">
+                                            <tr>
+                                                <th class="font-weight-medium">ID</th>
+                                                <th class="font-weight-medium">Date</th>
+                                                <th class="font-weight-medium">Total</th>
+                                                <th class="font-weight-medium">Status</th>
+                                                <th class="font-weight-medium">Action</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody class="font-14">
+                                                @foreach ($all_product_import as $key=>$product_import)
+                                                <tr>
+                                                    <td>
+                                                        {{ $product_import->donnhaphang_ma_don_nhap_hang}}
+                                                    </td>
+                                                    <td>
+                                                        {{ $product_import->donnhaphang_ngay_nhap }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $product_import->donnhaphang_tong_tien}}
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge">
+                                                            <?php
+                                                            if($product_import->donnhaphang_trang_thai==1)
+                                                            { ?>
+                                                            <a href="{{URL::to ('/unactive-product-import/'.$product_import->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
+                                                            <?php
+                                                            }else
+                                                            { ?>
+                                                                <a href="{{URL::to ('/active-product-import/'.$product_import->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                           </span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group dropdown">
+                                                            <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a class="dropdown-item" href="{{URL::to('/product-import-show-detail/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
+                                                                <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div><!-- end col -->
+                            </div>
                             <!-- end row -->
                         </div> <!-- end card-box -->
                     </div><!-- end col -->
                 </div>
                 <!-- end row -->
-
             <!-- end content -->
-
             <!-- end page title -->
         </div>
         <!-- container -->
-
     </div>
     <!-- content -->
-
     <!-- Footer Start -->
     @include('admin.blocks.footer_admin')
     <!-- end Footer -->

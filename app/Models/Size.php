@@ -13,4 +13,11 @@ class Size extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_size';
+
+    public function ProductImportDetail(){
+        return $this->hasMany('App\Models\ProductImportDetail');
+    }
+    public function OrderDetail(){
+        return $this->hasMany('App\Models\OrderDetail');
+    }
 }

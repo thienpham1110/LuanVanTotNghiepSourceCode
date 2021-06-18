@@ -14,4 +14,7 @@ class OrderDetail extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_chitietdondathang';
+    public function Size(){
+        return $this->belongsTo('App\Models\Size','size_id');
+    }
 }

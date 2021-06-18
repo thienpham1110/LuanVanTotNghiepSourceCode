@@ -153,17 +153,33 @@ Route::get('/active-product/{product_id}', 'ProductController@ActiveProduct');
 
 //Product Import
 Route::get('/product-import', 'ProductImportController@Index');
-Route::get('/product-import-add', 'ProductImportController@ProductImportAdd');
-// Route::get('/product-import-add-queue/{product_id}','ProductImportController@ProductImportAddQueue');
-
+Route::get('/product-import-add-multiple', 'ProductImportController@ProductImportAddMultiple');
 Route::post('/product-import-add-queue', 'ProductImportController@ProductImportAddQueue');
 Route::get('/product-import-delete-row-queue', 'ProductImportController@ProductImportDeleteRowQueue');
+Route::post('/product-import-add-multiple-save', 'ProductImportController@ProductImportAddMultipleSave');
+
+Route::get('/product-import-add', 'ProductImportController@ProductImportAdd');
 Route::post('/product-import-add-save', 'ProductImportController@ProductImportAddSave');
-Route::post('/product-import-refresh-queue', 'ProductImportController@ProductImportRefresh');
+Route::get('/product-import-show-detail/{product_import_id}', 'ProductImportController@ProductImportShowDetail');
+Route::post('/product-import-edit-save/{product_import_id}', 'ProductImportController@ProductImportEditSave');
+Route::get('/unactive-product-import/{product_import_id}', 'ProductImportController@UnactiveProductImport');
+Route::get('/active-product-import/{product_import_id}', 'ProductImportController@ActiveProductImport');
 
-Route::post('/save_data', 'ProductImportController@ProductImportRefresh')->name('save_data');
 
+Route::get('/product-import-add-detail/{product_import_id}', 'ProductImportController@ProductImportAddDetail');
+Route::post('/product-import-add-detail-save/{product_import_id}', 'ProductImportController@ProductImportAddDetailSave');
+Route::get('/product-import-edit-detail/{product_import_detail_id}', 'ProductImportController@ProductImportEditDetail');
+Route::post('/product-import-edit-detail-save/{product_import_detail_id}', 'ProductImportController@ProductImportEditDetailSave');
+
+Route::get('/product-import-add-detail/{product_import_code}', 'ProductImportController@ProductImportAddDetail');
+Route::post('/product-import-add-detail-save/{product_import_code}', 'ProductImportController@ProductImportAddtDetailSave');
+
+Route::post('/product-import-delete-detail/{product_import_detail}', 'ProductImportController@ProductImportDeletetDetail');
+
+
+
+//Demo
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');
-
 Route::get('/demo', 'ProductImportController@home');
+Route::post('/demo2', 'ProductImportController@demo');

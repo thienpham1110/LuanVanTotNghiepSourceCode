@@ -121,13 +121,12 @@
                              showConfirmButton: !1,
                             timer: 500
                              })
-                         $('#show-list-product').html(data);
-
+                         {{--  $('#show-list-product').html(data);  --}}
+                         window.location.href = "{{url('/product-import-add')}}";
                      }
                  });
              });
         }load_queue();
-
     });
 </script>
 <script type="text/javascript">
@@ -145,9 +144,16 @@
                      method: 'GET',
                      data:{product_id:product_id,product_session_id:product_session_id,product_name:product_name ,_token:_token},
                      success:function(data){
+                        Swal.fire({
+                            title: "Delete Success",
+                            type: "success",
+                            showConfirmButton: !1,
+                           timer: 500
+                            })
+                        {{--  $('#show-list-product').html(data);  --}}
+                        window.location.href = "{{url('/product-import-add')}}";
+                    }
 
-                        $('#show-list-product').html(data);
-                     }
                  });
              });
         }
@@ -155,144 +161,78 @@
     });
 </script>
 <script type="text/javascript">
-    $('tbody').delegate('.product_price,.product_quantity','keyup',function(){
+    $('tbody').delegate('.product_quantity,.product_price','keyup',function(){
         var tr=$(this).parent().parent();
         var quantity=tr.find('.product_quantity').val();
         var price=tr.find('.product_price').val();
         var amount=(quantity*price);
-        tr.find('.amount').val(amount);
+        tr.find('.product_total').val(amount);
         total();
     });
     function total(){
         var total=0;
-        $('.amount').each(function(i,e){
+        $('.product_total').each(function(i,e){
             var amount=$(this).val()-0;
         total +=amount;
     });
     $('.total').html(total+".00 VNĐ");
     }
 </script>
+{{--
 <script type="text/javascript">
-    $(document).on('mouseup','.refresh-queue',function(){
-        function refresh_queue_product_import(){
-            $('.refresh-queue').submit(function(e){
-                e.preventDefault();
+    $(document).ready(function(){
+        function add_save(){
+            $('.add-save').click(function(){
+                var tr=$(this).parent().parent();
                 var id = $(this).data('id_product');
-                {{-- let data = $(this).serializeToObject(); --}}
-
-                {{-- var product_id =$('.product_id_' + id).val();
-                var product_session_id =$('.product_session_id_' + id).val();
+                var product_id =$('.product_id_' + id).val();
                 var product_name =$('.product_name_' + id).val();
-                var product_quantity =$('.product_quantity_' + id).val();
-                var product_price =$('.product_price_' + id).val();
                 var product_price_retail =$('.product_price_retail_' + id).val();
-                var product_size =$('.product_size_' + id).val(); --}}
-
+                var product_quantity=$('.product_quantity_' + id).val();
+                var product_price=$('.product_price_' + id).val();
+                var product_size=$('.product_size_' + id).val();
                 var _token = $('input[name="_token"]').val();
 
-                var product_id =[];
-                var product_session_id =[];
-                var product_name =[];
-                var product_quantity =[];
-                var product_price =[];
-                var product_price_retail =[];
-                var product_size =[];
-            {{-- $($('.product_id_' + id).val()).each(function(){
-                product_id.push($(this).val());
-            });
-            $($('.product_session_id_' + id).val()).each(function(){
-                product_session_id.push($(this).val());
-            });
-            $($('.product_name_' + id).val()).each(function(){
-                product_name.push($(this).val());
-            });
-            $($('.product_quantity_' + id).val()).each(function(){
-                product_quantity.push($(this).val());
-            });
-            $($('.product_price_' + id).val()).each(function(){
-                product_price.push($(this).val());
-            });
-            $($('.product_price_retail_' + id).val()).each(function(){
-                product_price_retail.push($(this).val());
-            });
-            $($('.product_size_' + id).val()).each(function(){
-                product_size.push($(this).val());
-            }); --}}
-                {{--  alert(product_name);  --}}
                  $.ajax({
                      url: '{{url('/product-import-refresh-queue')}}',
                      method: 'POST',
-                     data:{product_id:product_id,product_session_id:product_session_id,product_name:product_name,
-                        product_quantity:product_quantity,product_price:product_price,
-                        product_price_retail:product_price_retail,product_size:product_size,_token:_token},
+                     data:{product_id:product_id,
+                        product_name:product_name,
+                        product_size:product_size,
+                        product_price:product_price,
+                        product_quantity:product_quantity,
+                        product_price_retail:product_price_retail,
+                        _token:_token},
                      success:function(data){
-                        Swal.fire({
-                            title: "Add Success",
-                            type: "success",
-                            showConfirmButton: !1,
-                           timer: 500
-                            })
-                        $('#show-list-product').html(data);
+                         Swal.fire({
+                             title: "Add Success",
+                             type: "success",
+                             showConfirmButton: !1,
+                            timer: 500
+                             })
+                         $('#show-list-product').html(data);
                      }
                  });
              });
-        }
-        refresh_queue_product_import();
+        }add_save();
     });
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-{{-- <script  type="text/javascript">
+</script>  --}}
+{{--  <script>
     $(document).ready(function(){
-        $('.refresh-queue').on('click',(function(e){
-            e.preventDefault();
-            const product_id =[];
-            const product_session_id =[];
-            const product_name =[];
-            const product_quantity =[];
-            const product_price =[];
-            const product_price_retail =[];
-            const product_size =[];
-            {{-- alert(product_name); --}}
-
-            {{-- $('input[name="product_id"]').each(function(){
-                product_id.push($(this).val());
-            });
-            $('input[name="product_session_id"]').each(function(){
-                product_session_id.push($(this).val());
-            });
-            $('input[name="product_name"]').each(function(){
-                product_name.push($(this).val());
-            });
-            $('input[name="product_quantity"]').each(function(){
-                product_quantity.push($(this).val());
-            });
-            $('input[name="product_price"]').each(function(){
-                product_price.push($(this).val());
-            });
-            $('input[name="product_price_retail"]').each(function(){
-                product_price_retail.push($(this).val());
-            });
-            $('input[name="product_size"]').each(function(){
-                product_size.push($(this).val());
-            }); --}}
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-                url: '{{route('save_data')}}',
-                method:"POST",
-                data:{product_id:product_id,
-                    product_session_id:product_session_id,
-                    product_name:product_name,
-                    product_quantity:product_quantity,
-                    product_price:product_price,
-                    product_price_retail:product_price_retail,
-                    product_size:product_size,
-                    _token:_token
-                },
-                success:function(data){
-                    $('#show-list-product').html(data);
-            }
+        $('.product-import-add-save').on('click', function(event){
+            event.preventDefault();
+            var id = $(this).data('id_product');
+            var product_id =$('.product_id_' + id).val();
+            alert(product_id);
+                $.ajax({
+                    url: '{{url('/product-import-refresh-queue')}}',
+                    method:"POST",
+                    data:$(this).serialize(),
+                    success:function(data)
+                    {
+                        $('#show-list-product').html(data);
+                    }
+                })
         });
-     }
-   });
-});
-</script> --}}
+    });
+</script>  --}}

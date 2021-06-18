@@ -20,7 +20,6 @@
          {{csrf_field()}}
          <section>
              <div class="panel panel-header">
-
                  <div class="row">
                      <div class="col-md-6">
                  <div class="form-group">
@@ -44,8 +43,7 @@
                              <th><a href="#" class="addRow"><i class="glyphicon glyphicon-plus"></i></a></th>
                          </tr>
                      </thead>
-                     <tbody>
-                         <tr>
+                     <tbody><tr>
                          <td><input type="text" name="product_name[]" class="form-control" required=""></td>
                          <td><input type="text" name="brand[]" class="form-control"></td>
                            <td><input type="text" name="quantity[]" class="form-control quantity" required=""></td>
@@ -53,6 +51,7 @@
                            <td><input type="text" name="amount[]" class="form-control amount"></td>
                          <td><a href="#" class="btn btn-danger remove"><i class="glyphicon glyphicon-remove"></i></a></td>
                          </tr>
+
                          </tr>
                      </tbody>
                      <tfoot>
@@ -102,6 +101,7 @@
         '</tr>';
         $('tbody').append(tr);
     };
+
     $('.remove').live('click',function(){
         var last=$('tbody tr').length;
         if(last==1){

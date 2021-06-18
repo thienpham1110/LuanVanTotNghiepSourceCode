@@ -14,4 +14,7 @@ class Admin extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_admin';
+    public function ProductImport(){
+        return $this->hasMany('App\Models\ProductImport');
+    }
 }
