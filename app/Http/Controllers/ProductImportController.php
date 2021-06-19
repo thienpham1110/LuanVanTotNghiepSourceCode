@@ -371,10 +371,10 @@ class ProductImportController extends Controller {
         $data=$request->all();
         $get_product_import_detail = ProductImportDetail::where('sanpham_id', '=', $data['product_import_detail_product_id'])
         ->where('size_id', '=', $data['product_import_detail_size_id'])->first();
-        $get_product_in_stock = ProductInstock::where('sanpham_id', '=', $data['product_import_detail_product_id'])
+        $product_in_stock=ProductInstock::where('sanpham_id', '=', $data['product_import_detail_product_id'])
         ->where('size_id', '=', $data['product_import_detail_size_id'])->first();
         $total=0;
-        if (!$get_product_import_detail && !$get_product_in_stock) {//thêm sản phẩm mới
+        if (!$get_product_import_detail && !$product_in_stock) {//thêm sản phẩm mới
             $size=Size::find($data['product_import_detail_size_id']);
             $import_product_detail = new ProductImportDetail();
             $import_product_in_stock= new ProductInStock();
@@ -408,8 +408,6 @@ class ProductImportController extends Controller {
             $import_product_detail->chitietnhap_ma_don_nhap_hang = $data['product_import_no'];
             $import_product_detail->donnhaphang_id = $data['product_import_id'];
             $import_product_detail->save();
-            $product_in_stock=ProductInstock::where('sanpham_id', '=', $data['product_import_detail_product_id'])
-            ->where('size_id', '=', $data['product_import_detail_size_id'])->first();
             $import_product_in_stock_update=ProductInstock::find($product_in_stock->id);
             $import_product_in_stock_update->sanphamtonkho_so_luong_ton = $data['product_import_detail_quantity'] + $product_in_stock->sanphamtonkho_so_luong_ton;
             $import_product_in_stock_update->sanphamtonkho_gia_ban=$data['product_import_detail_price_retail'];
@@ -426,38 +424,66 @@ class ProductImportController extends Controller {
 		$all_size = Size::all();
 		$all_product = Product::orderBy('id', 'DESC')->get();
 		$product_import_detail = ProductImportDetail::find($product_import_detail_id);
+		$get_product_in_stock = ProductInstock::where('sanpham_id', '=', $product_import_detail->sanpham_id)
+        ->where('size_id', '=',$product_import_detail->size_id)->first();
 		return view('admin.pages.product_import.product_import_edit_detail')
 			->with('product_import_detail', $product_import_detail)
 			->with('all_size', $all_size)
+			->with('product_in_stock', $get_product_in_stock)
 			->with('all_product', $all_product);
 	}
 
 	public function ProductImportEditDetailSave(Request $request, $product_import_detail_id) {
 		$this->AuthLogin();
 		$data = $request->all();
-        $product_import_detail_old = ProductImportDetail::where('sanpham_id','=', $data['product_import_detail_product_id'])
-        ->where('size_id','=', $data['product_import_detail_size_id'])->get();
-        $flag=1;
-        $total=0;
-        foreach ($product_import_detail_old as $key => $value) {
-            if($flag==1){
-                $import_product_detail = ProductImportDetail::find( $product_import_detail_id);
-                $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
-                $import_product_detail->chitietnhap_so_luong_con_lai =($data['product_import_detail_quantity']-$data['product_import_detail_quantity_old']) + $value->chitietnhap_so_luong_con_lai;
-                $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
-                $import_product_detail->chitietnhap_gia_ban = $data['product_import_detail_price_retail'];
-                $import_product_detail->save();
-                $flag=0;
-            }
-            $total +=($value->chitietnhap_gia_nhap*$value->chitietnhap_so_luong_nhap);
-            $import_product_detail_update=ProductImportDetail::find($value->id);
-            $import_product_detail_update->chitietnhap_so_luong_con_lai = ($data['product_import_detail_quantity']-$data['product_import_detail_quantity_old']) + $value->chitietnhap_so_luong_con_lai;
-            $import_product_detail_update->chitietnhap_gia_ban=$data['product_import_detail_price_retail'];
-            $import_product_detail_update->save();
-        }
+        $get_product_import_detail= ProductImportDetail::where('sanpham_id','=', $data['product_import_detail_product_id'])
+        ->where('size_id','=', $data['product_import_detail_size_id'])->first();
+        $product_in_stock=ProductInstock::where('sanpham_id', '=', $data['product_import_detail_product_id'])
+        ->where('size_id', '=', $data['product_import_detail_size_id'])->first();
+        $get_product_in_stock_old= ProductInstock::where('sanpham_id','=', $data['product_import_detail_product_id'])
+        ->where('size_id','=', $data['product_import_detail_size_id_old'])->first();
+        $size=Size::find($data['product_import_detail_size_id']);
+        $import_product_detail = ProductImportDetail::find( $product_import_detail_id);
         $import_product=ProductImport::find($data['product_import_id']);
-        $import_product->donnhaphang_tong_tien = $total + (($data['product_import_detail_price']*$data['product_import_detail_quantity'])-($data['product_import_detail_quantity_old']*$data['product_import_detail_price_old']));
-        $import_product->save();
+        $import_product_in_stock_old=ProductInstock::find($get_product_in_stock_old->id);
+        if(( $import_product_in_stock_old->sanphamtonkho_so_luong_ton - $data['product_import_detail_quantity_old']) < 0){
+            Session::put('message', 'Updete Fail, Quantity Invalid');
+            return Redirect::to('/product-import-show-detail/'.$import_product_detail->donnhaphang_id);
+        }
+        else if(!$get_product_import_detail && !$product_in_stock){//sản phẩm cũ size mới chưa có tồn kho
+            $import_product_in_stock= new ProductInstock();//tạo tồn kho mới
+            $import_product_in_stock->sanphamtonkho_so_luong_ton = $data['product_import_detail_quantity'];
+            $import_product_in_stock->sanphamtonkho_gia_ban = $data['product_import_detail_price_retail'];
+            $import_product_in_stock->sanphamtonkho_so_luong_da_ban = 0;
+            $import_product_in_stock->sanpham_id = $data['product_import_detail_product_id'];
+            $import_product_in_stock->size_id = $data['product_import_detail_size_id'];
+            $import_product_in_stock->save();//save in stock
+            $import_product_in_stock_old->sanphamtonkho_so_luong_ton = $import_product_in_stock_old->sanphamtonkho_so_luong_ton - $data['product_import_detail_quantity_old'];
+            $import_product_in_stock_old->save();//update in stock old old
+            $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
+            $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
+            $import_product_detail->chitietnhap_size = $size->size;
+            $import_product_detail->size_id = $data['product_import_detail_size_id'];
+            $import_product_detail->save();//update detail
+            $import_product->donnhaphang_tong_tien = $import_product->donnhaphang_tong_tien +
+            (($data['product_import_detail_price']*$data['product_import_detail_quantity'])-($data['product_import_detail_quantity_old']*$data['product_import_detail_price_old']));
+            $import_product->save();//update total
+        }else{//sửa sản phẩm cũ size mới đã có tồn kho
+            $import_product_in_stock= ProductInstock::find($product_in_stock->id);
+            $import_product_in_stock->sanphamtonkho_so_luong_ton = $import_product_in_stock->sanphamtonkho_so_luong_ton + $data['product_import_detail_quantity'];
+            $import_product_in_stock->sanphamtonkho_gia_ban = $data['product_import_detail_price_retail'];
+            $import_product_in_stock->save();//update in stock old new
+            $import_product_in_stock_old->sanphamtonkho_so_luong_ton = $import_product_in_stock_old->sanphamtonkho_so_luong_ton -$data['product_import_detail_quantity_old'];
+            $import_product_in_stock_old->save();//update in stock old old
+            $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
+            $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
+            $import_product_detail->chitietnhap_size = $size->size;
+            $import_product_detail->size_id = $data['product_import_detail_size_id'];
+            $import_product_detail->save();//update detail
+            $import_product->donnhaphang_tong_tien = $import_product->donnhaphang_tong_tien +
+            (($data['product_import_detail_price']*$data['product_import_detail_quantity'])-($data['product_import_detail_quantity_old']*$data['product_import_detail_price_old']));
+            $import_product->save();//update total
+        }
         return Redirect::to('/product-import-show-detail/'.$data['product_import_id']);
 	}
 
@@ -466,8 +492,6 @@ class ProductImportController extends Controller {
         $product_import_detail=ProductImportDetail::find($product_import_detail_id);
         $product_in_stock=ProductInstock::where('sanpham_id','=', $product_import_detail->sanpham_id)
         ->where('size_id','=',$product_import_detail->size_id)->first();
-        //tổng tiền đơn nhập
-        //số lượng tồn
         if(($product_in_stock->sanphamtonkho_so_luong_ton-$product_import_detail->chitietnhap_so_luong_nhap ) < 0){
             Session::put('message', 'Delete Fail, Quantity Invalid');
             return Redirect::to('/product-import-show-detail/'.$product_import_detail->donnhaphang_id);
