@@ -19,8 +19,7 @@ session_start();
 class ProductImportController extends Controller {
 	public function Index() {
 		$this->AuthLogin();
-		$all_product_import = ProductImport::orderby('id', 'desc')
-			->get();
+        $all_product_import = ProductImport::where('donnhaphang_trang_thai',1)->orderby('id', 'desc')->get();
 		return view('admin.pages.product_import.product_import')->with('all_product_import', $all_product_import);
 	}
 	public function AuthLogin() {
@@ -31,7 +30,7 @@ class ProductImportController extends Controller {
 			return Redirect::to('/admin')->send();
 		}
 	}
-	public function ProductImportAddMultiple(Request $request) {
+	public function ProductImportAddMultiple() {
 		$this->AuthLogin();
 		$queue = Session::get('queue');
 		if ($queue == true) {
@@ -292,7 +291,7 @@ class ProductImportController extends Controller {
         $this->AuthLogin();
         $admin = Admin::where('user_id', Session::get('admin_id'))->get();
 		$all_supplier = Supplier::orderby('id', 'desc')->get();
-        $all_product_import = ProductImport::all();
+        $all_product_import = ProductImport::where('donnhaphang_trang_thai',0)->get();
 		return view('admin.pages.product_import.product_import_add')
 		->with('get_admin', $admin)
         ->with('all_product_import', $all_product_import)

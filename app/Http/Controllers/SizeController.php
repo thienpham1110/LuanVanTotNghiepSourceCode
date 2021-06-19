@@ -36,6 +36,7 @@ class SizeController extends Controller
         $data=$request->all();
         $size= new Size();
         $size->size = $data['size'];
+        $size->size_thu_tu = $data['size_number'];
         $size->size_trang_thai = $data['size_status'];
         $size->save();
         Session::put('message','Add Success');
@@ -70,6 +71,7 @@ class SizeController extends Controller
         $data=$request->all();
         $size= Size::find($size_id);
         $size->size = $data['size'];
+        $size->size_thu_tu = $data['size_number'];
         $size->size_trang_thai = $data['size_status'];
         $size->save();
         Session::put('message','Update Success');

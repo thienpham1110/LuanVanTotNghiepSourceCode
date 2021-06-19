@@ -19,7 +19,7 @@
                         }
                         ?>
                         </div>
-                        <form action="{{ URL::to('admin-dashboard') }}" method="POST">
+                        <form action="{{ URL::to('/login') }}" method="POST">
                             {{ csrf_field() }}
                             <div class="form-group mb-3">
                                 <label for="emailaddress">Email address</label>

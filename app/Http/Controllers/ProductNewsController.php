@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogNews;
 use Illuminate\Http\Request;
 use DB;
 use File;
@@ -14,9 +15,8 @@ class ProductNewsController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_productnews=DB::table('tbl_baiviet')->get();
-        $manager_productnews =view('admin.pages.productnews.productnews')->with('all_productnews',$all_productnews);
-    	return view('admin.index_layout_admin')->with('admin.pages.productnews.productnews',$manager_productnews);
+        $all_product_news=BlogNews::all();
+        return view('admin.pages.product_news.product_news')->with('all_product_news',$all_product_news);
     }
 
     public function AuthLogin(){
@@ -27,107 +27,93 @@ class ProductNewsController extends Controller
             return Redirect::to('/admin')->send();
         }
     }
-    public function productnewsAdd(){
+    public function ProductNewsAdd(){
         $this->AuthLogin();
-        $staff_id = Session::get('admin_id');
-        $staff=DB::table('tbl_nhanvien')
-        ->where('user_id',$staff_id)
-        ->get();
-    	return view('admin.pages.productnews.productnews_add')->with('staff',$staff);
+    	return view('admin.pages.product_news.product_news_add');
     }
 
-    public function productnewsSave(Request $request){
+    public function ProductNewsAddSave(Request $request){
         $this->AuthLogin();
-        $data =array();
-        $data['slidequangcao_tieu_de']=$request->productnews_title;
-        $data['slidequangcao_noi_dung']=$request->productnews_content;
-        $data['slidequangcao_lien_ket']=$request->productnews_link;
-        $data['slidequangcao_thu_tu']=$request->productnews_no;
-        $data['slidequangcao_trang_thai']=$request->productnews_status;
-        $data['nhanvien_id']=$request->staff_id;
-
-        $get_image = $request->file('productnews_img');
+        $data=$request->all();
+        $product_news=new BlogNews();
+        $product_news->baiviet_tieu_de = $data['product_news_title'];
+        $product_news->baiviet_noi_dung = $data['product_news_content'];
+        $product_news->baiviet_trang_thai = $data['product_news_status'];
+        $get_image = $request->file('product_news_img');
         $path = 'public/uploads/admin/productnews';
-
         //them hinh anh
         if($get_image){
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.',$get_name_image));
             $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
             $get_image->move($path,$new_image);
-
-            $data['slidequangcao_anh'] = $new_image;
-            DB::table('tbl_baiviet')->insert($data);
+            $product_news->baiviet_anh = $new_image;
+            $product_news->save();
             Session::put('message','Add Success');
-    	    return Redirect::to('/productnews');
+    	    return Redirect::to('/product-news');
         }
-        $data['slidequangcao_anh'] = '';
-
-        DB::table('tbl_baiviet')->insert($data);
+        $product_news->baiviet_anh = '';
+        $product_news->save();
         Session::put('message','Add Success');
-    	return Redirect::to('/productnews');
+    	return Redirect::to('/product-news');
     }
 
-    public function Unactiveproductnews($productnews_id){
+    public function UnactiveProductNews($product_news_id){
         $this->AuthLogin();
-        DB::table('tbl_baiviet')->where('id',$productnews_id)->update(['slidequangcao_trang_thai'=>0]);
+        $unactive_product_news=BlogNews::find($product_news_id);
+        $unactive_product_news->baiviet_trang_thai=0;
+        $unactive_product_news->save();
         Session::put('message','Hide Success');
-        return Redirect::to('/productnews');
+        return Redirect::to('/product-news');
     }
-    public function Activeproductnews($productnews_id){
+    public function ActiveProductNews($product_news_id){
         $this->AuthLogin();
-        DB::table('tbl_baiviet')->where('id',$productnews_id)->update(['slidequangcao_trang_thai'=>1]);
+        $active_product_news=BlogNews::find($product_news_id);
+        $active_product_news->baiviet_trang_thai=1;
+        $active_product_news->save();
         Session::put('message','Show Success');
-        return Redirect::to('/productnews');
+        return Redirect::to('/product-news');
     }
 
-    public function productnewsEdit($productnews_id){
+    public function ProductNewsEdit($product_news_id){
         $this->AuthLogin();
-        $staff_id = Session::get('admin_id');
-        $staff=DB::table('tbl_nhanvien')
-        ->where('user_id',$staff_id)
-        ->get();
-        $edit_productnews=DB::table('tbl_baiviet')->where('id',$productnews_id)->get();
-        $manager_productnews =view('admin.pages.productnews.productnews_edit')
-        ->with('edit_productnews',$edit_productnews)
-        ->with('staff',$staff);
-    	return view('admin.index_layout_admin')->with('admin.pages.productnews.productnews_edit',$manager_productnews);
+        $edit_product_news=BlogNews::find($product_news_id);
+        return view('admin.pages.product_news.product_news_edit')
+        ->with('product_news',$edit_product_news);
     }
 
-    public function productnewsSaveEdit(Request $request,$productnews_id){
+    public function ProductNewsEditSave(Request $request,$about_store_id){
         $this->AuthLogin();
-        $data =array();
-        $data['slidequangcao_tieu_de']=$request->productnews_title;
-        $data['slidequangcao_noi_dung']=$request->productnews_content;
-        $data['slidequangcao_lien_ket']=$request->productnews_link;
-        $data['slidequangcao_thu_tu']=$request->productnews_no;
-        $data['slidequangcao_trang_thai']=$request->productnews_status;
-        $data['nhanvien_id']=$request->staff_id;
-
-        $old_name=DB::table('tbl_baiviet')->select('slidequangcao_anh')->where('id',$productnews_id)->get();
-
-        $get_image = $request->file('productnews_img');
+        $data=$request->all();
+        $product_news=BlogNews::find($about_store_id);
+        $product_news->baiviet_tieu_de = $data['product_news_title'];
+        $product_news->baiviet_noi_dung = $data['product_news_content'];
+        $product_news->baiviet_trang_thai = $data['product_news_status'];
+        $get_image = $request->file('product_news_img');
+        $old_name=$product_news->baiviet_anh;
+        $get_image = $request->file('product_news_img');
         $path = 'public/uploads/admin/productnews/';
-       if($get_image){
-                    unlink($path.$old_name[0]->slidequangcao_anh);
-                   $get_name_image = $get_image->getClientOriginalName();
-                   $name_image = current(explode('.',$get_name_image));
-                   $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-                   $get_image->move($path,$new_image);
-                   $data['slidequangcao_anh'] = $new_image;
-                   DB::table('tbl_baiviet')->where('id',$productnews_id)->update($data);
-                   Session::put('message','Update Success');
-                   return Redirect::to('/productnews');
-       }
-        $data['slidequangcao_anh'] = $old_name[0]->slidequangcao_anh;
-        DB::table('tbl_baiviet')->where('id',$productnews_id)->update($data);
+        if($get_image){
+            unlink($path.$old_name);
+            $get_name_image = $get_image->getClientOriginalName();
+            $name_image = current(explode('.',$get_name_image));
+            $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
+            $get_image->move($path,$new_image);
+            $product_news->baiviet_anh= $new_image;
+            $product_news->save();
+            Session::put('message','Update Success');
+            return Redirect::to('/product-news');
+        }
+        $product_news->baiviet_anh = $old_name;
+        $product_news->save();
         Session::put('message','Update Success');
-        return Redirect::to('/productnews');
+        return Redirect::to('/product-news');
     }
-    public function productnewsDelete($productnews_id){
+    public function ProductNewsDelete($about_store_id){
         $this->AuthLogin();
-        DB::table('tbl_baiviet')->where('id',$productnews_id)->delete();
+        $product_news=BlogNews::find($about_store_id);
+        $product_news->delete();
         Session::put('message','Delete Success');
-        return Redirect::to('/productnews');
+        return Redirect::to('/product-news');
     }
 }

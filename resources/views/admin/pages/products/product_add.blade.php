@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        <form action="{{ URL::to('product-save') }}" enctype="multipart/form-data"class="form-horizontal" role="form"  method="post">
+                                        <form action="{{ URL::to('/product-save') }}" enctype="multipart/form-data"class="form-horizontal" role="form"  method="post">
                                             {{ csrf_field() }}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" >Product Information</label>
@@ -71,7 +71,7 @@
                                                         </div>
                                                     </div>
                                                     <label  class="col-form-label">Feature</label>
-                                                            <textarea name="product_feature" required="" class="form-control" placeholder="Chạy bộ.."></textarea>
+                                                    <textarea name="product_feature" required="" class="form-control" placeholder="Chạy bộ.."></textarea>
                                                     <label class="col-form-label">Description</label>
                                                     <textarea class="form-control" name="product_description" required="" placeholder="Des.."></textarea>
                                                 </div>
@@ -173,17 +173,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <hr>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Discount</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Discount</label>
-                                                    <select name="product_discount" class="form-control">
-                                                        <option value="0">No</option>
-                                                        <option value="1">Yes</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            
                                             <hr>
                                             <div class="form-group row">
                                                 <div class="col-sm-12">

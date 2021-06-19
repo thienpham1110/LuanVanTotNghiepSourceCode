@@ -9,7 +9,7 @@ class Size extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'size', 'size_trang_thai'
+    	'size','size_thu_tu', 'size_trang_thai'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_size';

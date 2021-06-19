@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="p-2">
-                                    <form action="{{ URL::to('brand-save-edit/'.$brand->id) }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                    <form action="{{ URL::to('/brand-save-edit/'.$brand->id) }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                         {{ csrf_field() }}
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label" >Brand Information</label>
@@ -59,9 +59,13 @@
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Status</label>
                                                 <select name="brand_status" class="form-control">
-                                                    <option value="{{ $brand->thuonghieu_trang_thai }}">{{ $brand->thuonghieu_trang_thai?'Show':'Hide' }}</option>
-                                                    <option value="0">Hide</option>
-                                                    <option value="1">Show</option>
+                                                    @if($brand->thuonghieu_trang_thai==1)
+                                                        <option selected value="1">Show</option>
+                                                        <option value="0">Hide</option>
+                                                    @else
+                                                        <option value="1">Show</option>
+                                                        <option selected value="0">Hide</option>
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>

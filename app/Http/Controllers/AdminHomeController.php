@@ -27,7 +27,7 @@ class AdminHomeController extends Controller
         $this->AuthLogin();
     	return view('admin.pages.dashboard');
     }
-    public function Dashboard(Request $request){
+    public function Login(Request $request){
         $admin_email=$request->admin_email;
         $admin_password=md5($request->admin_password);
 
@@ -37,7 +37,7 @@ class AdminHomeController extends Controller
             if($result->loainguoidung_id ==2 || $result->loainguoidung_id ==1){
                 Session::put('admin_name',$result->user_ten);
                 Session::put('admin_id',$result->id);
-                return view('admin.pages.dashboard');
+                return Redirect::to('/dashboard');
             }
         }else{
             Session::put('message','Sai tài khoản hoặc mật khẩu');

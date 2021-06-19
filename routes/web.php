@@ -34,7 +34,7 @@ Route::get('/resetpass', 'AdminHomeController@ResetPassword');
 Route::get('/loginadmin', 'AdminHomeController@LoginAdmin');
 Route::get('/logout', 'AdminHomeController@Logout');
 Route::get('/dashboard', 'AdminHomeController@ShowDashboard');
-Route::post('/admin-dashboard', 'AdminHomeController@Dashboard');
+Route::post('/login', 'AdminHomeController@Login');
 
 //product type admin
 Route::get('/product-type', 'ProductTypeController@Index');
@@ -134,13 +134,13 @@ Route::get('/active-about-store/{about_store_id}', 'AboutStoreController@ActiveA
 //Product News
 Route::get('/product-news', 'ProductNewsController@Index');
 Route::get('/product-news-add', 'ProductNewsController@ProductNewsAdd');
-Route::post('/product-news-save', 'ProductNewsController@ProductNewsSave');
-Route::post('/product-news-save-edit/{product_news_id}', 'ProductNewsController@ProductNewsSaveEdit');
+Route::post('/product-news-add-save', 'ProductNewsController@ProductNewsAddSave');
 Route::get('/product-news-edit/{product_news_id}', 'ProductNewsController@ProductNewsEdit');
-Route::get('/product-news-delete/{product_news_id}', 'ProductNewsController@ProductNewsDelete');
+Route::post('/product-news-edit-save/{product_news_id}', 'ProductNewsController@ProductNewsEditSave');
 
 Route::get('/unactive-product-news/{product_news_id}', 'ProductNewsController@UnactiveProductNews');
 Route::get('/active-product-news/{product_news_id}', 'ProductNewsController@ActiveProductNews');
+Route::get('/product-news-delete/{product_news_id}', 'ProductNewsController@ProductNewsDelete');
 
 //Product
 Route::get('/product', 'ProductController@Index');
@@ -165,7 +165,6 @@ Route::post('/product-import-edit-save/{product_import_id}', 'ProductImportContr
 Route::get('/unactive-product-import/{product_import_id}', 'ProductImportController@UnactiveProductImport');
 Route::get('/active-product-import/{product_import_id}', 'ProductImportController@ActiveProductImport');
 
-
 Route::get('/product-import-add-detail/{product_import_id}', 'ProductImportController@ProductImportAddDetail');
 Route::post('/product-import-add-detail-save/{product_import_id}', 'ProductImportController@ProductImportAddDetailSave');
 Route::get('/product-import-edit-detail/{product_import_detail_id}', 'ProductImportController@ProductImportEditDetail');
@@ -173,8 +172,12 @@ Route::post('/product-import-edit-detail-save/{product_import_detail_id}', 'Prod
 
 Route::get('/product-import-delete-detail/{product_import_detail}', 'ProductImportController@ProductImportDeletetDetail');
 
-
-
+//Product Discount
+Route::get('/product-discount', 'ProductDiscountController@Index');
+Route::get('/product-discount-add', 'ProductDiscountController@ProductDiscountAdd');
+Route::post('/product-discount-add-save', 'ProductDiscountController@ProductDiscountAddSave');
+Route::get('/product-discount-edit/{product_discount_id}', 'ProductDiscountController@ProductDiscountEdit');
+Route::post('/product-discount-edit-save/{product_discount_id}', 'ProductDiscountController@ProductDiscountEditSave');
 //Demo
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');

@@ -29,13 +29,21 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        <form action="{{ URL::to('size-save') }}" class="form-horizontal" enctype="multipart/form-data" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                        <form action="{{ URL::to('/size-save') }}" class="form-horizontal" enctype="multipart/form-data" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                             {{ csrf_field() }}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" >Size Information</label>
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Size</label>
                                                     <input type="text" name="size" required="" class="form-control" placeholder="Example: 40-VN-7-US-6.5-Uk..">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" >No.</label>
+                                                <div class="col-sm-10">
+                                                    <label class="col-form-label">No.</label>
+                                                    <input type="number" min="1" name="size_number" required="" class="form-control" placeholder="1,2..">
                                                 </div>
                                             </div>
                                             <hr>

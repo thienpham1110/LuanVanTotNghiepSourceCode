@@ -201,18 +201,6 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Discount</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Discount</label>
-                                                    <select name="product_discount" class="form-control">
-                                                        <option value="{{ $product->sanpham_khuyen_mai}}">{{ $product->sanpham_khuyen_mai?'Yes':'No' }}</option>
-                                                        <option value="0">No</option>
-                                                        <option value="1">Yes</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
                                                         <button type="submit" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Save</button>

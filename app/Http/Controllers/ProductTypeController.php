@@ -33,10 +33,10 @@ class ProductTypeController extends Controller
     public function ProductTypeSave(Request $request){
         $this->AuthLogin();
         $data=$request->all();
-        $producttype=new ProductType();
-        $producttype->loaisanpham_ten = $data['product_type_name'];
-        $producttype->loaisanpham_mo_ta = $data['product_type_description'];
-        $producttype->loaisanpham_trang_thai = $data['product_type_status'];
+        $product_type=new ProductType();
+        $product_type->loaisanpham_ten = $data['product_type_name'];
+        $product_type->loaisanpham_mo_ta = $data['product_type_description'];
+        $product_type->loaisanpham_trang_thai = $data['product_type_status'];
         $get_image = $request->file('product_type_img');
         $path = 'public/uploads/admin/producttype';
         //them hinh anh
@@ -45,13 +45,13 @@ class ProductTypeController extends Controller
             $name_image = current(explode('.',$get_name_image));
             $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
             $get_image->move($path,$new_image);
-            $producttype->loaisanpham_anh = $new_image;
-            $producttype->save();
+            $product_type->loaisanpham_anh = $new_image;
+            $product_type->save();
             Session::put('message','Add Success');
     	    return Redirect::to('/product-type');
         }
-        $producttype->loaisanpham_anh = '';
-        $producttype->save();
+        $product_type->loaisanpham_anh = '';
+        $product_type->save();
         Session::put('message','Add Success');
     	return Redirect::to('/product-type');
     }
@@ -82,11 +82,11 @@ class ProductTypeController extends Controller
     public function ProductTypeSaveEdit(Request $request,$pro_type_id){
         $this->AuthLogin();
         $data=$request->all();
-        $producttype=ProductType::find($pro_type_id);
-        $producttype->loaisanpham_ten = $data['product_type_name'];
-        $producttype->loaisanpham_mo_ta = $data['product_type_description'];
-        $producttype->loaisanpham_trang_thai = $data['product_type_status'];
-        $old_name_img=$producttype->loaisanpham_anh;
+        $product_type=ProductType::find($pro_type_id);
+        $product_type->loaisanpham_ten = $data['product_type_name'];
+        $product_type->loaisanpham_mo_ta = $data['product_type_description'];
+        $product_type->loaisanpham_trang_thai = $data['product_type_status'];
+        $old_name_img=$product_type->loaisanpham_anh;
         $get_image = $request->file('product_type_img');
         $path = 'public/uploads/admin/producttype/';
         if($get_image){
@@ -95,13 +95,13 @@ class ProductTypeController extends Controller
             $name_image = current(explode('.',$get_name_image));
             $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
             $get_image->move($path,$new_image);
-            $producttype->loaisanpham_anh = $new_image;
-            $producttype->save();
+            $product_type->loaisanpham_anh = $new_image;
+            $product_type->save();
             Session::put('message','Update Success');
             return Redirect::to('/product-type');
         }
-        $producttype->loaisanpham_anh = $old_name_img;
-        $producttype->save();
+        $product_type->loaisanpham_anh = $old_name_img;
+        $product_type->save();
         Session::put('message','Update Success');
         return Redirect::to('/product-type');
 

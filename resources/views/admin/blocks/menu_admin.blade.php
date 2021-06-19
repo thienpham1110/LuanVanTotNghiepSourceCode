@@ -21,7 +21,7 @@
                             <a href="{{URL::to('/product')}}">Product</a>
                         </li>
                         <li>
-                            <a href="{{URL::to('/product-discount')}}">Discount Products</a>
+                            <a href="{{URL::to('/product-discount-show-product')}}">Discount Products</a>
                         </li>
                         <li>
                             <a href="{{URL::to('/brand')}}">Brand</a>
@@ -35,7 +35,9 @@
                         <li>
                             <a href="{{URL::to('/coupon-code')}}">Coupon Code</a>
                         </li>
-
+                        <li>
+                            <a href="{{URL::to('/product-discount')}}">Discount</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -88,9 +90,7 @@
                         <li>
                             <a href="{{URL::to('/product-news')}}">News</a>
                         </li>
-                        <li>
-                            <a href="index_discount.php">Discount</a>
-                        </li>
+
                         <li>
                             <a href="javascript: void(0);" aria-expanded="false">Website
                                 <span class="menu-arrow"></span>

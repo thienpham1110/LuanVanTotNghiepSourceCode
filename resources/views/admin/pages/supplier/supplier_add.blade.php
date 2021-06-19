@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        <form action="{{ URL::to('supplier-save') }}" class="form-horizontal" enctype="multipart/form-data" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                        <form action="{{ URL::to('/supplier-save') }}" class="form-horizontal" enctype="multipart/form-data" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                             {{ csrf_field() }}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" >Size Information</label>

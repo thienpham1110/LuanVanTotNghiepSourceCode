@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/size-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/product-news-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Size</li>
+                            <li class="breadcrumb-item active">News</li>
                         </ol>
                     </div>
                 </div>
@@ -51,31 +51,37 @@
                                 ?>
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Size</th>
-                                    <th class="font-weight-medium">No.</th>
+                                    <th class="font-weight-medium">Images</th>
+                                    <th class="font-weight-medium">Title</th>
+                                    <th class="font-weight-medium">Content</th>
                                     <th class="font-weight-medium">Status</th>
                                     <th class="font-weight-medium">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
-                                    @foreach ($all_size as $key=>$size)
+                                    @foreach ($all_product_news as $key=>$product_news)
                                     <tr>
                                         <td>
-                                            {{ $size->size }}
+                                            <a href="javascript: void(0);">
+                                                <img src="{{asset('public/uploads/admin/productnews/'.$product_news->baiviet_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
+                                            </a>
                                         </td>
                                         <td>
-                                            {{ $size->size_thu_tu }}
+                                            {{ $product_news->baiviet_tieu_de }}
+                                        </td>
+                                        <td>
+                                            {{ $product_news->baiviet_noi_dung }}
                                         </td>
                                         <td>
                                             <span class="badge">
                                                 <?php
-                                                if($size->size_trang_thai==1)
+                                                if($product_news->baiviet_trang_thai==1)
                                                 { ?>
-                                                <a href="{{URL::to ('/unactive-size/'.$size->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
+                                                <a href="{{URL::to ('/unactive-product-news/'.$product_news->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
                                                 <?php
                                                 }else
                                                 { ?>
-                                                    <a href="{{URL::to ('/active-size/'.$size->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
+                                                    <a href="{{URL::to ('/active-product-news/'.$product_news->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
                                                 <?php
                                                 }
                                                 ?>
@@ -85,8 +91,8 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/size-edit/'.$size->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                    <a class="dropdown-item" href="{{URL::to('/size-delete/'.$size->id)}}" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-news-edit/'.$product_news->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-news-delete/'.$product_news->id)}}" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 </div>
                                             </div>
                                         </td>

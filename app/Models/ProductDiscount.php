@@ -11,5 +11,6 @@ class ProductDiscount extends Model
     protected $fillable = [
     	'khuyenmai_id', 'sanpham_id'
     ];
+    protected $primaryKey = 'id';
  	protected $table = 'tbl_sanphamkhuyenmai';
 }

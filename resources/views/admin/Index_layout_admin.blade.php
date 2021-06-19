@@ -31,6 +31,7 @@
     <link href="{{asset('public/backend/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
 
     <link href="{{asset('public/backend/libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('public/backend/libs/switchery/switchery.min.css')}}"  rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -90,6 +91,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="{{asset('public/backend/js/jquery3.js')}}"></script>
     <script src="{{asset('public/backend/js/jquery.scrollUp.min.js')}}"></script>
+    <script src="{{asset('public/libs/switchery/switchery.min.js')}}" ></script>
 </body>
 
 </html>

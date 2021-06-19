@@ -35,12 +35,12 @@ class AboutStoreController extends Controller
     public function AboutStoreSave(Request $request){
         $this->AuthLogin();
         $data=$request->all();
-        $aboutstore=new AboutStore();
-        $aboutstore->cuahang_tieu_de = $data['about_store_title'];
-        $aboutstore->cuahang_mo_ta = $data['about_store_description'];
-        $aboutstore->cuahang_dia_chi = $data['about_store_address'];
-        $aboutstore->cuahang_so_dien_thoai = $data['about_store_phone_number'];
-        $aboutstore->cuahang_trang_thai = $data['about_store_status'];
+        $about_store=new AboutStore();
+        $about_store->cuahang_tieu_de = $data['about_store_title'];
+        $about_store->cuahang_mo_ta = $data['about_store_description'];
+        $about_store->cuahang_dia_chi = $data['about_store_address'];
+        $about_store->cuahang_so_dien_thoai = $data['about_store_phone_number'];
+        $about_store->cuahang_trang_thai = $data['about_store_status'];
         $get_image = $request->file('about_store_img');
         $path = 'public/uploads/admin/aboutstore';
         //them hinh anh
@@ -49,13 +49,13 @@ class AboutStoreController extends Controller
             $name_image = current(explode('.',$get_name_image));
             $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
             $get_image->move($path,$new_image);
-            $aboutstore->cuahang_anh = $new_image;
-            $aboutstore->savs();
+            $about_store->cuahang_anh = $new_image;
+            $about_store->save();
             Session::put('message','Add Success');
     	    return Redirect::to('/about-store');
         }
-        $aboutstore->cuahang_anh = '';
-        $aboutstore->savs();
+        $about_store->cuahang_anh = '';
+        $about_store->save();
         Session::put('message','Add Success');
     	return Redirect::to('/about-store');
     }
@@ -87,13 +87,13 @@ class AboutStoreController extends Controller
     public function AboutStoreSaveEdit(Request $request,$about_store_id){
         $this->AuthLogin();
         $data=$request->all();
-        $aboutstore=AboutStore::find($about_store_id);
-        $aboutstore->cuahang_tieu_de = $data['about_store_title'];
-        $aboutstore->cuahang_mo_ta = $data['about_store_description'];
-        $aboutstore->cuahang_dia_chi = $data['about_store_address'];
-        $aboutstore->cuahang_so_dien_thoai = $data['about_store_phone_number'];
-        $aboutstore->cuahang_trang_thai = $data['about_store_status'];
-        $old_name=$aboutstore->cuahang_anh;
+        $about_store=AboutStore::find($about_store_id);
+        $about_store->cuahang_tieu_de = $data['about_store_title'];
+        $about_store->cuahang_mo_ta = $data['about_store_description'];
+        $about_store->cuahang_dia_chi = $data['about_store_address'];
+        $about_store->cuahang_so_dien_thoai = $data['about_store_phone_number'];
+        $about_store->cuahang_trang_thai = $data['about_store_status'];
+        $old_name=$about_store->cuahang_anh;
         $get_image = $request->file('about_store_img');
         $path = 'public/uploads/admin/aboutstore/';
         if($get_image){
@@ -102,13 +102,13 @@ class AboutStoreController extends Controller
             $name_image = current(explode('.',$get_name_image));
             $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
             $get_image->move($path,$new_image);
-            $aboutstore->cuahang_anh= $new_image;
-            $aboutstore->save();
+            $about_store->cuahang_anh= $new_image;
+            $about_store->save();
             Session::put('message','Update Success');
             return Redirect::to('/about-store');
         }
-        $aboutstore->cuahang_anh = $old_name;
-        $aboutstore->save();
+        $about_store->cuahang_anh = $old_name;
+        $about_store->save();
         Session::put('message','Update Success');
         return Redirect::to('/about-store');
     }

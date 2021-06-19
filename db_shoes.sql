@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 18, 2021 lúc 01:50 AM
+-- Thời gian đã tạo: Th6 19, 2021 lúc 10:57 AM
 -- Phiên bản máy phục vụ: 10.4.13-MariaDB
 -- Phiên bản PHP: 7.4.8
 
@@ -110,7 +110,6 @@ CREATE TABLE `tbl_chitietdondathang` (
   `chitietdondathang_so_luong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
 -- --------------------------------------------------------
 
 --
@@ -126,20 +125,6 @@ CREATE TABLE `tbl_chitietnhap` (
   `donnhaphang_id` int(10) UNSIGNED NOT NULL,
   `size_id` int(10) UNSIGNED NOT NULL,
   `chitietnhap_ma_don_nhap_hang` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
---
--- Cấu trúc bảng cho bảng `tbl_sanphamtonkho`
---
-
-CREATE TABLE `tbl_sanphamtonkho` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `sanphamtonkho_so_luong_da_ban` int(11) NOT NULL,
-  `sanphamtonkho_so_luong_ton` int(11) NOT NULL,
-  `sanphamtonkho_gia_ban` decimal(10,2) NOT NULL,
-  `sanpham_id` int(10) UNSIGNED NOT NULL,
-  `size_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -225,7 +210,6 @@ CREATE TABLE `tbl_donnhaphang` (
   `admin_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
 -- --------------------------------------------------------
 
 --
@@ -296,8 +280,10 @@ CREATE TABLE `tbl_khuyenmai` (
   `khuyenmai_tieu_de` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `khuyenmai_noi_dung` longtext COLLATE utf8_unicode_ci NOT NULL,
   `khuyenmai_anh` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `khuyenmai_loai` int(11) NOT NULL,
   `khuyenmai_gia_tri` int(11) NOT NULL,
-  `khuyenmai_thoi_gian` int(11) NOT NULL,
+  `khuyenmai_so_ngay_khuyen_mai` int(11) NOT NULL,
+  `khuyenmai_ngay_khuyen_mai` date NOT NULL,
   `khuyenmai_trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1157,7 +1143,6 @@ CREATE TABLE `tbl_sanpham` (
   `sanpham_phu_kien` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sanpham_chat_lieu` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sanpham_bao_hanh` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `sanpham_khuyen_mai` int(11) NOT NULL,
   `sanpham_trang_thai` int(11) NOT NULL,
   `loaisanpham_id` int(10) UNSIGNED NOT NULL,
   `thuonghieu_id` int(10) UNSIGNED NOT NULL,
@@ -1168,13 +1153,13 @@ CREATE TABLE `tbl_sanpham` (
 -- Đang đổ dữ liệu cho bảng `tbl_sanpham`
 --
 
-INSERT INTO `tbl_sanpham` (`id`, `sanpham_ma_san_pham`, `sanpham_ten`, `sanpham_mo_ta`, `sanpham_anh`, `sanpham_nguoi_su_dung`, `sanpham_mau_sac`, `sanpham_tinh_nang`, `sanpham_noi_san_xuat`, `sanpham_phu_kien`, `sanpham_chat_lieu`, `sanpham_bao_hanh`, `sanpham_khuyen_mai`, `sanpham_trang_thai`, `loaisanpham_id`, `thuonghieu_id`, `dongsanpham_id`) VALUES
-(2, 'jd1', 'jordan 1', 'nhảy cao lắm', 'product189.jpg', 2, 'red', 'bóng rổ', 'VN', 'Box, tag , Guarantee', 'vải ,da', '1 tháng', 0, 1, 1, 2, 2),
-(4, 'af1', 'Air focre 1', 'chạy phê lắm', 'product244.jpg', 2, 'xanh', 'running', 'VN', 'Box, Tag, Guarantee', 'vải canvas', '1 đổi 1', 0, 1, 1, 2, 1),
-(5, 'v1', 'vans old', 'đẹp vl', 'product380.jpg', 2, 'black', 'đi chơi', 'VN', 'Box, tag , Guarantee', 'vải canvas', '1 đổi 1', 0, 1, 1, 4, 3),
-(6, 'cov1', 'convers', 'đẹp lắm', 'productbig242.jpg', 2, 'blue', 'đi chơi', 'VN', 'Box, tag , Guarantee', 'vải canvas', '1 đổi 1', 0, 1, 1, 3, 3),
-(7, 'ao1', 'áo khoác', 'áo đẹp', 'productbig75.jpg', 2, 'xanh', 'áo', 'VN', 'không', 'vải', 'không', 0, 1, 2, 2, 3),
-(8, 'ao2', 'áo vest', 'đâs', 'productbig197.jpg', 0, 'đấ', 'sadasd', 'gdsfgf', 'đasa', 'dsadas', 'không', 0, 1, 2, 4, 3);
+INSERT INTO `tbl_sanpham` (`id`, `sanpham_ma_san_pham`, `sanpham_ten`, `sanpham_mo_ta`, `sanpham_anh`, `sanpham_nguoi_su_dung`, `sanpham_mau_sac`, `sanpham_tinh_nang`, `sanpham_noi_san_xuat`, `sanpham_phu_kien`, `sanpham_chat_lieu`, `sanpham_bao_hanh`, `sanpham_trang_thai`, `loaisanpham_id`, `thuonghieu_id`, `dongsanpham_id`) VALUES
+(2, 'jd1', 'jordan 1', 'nhảy cao lắm', 'product189.jpg', 2, 'red', 'bóng rổ', 'VN', 'Box, tag , Guarantee', 'vải ,da', '1 tháng',  1, 1, 2, 2),
+(4, 'af1', 'Air focre 1', 'chạy phê lắm', 'product244.jpg', 2, 'xanh', 'running', 'VN', 'Box, Tag, Guarantee', 'vải canvas', '1 đổi 1',  1, 1, 2, 1),
+(5, 'v1', 'vans old', 'đẹp vl', 'product380.jpg', 2, 'black', 'đi chơi', 'VN', 'Box, tag , Guarantee', 'vải canvas', '1 đổi 1',  2, 1, 4, 3),
+(6, 'cov1', 'convers', 'đẹp lắm', 'productbig242.jpg', 2, 'blue', 'đi chơi', 'VN', 'Box, tag , Guarantee', 'vải canvas', '1 đổi 1',  2, 1, 3, 3),
+(7, 'ao1', 'áo khoác', 'áo đẹp', 'productbig75.jpg', 2, 'xanh', 'áo', 'VN', 'không', 'vải', 'không',  1, 2, 2, 3),
+(8, 'ao2', 'áo vest', 'đâs', 'productbig197.jpg', 0, 'đấ', 'sadasd', 'gdsfgf', 'đasa', 'dsadas', 'không',  2, 2, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -1190,27 +1175,30 @@ CREATE TABLE `tbl_sanphamkhuyenmai` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `tbl_sanphamtonkho`
+--
+
+CREATE TABLE `tbl_sanphamtonkho` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `sanphamtonkho_so_luong_da_ban` int(11) NOT NULL,
+  `sanphamtonkho_so_luong_ton` int(11) NOT NULL,
+  `sanphamtonkho_gia_ban` decimal(10,2) NOT NULL,
+  `sanpham_id` int(10) UNSIGNED NOT NULL,
+  `size_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `tbl_size`
 --
 
 CREATE TABLE `tbl_size` (
   `id` int(10) UNSIGNED NOT NULL,
   `size` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `size_thu_tu` int(11) NOT NULL,
   `size_trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `tbl_size`
---
-
-INSERT INTO `tbl_size` (`id`, `size`, `size_trang_thai`) VALUES
-(2, '36-VN', 1),
-(3, '37-VN', 1),
-(4, '38', 1),
-(5, '39', 1),
-(6, '40', 1),
-(7, '35-VN', 1),
-(8, '41', 1);
 
 -- --------------------------------------------------------
 
@@ -12607,14 +12595,6 @@ ALTER TABLE `tbl_chitietnhap`
   ADD KEY `chitietnhap_donnhaphang_id_foreign` (`donnhaphang_id`),
   ADD KEY `chitietnhap_sanpham_id_foreign` (`sanpham_id`);
 
-  --
--- Chỉ mục cho bảng `tbl_sanphamtonkho`
---
-ALTER TABLE `tbl_sanphamtonkho`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sanphamtonkho_size_id_foreign` (`size_id`),
-  ADD KEY `sanphamtonkho_sanpham_id_foreign` (`sanpham_id`);
-
 --
 -- Chỉ mục cho bảng `tbl_cuahang`
 --
@@ -12730,6 +12710,14 @@ ALTER TABLE `tbl_sanphamkhuyenmai`
   ADD KEY `sanphamkhuyenmai_sanpham_id_foreign` (`sanpham_id`);
 
 --
+-- Chỉ mục cho bảng `tbl_sanphamtonkho`
+--
+ALTER TABLE `tbl_sanphamtonkho`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sanphamtonkho_size_id_foreign` (`size_id`),
+  ADD KEY `sanphamtonkho_sanpham_id_foreign` (`sanpham_id`);
+
+--
 -- Chỉ mục cho bảng `tbl_size`
 --
 ALTER TABLE `tbl_size`
@@ -12805,13 +12793,7 @@ ALTER TABLE `tbl_chitietdondathang`
 -- AUTO_INCREMENT cho bảng `tbl_chitietnhap`
 --
 ALTER TABLE `tbl_chitietnhap`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT cho bảng `tbl_sanphamtonkho`
---
-ALTER TABLE `tbl_sanphamtonkho`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_cuahang`
@@ -12835,7 +12817,7 @@ ALTER TABLE `tbl_dongsanpham`
 -- AUTO_INCREMENT cho bảng `tbl_donnhaphang`
 --
 ALTER TABLE `tbl_donnhaphang`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_headerquangcao`
@@ -12890,6 +12872,12 @@ ALTER TABLE `tbl_phivanchuyen`
 --
 ALTER TABLE `tbl_sanpham`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT cho bảng `tbl_sanphamtonkho`
+--
+ALTER TABLE `tbl_sanphamtonkho`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_size`
@@ -12956,14 +12944,6 @@ ALTER TABLE `tbl_chitietnhap`
   ADD CONSTRAINT `chitietnhap_size_id_foreign` FOREIGN KEY (`size_id`) REFERENCES `tbl_size` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `tbl_sanphamtonkho`
---
-ALTER TABLE `tbl_sanphamtonkho`
-  ADD CONSTRAINT `sanphamtonkho_sanpham_id_foreign` FOREIGN KEY (`sanpham_id`) REFERENCES `tbl_sanpham` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `sanphamtonkho_size_id_foreign` FOREIGN KEY (`size_id`) REFERENCES `tbl_size` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
-
---
 -- Các ràng buộc cho bảng `tbl_dondathang`
 --
 ALTER TABLE `tbl_dondathang`
@@ -13010,8 +12990,15 @@ ALTER TABLE `tbl_sanpham`
 -- Các ràng buộc cho bảng `tbl_sanphamkhuyenmai`
 --
 ALTER TABLE `tbl_sanphamkhuyenmai`
-  ADD CONSTRAINT `sanphamkhuyenmai_khuyenmai_id_foreign` FOREIGN KEY (`khuyenmai_id`) REFERENCES `tbl_khuyenmai` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `sanphamkhuyenmai_sanpham_id_foreign` FOREIGN KEY (`sanpham_id`) REFERENCES `tbl_sanpham` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `sanphamkhuyenmai_khuyenmai_id_foreign` FOREIGN KEY (`khuyenmai_id`) REFERENCES `tbl_khuyenmai` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `sanphamkhuyenmai_sanpham_id_foreign` FOREIGN KEY (`sanpham_id`) REFERENCES `tbl_sanpham` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `tbl_sanphamtonkho`
+--
+ALTER TABLE `tbl_sanphamtonkho`
+  ADD CONSTRAINT `sanphamtonkho_sanpham_id_foreign` FOREIGN KEY (`sanpham_id`) REFERENCES `tbl_sanpham` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `sanphamtonkho_size_id_foreign` FOREIGN KEY (`size_id`) REFERENCES `tbl_size` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `tbl_users`

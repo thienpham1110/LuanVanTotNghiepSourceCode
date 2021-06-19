@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        <form action="{{ URL::to('collection-save') }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" >
+                                        <form action="{{ URL::to('/collection-save') }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" >
                                             {{ csrf_field() }}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" >Collection Type Information</label>

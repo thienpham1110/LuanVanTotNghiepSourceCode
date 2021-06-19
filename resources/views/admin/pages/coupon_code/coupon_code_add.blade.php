@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        <form action="{{ URL::to('coupon-code-save')}}" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                        <form action="{{ URL::to('/coupon-code-save')}}" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                             {{ csrf_field() }}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" >Coupon Name</label>

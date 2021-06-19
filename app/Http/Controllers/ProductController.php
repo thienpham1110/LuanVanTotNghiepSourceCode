@@ -55,7 +55,6 @@ class ProductController extends Controller
         $product->sanpham_phu_kien = $data['product_accessories'];
         $product->sanpham_chat_lieu = $data['product_material'];
         $product->sanpham_bao_hanh = $data['product_guarantee'];
-        $product->sanpham_khuyen_mai = $data['product_discount'];
         $product->sanpham_trang_thai = $data['product_status'];
         $product->loaisanpham_id = $data['product_type'];
         $product->thuonghieu_id = $data['brand'];
@@ -126,7 +125,6 @@ class ProductController extends Controller
         $product->sanpham_phu_kien = $data['product_accessories'];
         $product->sanpham_chat_lieu = $data['product_material'];
         $product->sanpham_bao_hanh = $data['product_guarantee'];
-        $product->sanpham_khuyen_mai = $data['product_discount'];
         $product->sanpham_trang_thai = $data['product_status'];
         $product->loaisanpham_id = $data['product_type'];
         $product->thuonghieu_id = $data['brand'];
