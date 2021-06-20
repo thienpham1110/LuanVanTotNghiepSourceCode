@@ -13,4 +13,10 @@ class ProductDiscount extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_sanphamkhuyenmai';
+    public function Discount(){
+        return $this->belongsTo('App\Models\Discount','khuyenmai_id');
+    }
+    public function Product(){
+        return $this->belongsTo('App\Models\Product','sanpham_id');
+    }
 }

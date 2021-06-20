@@ -105,12 +105,12 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    @foreach ($all_product as $key => $product)
+                                                                    @foreach ($product_import_in_stock as $k=>$value )
                                                                         <tr>
                                                                             <td>
-                                                                                <input type="checkbox" name="product_discount_product_id[{{$product->id}}]" id="{{  $product->id }}" value="{{ $product->id }}" ></input>
+                                                                                <input type="checkbox" name="product_discount_product_id[{{$value->sanpham_id }}]" id="{{  $value->sanpham_id }}" value="{{ $value->sanpham_id  }}" ></input>
                                                                             </td>
-                                                                            <td>{{$product->sanpham_ten }}</td>
+                                                                            <td>{{$value->Product->sanpham_ten }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>

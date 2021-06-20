@@ -49,20 +49,24 @@ class ProductDiscountController extends Controller
 
     public function ProductDiscountAdd(){
         $this->AuthLogin();
-        $discount=Discount::where('khuyenmai_trang_thai',1)->get();
+        $discount=Discount::where('khuyenmai_trang_thai',1)->get();//lay con km
         foreach($discount as $key => $value){
-            $product_discount=ProductDiscount::where('khuyenmai_id',$value->id)->get();
+            $product_discount=ProductDiscount::where('khuyenmai_id',$value->id)->get();//lay sp con km
             foreach ($product_discount as $k => $v) {
                 $pro_dis[]=$v->sanpham_id;
             }
         }
-        if (empty($pro_dis)) {
-			$product_no_dis = Product::whereNotIn('id', ['0'])->get();
-		} else {
-			$product_no_dis = Product::whereNotIn('id', $pro_dis)->get();
-		}
+        $product_import_in_stock=ProductInstock::whereNotIn('sanpham_id',$pro_dis)
+        ->where('sanphamtonkho_so_luong_ton','>',0)->get();//lay sp k km con ton kho
+                // print($product_import_in_stock);
+        // if (empty($pro_dis)) {
+		// 	$product_no_dis = Product::whereNotIn('id', ['0'])->get();
+		// } else {
+		// 	$product_no_dis = Product::whereNotIn('id', $pro_dis)->get();
+		// }
 		return view('admin.pages.product_discount.product_discount_add')
-		->with('all_product', $product_no_dis);
+		// ->with('all_product', $product_no_dis)
+        ->with('product_import_in_stock', $product_import_in_stock);
     }
 
     public function ProductDiscountAddSave(Request $request){
@@ -107,26 +111,23 @@ class ProductDiscountController extends Controller
     public function ProductDiscountEdit($product_discount_id){
         $this->AuthLogin();
         $discount=Discount::find($product_discount_id);
-        $product_discount=ProductDiscount::select('sanpham_id')
-        ->where('khuyenmai_id',$product_discount_id)->get();
-        foreach($product_discount as $key => $value){
-            $pro_dis[]=$value->sanpham_id;
+        $product_discount=ProductDiscount::where('khuyenmai_id',$product_discount_id)->get();//sp km cua tin khuyen mai
+        $all_discount=Discount::where('khuyenmai_trang_thai',1)->get();//lay con km
+        foreach($all_discount as $key => $value){
+            $product_discount=ProductDiscount::where('khuyenmai_id',$value->id)->get();//lay sp con km
+            foreach ($product_discount as $k => $v) {
+                $pro_dis[]=$v->sanpham_id;
+            }
         }
-        if (!empty($pro_dis)) {
-			$product_dis = Product::whereIn('id', $pro_dis)->get();
-		} else {
-			$product_dis = Product::whereIn('id', ['0'])->get();
-		}
-		if (empty($pro_dis)) {
-			$product_no_dis = Product::whereNotIn('id', ['0'])->get();
-		} else {
-			$product_no_dis = Product::whereNotIn('id', $pro_dis)->get();
-		}
+        $product_import_in_stock=ProductInstock::whereNotIn('sanpham_id',$pro_dis)
+        ->where('sanphamtonkho_so_luong_ton','>',0)->get();//lay sp k km con ton kho
         return view('admin.pages.product_discount.product_discount_edit')
 		->with('discount', $discount)
-        ->with('product_dis', $product_dis)
-        ->with('product_no_dis', $product_no_dis);
+        ->with('product_dis', $product_discount)
+        ->with('product_no_dis', $product_import_in_stock);
     }
+
+
     public function ProductDiscountEditSave(Request $request,$product_discount_id){
         $this->AuthLogin();
         $data=$request->all();
@@ -167,5 +168,23 @@ class ProductDiscountController extends Controller
             Session::put('message','Edit Success');
             return Redirect::to('/product-discount');
         }
+    }
+
+    public function ShowProductDiscount(){
+        $this->AuthLogin();
+        $discount=Discount::where('khuyenmai_trang_thai',1)->get();//lay con km
+        foreach($discount as $key => $value){
+            $product_discount=ProductDiscount::where('khuyenmai_id',$value->id)->get();//lay sp con km
+            foreach ($product_discount as $k => $v) {
+                $pro_dis[]=$v->sanpham_id;
+            }
+        }
+        $all_product_discount=ProductDiscount::whereIn('sanpham_id',$pro_dis)->get();
+        $product_import_in_stock=ProductInstock::whereIn('sanpham_id',$pro_dis)
+        // ->where('sanphamtonkho_so_luong_ton','>',0)
+        ->get();//lay sp con km con ton kho
+        return view('admin.pages.product_discount.product_discount_show_product')
+		->with('all_product_discount', $all_product_discount)
+        ->with('product_import_in_stock', $product_import_in_stock);
     }
 }

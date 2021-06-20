@@ -14,4 +14,8 @@ class Discount extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_khuyenmai';
+
+    public function ProductDiscount(){
+        return $this->hasMany('App\Models\ProductDiscount');
+    }
 }

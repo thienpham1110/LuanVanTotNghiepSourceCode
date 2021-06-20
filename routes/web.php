@@ -178,6 +178,9 @@ Route::get('/product-discount-add', 'ProductDiscountController@ProductDiscountAd
 Route::post('/product-discount-add-save', 'ProductDiscountController@ProductDiscountAddSave');
 Route::get('/product-discount-edit/{product_discount_id}', 'ProductDiscountController@ProductDiscountEdit');
 Route::post('/product-discount-edit-save/{product_discount_id}', 'ProductDiscountController@ProductDiscountEditSave');
+
+//show product discount
+Route::get('/product-discount-show-product', 'ProductDiscountController@ShowProductDiscount');
 //Demo
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');

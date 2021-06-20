@@ -120,17 +120,17 @@
                                                                     @foreach ($product_dis as $key=> $product)
                                                                         <tr>
                                                                             <td>
-                                                                                <input type="checkbox" name="product_discount_product_id[{{$product->id}}]" value="{{ $product->id }}" checked="true">
+                                                                                <input type="checkbox" name="product_discount_product_id[{{$product->sanpham_id}}]" value="{{ $product->sanpham_id }}" checked="true">
                                                                             </td>
-                                                                            <td>{{$product->sanpham_ten }}</td>
+                                                                            <td>{{$product->Product->sanpham_ten  }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                     @foreach ($product_no_dis as $key => $product)
                                                                         <tr>
                                                                             <td>
-                                                                                <input type="checkbox" name="product_discount_product_id[{{$product->id}}]" value="{{ $product->id }}" ></input>
+                                                                                <input type="checkbox" name="product_discount_product_id[{{ $product->sanpham_id}}]" value="{{ $product->sanpham_id }}" ></input>
                                                                             </td>
-                                                                            <td>{{$product->sanpham_ten }}</td>
+                                                                            <td>{{$product->Product->sanpham_ten }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>

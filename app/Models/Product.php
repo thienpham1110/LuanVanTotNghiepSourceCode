@@ -31,4 +31,7 @@ class Product extends Model
     public function ProductInStock(){
         return $this->hasMany('App\Models\ProductInStock');
     }
+    public function ProductDiscount(){
+        return $this->hasMany('App\Models\ProductDiscount');
+    }
 }
