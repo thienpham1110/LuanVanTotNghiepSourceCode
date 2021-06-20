@@ -13,4 +13,5 @@ class Province extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_quanhuyen';
+
 }

@@ -53,9 +53,14 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Status</label>
                                                     <select name="size_status" class="form-control">
-                                                        <option value="{{ $size->size_trang_thai }}">{{ $size->size_trang_thai?'Show':'Hide' }}</option>
-                                                        <option value="1">Show</option>
-                                                        <option value="0">Hide</option>
+
+                                                        @if( $size->size_trang_thai  ==1)
+                                                            <option selected value="1">Show</option>
+                                                            <option value="0">Hide</option>
+                                                        @else
+                                                            <option value="1">Show</option>
+                                                            <option selected value="0">Hide</option>
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>

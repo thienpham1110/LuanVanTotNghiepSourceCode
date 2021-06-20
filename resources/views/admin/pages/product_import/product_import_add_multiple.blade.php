@@ -190,7 +190,7 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <h4 class="header-title">Product List</h4>
-                                                            <table id="scroll-vertical-datatable" class="table dt-responsive nowrap">
+                                                            <table id="scroll-vertical-datatable"class="table dt-responsive nowrap">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Selective</th>

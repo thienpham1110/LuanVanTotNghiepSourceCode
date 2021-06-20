@@ -181,6 +181,16 @@ Route::post('/product-discount-edit-save/{product_discount_id}', 'ProductDiscoun
 
 //show product discount
 Route::get('/product-discount-show-product', 'ProductDiscountController@ShowProductDiscount');
+
+
+// Transport Fee
+Route::get('/transport-fee', 'TransportFeeController@TransportFee');
+Route::post('/select-transport-fee', 'TransportFeeController@SelectTransportFee');
+Route::post('/transport-fee-add', 'TransportFeeController@TransportFeeAdd');
+Route::post('/select-fee', 'TransportFeeController@SelectFee');
+
+Route::post('/update-fee', 'TransportFeeController@TransportFeeUpdate');
+Route::post('/update-fee-day', 'TransportFeeController@TransportFeeUpdateDay');
 //Demo
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');

@@ -59,9 +59,13 @@
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Status</label>
                                                 <select name="collection_status" class="form-control">
-                                                    <option value="{{ $collection->dongsanpham_trang_thai }}">{{ $collection->dongsanpham_trang_thai?'Show':'Hide' }}</option>
-                                                    <option value="0">Hide</option>
-                                                    <option value="1">Show</option>
+                                                    @if( $collection->dongsanpham_trang_thai ==1)
+                                                        <option selected value="1">Show</option>
+                                                        <option value="0">Hide</option>
+                                                    @else
+                                                        <option value="1">Show</option>
+                                                        <option selected value="0">Hide</option>
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>

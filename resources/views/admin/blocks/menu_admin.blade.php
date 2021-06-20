@@ -56,6 +56,9 @@
                         <li>
                             <a href="{{URL::to('/size')}}">Size</a>
                         </li>
+                        <li>
+                            <a href="{{URL::to('/product-import-add-multiple')}}">Product Import Mutiple</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -73,7 +76,7 @@
                             <a href="index_delivery_order.php">Delivery Order</a>
                         </li>
                         <li>
-                            <a href="index_transport_fee.php">Transport fee</a>
+                            <a href="{{URL::to('/transport-fee')}}">Transport fee</a>
                         </li>
                     </ul>
                 </li>

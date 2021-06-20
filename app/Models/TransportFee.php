@@ -13,4 +13,14 @@ class TransportFee extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_phivanchuyen';
+
+    public function City(){
+        return $this->belongsTo('App\Models\City','tinhthanhpho_id');
+    }
+    public function Province(){
+        return $this->belongsTo('App\Models\Province','quanhuyen_id');
+    }
+    public function Wards(){
+        return $this->belongsTo('App\Models\Wards','xaphuong_id');
+    }
 }
