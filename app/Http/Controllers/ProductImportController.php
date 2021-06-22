@@ -201,7 +201,7 @@ class ProductImportController extends Controller {
 		} else {
 			$product_import = new ProductImport();
 			$product_import->donnhaphang_ma_don_nhap_hang = $data['product_import_no'];
-			$product_import->donnhaphang_ngay_nhap = $data['product_import_delivery_day'];
+			$product_import->donnhaphang_ngay_nhap = $data['product_import_day'];
 			$product_import->donnhaphang_trang_thai = $data['product_import_status'];
 			$product_import->nhacungcap_id = $data['product_import_supplier'];
 			$product_import->admin_id = $id;
@@ -312,7 +312,7 @@ class ProductImportController extends Controller {
 		} else {
             $product_import = new ProductImport();
 			$product_import->donnhaphang_ma_don_nhap_hang = $data['product_import_no'];
-			$product_import->donnhaphang_ngay_nhap = $data['product_import_delivery_day'];
+			$product_import->donnhaphang_ngay_nhap = $data['product_import_day'];
 			$product_import->donnhaphang_trang_thai = $data['product_import_status'];
 			$product_import->nhacungcap_id = $data['product_import_supplier'];
 			$product_import->admin_id = $id;
@@ -345,7 +345,7 @@ class ProductImportController extends Controller {
 		$this->AuthLogin();
 		$data = $request->all();
 		$product_import = ProductImport::find($product_import_id);
-		$product_import->donnhaphang_ngay_nhap = $data['product_import_delivery_day'];
+		$product_import->donnhaphang_ngay_nhap = $data['product_import_day'];
 		$product_import->donnhaphang_trang_thai = $data['product_import_status'];
 		$product_import->nhacungcap_id = $data['product_import_supplier'];
 		$product_import->save();
@@ -396,11 +396,10 @@ class ProductImportController extends Controller {
             $import_product_detail->save();//save detail
         }
         else { //thêm sản phẩm cũ
-            $import_product_detail = new ProductImportDetail();
+            $import_product_detail = ProductImportDetail::find($get_product_import_detail->id);
             $size=Size::find($data['product_import_detail_size_id']);
-            $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
+            $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'] +$get_product_import_detail->chitietnhap_so_luong_nhap;
             $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
-            $import_product_detail->chitietnhap_size = $size->size;
             $import_product_detail->chitietnhap_size = $size->size;
             $import_product_detail->size_id = $data['product_import_detail_size_id'];
             $import_product_detail->sanpham_id = $data['product_import_detail_product_id'];

@@ -15,7 +15,7 @@
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Discount</li>
+                            <li class="breadcrumb-item active">Product Order</li>
                         </ol>
                     </div>
                 </div>
@@ -52,70 +52,44 @@
                                 ?>
                                 <thead class="bg-light">
                                 <tr>
+                                    <th class="font-weight-medium">#</th>
                                     <th class="font-weight-medium">Images</th>
                                     <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Size</th>
-                                    <th class="font-weight-medium">Number Discount</th>
                                     <th class="font-weight-medium">Price</th>
-                                    <th class="font-weight-medium">Price Discount</th>
-                                    <th class="font-weight-medium">Title</th>
-                                    <th class="font-weight-medium">Status</th>
-                                    <th class="font-weight-medium">Product Status</th>
+                                    <th class="font-weight-medium">Size</th>
                                 </tr>
                                 </thead>
-
                                 <tbody class="font-14">
-                                    @foreach ($all_product_discount as $key=>$product_discount)
-                                        @foreach ($product_import_in_stock as $k =>$value)
-                                            @if($value->sanpham_id==$product_discount->sanpham_id)
+                                    <form >
+                                        @csrf
+                                        @foreach ($all_product as $key=>$product)
+                                            @foreach ($all_product_in_stock as $k=>$in_stock)
+                                                @if($product->id==$in_stock->sanpham_id)
                                                 <tr>
+                                                    <input type="hidden" value="{{ $product->id }}" class="product_id_{{ $product->id }}">
+                                                    <input type="hidden" value="{{ $product->sanpham_ten }}" class="product_name_{{ $product->id }}">
+                                                    <input type="hidden" value="{{number_format( $in_stock->sanphamtonkho_gia_ban ,0,',','') }}" class="product_price_{{ $product->id }}">
+                                                    <input type="hidden" value="{{ $in_stock->size_id }}" class="product_size_id_{{ $product->id }}">
+                                                    <input type="hidden" value="{{ $in_stock->Size->size }}" class="product_size_name_{{ $product->id }}">
+                                                    <input type="hidden" value="{{ $in_stock->sanphamtonkho_so_luong_ton }}" class="product_in_stock_{{ $product->id }}">
+                                                    <td>
+                                                        <button type="button" data-id_product="{{ $product->id}}" name="add-order-admin" class="btn btn-success waves-effect waves-light btn-sm add-order-admin">
+                                                        <i class="mdi mdi-plus-circle mr-1"></i>Add</button>
+                                                    </td>
                                                     <td>
                                                         <a href="javascript: void(0);">
-                                                            <img src="{{asset('public/uploads/admin/product/'.$product_discount->Product->sanpham_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
+                                                            <img src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
                                                         </a>
                                                     </td>
-                                                    <td>
-                                                        {{ $product_discount->Product->sanpham_ten}}
-                                                    </td>
-                                                    <td>
-                                                        {{ $value->Size->size}}
-                                                    </td>
-                                                    <td>
-                                                        @if($product_discount->Discount->khuyenmai_loai==1)
-                                                        {{number_format($product_discount->Discount->khuyenmai_gia_tri ).' %' }}
-                                                        @else
-                                                            {{number_format($product_discount->Discount->khuyenmai_gia_tri ).' $' }}
-                                                        @endif
-                                                    </td>
-
-                                                    <td>
-                                                        {{number_format( $value->sanphamtonkho_gia_ban ).' VND' }}
-                                                    </td>
-                                                    <td>
-                                                        @if($product_discount->Discount->khuyenmai_loai==1)
-                                                        {{number_format( $value->sanphamtonkho_gia_ban -(($value->sanphamtonkho_gia_ban * $product_discount->Discount->khuyenmai_gia_tri)/100) ).' VND' }}
-                                                        @else
-                                                        {{number_format( $value->sanphamtonkho_gia_ban - $product_discount->Discount->khuyenmai_gia_tri ).' VND' }}
-                                                        @endif
-
-                                                    </td>
-                                                    <td>
-                                                        {{ $product_discount->Discount->khuyenmai_tieu_de }}
-                                                    </td>
-                                                    <td>
-                                                        {{$product_discount->Discount->khuyenmai_trang_thai?' On Promotion':' Promotion Ends'}}
-                                                    </td>
-                                                    <td>
-                                                        @if($value->sanphamtonkho_so_luong_ton>0)
-                                                            In Stock
-                                                        @else
-                                                            Out of stock
-                                                        @endif
-                                                    </td>
+                                                    <td>{{$product->sanpham_ten }}</td>
+                                                    <td>{{number_format( $in_stock->sanphamtonkho_gia_ban,0,',','.' )." VND" }}</td>
+                                                    <td>{{$in_stock->Size->size }}</td>
                                                 </tr>
-                                            @endif
+                                                @endif
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
+                                    </form>
+
                                 </tbody>
                             </table>
                         </div>

@@ -62,9 +62,13 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Type Code</label>
                                                     <select name="coupon_code_type" class="form-control">
-                                                        <option value="{{ $coupon_code->makhuyenmai_loai_ma }}">{{ $coupon_code->makhuyenmai_loai_ma?'$':'%' }}</option>
-                                                        <option value="0">%</option>
-                                                        <option value="1">$</option>
+                                                        @if( $coupon_code->makhuyenmai_loai_ma ==1)
+                                                            <option selected value="1">$</option>
+                                                            <option value="0">%</option>
+                                                        @else
+                                                            <option value="1">$</option>
+                                                            <option selected value="0">&</option>
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>

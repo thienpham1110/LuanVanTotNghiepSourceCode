@@ -47,8 +47,8 @@
                                                     <div class="card-body">
                                                         <label class="col-form-label">Import No.</label>
                                                         <input type="text" name="product_import_no" required="" value="{{ $product_import->donnhaphang_ma_don_nhap_hang }}" readonly class="form-control product_import_no">
-                                                        <label class=" col-form-label">Delivery Day</label>
-                                                        <input type="date" name="product_import_delivery_day" value="{{ $product_import->donnhaphang_ngay_nhap }}" required="" class="form-control product_import_delivery_day" >
+                                                        <label class=" col-form-label">Day</label>
+                                                        <input type="date" name="product_import_day" value="{{ $product_import->donnhaphang_ngay_nhap }}" required="" class="form-control product_import_day" >
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
                                                                 <label  class="col-form-label">Staff</label>
@@ -60,10 +60,13 @@
                                                             <div class="form-group col-md-6">
                                                                 <label class="col-form-label">Status</label>
                                                                 <select name="product_import_status" required="" class="form-control product_import_status">
-                                                                    <option value="{{ $product_import->donnhaphang_trang_thai }}">
-                                                                        {{ $product_import->donnhaphang_trang_thai?'Paid':'Unpaid' }}</option>
-                                                                        <option value="0">Unpaid</option>
-                                                                        <option value="1">Paid</option>
+                                                                        @if($product_import->donnhaphang_trang_thai==1)
+                                                                            <option selected value="1">Paid</option>
+                                                                            <option value="0">Unpaid</option>
+                                                                        @else
+                                                                            <option value="1">Paid</option>
+                                                                            <option selected value="0">Unpaid</option>
+                                                                        @endif
                                                                 </select>
                                                             </div>
                                                         </div>

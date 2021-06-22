@@ -33,6 +33,7 @@
 
     <link href="{{URL::asset('public/backend/libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css">
     <link href="{{URL::asset('public/backend/libs/switchery/switchery.min.css')}}"  rel="stylesheet" type="text/css">
+    <link href="{{URL::asset('public/backend/css/sweetalert.css')}}" rel="stylesheet">
 
 </head>
 
@@ -57,6 +58,7 @@
         <!-- End Page content -->
         <!-- ============================================================== -->
     </div>
+      <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
     <script src="{{URL::asset('public/backend/libs/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{URL::asset('public/backend/libs/datatables/dataTables.buttons.min.js')}}"></script>
     <script src="{{URL::asset('public/backend/js/pages/datatables.init.js')}}"></script>
@@ -97,7 +99,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="{{URL::asset('public/backend/js/jquery3.js')}}"></script>
     <script src="{{URL::asset('public/backend/js/jquery.scrollUp.min.js')}}"></script>
-    <script src="{{URL::asset('public/libs/switchery/switchery.min.js')}}" ></script>
+    <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
+    {{--  <script src="{{URL::asset('public/libs/switchery/switchery.min.js')}}" ></script>  --}}
 
 </body>
 
@@ -110,6 +113,92 @@
         };
         reader.readAsDataURL(this.files[0]);
     };
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.add-order-admin-coupon').click(function(){
+            var product_order_coupon =$('input[name="product_order_coupon"]').val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '{{url('/check-coupon')}}',
+                method: 'POST',
+                data:{product_order_coupon:product_order_coupon,_token:_token},
+                success:function(data){
+
+                    $('#show-coupon').html(data);
+               }
+            });
+         });
+
+         $('.order-transport-fee').on('click',function(){
+            var city = $('.city').val();
+            var province = $('.province').val();
+            var wards = $('.wards').val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url : '{{url('/check-transport-fee')}}',
+                method: 'POST',
+                data:{city:city, province:province, wards:wards, _token:_token},
+                success:function(data){
+                    $('#show-transport_fee').html(data);
+                }
+            });
+     });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.add-order-admin').click(function(){
+            var id = $(this).data('id_product');
+            var product_id =$('.product_id_' + id).val();
+            var product_name =$('.product_name_' + id).val();
+            var product_size_id =$('.product_size_id_' + id).val();
+            var product_size_name =$('.product_size_name_' + id).val();
+            var product_in_stock =$('.product_in_stock_' + id).val();
+            var product_price =$('.product_price_' + id).val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '{{url('/order-admin-add-row')}}',
+                method: 'POST',
+                data:{product_id:product_id,product_size_id:product_size_id,product_price:product_price,
+                    product_name:product_name ,product_size_name:product_size_name,product_in_stock:product_in_stock,_token:_token},
+                success:function(data){
+                    swal({
+                        title: "Đã thêm sản phẩm vào giỏ hàng",
+                        showCancelButton: true,
+                        cancelButtonText: "Xem tiếp",
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Tạo đơn hàng",
+                        closeOnConfirm: false
+                    },
+                    function() {
+                        window.location.href = "{{url('/order-add')}}";
+                    });
+               }
+            });
+         });
+    });
+</script>
+<script type="text/javascript">
+    $(document).on('mouseup','.delete-row-order-admin',function(){
+        function delete_row_order_admin(){
+            $('.delete-row-order-admin').click(function(){
+                var id = $(this).data('id_product');
+                var product_session_id =$('.product_session_id_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                 $.ajax({
+                     url: '{{url('/order-admin-delete-row')}}',
+                     method: 'GET',
+                     data:{product_session_id:product_session_id,_token:_token},
+                     success:function(data){
+                        window.location.href = "{{url('/order-add')}}";
+                    }
+                 });
+             });
+        }
+        delete_row_order_admin();
+    });
 </script>
 <script type="text/javascript">
     $(document).ready(function(){

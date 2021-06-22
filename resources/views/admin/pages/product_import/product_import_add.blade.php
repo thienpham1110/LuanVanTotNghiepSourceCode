@@ -44,8 +44,8 @@
                                                     <div class="card-body">
                                                         <label class="col-form-label">Import No.</label>
                                                         <input type="text" name="product_import_no" required="" class="form-control product_import_no">
-                                                        <label class=" col-form-label">Delivery Day</label>
-                                                        <input type="date" name="product_import_delivery_day" required="" class="form-control product_import_delivery_day" >
+                                                        <label class=" col-form-label">Day</label>
+                                                        <input type="date" name="product_import_day" required="" class="form-control product_import_day" >
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
                                                                 <label  class="col-form-label">Staff</label>

@@ -9,9 +9,14 @@ class Delivery extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'giaohang_ngay_giao_hang', 'giaohang_nguoi_nhan','giaohang_nguoi_nhan_email','giaohang_nguoi_nhan_so_dien_thoai',
-        'giaohang_nguoi_nhan_dia_chi','giaohang_so_dien_thoai','giaohang_trang_thai','dondathang_id'
+         'giaohang_nguoi_nhan','giaohang_nguoi_nhan_email','giaohang_nguoi_nhan_so_dien_thoai',
+        'giaohang_nguoi_nhan_dia_chi','giaohang_so_dien_thoai','giaohang_phuong_thuc_thanh_toan','giaohang_trang_thai','giaohang_ma_don_dat_hang',
+        'dondathang_id'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_giaohang';
+
+    public function Order(){
+        return $this->belongsTo('App\Models\Order','dondathang_id');
+    }
 }

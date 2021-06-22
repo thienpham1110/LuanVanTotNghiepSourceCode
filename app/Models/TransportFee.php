@@ -23,4 +23,7 @@ class TransportFee extends Model
     public function Wards(){
         return $this->belongsTo('App\Models\Wards','xaphuong_id');
     }
+    public function Order(){
+        return $this->hasOne('App\Models\Order');
+    }
 }

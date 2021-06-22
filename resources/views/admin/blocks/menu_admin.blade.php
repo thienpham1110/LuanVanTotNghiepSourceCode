@@ -70,7 +70,10 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="index_order.php">Order</a>
+                            <a href="{{URL::to('/order')}}">Order</a>
+                        </li>
+                        <li>
+                            <a href="{{URL::to('/order-add')}}">Unfinished Order</a>
                         </li>
                         <li>
                             <a href="index_delivery_order.php">Delivery Order</a>

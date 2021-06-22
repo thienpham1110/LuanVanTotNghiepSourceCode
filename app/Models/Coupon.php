@@ -13,4 +13,8 @@ class Coupon extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_makhuyenmai';
+
+    public function Order(){
+        return $this->hasOne('App\Models\Order');
+    }
 }

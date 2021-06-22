@@ -191,6 +191,21 @@ Route::post('/select-fee', 'TransportFeeController@SelectFee');
 
 Route::post('/update-fee', 'TransportFeeController@TransportFeeUpdate');
 Route::post('/update-fee-day', 'TransportFeeController@TransportFeeUpdateDay');
+
+//Order Admin
+Route::get('/order', 'OrderController@Index');
+Route::get('/order-add-show-product', 'OrderController@OrderAddShowProduct');
+Route::get('/order-add', 'OrderController@OrderAdd');
+Route::post('/order-admin-add-row', 'OrderController@OrderAdminAddRow');
+Route::get('/order-admin-delete-row', 'OrderController@OrderAdminDeleteRow');
+Route::post('/order-admin-add-save', 'OrderController@OrderAdminAddSave');
+Route::post('/order-add-save', 'OrderController@OrderAddSave');
+Route::get('/order-show-detail/{order_id}', 'OrderController@OrderShowDetail');
+
+// Route::post('/check-coupon', 'OrderController@CheckCoupon');
+// Route::post('/check-transport-fee', 'OrderController@CheckTransportFee');
+
+
 //Demo
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');
