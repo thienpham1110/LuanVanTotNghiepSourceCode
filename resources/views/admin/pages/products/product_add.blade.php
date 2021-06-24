@@ -38,6 +38,8 @@
                                                     <input type="text" name="product_code"  class="form-control" required="" placeholder="Example: SP01">
                                                     <label class="col-form-label">Name</label>
                                                     <input type="text" name="product_name" class="form-control" required="" placeholder="Example: AF1,..">
+                                                    <label class="col-form-label">Price</label>
+                                                    <input type="number" min="1" name="product_price" class="form-control" required="" placeholder="100.000 VNĐ">
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label">Gender</label>
@@ -173,7 +175,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            
+
                                             <hr>
                                             <div class="form-group row">
                                                 <div class="col-sm-12">

@@ -122,15 +122,15 @@
                                                                             <td>
                                                                                 <input type="checkbox" name="product_discount_product_id[{{$product->sanpham_id}}]" value="{{ $product->sanpham_id }}" checked="true">
                                                                             </td>
-                                                                            <td>{{$product->Product->sanpham_ten  }}</td>
+                                                                            <td>{{$product->Product->sanpham_ten }}</td>
                                                                         </tr>
                                                                     @endforeach
-                                                                    @foreach ($product_no_dis as $key => $product)
+                                                                    @foreach ($product_pro as $key => $product)
                                                                         <tr>
                                                                             <td>
-                                                                                <input type="checkbox" name="product_discount_product_id[{{ $product->sanpham_id}}]" value="{{ $product->sanpham_id }}" ></input>
+                                                                                <input type="checkbox" name="product_discount_product_id[{{ $product->id}}]" value="{{ $product->id }}" ></input>
                                                                             </td>
-                                                                            <td>{{$product->Product->sanpham_ten }}</td>
+                                                                            <td>{{$product->sanpham_ten }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>

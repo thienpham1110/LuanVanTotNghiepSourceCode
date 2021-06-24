@@ -17,7 +17,6 @@ class Customer extends Model
      public function Order(){
         return $this->hasMany('App\Models\Order');
     }
-
     public function UserAccount(){
         return $this->belongsTo('App\Models\UserAccount','user_id');
     }

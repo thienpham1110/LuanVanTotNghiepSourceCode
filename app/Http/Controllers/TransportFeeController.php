@@ -55,11 +55,11 @@ class TransportFeeController extends Controller
         }
     }
     public function SelectFee(){
-        $fee=TransportFee::orderby('id','DESC')->get();
+        $fee=TransportFee::orderby('id','DESC')->paginate(5);
         $output = '';
         $output .=
          '<div class="card-box">
-            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"  id="scroll-vertical-datatable">
+            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"  id="myTable">
                 <thead class="bg-light">
                 <tr>
                     <th class="font-weight-medium">City</th>

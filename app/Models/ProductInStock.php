@@ -9,7 +9,7 @@ class ProductInStock extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'sanphamtonkho_so_luong_da_ban','sanphamtonkho_so_luong_ton','sanphamtonkho_gia_ban','sanpham_id','size_id'
+    	'sanphamtonkho_so_luong_da_ban','sanphamtonkho_so_luong_ton','sanpham_id','size_id'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_sanphamtonkho';

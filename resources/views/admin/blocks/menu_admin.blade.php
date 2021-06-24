@@ -76,7 +76,7 @@
                             <a href="{{URL::to('/order-add')}}">Unfinished Order</a>
                         </li>
                         <li>
-                            <a href="index_delivery_order.php">Delivery Order</a>
+                            <a href="{{URL::to('/update-order-id-delivery')}}">Delivery Order</a>
                         </li>
                         <li>
                             <a href="{{URL::to('/transport-fee')}}">Transport fee</a>
@@ -121,7 +121,7 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="index_customer.php">Customer</a>
+                            <a href="{{URL::to('/customer')}}">Customer</a>
                         </li>
 
                     </ul>

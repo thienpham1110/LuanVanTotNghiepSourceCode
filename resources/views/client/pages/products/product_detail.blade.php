@@ -44,6 +44,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="p_tab3" role="tabpanel">
+                            <div class="modal_img">
+                                <a href="#"><img src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" alt=""></a>
+                                <div class="img_icone">
+                                   <img src="assets\img\cart\span-new.png" alt="">
+                               </div>
+                                <div class="view_img">
+                                    <a class="large_view" href="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}"><i class="fa fa-search-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="product_tab_button">
                         <ul class="nav" role="tablist">
@@ -56,6 +68,7 @@
                             <li>
                                <a data-toggle="tab" href="#p_tab3" role="tab" aria-controls="p_tab3" aria-selected="false"><img src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" alt=""></a>
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -79,44 +92,78 @@
                     </div>
 
                     <div class="content_price mb-15">
-                        <span>$500</span>
-                        <span class="old-price">$500</span>
+                        @if(isset($product_discount))
+                            @if($product_discount->sanpham_id==$product->id)
+                                <span>
+                                    @if($product_discount->Discount->khuyenmai_loai==1)
+                                    {{number_format( $product->sanpham_gia_ban -(($product->sanpham_gia_ban * $product_discount->Discount->khuyenmai_gia_tri)/100) ).' VND' }}
+                                    @else
+                                    {{number_format( $product->sanpham_gia_ban - $product_discount->khuyenmai_gia_tri ).' VND' }}
+                                    @endif
+                                </span>
+                                <span class="old-price">{{number_format($product->sanpham_gia_ban).' VNĐ' }}</span>
+                            @endif
+                        @else
+                        <span>
+                            {{number_format($product->sanpham_gia_ban).' VNĐ' }}
+                        </span>
+                        @endif
                     </div>
                     <form action="{{ URL::to('/add-cart') }}" method="POST">
                         {{ csrf_field() }}
-                    <div class="box_quantity mb-20">
-                            <h5>quantity</h5>
-                            <input name="product_quantity" min="1" max="100" value="1" type="number">
-                            <input name="product_id" value="{{ $product->id }}" type="hidden">
-                            <button type="submit"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                            <a href="#" title="add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="product_d_size mb-20">
-                        <label for="group_1">size</label>
-                        <select name="product_size" id="group_1">
-                            <option value="1">S</option>
-                            <option value="2">M</option>
-                            <option value="3">L</option>
-                        </select>
-                    </div>
-                </form>
-                    <div class="sidebar_widget color">
-                        <h2>Color</h2>
-                         <div class="widget_color">
-                            <ul>
-                                <li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                                <li> <a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                            </ul>
+                        <div class="box_quantity mb-20">
+                                <h5>quantity</h5>
+                                <input name="product_quantity" class="product_quantity_{{ $product->id }}" min="1"
+                                @php
+                                    $qty_in_stock=0;
+                                @endphp
+                                @foreach ($get_in_stock as $key=>$in_stock )
+                                @php
+                                    $qty_in_stock += $in_stock->sanphamtonkho_so_luong_ton;
+                                @endphp
+                                @endforeach
+                                max="{{ $qty_in_stock }}"
+                                 value="1" type="number">
+                                <input name="product_id" value="{{ $product->id }}" class="product_id_{{ $product->id }}" type="hidden">
+                                <input name="product_img" value="{{ $product->sanpham_anh }}" class="product_img_{{ $product->id }}" type="hidden">
+                                <input name="product_name" value="{{ $product->sanpham_ten }}" class="product_name_{{ $product->id }}" type="hidden">
+                                <input name="product_price" class="product_price_{{ $product->id }}"
+                                @if(isset($product_discount))
+                                    @if($product_discount->sanpham_id==$product->id)
+                                        @if($product_discount->Discount->khuyenmai_loai==1)
+                                            value="{{number_format( $product->sanpham_gia_ban -(($product->sanpham_gia_ban * $product_discount->Discount->khuyenmai_gia_tri)/100) ,0,',','') }}"
+                                        @else
+                                            value="{{number_format( $product->sanpham_gia_ban - $product_discount->khuyenmai_gia_tri ,0,',','') }}"
+                                        @endif
+                                    @endif
+                                @else
+                                    value="{{number_format($product->sanpham_gia_ban ,0,',','') }}"
+                                @endif
+                                 type="hidden">
+                                <button type="button" data-id_product="{{ $product->id}}" class="add-to-cart"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <a href="#" title="add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         </div>
-                    </div>
+                        <div class="product_d_size mb-20">
+                            <label for="group_1">size</label>
+                            <select name="product_size_id" class="product_size_id_{{ $product->id }}" id="group_1">
+                                @foreach ($all_size as $key=>$size )
+                                <option value="{{ $size->size_id }}">{{$size->Size->size}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </form>
 
                     <div class="product_stock mb-20">
-                       <p>299 items</p>
-                        <span> {{ $product->sanpham_trang_thai?'In Stock':'Sold Out' }}</span>
+                       <p>{{$qty_in_stock }} items</p>
+                        <span>
+                            @if($qty_in_stock>0)
+                            In Stock
+                            @else
+                            Sold Out
+                            @endif
+                        </span>
                     </div>
-                    <div class="wishlist-share">
+                    {{--  <div class="wishlist-share">
                         <h4>Share on:</h4>
                         <ul>
                             <li><a href="#"><i class="fa fa-rss"></i></a></li>
@@ -125,12 +172,10 @@
                             <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
                             <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
                         </ul>
-                    </div>
-
+                    </div>  --}}
                 </div>
             </div>
         </div>
-
 </div>
 <!--product details end-->
 

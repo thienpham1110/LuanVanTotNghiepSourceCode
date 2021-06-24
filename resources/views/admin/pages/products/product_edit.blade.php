@@ -39,6 +39,8 @@
                                                     <input type="text" value="{{$product->sanpham_ma_san_pham }}" name="product_code" required="" class="form-control" placeholder="Example: SP01">
                                                     <label class="col-form-label">Name</label>
                                                     <input type="text" value="{{$product->sanpham_ten }}" name="product_name" required="" class="form-control" placeholder="Example: AF1,..">
+                                                    <label class="col-form-label">Price</label>
+                                                    <input type="number" min="1" name="product_price" value="{{$product->sanpham_gia_ban }}" class="form-control" required="" placeholder="100.000 VNĐ">
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label">Gender</label>

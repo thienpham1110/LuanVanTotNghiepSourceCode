@@ -293,6 +293,63 @@ class OrderController extends Controller
         return Redirect::to('/order');
 	}
 
+    public function OrderEditSave(Request $request, $order_id){
+        $this->AuthLogin();
+        $data=$request->all();
+        $order=Order::find($order_id);
+        $order_delivery=Delivery::where('giaohang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->first();
+        $order_detail=OrderDetail::where('chitietdondathang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->get();
+        foreach($order_detail as $key =>$value){
+            $order_detail_update=OrderDetail::find($value->id);
+            $order_detail_update->dondathang_id=$order_id;
+            $order_detail_update->save();
+        }
+        $order_delivery_update=Delivery::find($order_delivery->id);
+        $order_delivery_update->dondathang_id=$order_id;
+        if($data['order_status']==0){
+            $order->dondathang_tinh_trang_giao_hang=0;
+            $order->dondathang_tinh_trang_thanh_toan=0;
+            $order->dondathang_trang_thai=0;
+            $order_delivery_update->giaohang_trang_thai=0;
+        }elseif($data['order_status']==1){
+            $order->dondathang_tinh_trang_giao_hang=0;
+            $order->dondathang_tinh_trang_thanh_toan=1;
+            $order->dondathang_trang_thai=1;
+            $order_delivery_update->giaohang_trang_thai=0;
+        }elseif($data['order_status']==2){
+            $order->dondathang_tinh_trang_giao_hang=1;
+            $order->dondathang_tinh_trang_thanh_toan=1;
+            $order->dondathang_trang_thai=2;
+            $order_delivery_update->giaohang_trang_thai=1;
+        }
+        $order_delivery_update->save();
+        $order->save();
+        return Redirect::to('/order-show-detail/'.$order_id);
+    }
+
+    public function OrderCanceled($order_id){
+        $this->AuthLogin();
+        $order=Order::find($order_id);
+        $order_delivery=Delivery::where('giaohang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->first();
+        $order_delivery_update=Delivery::find($order_delivery->id);
+        $order_delivery_update->giaohang_trang_thai=2;
+        $order->dondathang_tinh_trang_giao_hang=2;
+        $order->dondathang_tinh_trang_thanh_toan=2;
+        $order->dondathang_trang_thai=3;
+        $order_detail=OrderDetail::where('chitietdondathang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->get();
+        foreach($order_detail as $key => $value){
+            $product_in_stock=ProductInStock::where('sanpham_id',$value->sanpham_id)
+            ->where('size_id',$value->size_id)->first();
+            $product_in_stock_update=ProductInStock::find($product_in_stock->id);
+            $product_in_stock_update->sanphamtonkho_so_luong_ton = $product_in_stock_update->sanphamtonkho_so_luong_ton + $value->chitietdondathang_so_luong;
+            $product_in_stock_update->sanphamtonkho_so_luong_da_ban = $product_in_stock_update->sanphamtonkho_so_luong_da_ban - $value->chitietdondathang_so_luong;
+            $product_in_stock_update->save();
+        }
+        $order->save();
+        $order_delivery_update->save();
+        return Redirect::to('/order');
+    }
+
     public function OrderShowDetail($order_id){
         $this->AuthLogin();
         $order=Order::find($order_id);
@@ -301,6 +358,25 @@ class OrderController extends Controller
         $order_customer=Customer::find($order->khachang_id);
         $order_transport=TransportFee::find($order->phivanchuyen_id);
         $order_coupon=Coupon::find($order->makhuyenmai_id);
+        if($order->dondathang_tinh_trang_thanh_toan==2 && $order->dondathang_tinh_trang_giao_hang==2){
+            $order->dondathang_trang_thai=3;
+        }
+        elseif($order->dondathang_tinh_trang_thanh_toan==0 && $order->dondathang_tinh_trang_giao_hang==0){
+            $order->dondathang_trang_thai=0;
+        }elseif($order->dondathang_tinh_trang_thanh_toan==1 && $order->dondathang_tinh_trang_giao_hang==0){
+            $order->dondathang_trang_thai=1;
+        }else{
+            $order->dondathang_trang_thai=2;
+        }
+        foreach($order_detail as $key =>$value){
+            $order_detail_update=OrderDetail::find($value->id);
+            $order_detail_update->dondathang_id=$order_id;
+            $order_detail_update->save();
+        }
+        $order_delivery_update=Delivery::find($order_delivery->id);
+        $order_delivery_update->dondathang_id=$order_id;
+        $order->save();
+        $order_delivery_update->save();
         return view('admin.pages.order.order_show_detail')
         ->with('order',$order)
         ->with('order_detail',$order_detail)
@@ -310,4 +386,64 @@ class OrderController extends Controller
         ->with('order_coupon',$order_coupon);
     }
 
+    public function OrderPrintPdf($order_id){
+        $this->AuthLogin();
+        $order=Order::find($order_id);
+        if($order->dondathang_tinh_trang_thanh_toan==0 && $order->dondathang_tinh_trang_giao_hang==0){
+            $order->dondathang_trang_thai=0;
+        }elseif($order->dondathang_tinh_trang_thanh_toan==1 && $order->dondathang_tinh_trang_giao_hang==0){
+            $order->dondathang_trang_thai=1;
+        }else{
+            $order->dondathang_trang_thai=2;
+        }
+        $order->save();
+        $order_detail=OrderDetail::where('chitietdondathang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->get();
+        $order_delivery=Delivery::where('giaohang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->first();
+        $order_customer=Customer::find($order->khachang_id);
+        $order_transport=TransportFee::find($order->phivanchuyen_id);
+        $order_coupon=Coupon::find($order->makhuyenmai_id);
+        foreach($order_detail as $key =>$value){
+           $pro_id[]=$value->sanpham_id;
+        }
+        $product=Product::whereIn('id',$pro_id)->get();
+        return view('admin.pages.order.order_print_pdf')
+        ->with('order',$order)
+        ->with('product',$product)
+        ->with('order_detail',$order_detail)
+        ->with('order_delivery',$order_delivery)
+        ->with('order_customer',$order_customer)
+        ->with('order_transport',$order_transport)
+        ->with('order_coupon',$order_coupon);
+    }
+    public function UpdateOrderIdDelivery(){
+        $this->AuthLogin();
+        $all_delivery=Delivery::orderby('id','DESC')->get();
+        $all_order=Order::all();
+        foreach($all_order as $key =>$order){
+            foreach($all_delivery as $key =>$delivery){
+                if($order->dondathang_ma_don_dat_hang==$delivery->giaohang_ma_don_dat_hang){
+                    $delivery_update=Delivery::find($delivery->id);
+                    $delivery_update->dondathang_id=$order->id;
+                    $delivery_update->save();
+                }
+            }
+        }
+        return Redirect::to('/delivery');
+    }
+    public function GetDelivery(){
+        $this->AuthLogin();
+        $all_delivery=Delivery::orderby('id','DESC')->get();
+        $all_order=Order::all();
+        foreach($all_order as $key =>$order){
+            foreach($all_delivery as $key =>$delivery){
+                if($order->dondathang_ma_don_dat_hang==$delivery->giaohang_ma_don_dat_hang){
+                    $delivery_update=Delivery::find($delivery->id);
+                    $delivery_update->dondathang_id=$order->id;
+                    $delivery_update->save();
+                }
+            }
+        }
+        return view('admin.pages.order.delivery')
+        ->with('all_delivery',$all_delivery);
+    }
 }

@@ -9,7 +9,8 @@
                                 <li class="active"><a href="{{URL::to ('/')}}">Home</a>
 
                                 </li>
-                                <li><a href="{{URL::to ('/shop-now')}}">shop now</a>
+                                <li>
+                                    <a href="{{URL::to ('/shop-now')}}">shop now</a>
                                 </li>
                                 <li><a href="#">women</a>
                                     <div class="mega_menu">
@@ -117,6 +118,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                </li>
+
+                                <li>
+                                    <a href="{{URL::to ('/promotion')}}">Promotion</a>
                                 </li>
                                 <li><a href="blog.html">Blog</a>
                                     <div class="mega_menu jewelry">

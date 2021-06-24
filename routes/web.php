@@ -21,12 +21,14 @@ Route::get('/shop-now', 'HomeController@MenuShowProductNow');
 Route::get('/product-category/{product_type_id}', 'HomeController@MenuShowProductType');
 Route::get('/product-brand/{product_brand_id}', 'HomeController@MenuShowProducBrand');
 Route::get('/product-collection/{product_collection_id}', 'HomeController@MenuShowProductCollection');
+Route::get('/product-detail/{product_id}', 'HomeController@ProductDetail');
+Route::get('/promotion', 'HomeController@MenuShowProductDiscount');
 
-//product detai
-Route::get('/product-detail/{product_id}', 'ProductController@ProductDetail');
 
 //Add cart
-Route::post('/add-cart/{product_id}', 'CartController@AddToCart');
+Route::post('/add-cart', 'CartController@AddToCart');
+Route::get('/cart', 'CartController@ShowCart');
+Route::get('/delete-cart', 'CartController@DeleteCartRow');
 
 // ==========Admin==========
 Route::get('/admin', 'AdminHomeController@Index');
@@ -201,10 +203,18 @@ Route::get('/order-admin-delete-row', 'OrderController@OrderAdminDeleteRow');
 Route::post('/order-admin-add-save', 'OrderController@OrderAdminAddSave');
 Route::post('/order-add-save', 'OrderController@OrderAddSave');
 Route::get('/order-show-detail/{order_id}', 'OrderController@OrderShowDetail');
-
+Route::get('/order-print-pdf/{order_id}', 'OrderController@OrderPrintPdf');
+Route::post('/order-edit-save/{order_id}', 'OrderController@OrderEditSave');
+Route::get('/order-canceled/{order_id}', 'OrderController@OrderCanceled');
 // Route::post('/check-coupon', 'OrderController@CheckCoupon');
 // Route::post('/check-transport-fee', 'OrderController@CheckTransportFee');
 
+//Delivery Order
+Route::get('/delivery', 'OrderController@GetDelivery');
+Route::get('/update-order-id-delivery', 'OrderController@UpdateOrderIdDelivery');
+
+//Customer
+Route::get('/customer', 'CustomerController@Index');
 
 //Demo
 Route::get('search', 'ProductImportController@getSearch');

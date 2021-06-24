@@ -20,7 +20,6 @@
                         <ul>
                             <li><a href="#">Your Account</a></li>
                             <li><a href="#">My orders</a></li>
-                            <li><a href="#">My credit slips</a></li>
                             <li><a href="#">My addresses</a></li>
                             <li><a href="#">Login</a></li>
                         </ul>
@@ -30,11 +29,9 @@
                     <div class="footer_widget">
                         <h3>Informations</h3>
                         <ul>
-                            <li><a href="#">Specials</a></li>
-                            <li><a href="#">Our store(s)!</a></li>
-                            <li><a href="#">My credit slips</a></li>
-                            <li><a href="#">Terms and conditions</a></li>
                             <li><a href="#">About us</a></li>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Promotion</a></li>
                         </ul>
                     </div>
                 </div>

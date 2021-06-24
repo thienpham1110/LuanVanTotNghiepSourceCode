@@ -54,7 +54,6 @@
                                 <tr>
                                     <th class="font-weight-medium">Images</th>
                                     <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Size</th>
                                     <th class="font-weight-medium">Number Discount</th>
                                     <th class="font-weight-medium">Price</th>
                                     <th class="font-weight-medium">Price Discount</th>
@@ -66,8 +65,8 @@
 
                                 <tbody class="font-14">
                                     @foreach ($all_product_discount as $key=>$product_discount)
-                                        @foreach ($product_import_in_stock as $k =>$value)
-                                            @if($value->sanpham_id==$product_discount->sanpham_id)
+                                        @foreach ($all_product as $k =>$value)
+                                            @if($value->id==$product_discount->sanpham_id)
                                                 <tr>
                                                     <td>
                                                         <a href="javascript: void(0);">
@@ -78,9 +77,6 @@
                                                         {{ $product_discount->Product->sanpham_ten}}
                                                     </td>
                                                     <td>
-                                                        {{ $value->Size->size}}
-                                                    </td>
-                                                    <td>
                                                         @if($product_discount->Discount->khuyenmai_loai==1)
                                                         {{number_format($product_discount->Discount->khuyenmai_gia_tri ).' %' }}
                                                         @else
@@ -89,15 +85,14 @@
                                                     </td>
 
                                                     <td>
-                                                        {{number_format( $value->sanphamtonkho_gia_ban ).' VND' }}
+                                                        {{number_format( $value->sanpham_gia_ban ).' VND' }}
                                                     </td>
                                                     <td>
                                                         @if($product_discount->Discount->khuyenmai_loai==1)
-                                                        {{number_format( $value->sanphamtonkho_gia_ban -(($value->sanphamtonkho_gia_ban * $product_discount->Discount->khuyenmai_gia_tri)/100) ).' VND' }}
+                                                        {{number_format( $value->sanpham_gia_ban -(($value->sanpham_gia_ban * $product_discount->Discount->khuyenmai_gia_tri)/100) ).' VND' }}
                                                         @else
-                                                        {{number_format( $value->sanphamtonkho_gia_ban - $product_discount->Discount->khuyenmai_gia_tri ).' VND' }}
+                                                        {{number_format( $value->sanpham_gia_ban - $product_discount->khuyenmai_gia_tri ).' VND' }}
                                                         @endif
-
                                                     </td>
                                                     <td>
                                                         {{ $product_discount->Discount->khuyenmai_tieu_de }}
@@ -106,7 +101,17 @@
                                                         {{$product_discount->Discount->khuyenmai_trang_thai?' On Promotion':' Promotion Ends'}}
                                                     </td>
                                                     <td>
-                                                        @if($value->sanphamtonkho_so_luong_ton>0)
+                                                        @php
+                                                            $quantity=0;
+                                                        @endphp
+                                                        @foreach ($product_import_in_stock as $in=>$in_stock)
+                                                            @if($in_stock->sanpham_id == $value->id)
+                                                                @php
+                                                                    $quantity+=$in_stock->sanphamtonkho_so_luong_ton;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                        @if($quantity>0)
                                                             In Stock
                                                         @else
                                                             Out of stock

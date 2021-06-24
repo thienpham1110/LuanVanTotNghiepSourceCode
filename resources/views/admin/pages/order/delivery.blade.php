@@ -52,57 +52,47 @@
                                 <thead class="bg-light">
                                 <tr>
                                     <th class="font-weight-medium">Orders Code</th>
-                                    <th class="font-weight-medium">Total</th>
-                                    <th class="font-weight-medium">Note</th>
-                                    <th class="font-weight-medium">Status Delivery</th>
-                                    <th class="font-weight-medium">Status Pay</th>
+                                    <th class="font-weight-medium">Customer</th>
+                                    <th class="font-weight-medium">Email</th>
+                                    <th class="font-weight-medium">Phone Number</th>
+                                    <th class="font-weight-medium">Address</th>
+                                    <th class="font-weight-medium">Pay Method</th>
                                     <th class="font-weight-medium">Status</th>
                                     <th class="font-weight-medium">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
-                                    @foreach ($all_order as $key=>$order)
+                                    @foreach ($all_delivery as $key=>$delivery)
                                     <tr>
                                         <td>
-                                            {{ $order->dondathang_ma_don_dat_hang }}
+                                            {{ $delivery->giaohang_ma_don_dat_hang }}
                                         </td>
                                         <td>
-                                            {{ $order->dondathang_tong_tien }}
+                                            {{ $delivery->giaohang_nguoi_nhan }}
                                         </td>
                                         <td>
-                                            {{ $order->dondathang_ghi_chu }}
+                                            {{ $delivery->giaohang_nguoi_nhan_email }}
                                         </td>
                                         <td>
-                                            {{ $order->dondathang_tinh_trang_giao_hang?'Delivered':'Not Delivered' }}
+                                            {{ $delivery->giaohang_nguoi_nhan_so_dien_thoai }}
                                         </td>
                                         <td>
-                                            {{ $order->dondathang_tinh_trang_thanh_toan?'Paid':'Unpaid' }}
+                                            {{ $delivery->giaohang_nguoi_nhan_dia_chi}}
                                         </td>
-
                                         <td>
-                                            @if($order->dondathang_trang_thai == 0)
-                                            Unprocess
-                                            @elseif($order->dondathang_trang_thai == 1)
-                                            Payment Not Yet Delivered
-                                            @elseif($order->dondathang_trang_thai == 2)
-                                            Processed
-                                            @elseif($order->dondathang_trang_thai == 3)
-                                            Order Has Been Canceled
-                                            @endif
+                                            {{ $delivery->giaohang_phuong_thuc_thanh_toan?'Bank Transfer':'COD'}}
                                         </td>
-
+                                        <td>
+                                            {{ $delivery->giaohang_trang_thai?'Delivered':'Not Delivered'}}
+                                        </td>
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$order->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
-                                                    @if($order->dondathang_trang_thai!=3)
-                                                    <a class="dropdown-item" href="{{URL::to('/order-canceled/'.$order->id)}}"onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Cancel Order</a>
-                                                    @endif
+                                                    <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$delivery->dondathang_id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
                                     @endforeach
                                 </tbody>

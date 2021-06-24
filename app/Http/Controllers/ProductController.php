@@ -7,7 +7,12 @@ use DB;
 use Session;
 use App\Models\Product;
 use App\Models\ProductType;
+use App\Models\ProductInStock;
+use App\Models\ProductImportDetail;
+use App\Models\ProductImage;
+use App\Models\ProductDiscount;
 use App\Models\Brand;
+use App\Models\Size;
 use App\Models\Collection;
 use App\Models\HeaderShow;
 use Illuminate\Support\Facades\Redirect;
@@ -17,7 +22,7 @@ class ProductController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_product=Product::orderby('id','desc')->get();
+        $all_product=Product::orderby('id','desc')->paginate(5)->fragment('all_product');
         return view('admin.pages.products.product')
         ->with('all_product',$all_product);
     }
@@ -47,6 +52,7 @@ class ProductController extends Controller
         $product= new Product();
         $product->sanpham_ma_san_pham = $data['product_code'];
         $product->sanpham_ten = $data['product_name'];
+        $product->sanpham_gia_ban = $data['product_price'];
         $product->sanpham_mo_ta = $data['product_description'];
         $product->sanpham_nguoi_su_dung = $data['product_gender'];
         $product->sanpham_mau_sac = $data['product_color'];
@@ -117,6 +123,7 @@ class ProductController extends Controller
         $product= Product::find($product_id);
         $product->sanpham_ma_san_pham = $data['product_code'];
         $product->sanpham_ten = $data['product_name'];
+        $product->sanpham_gia_ban = $data['product_price'];
         $product->sanpham_mo_ta = $data['product_description'];
         $product->sanpham_nguoi_su_dung = $data['product_gender'];
         $product->sanpham_mau_sac = $data['product_color'];
@@ -148,33 +155,4 @@ class ProductController extends Controller
         Session::put('message','Update Success');
         return Redirect::to('/product');
     }
-
-    public function ProductDetail($product_id){
-        $get_product=Product::find($product_id);
-        $all_product=Product::where('sanpham_trang_thai','1')->get();
-        $all_product_type=ProductType::orderby('id','desc')->get();
-        $all_brand=Brand::orderby('id','desc')->get();
-        $all_collection=Collection::orderby('id','desc')->get();
-        $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
-        ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
-        }
-        $product_type_id= $get_product->loaisanpham_id;
-        $related_product=Product::where('loaisanpham_id',$product_type_id)
-        ->where('sanpham_trang_thai','1')
-        ->whereNotIn('tbl_sanpham.id',[$product_id])
-        ->get();
-    	return view('client.pages.products.product_detail')
-        ->with('product',$get_product)
-        ->with('all_product',$all_product)
-        ->with('product_type',$all_product_type)
-        ->with('product_brand',$all_brand)
-        ->with('product_collection',$all_collection)
-        ->with('related_product',$related_product)
-        ->with('header_show',$all_header)
-        ->with('header_min',$thu_tu_header);
-    }
-
 }

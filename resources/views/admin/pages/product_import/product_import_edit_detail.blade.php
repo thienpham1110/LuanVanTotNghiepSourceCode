@@ -72,7 +72,7 @@
                                             <label class="col-sm-2 col-form-label" ></label>
                                             <div class="col-sm-10">
                                                 <label class="col-form-label">Price Retail</label>
-                                                <input type="text" name="product_import_detail_price_retail" value="{{ $product_in_stock->sanphamtonkho_gia_ban }}" required="" class="form-control">
+                                                <input type="text" name="product_import_detail_price_retail" value="{{ $product_in_stock->Product->sanpham_gia_ban }}" required="" class="form-control">
                                             </div>
                                             <label class="col-sm-2 col-form-label" ></label>
                                             <div class="col-sm-10">

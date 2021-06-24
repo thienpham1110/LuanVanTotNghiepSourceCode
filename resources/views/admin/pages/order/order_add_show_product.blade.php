@@ -68,7 +68,7 @@
                                                 <tr>
                                                     <input type="hidden" value="{{ $product->id }}" class="product_id_{{ $product->id }}">
                                                     <input type="hidden" value="{{ $product->sanpham_ten }}" class="product_name_{{ $product->id }}">
-                                                    <input type="hidden" value="{{number_format( $in_stock->sanphamtonkho_gia_ban ,0,',','') }}" class="product_price_{{ $product->id }}">
+                                                    <input type="hidden" value="{{number_format( $product->sanpham_gia_ban ,0,',','') }}" class="product_price_{{ $product->id }}">
                                                     <input type="hidden" value="{{ $in_stock->size_id }}" class="product_size_id_{{ $product->id }}">
                                                     <input type="hidden" value="{{ $in_stock->Size->size }}" class="product_size_name_{{ $product->id }}">
                                                     <input type="hidden" value="{{ $in_stock->sanphamtonkho_so_luong_ton }}" class="product_in_stock_{{ $product->id }}">
@@ -82,7 +82,7 @@
                                                         </a>
                                                     </td>
                                                     <td>{{$product->sanpham_ten }}</td>
-                                                    <td>{{number_format( $in_stock->sanphamtonkho_gia_ban,0,',','.' )." VND" }}</td>
+                                                    <td>{{number_format( $product->sanpham_gia_ban,0,',','.' )." VND" }}</td>
                                                     <td>{{$in_stock->Size->size }}</td>
                                                 </tr>
                                                 @endif

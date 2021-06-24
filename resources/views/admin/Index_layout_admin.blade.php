@@ -34,7 +34,8 @@
     <link href="{{URL::asset('public/backend/libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css">
     <link href="{{URL::asset('public/backend/libs/switchery/switchery.min.css')}}"  rel="stylesheet" type="text/css">
     <link href="{{URL::asset('public/backend/css/sweetalert.css')}}" rel="stylesheet">
-
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -95,16 +96,16 @@
     <script src="{{URL::asset('public/backend/libs/datatables/jquery-3.5.1.js')}}"></script>
     <script src="{{URL::asset('public/backend/libs/datatables/my-datatable.js')}}"></script>
 
-
+    <script src="{{URL::asset('public/backend/js/jquery.scrollUp.min.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="{{URL::asset('public/backend/js/jquery3.js')}}"></script>
-    <script src="{{URL::asset('public/backend/js/jquery.scrollUp.min.js')}}"></script>
     <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
     {{--  <script src="{{URL::asset('public/libs/switchery/switchery.min.js')}}" ></script>  --}}
 
 </body>
 
 </html>
+
 <script type="text/javascript">
     document.getElementById("files").onchange = function () {
         var reader = new FileReader();
@@ -113,6 +114,9 @@
         };
         reader.readAsDataURL(this.files[0]);
     };
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -167,8 +171,8 @@
                         title: "Đã thêm sản phẩm vào giỏ hàng",
                         showCancelButton: true,
                         cancelButtonText: "Xem tiếp",
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
+                        confirmButtonClass: "btn btn-info",
+                        cancelButtonClass: "btn btn-success",
                         confirmButtonText: "Tạo đơn hàng",
                         closeOnConfirm: false
                     },

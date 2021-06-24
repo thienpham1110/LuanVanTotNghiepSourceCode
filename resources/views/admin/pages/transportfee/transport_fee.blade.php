@@ -24,6 +24,7 @@
             <div class="row">
                 <div class="col-12 load-transport-fee">
 
+                    {{--  {!!$fee->links()!!}  --}}
                 </div><!-- end col -->
                     <div class="col-12">
                         <div class="card-box">
@@ -44,7 +45,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" for="example-email">City</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Status</label>
+                                                    <label class="col-form-label">City</label>
                                                     <select name="city" id="city" class="choose city form-control">
                                                         <option>Choose City</option>
                                                         @foreach ($city as $key=>$cty)
@@ -57,7 +58,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" for="example-email">Province</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Status</label>
+                                                    <label class="col-form-label">Province</label>
                                                     <select name="province" id="province" class="choose province form-control">
                                                         <option>Province</option>
                                                     </select>
@@ -67,7 +68,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" for="example-email">Wards</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Status</label>
+                                                    <label class="col-form-label">Wards</label>
                                                     <select name="wards" id="wards" class="wards form-control">
                                                         <option >Wards</option>
                                                     </select>

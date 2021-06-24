@@ -69,8 +69,7 @@
                      </form>
                  </div>
                  <div class="shopping_cart">
-                     <a href="#"><i class="fa fa-shopping-cart"></i> 2Items - $209.44 <i class="fa fa-angle-down"></i></a>
-
+                     <a href="{{ URL::to('/cart')}}"><i class="fa fa-shopping-cart"></i> 2Items - $209.44 <i class="fa fa-angle-down"></i></a>
                      <!--mini cart-->
                      <div class="mini_cart">
                          <div class="cart_item">

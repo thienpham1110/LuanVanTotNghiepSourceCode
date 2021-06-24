@@ -98,9 +98,23 @@
                                                             <td>{{ $order->dondathang_ma_don_dat_hang}}</td>
                                                             <td >{{ $order->dondathang_ngay_dat_hang }} </td>
                                                             <td>
-                                                                {{$order->dondathang_tinh_trang_giao_hang?'Delivered':'Not Delivered' }}
+                                                                @if($order->dondathang_tinh_trang_giao_hang==0)
+                                                                Not Delivered
+                                                                @elseif ($order->dondathang_tinh_trang_giao_hang==1)
+                                                                    Delivered
+                                                                @elseif ($order->dondathang_tinh_trang_giao_hang==2)
+                                                                    Order Has Been Canceled
+                                                                @endif
                                                             </td>
-                                                            <td>{{ $order->dondathang_tinh_trang_thanh_toan?'Paid':'Unpaid' }}</td>
+                                                            <td>
+                                                                @if($order->dondathang_tinh_trang_thanh_toan==0)
+                                                                    Unpaid
+                                                                @elseif ($order->dondathang_tinh_trang_thanh_toan==1)
+                                                                    Paid
+                                                                @elseif ($order->dondathang_tinh_trang_thanh_toan==2)
+                                                                    Order Has Been Canceled
+                                                                @endif
+                                                            </td>
                                                             <td>
                                                                 @if($order_coupon)
                                                                     @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
@@ -170,7 +184,7 @@
                                                                 <td>Total</td>
                                                             </tr>
                                                             </thead>
-                                                            <tbody id="show-list-product">
+                                                            <tbody>
                                                                 @php
                                                                     $sub_total=0;
                                                                 @endphp
@@ -194,7 +208,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form  method="POST" class="form-horizontal">
+                                    <form method="POST" action="{{URL::to('/order-edit-save/'.$order->id)}}" class="form-horizontal">
                                         {{ csrf_field() }}
                                     <div class="form-group row">
                                         <div class="col-sm-12">
@@ -204,11 +218,22 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12">
                                                         <label class="col-form-label">Order Status</label>
-                                                        <select name="product_import_status" required="" class="form-control product_import_status">
-                                                            <option value="0">Unprocess</option>
-                                                            <option value="1">Payment Not Yet Delivered</option>
-                                                            <option value="2">Delivered</option>
-                                                            <option value="3">Processed</option>
+                                                        <select name="order_status" required="" class="form-control order_status">
+                                                            @if($order->dondathang_tinh_trang_thanh_toan==0)
+                                                                <option selected=true value="0">Unprocess</option>
+                                                                <option value="1">Payment Not Yet Delivered</option>
+                                                                <option value="2">Processed</option>
+                                                            @elseif($order->dondathang_tinh_trang_thanh_toan==1 && $order->dondathang_tinh_trang_giao_hang==0)
+                                                                <option value="0">Unprocess</option>
+                                                                <option selected=true value="1">Payment Not Yet Delivered</option>
+                                                                <option value="2">Processed</option>
+                                                            @elseif($order->dondathang_tinh_trang_giao_hang==1)
+                                                                <option value="0">Unprocess</option>
+                                                                <option value="1">Payment Not Yet Delivered</option>
+                                                                <option selected=true value="2">Processed</option>
+                                                            @elseif($order->dondathang_trang_thai==3)
+                                                                <option>Order Has Been Canceled</option>
+                                                            @endif
                                                         </select>
                                                     </div>
                                                 </div>
@@ -228,9 +253,7 @@
                                     <hr>
                                     <div class="form-group row">
                                         <div class="col-sm-12">
-                                            <div class="text-lg-right mt-3 mt-lg-0">
-                                                {{--  <a href="{{URL::to('/product-import-add-detail/'.$product_import->id)}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New Detail</a>  --}}
-                                            </div>
+
                                             <div class="text-lg-left mt-3 mt-lg-0">
                                                 <div class="float-left">
                                                     <p>
@@ -268,6 +291,11 @@
                                                     <h3 class="total">{{number_format($order->dondathang_tong_tien ).' VNĐ' }} </h3>
                                                 </div>
                                             </div>
+                                            @if($order->dondathang_trang_thai==2)
+                                                <div class="text-lg-right mt-3 mt-lg-0">
+                                                    <a href="{{URL::to('/order-print-pdf/'.$order->id)}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i>Print Invoice</a>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div
                                 </div>

@@ -9,7 +9,7 @@ class Product extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'sanpham_ma_san_pham', 'sanpham_ten', 'sanpham_mo_ta','sanpham_anh','sanpham_nguoi_su_dung','sanpham_mau_sac',
+    	'sanpham_ma_san_pham', 'sanpham_ten','sanpham_gia_ban', 'sanpham_mo_ta','sanpham_anh','sanpham_nguoi_su_dung','sanpham_mau_sac',
         'sanpham_tinh_nang','sanpham_noi_san_xuat','sanpham_phu_kien','sanpham_chat_lieu','sanpham_bao_hanh',
         'sanpham_trang_thai','loaisanpham_id','thuonghieu_id','dongsanpham_id'
     ];
