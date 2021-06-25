@@ -2,291 +2,292 @@
 @section('content')
 <!--breadcrumbs area start-->
 <div class="breadcrumbs_area">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="breadcrumb_content">
-                                        <ul>
-                                            <li><a href="index.html">home</a></li>
-                                            <li><i class="fa fa-angle-right"></i></li>
-                                            <li>checkout</li>
-                                        </ul>
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb_content">
+                <ul>
+                    <li><a href="index.html">home</a></li>
+                    <li><i class="fa fa-angle-right"></i></li>
+                    <li>checkout</li>
+                </ul>
 
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!--Checkout page section-->
+<div class="Checkout_section">
+    <div class="row">
+           <div class="col-12">
+                <div class="user-actions mb-20">
+                    <h3>
+                        <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">Click here to login</a>
+                    </h3>
+                     <div id="checkout_login" class="collapse" data-parent="#accordion">
+                        <div class="checkout_info">
+                            <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer please proceed to the Billing & Shipping section.</p>
+                            <form action="#">
+                                <div class="form_group mb-20">
+                                    <label>Username or email <span>*</span></label>
+                                    <input type="text">
+                                </div>
+                                <div class="form_group mb-25">
+                                    <label>Password  <span>*</span></label>
+                                    <input type="text">
+                                </div>
+                                <div class="form_group group_3 ">
+                                    <input value="Login" type="submit">
+                                    <label for="remember_box">
+                                        <input id="remember_box" type="checkbox">
+                                        <span> Remember me </span>
+                                    </label>
+                                </div>
+                                <a href="#">Lost your password?</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-actions mb-20">
+                    <h3>
+                        <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_coupon" aria-expanded="true">Click here to enter your code</a>
+                    </h3>
+                     <div id="checkout_coupon" class="collapse" data-parent="#accordion">
+                        <div class="checkout_info">
+                            @if(Session::get('cart'))
+                                <form action="{{ URL::to('/check-coupon')}}" method="POST">
+                                    @csrf
+                                    <div class="coupon_inner">
+                                        <input placeholder="Coupon code" name="cart_coupon" type="text">
+                                        <input type="submit" class="check-coupon" name="check_coupon" value="Apply coupon">
                                     </div>
+                                </form>
+                            @else
+                                <h4 style="text-align: center">There Are No Products In The Cart</h4>
+                            @endif
+                            {{-- <form action="#">
+                                <input placeholder="Coupon code" type="text">
+                                 <input value="Apply coupon" type="submit">
+                            </form> --}}
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </div>
+    <div class="checkout_form">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <h3>Billing Details</h3>
+                    <div class="row">
+                        <form >
+                            @csrf
+                            <div class="col-12 mb-30">
+                                <label for="country">City <span>*</span></label>
+                                <select name="city" id="city" required="" class="choose city form-control ">
+                                    <option>Choose City</option>
+                                    @foreach ($city as $key=>$cty)
+                                        <option value="{{$cty->id}}">{{ $cty->tinhthanhpho_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 mb-30">
+                                <label for="country">Province <span>*</span></label>
+                                <select name="province" required="" id="province" class="choose province form-control">
+                                    <option>Province</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-30">
+                                <label for="country">Wards <span>*</span></label>
+                                <select name="wards" required="" id="wards" class="wards form-control">
+                                    <option >Wards</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-30">
+                                <div class="order_button">
+                                    <button type="button" class="check-transport-fee-home">Change Transport Fee</button>
                                 </div>
                             </div>
-                        </div>
-                        <!--breadcrumbs area end-->
+                        </form>
+                    </div>
+                    <form action="{{ URL::to('/order-checkout-save')}}" method="POST">
+                        @csrf
+                            <div class="col-lg-12 mb-30">
+                                <label>Name <span>*</span></label>
+                                <input name="order_checkout_name" required="" type="text">
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <label> Email   <span>*</span></label>
+                                  <input name="order_checkout_email" required="" type="text">
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <label>Phone<span>*</span></label>
+                                <input name="order_checkout_phone_number" required="" type="number">
+                            </div>
 
+                            <div class="col-12 mb-30">
+                                <label>address  <span>*</span></label>
+                                <input name="order_checkout_address" required="" type="text">
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <div class="order-notes">
+                                    <label for="order_note">Order Notes</label>
+                                   <textarea id="order_note" name="order_checkout_note" required="" placeholder="Notes about your order"></textarea>
+                               </div>
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <div class="payment_method">
+                                    <div class="panel-default">
+                                         <input id="payment" value="0" checked name="order_checkout_pay_method" type="radio">
+                                         <label for="payment" data-toggle="collapse" data-target="#method" aria-controls="method">COD</label>
+                                     </div>
+                                    <div class="panel-default">
+                                         <input id="payment_defult" value="1" name="order_checkout_pay_method" type="radio" >
+                                         <label for="payment_defult" data-toggle="collapse" data-target="#collapsedefult" aria-controls="collapsedefult">Bank Transfer</label>
+                                         <div id="collapsedefult" class="collapse one" data-parent="#accordion">
+                                             <div class="card-body1">
+                                                <p>Please transfer money to this account : 0123456789</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                            </div>
+                            <div class="col-12 mb-30">
 
-                        <!--Checkout page section-->
-                        <div class="Checkout_section">
-                            <div class="row">
-                                   <div class="col-12">
-                                        <div class="user-actions mb-20">
-                                            <h3>
-                                                <i class="fa fa-file-o" aria-hidden="true"></i>
-                                                Returning customer?
-                                                <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">Click here to login</a>
-
-                                            </h3>
-                                             <div id="checkout_login" class="collapse" data-parent="#accordion">
-                                                <div class="checkout_info">
-                                                    <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer please proceed to the Billing & Shipping section.</p>
-                                                    <form action="#">
-                                                        <div class="form_group mb-20">
-                                                            <label>Username or email <span>*</span></label>
-                                                            <input type="text">
-                                                        </div>
-                                                        <div class="form_group mb-25">
-                                                            <label>Password  <span>*</span></label>
-                                                            <input type="text">
-                                                        </div>
-                                                        <div class="form_group group_3 ">
-                                                            <input value="Login" type="submit">
-                                                            <label for="remember_box">
-                                                                <input id="remember_box" type="checkbox">
-                                                                <span> Remember me </span>
-                                                            </label>
-                                                        </div>
-                                                        <a href="#">Lost your password?</a>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="user-actions mb-20">
-                                            <h3>
-                                                <i class="fa fa-file-o" aria-hidden="true"></i>
-                                                Returning customer?
-                                                <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_coupon" aria-expanded="true">Click here to enter your code</a>
-
-                                            </h3>
-                                             <div id="checkout_coupon" class="collapse" data-parent="#accordion">
-                                                <div class="checkout_info">
-                                                    <form action="#">
-                                                        <input placeholder="Coupon code" type="text">
-                                                         <input value="Apply coupon" type="submit">
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                   </div>
-                                </div>
-                            <div class="checkout_form">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <form action="#">
-                                                <h3>Billing Details</h3>
-                                                <div class="row">
-
-                                                    <div class="col-lg-6 mb-30">
-                                                        <label>First Name <span>*</span></label>
-                                                        <input type="text">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-30">
-                                                        <label>Last Name  <span>*</span></label>
-                                                        <input type="text">
-                                                    </div>
-                                                    <div class="col-12 mb-30">
-                                                        <label>Company Name</label>
-                                                        <input type="text">
-                                                    </div>
-                                                    <div class="col-12 mb-30">
-                                                        <label for="country">country <span>*</span></label>
-                                                        <select name="cuntry" id="country">
-                                                            <option value="2">bangladesh</option>
-                                                            <option value="3">Algeria</option>
-                                                            <option value="4">Afghanistan</option>
-                                                            <option value="5">Ghana</option>
-                                                            <option value="6">Albania</option>
-                                                            <option value="7">Bahrain</option>
-                                                            <option value="8">Colombia</option>
-                                                            <option value="9">Dominican Republic</option>
-
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-12 mb-30">
-                                                        <label>Street address  <span>*</span></label>
-                                                        <input placeholder="House number and street name" type="text">
-                                                    </div>
-                                                    <div class="col-12 mb-30">
-                                                        <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
-                                                    </div>
-                                                    <div class="col-12 mb-30">
-                                                        <label>Town / City <span>*</span></label>
-                                                        <input type="text">
-                                                    </div>
-                                                     <div class="col-12 mb-30">
-                                                        <label>State / County <span>*</span></label>
-                                                        <input type="text">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-30">
-                                                        <label>Phone<span>*</span></label>
-                                                        <input type="text">
-
-                                                    </div>
-                                                     <div class="col-lg-6 mb-30">
-                                                        <label> Email Address   <span>*</span></label>
-                                                          <input type="text">
-
-                                                    </div>
-                                                    <div class="col-12 mb-30">
-                                                        <input id="account" type="checkbox" data-target="createp_account">
-                                                        <label for="account" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">Create an account?</label>
-
-                                                        <div id="collapseOne" class="collapse one" data-parent="#accordion">
-                                                            <div class="card-body1">
-                                                               <label> Account password   <span>*</span></label>
-                                                                <input placeholder="password" type="password">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 mb-30">
-                                                        <input id="address" type="checkbox" data-target="createp_account">
-                                                        <label class="righ_0" for="address" data-toggle="collapse" data-target="#collapsetwo" aria-controls="collapseOne">Ship to a different address?</label>
-
-                                                        <div id="collapsetwo" class="collapse one" data-parent="#accordion">
-                                                           <div class="row">
-                                                                <div class="col-lg-6 mb-30">
-                                                                    <label>First Name <span>*</span></label>
-                                                                    <input type="text">
-                                                                </div>
-                                                                <div class="col-lg-6 mb-30">
-                                                                    <label>Last Name  <span>*</span></label>
-                                                                    <input type="text">
-                                                                </div>
-                                                                <div class="col-12 mb-30">
-                                                                    <label>Company Name</label>
-                                                                    <input type="text">
-                                                                </div>
-                                                                <div class="col-12 mb-30">
-                                                                    <div class="select_form_select">
-                                                                        <label for="countru_name">country <span>*</span></label>
-                                                                        <select name="cuntry" id="countru_name">
-                                                                            <option value="2">bangladesh</option>
-                                                                            <option value="3">Algeria</option>
-                                                                            <option value="4">Afghanistan</option>
-                                                                            <option value="5">Ghana</option>
-                                                                            <option value="6">Albania</option>
-                                                                            <option value="7">Bahrain</option>
-                                                                            <option value="8">Colombia</option>
-                                                                            <option value="9">Dominican Republic</option>
-
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-12 mb-30">
-                                                                    <label>Street address  <span>*</span></label>
-                                                                    <input placeholder="House number and street name" type="text">
-                                                                </div>
-                                                                <div class="col-12 mb-30">
-                                                                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
-                                                                </div>
-                                                                <div class="col-12 mb-30">
-                                                                    <label>Town / City <span>*</span></label>
-                                                                    <input type="text">
-                                                                </div>
-                                                                 <div class="col-12 mb-30">
-                                                                    <label>State / County <span>*</span></label>
-                                                                    <input type="text">
-                                                                </div>
-                                                                <div class="col-lg-6 mb-30">
-                                                                    <label>Phone<span>*</span></label>
-                                                                    <input type="text">
-
-                                                                </div>
-                                                                 <div class="col-lg-6">
-                                                                    <label> Email Address   <span>*</span></label>
-                                                                      <input type="text">
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="order-notes">
-                                                             <label for="order_note">Order Notes</label>
-                                                            <textarea id="order_note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <form action="#">
-                                                <h3>Your order</h3>
-                                                <div class="order_table table-responsive mb-30">
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Product</th>
-                                                                <th>Total</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td> Handbag  fringilla <strong> × 2</strong></td>
-                                                                <td> $165.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>  Handbag  justo	 <strong> × 2</strong></td>
-                                                                <td> $50.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>  Handbag elit	<strong> × 2</strong></td>
-                                                                <td> $50.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> Handbag Rutrum	 <strong> × 1</strong></td>
-                                                                <td> $50.00</td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Cart Subtotal</th>
-                                                                <td>$215.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Shipping</th>
-                                                                <td><strong>$5.00</strong></td>
-                                                            </tr>
-                                                            <tr class="order_total">
-                                                                <th>Order Total</th>
-                                                                <td><strong>$220.00</strong></td>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                                <div class="payment_method">
-                                                   <div class="panel-default">
-                                                        <input id="payment" name="check_method" type="radio" data-target="createp_account">
-                                                        <label for="payment" data-toggle="collapse" data-target="#method" aria-controls="method">Create an account?</label>
-
-                                                        <div id="method" class="collapse one" data-parent="#accordion">
-                                                            <div class="card-body1">
-                                                               <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                   <div class="panel-default">
-                                                        <input id="payment_defult" name="check_method" type="radio" data-target="createp_account">
-                                                        <label for="payment_defult" data-toggle="collapse" data-target="#collapsedefult" aria-controls="collapsedefult">PayPal <img src="assets\img\visha\papyel.png" alt=""></label>
-
-                                                        <div id="collapsedefult" class="collapse one" data-parent="#accordion">
-                                                            <div class="card-body1">
-                                                               <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="order_button">
-                                                        <button type="submit">Proceed to PayPal</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                <label for="account" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">
+                                    <input id="account" name="order_checkout_create_account" value="1" type="checkbox" data-target="createp_account">
+                                    Create an account?
+                                </label>
+                                <div id="collapseOne" class="collapse one" data-parent="#accordion">
+                                    <div class="card-body1">
+                                       <label> User Name<span>*</span></label>
+                                        <input placeholder="user name" name="checkout_order_user_name" type="text">
                                     </div>
+                                    <br>
+                                    <div class="card-body1">
+                                        <label> Account password<span>*</span></label>
+                                         <input placeholder="password" name="checkout_order_password" type="password">
+                                     </div>
                                 </div>
-                        </div>
-                        <!--Checkout page section end-->
+                            </div>
+                            <div class="col-12 mb-30">
+                                <div class="order_button">
+                                    <button type="submit">Order Confirm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <form action="#">
+                            <h3>Your order</h3>
+                            <div class="order_table table-responsive mb-30">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(Session::get('cart')==true)
+                                            @php
+                                            $subtotal=0;
+                                            @endphp
+                                            @foreach (Session::get('cart') as $key =>$product)
+                                                @php
+                                                    $subtotal+=$product['product_price']*$product['product_quantity'];
+                                                @endphp
+                                                <tr>
+                                                    <td> {{ $product['product_name'] }} <strong> × {{ $product['product_quantity'] }}</strong></td>
+                                                    <td>{{number_format( $product['product_price'] * $product['product_quantity'] ,0,',','.').' VNĐ' }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Cart Subtotal</th>
+                                            <td>
+                                                @if(Session::get('cart')==true)
+                                                    {{number_format($subtotal,0,',','.').' VNĐ' }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping</th>
+                                            <td>
+                                                <strong>
+                                                    @if(Session::get('feeship'))
+                                                        @foreach (Session::get('feeship') as $k=>$fee)
+                                                            @php
+                                                                $fee_ship=$fee['fee'];
+                                                            @endphp
+                                                            {{number_format($fee_ship,0,',','.').' VNĐ' }}
+                                                        @endforeach
+                                                    @else
+                                                    {{number_format(35000,0,',','.').' VNĐ' }}
+                                                    @endif
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Coupon</th>
+                                            <td>
+                                                <strong>
+                                                    @if(Session::get('coupon'))
+                                                        @foreach (Session::get('coupon') as $key=>$cou)
+                                                            @if($cou['coupon_type']==0)
+                                                                @php
+                                                                    $total_coupon =(($subtotal*$cou['coupon_number'])/100);
+                                                                @endphp
+
+                                                            @else
+                                                                @php
+                                                                    $total_coupon =$cou['coupon_number'];
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                       - {{number_format($total_coupon,0,',','.').' VNĐ' }}
+                                                    @else
+                                                       - {{number_format(0,0,',','.').' VNĐ' }}
+                                                    @endif
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr class="order_total">
+                                            <th>Order Total</th>
+                                            <td><strong>
+                                            @if(Session::get('cart'))
+                                                @if(Session::get('coupon'))
+                                                   @if(Session::get('feeship'))
+                                                        {{number_format($subtotal+$fee_ship-$total_coupon,0,',','.').' VNĐ' }}
+                                                   @else
+                                                    {{number_format($subtotal-$total_coupon,0,',','.').' VNĐ' }}
+                                                   @endif
+                                                @else
+                                                    @if(Session::get('feeship'))
+                                                            {{number_format($subtotal+$fee_ship,0,',','.').' VNĐ' }}
+                                                    @else
+                                                        {{number_format($subtotal,0,',','.').' VNĐ' }}
+                                                    @endif
+                                                @endif
+                                            @else
+                                            {{number_format(0,0,',','.').' VNĐ' }}
+                                            @endif
+                                            </strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="payment_method">
+                                 <div class="order_button">
+                                     <a type="button" class="btn btn-warning" href="{{ URL::to('/cart')}}">Back To Cart</a>
+                                     <a type="button" class="btn btn-success" href="{{ URL::to('/shop-now')}}" >Keep Shopping</a>
+                                 </div>
+                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!--Checkout page section end-->
 @endsection

@@ -8,7 +8,6 @@ use File;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
-use App\Models\ProductImportDetail;
 use App\Models\ProductInStock;
 use App\Models\Size;
 use App\Models\City;
@@ -16,7 +15,6 @@ use App\Models\Province;
 use App\Models\TransportFee;
 use App\Models\Wards;
 use App\Models\Coupon;
-use App\Models\Admin;
 use App\Models\Delivery;
 use App\Models\Customer;
 use Session;
@@ -212,7 +210,84 @@ class OrderController extends Controller
                 $order_code = substr(str_shuffle(str_repeat("RGWUB", 5)), 0, 2).substr(str_shuffle(str_repeat("0123456789", 5)), 0, 6);
                 date_default_timezone_set('Asia/Ho_Chi_Minh');
                 $order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
-                ;
+                $order_admin=new Order();
+                $order_admin->dondathang_ma_don_dat_hang=$order_code;
+                $order_admin->dondathang_ngay_dat_hang=$order_date;
+                if ($data['order_note']) {
+                    $order_admin->dondathang_ghi_chu=$data['order_note'];
+                } else {
+                    $order_admin->dondathang_ghi_chu='';
+                }
+                $order_admin->dondathang_tinh_trang_giao_hang=0;//chưa giao, đang giao
+                $order_admin->dondathang_tinh_trang_thanh_toan=$data['order_payment'];//1 đã thanh toán CK,0 chưa thanh toán COD
+                $order_admin->dondathang_trang_thai=1;
+                $order_delivery=new Delivery();
+                $ci=City::find($data['city']);
+                $prov=Province::find($data['province']);
+                $wards=Wards::find($data['wards']);
+                if ($ci && $prov && $wards) {
+                    $address=$data['order_address'].','.$wards->xaphuongthitran_name.','.$prov->quanhuyen_name.','.$ci->tinhthanhpho_name;
+                    $order_delivery->giaohang_nguoi_nhan_dia_chi=$address;
+                } else {
+                    $order_delivery->giaohang_nguoi_nhan_dia_chi=$data['order_address'];
+                }
+                $order_delivery->giaohang_nguoi_nhan=$data['order_customer'];
+                $order_delivery->giaohang_nguoi_nhan_email=$data['order_email'];
+                $order_delivery->giaohang_nguoi_nhan_so_dien_thoai=$data['order_phone_number'];
+                if ($data['order_payment']==1) {//đã thanh toán
+                    $order_delivery->giaohang_phuong_thuc_thanh_toan=1;// phương thức thanh toán 1 CK
+                } else {//chưa thanh toán
+                    $order_delivery->giaohang_phuong_thuc_thanh_toan=0;// phương thức thanh toán 0 COD
+                }
+                $order_delivery->giaohang_trang_thai=0;//chưa giao, đang giao
+                $order_delivery->giaohang_ma_don_dat_hang=$order_code;
+                $total=0;
+                foreach ($order_admin_detail as $key=>$value) {
+                    $order_detail=new OrderDetail();
+                    foreach($data['product_quantity'] as $k =>$qty){
+                        $product_in_stock=ProductInStock::where('sanpham_id', $value['product_id'])
+                        ->where('size_id', $value['product_size_id'])->first();
+                        $product_in_stock_update=ProductInStock::find($product_in_stock->id);
+                        $product_in_stock_update->sanphamtonkho_so_luong_ton = $product_in_stock_update->sanphamtonkho_so_luong_ton - $qty;
+                        $product_in_stock_update->sanphamtonkho_so_luong_da_ban=$qty;
+                        $order_detail->chitietdondathang_so_luong=$qty;
+                        $total+=($value['product_price']*$qty);
+                        break;
+                    }
+                    $order_detail->sanpham_id=$value['product_id'];
+                    $order_detail->size_id=$value['product_size_id'];
+                    $order_detail->chitietdondathang_size=$value['product_size_name'];
+                    $order_detail->chitietdondathang_ma_don_dat_hang=$order_code;
+                    $order_detail->chitietdondathang_don_gia=$value['product_price'];
+                    $order_detail->save();
+                    $product_in_stock_update->save();
+                    // print_r($product_in_stock_update->sanphamtonkho_so_luong_ton);
+                }
+                if (!$data['product_order_discount'] && !$transport_fee) {
+                    $order_admin->dondathang_tong_tien=$total + 35000;
+                    $order_admin->dondathang_giam_gia=0;
+                    $order_admin->dondathang_phi_van_chuyen=35000;
+                } elseif ($data['product_order_discount'] && !$transport_fee) {
+                    $order_admin->dondathang_tong_tien=$total - $data['product_order_discount'] +35000;
+                    $order_admin->dondathang_giam_gia=$data['product_order_discount'];
+                    $order_admin->dondathang_phi_van_chuyen=35000;
+                } elseif (!$data['product_order_discount'] && $transport_fee) {
+                    $order_admin->dondathang_tong_tien=$total + $transport_fee->phivanchuyen_phi_van_chuyen;
+                    $order_admin->dondathang_giam_gia=0;
+                    $order_admin->dondathang_phi_van_chuyen=$transport_fee->phivanchuyen_phi_van_chuyen;
+                    $order_admin->phivanchuyen_id=$transport_fee->id;
+                } else {
+                    $order_admin->dondathang_tong_tien=$total + $transport_fee->phivanchuyen_phi_van_chuyen -$data['product_order_discount'];
+                    $order_admin->dondathang_giam_gia=$data['product_order_discount'];
+                    $order_admin->dondathang_phi_van_chuyen=$transport_fee->phivanchuyen_phi_van_chuyen;
+                    $order_admin->phivanchuyen_id=$transport_fee->id;
+                }
+                $order_admin->save();
+                $order_delivery->save();
+            }else{
+                $order_code = substr(str_shuffle(str_repeat("RGWUB", 5)), 0, 2).substr(str_shuffle(str_repeat("0123456789", 5)), 0, 6);
+                date_default_timezone_set('Asia/Ho_Chi_Minh');
+                $order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
                 $order_admin=new Order();
                 $order_admin->dondathang_ma_don_dat_hang=$order_code;
                 $order_admin->dondathang_ngay_dat_hang=$order_date;

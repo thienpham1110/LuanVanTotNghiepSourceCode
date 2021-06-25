@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use File;
-use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\Product;
-use App\Models\ProductImportDetail;
 use App\Models\ProductInStock;
 use App\Models\Size;
 use App\Models\City;
@@ -16,23 +12,14 @@ use App\Models\Province;
 use App\Models\TransportFee;
 use App\Models\Wards;
 use App\Models\Coupon;
-use App\Models\Admin;
-use App\Models\Delivery;
-use App\Models\Customer;
 use App\Models\Brand;
 use App\Models\Collection;
 use App\Models\ProductType;
-use App\Models\ProductImage;
-use App\Models\ProductDiscount;
-use App\Models\Discount;
 use App\Models\HeaderShow;
-use App\Models\SlideShow;
 use Session;
-use Carbon\Carbon;
-use Illuminate\Mail\Transport\Transport;
-
-session_start();
 use Illuminate\Support\Facades\Redirect;
+session_start();
+
 class CartController extends Controller
 {
     public function ShowCart(){
@@ -45,7 +32,9 @@ class CartController extends Controller
             $thu_tu_header=$value->headerquangcao_thu_tu;
             break;
         }
+        $city=City::orderby('id','ASC')->get();
         return view('client.pages.cart.cart')
+        ->with('city',$city)
         ->with('product_type',$all_product_type)
         ->with('product_brand',$all_brand)
         ->with('product_collection',$all_collection)
@@ -54,6 +43,7 @@ class CartController extends Controller
     }
 
     public function AddToCart(Request $request){
+        $this->DeleteCoupon();
         $data = $request->all();
 		$session_id = substr(md5(microtime()) . rand(0, 26), 5);
         $size=Size::find($data['product_size_id']);
@@ -100,6 +90,7 @@ class CartController extends Controller
     }
 
     public function DeleteCartRow(Request $request) {
+        $this->DeleteCoupon();
 		$data = $request->all();
 		$cart = Session::get('cart');
 		if ($cart == true) {
@@ -112,4 +103,72 @@ class CartController extends Controller
 			Session::save();
 		}
 	}
+
+    public function DeleteCoupon(){
+        $coupon =Session::get('coupon');
+        if($coupon){
+            Session::forget('coupon');
+        }
+    }
+
+    public function UpdateCart(Request $request){
+        $this->DeleteCoupon();
+        $data=$request->all();
+        $cart=Session::get('cart');
+        if($cart==true){
+            foreach($data['cart_quantity'] as $key =>$value){
+                foreach($cart as $k=>$val){
+                    if($val['session_id']==$key){
+                        $cart[$k]['product_quantity']=$value;
+                    }
+                }
+            }
+            Session::put('cart', $cart);
+			Session::save();
+            return redirect()->back()->with('message','Update Quantity Success');
+        }else{
+            return redirect()->back()->with('message','Update Fail');
+        }
+    }
+
+    public function CheckCoupon(Request $request){
+        $data=$request->all();
+        $coupon=Coupon::where('makhuyenmai_ma',$data['cart_coupon'])->first();
+        if($coupon){
+            $count_coupon=$coupon->count();
+            if($count_coupon>0){
+                $coupon_session=Session::get('coupon');
+                if($coupon_session==true){
+                    $is_ava=0;
+                    if($is_ava==0){
+                        $cou[]=array(
+                            'coupon_id' =>$coupon->id,
+                            'coupon_code' =>$coupon->makhuyenmai_ma,
+                            'coupon_quantity' =>$coupon->makhuyenmai_so_luong,
+                            'coupon_type' =>$coupon->makhuyenmai_loai_ma,
+                            'coupon_number' =>$coupon->makhuyenmai_gia_tri,
+                            'coupon_status' =>$coupon->makhuyenmai_trang_thai,
+                        );
+                        Session::put('coupon',$cou);
+                    }
+                }else{
+                    $cou[]=array(
+                        'coupon_id' =>$coupon->id,
+                        'coupon_code' =>$coupon->makhuyenmai_ma,
+                        'coupon_quantity' =>$coupon->makhuyenmai_so_luong,
+                        'coupon_type' =>$coupon->makhuyenmai_loai_ma,
+                        'coupon_number' =>$coupon->makhuyenmai_gia_tri,
+                        'coupon_status' =>$coupon->makhuyenmai_trang_thai,
+                    );
+                    Session::put('coupon',$cou);
+                }
+                Session::save();
+                return redirect()->back()->with('message','Add Coupon Success');
+            }
+        }else{
+            return redirect()->back()->with('message','Add Coupon Fail, Coupon Not Found ');
+        }
+    }
+
+
 }

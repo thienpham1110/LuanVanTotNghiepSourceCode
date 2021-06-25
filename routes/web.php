@@ -29,6 +29,13 @@ Route::get('/promotion', 'HomeController@MenuShowProductDiscount');
 Route::post('/add-cart', 'CartController@AddToCart');
 Route::get('/cart', 'CartController@ShowCart');
 Route::get('/delete-cart', 'CartController@DeleteCartRow');
+Route::post('/update-cart', 'CartController@UpdateCart');
+Route::post('/check-coupon', 'CartController@CheckCoupon');
+//Checkout
+Route::get('/checkout', 'CheckoutController@Index');
+Route::post('/select-transport-fee-home', 'CheckoutController@SelectTransportFeeHome');
+Route::post('/check-transport-feeship', 'CheckoutController@CheckTransportFee');
+Route::post('/order-checkout-save', 'CheckoutController@OrderCheckoutSave');
 
 // ==========Admin==========
 Route::get('/admin', 'AdminHomeController@Index');

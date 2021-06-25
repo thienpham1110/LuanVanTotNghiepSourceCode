@@ -242,8 +242,8 @@
     
 	
 	
-    /*niceSelect*/
-     $('select').niceSelect();
+    // /*niceSelect*/
+    //  $('select').niceSelect();
     
 
 

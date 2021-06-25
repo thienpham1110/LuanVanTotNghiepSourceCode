@@ -111,7 +111,7 @@
                     </div>
                     <form action="{{ URL::to('/add-cart') }}" method="POST">
                         {{ csrf_field() }}
-                        <div class="box_quantity mb-20">
+                        <div class="box_quantity mb-20 ">
                                 <h5>quantity</h5>
                                 <input name="product_quantity" class="product_quantity_{{ $product->id }}" min="1"
                                 @php
@@ -143,9 +143,9 @@
                                 <button type="button" data-id_product="{{ $product->id}}" class="add-to-cart"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                 <a href="#" title="add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         </div>
-                        <div class="product_d_size mb-20">
-                            <label for="group_1">size</label>
-                            <select name="product_size_id" class="product_size_id_{{ $product->id }}" id="group_1">
+                        <div class="product_d_size mb-20 col-md-3">
+                            <label for="group_1" class="col-6">size</label>
+                            <select name="product_size_id" class="product_size_id_{{ $product->id }} form-control" id="group_1">
                                 @foreach ($all_size as $key=>$size )
                                 <option value="{{ $size->size_id }}">{{$size->Size->size}}</option>
                                 @endforeach

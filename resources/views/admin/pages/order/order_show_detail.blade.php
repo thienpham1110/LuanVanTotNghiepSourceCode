@@ -259,7 +259,7 @@
                                                     <p>
                                                         <b>Total :</b>&nbsp;&nbsp;&nbsp;
                                                             @if($order_coupon)
-                                                                @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
+                                                                @if($order_coupon->makhuyenmai_loai_ma==1)
                                                                 {{number_format($order->dondathang_tong_tien - $order->dondathang_phi_van_chuyen + $order->Coupon->makhuyenmai_gia_tri ).' VNĐ' }}
                                                                 @else
                                                                     @php
@@ -278,7 +278,7 @@
                                                         <b>Discount:</b>
                                                         <span class="float-right">
                                                             @if($order_coupon)
-                                                                @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
+                                                                @if($order_coupon->makhuyenmai_loai_ma==1)
                                                                 {{number_format($order->Coupon->makhuyenmai_gia_tri).' VNĐ' }}
                                                                 @else
                                                                 {{number_format($order->Coupon->makhuyenmai_gia_tri).' %' }}

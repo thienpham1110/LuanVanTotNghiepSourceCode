@@ -58,6 +58,11 @@
             @include('client.blocks.footer')
             <!--footer area end-->
 		<!-- all js here -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="{{URL::asset('public/frontend/js/jquery3.js')}}"></script>
+        <script src="{{URL::asset('public/frontend/js/sweetalert.min.js')}}"></script>
+        <script src="{{URL::asset('public/frontend/js/jquery.js')}}"></script>
+    <script src="{{URL::asset('public/frontend/js/jquery2.js')}}"></script>
         <script src="{{asset('public/frontend/js/vendor/jquery-1.12.0.min.js')}}"></script>
         <script src="{{asset('public/frontend/js/popper.js')}}"></script>
         <script src="{{asset('public/frontend/js/bootstrap.min.js')}}"></script>
@@ -65,11 +70,7 @@
         <script src="{{asset('public/frontend/js/ajax-mail.js')}}"></script>
         <script src="{{asset('public/frontend/js/plugins.js')}}"></script>
         <script src="{{asset('public/frontend/js/main.js')}}"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="{{URL::asset('public/frontend/js/jquery3.js')}}"></script>
-        <script src="{{URL::asset('public/frontend/js/sweetalert.min.js')}}"></script>
-        <script src="{{URL::asset('public/frontend/js/jquery.js')}}"></script>
-    <script src="{{URL::asset('public/frontend/js/jquery2.js')}}"></script>
+
 
     </body>
 </html>
@@ -95,7 +96,7 @@
                         title: "Đã thêm sản phẩm vào giỏ hàng",
                         showCancelButton: true,
                         cancelButtonText: "Xem tiếp",
-                        confirmButtonClass: "btn btn-info",
+                        confirmButtonClass: "btn btn-danger",
                         cancelButtonClass: "btn btn-success",
                         confirmButtonText: "Đến giỏ hàng",
                         closeOnConfirm: false
@@ -127,4 +128,50 @@
         }
         delete_row_order_admin();
     });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.choose').on('change',function(){
+            var action = $(this).attr('id');
+            var ma_id = $(this).val();
+            var _token = $('input[name="_token"]').val();
+            var result = '';
+            if(action=='city'){
+                result = 'province';
+            }else{
+                result = 'wards';
+            }
+            $.ajax({
+                url : '{{url('/select-transport-fee-home')}}',
+                method: 'POST',
+                data:{action:action,ma_id:ma_id,_token:_token},
+                success:function(data){
+                   $('#'+ result).html(data);
+                   {{-- alert(data); --}}
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.check-transport-fee-home').on('click',function(){
+            var city = $('.city').val();
+            var province = $('.province').val();
+            var wards = $('.wards').val();
+            var _token = $('input[name="_token"]').val();
+            if(city==''&& province==''&&wards==''){
+                alert('error, choose to calculate');
+            }else{
+                $.ajax({
+                    url : '{{url('/check-transport-feeship')}}',
+                    method: 'POST',
+                    data:{city:city, province:province, wards:wards, _token:_token},
+                    success:function(data){
+                        window.location.href = "{{url('/checkout')}}";
+                    }
+                });
+            }
+        });
+   });
 </script>
