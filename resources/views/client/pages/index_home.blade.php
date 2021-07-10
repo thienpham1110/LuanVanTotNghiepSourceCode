@@ -6,7 +6,6 @@
        @include('client.blocks.slideshow')
          <!--banner slider end -->
     </div>
-
      <!--new product area start-->
     <div class="new_product_area product_two">
         <div class="row">
@@ -85,8 +84,7 @@
         </div>
     </div>
     <!--featured product area start-->
-
-    <!--blog area start-->
+    {{--  <!--blog area start-->
     <div class="blog_area blog_two">
         <div class="row">
             <div class="col-lg-12">
@@ -107,11 +105,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-    <!--blog area end-->
-
+    <!--blog area end-->  --}}
     <!--brand logo strat-->
     <div class="brand_logo brand_two">
         <div class="block_title">
@@ -122,7 +118,7 @@
                 @foreach ($product_brand as $key => $brand)
                 <div class="col-lg-2">
                     <div class="single_brand">
-                        <a href="#"><img src="{{asset('public/uploads/admin/brand/'.$brand->thuonghieu_anh) }}" alt=""></a>
+                        <a href="{{URL::to ('/product-brand/'.$brand->id)}}"><img src="{{asset('public/uploads/admin/brand/'.$brand->thuonghieu_anh) }}" alt=""></a>
                     </div>
                 </div>
                 @endforeach

@@ -13,4 +13,8 @@ class ProductImage extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_anhsanpham';
+
+    public function Product(){
+        return $this->belongsTo('App\Models\Product','sanpham_id');
+    }
 }

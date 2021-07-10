@@ -28,7 +28,7 @@
                             <!-- Logo & title -->
                             <div class="clearfix">
                                 <div class="float-left">
-                                    <img src="assets\images\logo-dark.png" alt="" height="20">
+                                    <img src="{{asset('public/backend/images/logo-dark.png')}}" alt="" height="20">
                                 </div>
                                 <div class="float-right">
                                     <h4 class="m-0 d-print-none">Invoice</h4>
@@ -125,7 +125,7 @@
                                                         <tr>
                                                             <td>
                                                                 <b>{{ $value->Product->sanpham_ten}}</b> <br>
-                                                                {{ $pro->sanpham_mo_ta}},&nbsp;Size: {{ $value->chitietdondathang_size}}
+                                                                {{ $pro->sanpham_mo_ta}} ,&nbsp;Size: {{ $value->Size->size}}
                                                             </td>
                                                             <td>{{number_format($value->chitietdondathang_don_gia ).' VNĐ' }}</td>
                                                             <td>{{ $value->chitietdondathang_so_luong}}</td>
@@ -154,7 +154,7 @@
                                 <div class="col-sm-6">
                                     <div class="float-right">
                                         <p>
-                                            <b>Total :</b>&nbsp;&nbsp;&nbsp;
+                                            <b>SubTotal :</b>&nbsp;&nbsp;&nbsp;
                                                 @if($order_coupon)
                                                     @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
                                                     {{number_format($order->dondathang_tong_tien - $order->dondathang_phi_van_chuyen + $order->Coupon->makhuyenmai_gia_tri ).' VNĐ' }}
@@ -185,7 +185,16 @@
                                                 @endif
                                             </span>
                                         </p>
-                                        <h3 class="total">{{number_format($order->dondathang_tong_tien ).' VNĐ' }} </h3>
+                                        <p>
+                                            <b>Total: </b>&nbsp;&nbsp;&nbsp;
+                                            <span class="float-right">
+                                                {{number_format($order->dondathang_tong_tien ).' VNĐ' }}
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <b>Money to be paid: </b>&nbsp;&nbsp;&nbsp;
+                                            <h3 class="total"> {{number_format($order_delivery->giaohang_tong_tien_thanh_toan ).' VNĐ' }}</h3>
+                                        </p>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div> <!-- end col -->

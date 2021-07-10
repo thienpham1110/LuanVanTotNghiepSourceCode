@@ -73,7 +73,15 @@
                                             {{ $order->dondathang_ghi_chu }}
                                         </td>
                                         <td>
-                                            {{ $order->dondathang_tinh_trang_giao_hang?'Delivered':'Not Delivered' }}
+                                            @if($order->dondathang_trang_thai==2)
+                                                In Transit
+                                            @elseif($order->dondathang_trang_thai==3)
+                                                Delivered
+                                            @elseif($order->dondathang_trang_thai==4)
+                                                Order Has Been Canceled
+                                            @else
+                                                Not Delivered
+                                            @endif
                                         </td>
                                         <td>
                                             {{ $order->dondathang_tinh_trang_thanh_toan?'Paid':'Unpaid' }}
@@ -81,12 +89,14 @@
 
                                         <td>
                                             @if($order->dondathang_trang_thai == 0)
-                                            Unprocess
+                                            Unconfirmed
                                             @elseif($order->dondathang_trang_thai == 1)
-                                            Payment Not Yet Delivered
+                                            Confirmed
                                             @elseif($order->dondathang_trang_thai == 2)
-                                            Processed
+                                            In Transit
                                             @elseif($order->dondathang_trang_thai == 3)
+                                            Delivered - Processed
+                                            @elseif($order->dondathang_trang_thai == 4)
                                             Order Has Been Canceled
                                             @endif
                                         </td>
@@ -96,7 +106,7 @@
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$order->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
-                                                    @if($order->dondathang_trang_thai!=3)
+                                                    @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=4)
                                                     <a class="dropdown-item" href="{{URL::to('/order-canceled/'.$order->id)}}"onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Cancel Order</a>
                                                     @endif
                                                 </div>

@@ -83,6 +83,15 @@
                                 @csrf
                                 <div class="coupon_inner">
                                     <p>Enter your coupon code if you have one.</p>
+                                    @if(session()->has('message'))
+                                        <div class="alert alert-success">
+                                            {!! session()->get('message') !!}
+                                        </div>
+                                    @elseif(session()->has('error'))
+                                        <div class="alert alert-danger">
+                                            {!! session()->get('error') !!}
+                                        </div>
+                                    @endif
                                     <input placeholder="Coupon code" name="cart_coupon" type="text">
                                     <button type="submit" class="check-coupon" name="check_coupon" >Apply coupon</button>
                                 </div>
@@ -192,7 +201,11 @@
                                 </p>
                             </div>
                             <div class="checkout_btn">
+                               @if(Session::get('customer_id')!=NULL)
                                 <a href="{{ URL::to('/checkout')}}">Proceed to Checkout</a>
+                               @else
+                               <a href="{{ URL::to('/login-customer')}}">Proceed to Checkout</a>
+                               @endif
                             </div>
                             @endif
                         </div>

@@ -10,7 +10,7 @@ class OrderDetail extends Model
     public $timestamps = false;
     protected $fillable = [
     	'sanpham_id','size_id', 'chitietdondathang_ma_don_dat_hang', 'chitietdondathang_don_gia',
-        'chitietdondathang_size','chitietdondathang_so_luong','dondathang_id'
+        'chitietdondathang_so_luong','dondathang_id'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_chitietdondathang';

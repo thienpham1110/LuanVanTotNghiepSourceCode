@@ -38,6 +38,9 @@
                         <li>
                             <a href="{{URL::to('/product-discount')}}">Discount</a>
                         </li>
+                        <li>
+                            <a href="{{URL::to('/comment')}}">Comment</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -115,6 +118,25 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
+                        <i class="remixicon-folder-add-line"></i>
+                        <span>Manage Statistical</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level nav" aria-expanded="false">
+                        <li>
+                            <a href="{{URL::to('/import-statistics')}}">Import Statistics</a>
+                        </li>
+                        <li>
+                            <a href="{{URL::to('/sales-statistics')}}">Sales Statistics</a>
+                        </li>
+                        <li>
+                            <a href="{{URL::to('/product-view-statistics')}}">Product View Statisticss</a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
                         <i class="remixicon-stack-line"></i>
                         <span>Manage Customer</span>
                         <span class="menu-arrow"></span>
@@ -123,9 +145,12 @@
                         <li>
                             <a href="{{URL::to('/customer')}}">Customer</a>
                         </li>
-
+                        <li>
+                            <a href="{{URL::to('/staff')}}">Staff</a>
+                        </li>
                     </ul>
                 </li>
+
             </ul>
         </div>
         <!-- End Sidebar -->

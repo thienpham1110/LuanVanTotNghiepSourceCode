@@ -20,30 +20,51 @@
 <div class="Checkout_section">
     <div class="row">
            <div class="col-12">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {!! session()->get('message') !!}
+                </div>
+            @elseif(session()->has('error'))
+                <div class="alert alert-danger">
+                    {!! session()->get('error') !!}
+                </div>
+            @endif
                 <div class="user-actions mb-20">
                     <h3>
-                        <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">Click here to login</a>
+                        <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">Click Here To Calculate Fee</a>
                     </h3>
                      <div id="checkout_login" class="collapse" data-parent="#accordion">
+
                         <div class="checkout_info">
-                            <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer please proceed to the Billing & Shipping section.</p>
-                            <form action="#">
-                                <div class="form_group mb-20">
-                                    <label>Username or email <span>*</span></label>
-                                    <input type="text">
+                            <p>Calculate Fee</p>
+                            <form action="{{ URL::to('/check-transport-feeship')}}" method="POST">
+                                @csrf
+                                <div class="col-12 mb-30">
+                                    <label for="country">City <span>*</span></label>
+                                    <select name="city" id="city" required="" class="choose city form-control ">
+                                        <option>Choose City</option>
+                                        @foreach ($city as $key=>$cty)
+                                            <option value="{{$cty->id}}">{{ $cty->tinhthanhpho_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="form_group mb-25">
-                                    <label>Password  <span>*</span></label>
-                                    <input type="text">
+                                <div class="col-12 mb-30">
+                                    <label for="country">Province <span>*</span></label>
+                                    <select name="province" required="" id="province" class="choose province form-control">
+                                        <option>Province</option>
+                                    </select>
                                 </div>
-                                <div class="form_group group_3 ">
-                                    <input value="Login" type="submit">
-                                    <label for="remember_box">
-                                        <input id="remember_box" type="checkbox">
-                                        <span> Remember me </span>
-                                    </label>
+                                <div class="col-12 mb-30">
+                                    <label for="country">Wards <span>*</span></label>
+                                    <select name="wards" required="" id="wards" class="wards form-control">
+                                        <option >Wards</option>
+                                    </select>
                                 </div>
-                                <a href="#">Lost your password?</a>
+                                <div class="col-12 mb-30">
+                                    <div class="order_button">
+                                        <button type="submit">Change Transport Fee</button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -78,37 +99,6 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <h3>Billing Details</h3>
-                    <div class="row">
-                        <form >
-                            @csrf
-                            <div class="col-12 mb-30">
-                                <label for="country">City <span>*</span></label>
-                                <select name="city" id="city" required="" class="choose city form-control ">
-                                    <option>Choose City</option>
-                                    @foreach ($city as $key=>$cty)
-                                        <option value="{{$cty->id}}">{{ $cty->tinhthanhpho_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-12 mb-30">
-                                <label for="country">Province <span>*</span></label>
-                                <select name="province" required="" id="province" class="choose province form-control">
-                                    <option>Province</option>
-                                </select>
-                            </div>
-                            <div class="col-12 mb-30">
-                                <label for="country">Wards <span>*</span></label>
-                                <select name="wards" required="" id="wards" class="wards form-control">
-                                    <option >Wards</option>
-                                </select>
-                            </div>
-                            <div class="col-12 mb-30">
-                                <div class="order_button">
-                                    <button type="button" class="check-transport-fee-home">Change Transport Fee</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                     <form action="{{ URL::to('/order-checkout-save')}}" method="POST">
                         @csrf
                             <div class="col-lg-12 mb-30">
@@ -126,7 +116,28 @@
 
                             <div class="col-12 mb-30">
                                 <label>address  <span>*</span></label>
-                                <input name="order_checkout_address" required="" type="text">
+                                <input name="order_checkout_address" required="" placeholder="Please enter the full form or you can choose below" type="text">
+                            </div>
+                            <div class="col-12 mb-30">
+                                <label for="country">City <span>*</span></label>
+                                <select name="order_city" id="order_city" required="" class="choose-address order_city form-control ">
+                                    <option>Choose City</option>
+                                    @foreach ($city as $key=>$cty)
+                                        <option value="{{$cty->id}}">{{ $cty->tinhthanhpho_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 mb-30">
+                                <label for="country">Province <span>*</span></label>
+                                <select name="order_province" required="" id="order_province" class="choose-address select-province form-control">
+                                    <option>Province</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-30">
+                                <label for="country">Wards <span>*</span></label>
+                                <select name="order_wards" required="" id="order_wards" class="select-wards form-control">
+                                    <option >Wards</option>
+                                </select>
                             </div>
                             <div class="col-lg-12 mb-30">
                                 <div class="order-notes">

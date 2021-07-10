@@ -375,7 +375,6 @@ class ProductImportController extends Controller {
         ->where('size_id', '=', $data['product_import_detail_size_id'])->first();
         $total=0;
         if (!$get_product_import_detail && !$product_in_stock) {//thêm sản phẩm mới detail k tồn kho
-            $size=Size::find($data['product_import_detail_size_id']);
             $product_update_price=Product::find($data['product_import_detail_product_id']);
             $product_update_price->sanpham_gia_ban=$data['product_import_detail_price_retail'];
             $import_product_detail = new ProductImportDetail();
@@ -387,7 +386,6 @@ class ProductImportController extends Controller {
             $import_product_in_stock->save();//save in stock
             $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
             $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
-            $import_product_detail->chitietnhap_size = $size->size;
             $import_product_detail->size_id = $data['product_import_detail_size_id'];
             $import_product_detail->sanpham_id = $data['product_import_detail_product_id'];
             $import_product_detail->chitietnhap_ma_don_nhap_hang = $data['product_import_no'];
@@ -399,11 +397,9 @@ class ProductImportController extends Controller {
             $product_update_price->save();
         }
         elseif(!$get_product_import_detail && $product_in_stock){ //thêm sản phẩm mới của detail có tồn kho
-            $size=Size::find($data['product_import_detail_size_id']);
             $import_product_detail = new ProductImportDetail();
             $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
             $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
-            $import_product_detail->chitietnhap_size = $size->size;
             $import_product_detail->size_id = $data['product_import_detail_size_id'];
             $import_product_detail->sanpham_id = $data['product_import_detail_product_id'];
             $import_product_detail->chitietnhap_ma_don_nhap_hang = $data['product_import_no'];
@@ -461,7 +457,6 @@ class ProductImportController extends Controller {
         ->where('size_id', '=', $data['product_import_detail_size_id'])->first();
         $get_product_in_stock_old= ProductInstock::where('sanpham_id','=', $data['product_import_detail_product_id'])
         ->where('size_id','=', $data['product_import_detail_size_id_old'])->first();
-        $size=Size::find($data['product_import_detail_size_id']);
         $import_product_detail = ProductImportDetail::find( $product_import_detail_id);
         $import_product=ProductImport::find($data['product_import_id']);
         $import_product_in_stock_old=ProductInstock::find($get_product_in_stock_old->id);
@@ -480,7 +475,6 @@ class ProductImportController extends Controller {
             $import_product_in_stock_old->save();//update in stock old old
             $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
             $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
-            $import_product_detail->chitietnhap_size = $size->size;
             $import_product_detail->size_id = $data['product_import_detail_size_id'];
             $import_product_detail->save();//update detail
             $import_product->donnhaphang_tong_tien = $import_product->donnhaphang_tong_tien +
@@ -497,7 +491,6 @@ class ProductImportController extends Controller {
             $import_product_in_stock_old->save();//update in stock old old
             $import_product_detail->chitietnhap_so_luong_nhap = $data['product_import_detail_quantity'];
             $import_product_detail->chitietnhap_gia_nhap = $data['product_import_detail_price'];
-            $import_product_detail->chitietnhap_size = $size->size;
             $import_product_detail->size_id = $data['product_import_detail_size_id'];
             $import_product_detail->save();//update detail
             $import_product->donnhaphang_tong_tien = $import_product->donnhaphang_tong_tien +

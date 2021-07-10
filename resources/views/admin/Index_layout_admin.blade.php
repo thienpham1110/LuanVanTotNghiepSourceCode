@@ -8,8 +8,9 @@
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
     <meta content="Coderthemes" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{URL::asset('public/backend/images\favicon.png')}}">
+    <link rel="shortcut icon" href="{{URL::asset('public/backend/images/favicon.png')}}">
     <!-- App css -->
     <link href="{{URL::asset('public/backend/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{URL::asset('public/backend/css/icons.min.css')}}"rel="stylesheet" type="text/css">
@@ -60,18 +61,18 @@
         <!-- ============================================================== -->
     </div>
       <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
-    <script src="{{URL::asset('public/backend/libs/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{URL::asset('public/backend/libs/datatables/dataTables.buttons.min.js')}}"></script>
-    <script src="{{URL::asset('public/backend/js/pages/datatables.init.js')}}"></script>
-    <script src="{{URL::asset('public/backend/libs/datatables/dataTables.bootstrap4.js')}}"></script>
-	<script src="{{URL::asset('public/backend/libs/datatables/buttons.html5.min.js')}}"></script>
+    {{--  <script src="{{URL::asset('public/backend/libs/datatables/jquery.dataTables.min.js')}}"></script>  --}}
+    {{--  <script src="{{URL::asset('public/backend/libs/datatables/dataTables.buttons.min.js')}}"></script>  --}}
+    {{--  <script src="{{URL::asset('public/backend/js/pages/datatables.init.js')}}"></script>  --}}
+    {{--  <script src="{{URL::asset('public/backend/libs/datatables/dataTables.bootstrap4.js')}}"></script>  --}}
+	{{--  <script src="{{URL::asset('public/backend/libs/datatables/buttons.html5.min.js')}}"></script>  --}}
     <script src="{{URL::asset('public/backend/js/vendor.min.js')}}"></script>
 	<script src="{{URL::asset('public/backend/js/app.min.js')}}"></script>
     <script src="{{URL::asset('public/backend/js/jquery.js')}}"></script>
-    <script src="{{URL::asset('public/backend/js/jquery2.js')}}"></script>
-    <script src="{{URL::asset('public/backend/js/pages/form-fileuploads.init.js')}}"></script>
-	<script src="{{URL::asset('public/backend/js/pages/form-advanced.init.js')}}"></script>
-	<script src="{{URL::asset('public/backend/js/pages/form-pickers.init.js')}}"></script>
+    {{--  <script src="{{URL::asset('public/backend/js/jquery2.js')}}"></script>  --}}
+    {{--  <script src="{{URL::asset('public/backend/js/pages/form-fileuploads.init.js')}}"></script>  --}}
+	{{--  <script src="{{URL::asset('public/backend/js/pages/form-advanced.init.js')}}"></script>  --}}
+	{{--  <script src="{{URL::asset('public/backend/js/pages/form-pickers.init.js')}}"></script>  --}}
 
 	<script src="{{URL::asset('public/backend/libs/jquery-quicksearch/jquery.quicksearch.min.js')}}"></script>
 
@@ -89,23 +90,96 @@
 	<script src="{{URL::asset('public/backend/libs/custombox/custombox.min.js')}}"></script>
 
 	<script src="{{URL::asset('public/backend/libs/footable/footable.all.min.js')}}"></script>
-	<script src="{{URL::asset('public/backend/js/pages/foo-tables.init.js')}}"></script>
+	{{--  <script src="{{URL::asset('public/backend/js/pages/foo-tables.init.js')}}"></script>  --}}
     <script src="{{URL::asset('public/backend/libs/sweetalert2/sweetalert2.min.js')}}"></script>
     <script src="{{URL::asset('public/backend/js/pages/sweet-alerts.init.js')}}"></script>
 
     <script src="{{URL::asset('public/backend/libs/datatables/jquery-3.5.1.js')}}"></script>
-    <script src="{{URL::asset('public/backend/libs/datatables/my-datatable.js')}}"></script>
+    {{--  <script src="{{URL::asset('public/backend/libs/datatables/my-datatable.js')}}"></script>  --}}
 
     <script src="{{URL::asset('public/backend/js/jquery.scrollUp.min.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="{{URL::asset('public/backend/js/jquery3.js')}}"></script>
     <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
     {{--  <script src="{{URL::asset('public/libs/switchery/switchery.min.js')}}" ></script>  --}}
-
+    {{--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  --}}
 </body>
 
 </html>
+<script>
+    $(function() {
+    // Multiple images preview with JavaScript
+        var multiImgPreview = function(input, imgPreviewPlaceholder) {
+            if (input.files) {
+                var filesAmount = input.files.length;
+                for (i = 0; i < filesAmount; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        $($.parseHTML('<img width="100px" height="100px">')).attr('src', event.target.result).appendTo(imgPreviewPlaceholder);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        };
+        $('#images').on('change', function() {
+            multiImgPreview(this, 'div.imgPreview');
+        });
+        $('.btnRemoveImage').click(function() {
+            alert("asf");
+        });
+    });
+</script>
+<script type="text/javascript">
 
+$("#ProductMoreImagesInput").change(function () {
+    var input = document.getElementById("ProductMoreImagesInput");
+    var files = input.files;
+
+    $("#NonImageProduct").hide();
+    for (var i = 0; i != files.length; i++) {
+        var x = (window.URL || window.webkitURL).createObjectURL(files[i]);
+        $("#ProductImages").append(' <div class="col-lg-3 col-3 col-sm-3 mb-3 delete-img"><img src="' + x + '" class="ProductMoreImage" width="100px" height="100px"/><button type="button" class="middle"><i class="fas fa-trash fa-2x" id="btnRemoveImage"></i></button></div>');
+        formData.append(x, files[i]);
+    }
+    $(".middle").click(function() {
+        e.preventDefault();
+        for (var key of formData.keys()) {
+            if ($(this).parent().children()[0].getAttribute("src") == key) {
+                formData.delete(key);
+                flag = true;
+                $(this).parent().remove();
+                if (!$("#ProductImages").children(".col-lg-3").length) {
+                    $("#NonImageProduct").show();
+                }
+                break;
+            }
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+    $('.comment_approval').click(function(){
+        var comment_status = $(this).data('comment_status');
+        var comment_id = $(this).data('comment_id');
+        var comment_product_id = $(this).attr('id');
+        var _token = $('input[name="_token"]').val();
+        if(comment_status==0){
+            var alert = 'UnApproval Success';
+        }else{
+            var alert = 'Approval Success';
+        }
+        $.ajax({
+            url:"{{url('/approval-comment')}}",
+            method:"POST",
+
+            data:{comment_status:comment_status,comment_id:comment_id,comment_product_id:comment_product_id,_token:_token},
+            success:function(data){
+                location.reload();
+               $('#notify_comment').html('<span class="text text-alert">'+alert+'</span>');
+            }
+        });
+    });
+</script>
 <script type="text/javascript">
     document.getElementById("files").onchange = function () {
         var reader = new FileReader();

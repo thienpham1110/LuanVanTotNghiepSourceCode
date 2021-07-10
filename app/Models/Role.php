@@ -13,4 +13,8 @@ class Role extends Model
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_loainguoidung';
+
+    public function UserAccount(){
+        return $this->hasMany('App\Models\UserAccount');
+    }
 }

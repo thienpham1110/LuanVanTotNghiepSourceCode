@@ -1935,6 +1935,23 @@ a {
     margin-bottom: 10px;
 }
 
+.product_ratting i {
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.ratting_review {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #f7bf17;
+}
+
+.ratting_no_review {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #e2e2e2;
+}
+
 .add_links ul li a:hover {
     background: #e84c3d;
 }
@@ -2387,7 +2404,6 @@ a {
 .product_d_table table tbody tr td:first-child {
     border-right: 1px solid #ddd;
     width: 30%;
-    font-weight: 700;
 }
 
 .product_d_table table {
@@ -2723,16 +2739,19 @@ a {
 }
 
 .table_desc table thead tr th.product_remove,
-.table_desc table thead tr th.product-price,
 .table_desc table thead tr th.product_total {
-    min-width: 159px;
+    min-width: 195px;
 }
 
 .table_desc table thead tr th.product_name {
     min-width: 300px;
 }
 
-.table_desc table thead tr th.product_thumb,
+.table_desc table thead tr th.product_thumb {
+    min-width: 200px;
+}
+
+.table_desc table thead tr th.product-price,
 .table_desc table thead tr th.product_quantity {
     min-width: 195px;
 }
@@ -3050,6 +3069,7 @@ a {
 
 .user-actions h3 a {
     color: #e84c3d;
+    font-size: 18px;
 }
 
 .checkout_info {
@@ -4261,7 +4281,25 @@ a {
     border-radius: 5px;
 }
 
+.blog_fullwidth_desc button {
+    background: #1abc9c;
+    border: 0;
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    margin: 0 0 27px;
+    display: inline-block;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    line-height: 20px;
+    border-radius: 5px;
+}
+
 .blog_fullwidth_desc a:hover {
+    background: #e84c3d;
+}
+
+.blog_fullwidth_desc button:hover {
     background: #e84c3d;
 }
 

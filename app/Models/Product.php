@@ -37,4 +37,10 @@ class Product extends Model
     public function OrderDetail(){
         return $this->hasMany('App\Models\OrderDetail');
     }
+    public function Comment(){
+        return $this->hasMany('App\Models\Comment');
+    }
+    public function ProductImage(){
+        return $this->hasMany('App\Models\ProductImage');
+    }
 }

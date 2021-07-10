@@ -44,10 +44,10 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label">Gender</label>
                                                             <select name="product_gender" class="form-control">
-                                                                <option value="0">Male</option>
-                                                                <option value="1">Famale</option>
-                                                                <option value="2">Unisex</option>
-                                                                <option value="3">Kids</option>
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Famale</option>
+                                                                <option value="3">Unisex</option>
+                                                                <option value="4">Kids</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-md-6">
@@ -141,7 +141,6 @@
                                                     <label class="col-form-label"></label>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-
                                                             <div class="button-list form-group row">
                                                                 <div class="col-sm-12">
                                                                     <div class=" mt-3 mt-lg-0">
@@ -159,7 +158,7 @@
                                                 <div class="col-sm-10">
                                                     <div class="fileupload btn btn-primary waves-effect mt-1">
                                                         <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
-                                                        <input type="file" class="upload" required="" name="product_img" multiple="" id="files">
+                                                        <input type="file" class="upload" required="" name="product_img" id="files">
                                                     </div>
                                                     <img width="100px" height="100px" id="image" />
                                                 </div>

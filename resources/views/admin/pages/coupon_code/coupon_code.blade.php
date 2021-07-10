@@ -42,13 +42,17 @@
                     <div class="col-12">
                         <div class="card-box">
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <?php
-                                    $message=Session::get('message');
-                                    if($message){
-                                        echo '<p class="text-muted">'.$message.'</p>';
-                                        Session::put('message',null);
-                                    }
-                                ?>
+                                @if(session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {!! session()->get('message') !!}
+                                        {!! session()->forget('message') !!}
+                                    </div>
+                                @elseif(session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {!! session()->get('error') !!}
+                                        {!! session()->forget('error') !!}
+                                    </div>
+                                @endif
                                 <thead class="bg-light">
                                 <tr>
                                     <th class="font-weight-medium">Name</th>

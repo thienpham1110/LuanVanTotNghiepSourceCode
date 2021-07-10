@@ -17,6 +17,18 @@ body {
     overflow-x: hidden
 }
 
+.ratting_review {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #f7bf17;
+}
+
+.ratting_no_review {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #e2e2e2;
+}
+
 .metismenu {
     padding: 0
 }

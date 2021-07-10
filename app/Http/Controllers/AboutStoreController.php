@@ -6,13 +6,53 @@ use Illuminate\Http\Request;
 use DB;
 use File;
 use Session;
-use App\models\AboutStore;
+use App\Models\AboutStore;
+use App\Models\Product;
+use App\Models\Brand;
+use App\Models\Collection;
+use App\Models\Delivery;
+use App\Models\ProductType;
+use App\Models\ProductInStock;
+use App\Models\ProductImportDetail;
+use App\Models\ProductImage;
+use App\Models\ProductDiscount;
+use App\Models\Discount;
+use App\Models\Customer;
+use App\Models\HeaderShow;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Comment;
+use App\Models\SlideShow;
+use App\Models\Size;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Mail;
 session_start();
 
 
 class AboutStoreController extends Controller
 {
+    public function ShowAboutUS(){
+        $all_about_us=AboutStore::orderby('cuahang_thu_tu','ASC')->get();
+        $all_product_type=ProductType::where('loaisanpham_trang_thai','1')->orderBy('id','DESC')->get();
+        $all_brand=Brand::where('thuonghieu_trang_thai','1')->orderBy('id','DESC')->get();
+        $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
+        $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
+        ->orderby('headerquangcao_thu_tu','ASC')->get();
+        foreach($all_header as $key=>$value){
+            $thu_tu_header=$value->headerquangcao_thu_tu;
+            break;
+        }
+        $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
+    	return view('client.pages.about_us.about_us')
+        ->with('product_type',$all_product_type)
+        ->with('product_brand',$all_brand)
+        ->with('all_about_us',$all_about_us)
+        ->with('get_about_us_bottom',$get_about_us_bottom)
+        ->with('product_collection',$all_collection)
+        ->with('header_show',$all_header)
+        ->with('header_min',$thu_tu_header);
+    }
     public function Index(){
         $this->AuthLogin();
         $all_about_store=AboutStore::all();

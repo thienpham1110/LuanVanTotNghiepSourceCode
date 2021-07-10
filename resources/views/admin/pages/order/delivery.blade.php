@@ -52,6 +52,7 @@
                                 <thead class="bg-light">
                                 <tr>
                                     <th class="font-weight-medium">Orders Code</th>
+                                    <th class="font-weight-medium">Money To Be Paid</th>
                                     <th class="font-weight-medium">Customer</th>
                                     <th class="font-weight-medium">Email</th>
                                     <th class="font-weight-medium">Phone Number</th>
@@ -66,6 +67,9 @@
                                     <tr>
                                         <td>
                                             {{ $delivery->giaohang_ma_don_dat_hang }}
+                                        </td>
+                                        <td>
+                                            {{ $delivery->giaohang_tong_tien_thanh_toan }}
                                         </td>
                                         <td>
                                             {{ $delivery->giaohang_nguoi_nhan }}

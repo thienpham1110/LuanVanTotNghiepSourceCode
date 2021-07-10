@@ -155,4 +155,42 @@ class ProductController extends Controller
         Session::put('message','Update Success');
         return Redirect::to('/product');
     }
+
+    public function ShowProductImages($product_id){
+        $this->AuthLogin();
+        $product=Product::find($product_id);
+        $all_product_images=ProductImage::where('sanpham_id',$product_id)->orderby('id','desc')->paginate(5)->fragment('all_product_images');
+        return view('admin.pages.products.product_image')
+        ->with('product',$product)
+        ->with('all_product_images',$all_product_images);
+    }
+
+    public function ProductImageAdd(Request $request,$product_id){
+        $this->AuthLogin();
+        $get_image = $request->file('product_image');
+        $request->validate([
+            'product_image' => 'required',
+            'product_image.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
+        ]);
+        if ($get_image) {
+            foreach ($get_image as $image) {
+                $get_name_image = $image->getClientOriginalName();
+                $name_image = current(explode('.', $get_name_image));
+                $new_image =  $name_image.rand(0, 99).'.'.$image->getClientOriginalExtension();
+                $image->move('public/uploads/admin/productimages', $new_image);
+                $product_image = new ProductImage();
+                $product_image->anhsanpham_ten = $new_image;
+                $product_image->sanpham_id = $product_id;
+                $product_image->save();
+            }
+            return redirect()->back()->with('message','Add Images Success');
+        }else{
+            return redirect()->back()->with('error','Add Images Fail, Choose Image');
+        }
+    }
+    public function ProductImageDelete($product_image_id){
+        $this->AuthLogin();
+        ProductImage::find($product_image_id)->delete();
+        return redirect()->back()->with('message','Delete Images Success');
+    }
 }

@@ -78,15 +78,18 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <?php
-                                $message=Session::get('message');
-                                if($message){
-                                    echo '<p class="text-muted">'.$message.'</p>';
-                                    Session::put('message',null);
-                                }
-                            ?>
+                                @if(session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {!! session()->get('message') !!}
+                                        {!! session()->forget('message') !!}
+                                    </div>
+                                @elseif(session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {!! session()->get('error') !!}
+                                        {!! session()->forget('error') !!}
+                                    </div>
+                                @endif
                                 <thead class="bg-light">
                                 <tr>
                                     <th class="font-weight-medium">Images</th>
@@ -95,7 +98,7 @@
                                     <th class="font-weight-medium">Brand</th>
                                     <th class="font-weight-medium">Category</th>
                                     <th class="font-weight-medium">Collection</th>
-                                    <th class="font-weight-medium">Discount</th>
+                                    <th class="font-weight-medium">Price</th>
                                     <th class="font-weight-medium">Status</th>
                                     <th class="font-weight-medium">Action</th>
                                 </tr>
@@ -125,7 +128,7 @@
                                             {{ $product->collection->dongsanpham_ten }}
                                         </td>
                                         <td>
-                                            {{ $product->sanpham_khuyen_mai?'Yes':'No'}}
+                                            {{number_format( $product->sanpham_gia_ban,0,',','.' )." VND" }}
                                         </td>
                                         <td>
                                             <span class="badge">
@@ -147,6 +150,7 @@
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{URL::to('/product-edit/'.$product->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-images/'.$product->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Get Images</a>
                                                     <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 </div>
                                             </div>

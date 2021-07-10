@@ -23,7 +23,14 @@ Route::get('/product-brand/{product_brand_id}', 'HomeController@MenuShowProducBr
 Route::get('/product-collection/{product_collection_id}', 'HomeController@MenuShowProductCollection');
 Route::get('/product-detail/{product_id}', 'HomeController@ProductDetail');
 Route::get('/promotion', 'HomeController@MenuShowProductDiscount');
+Route::get('/product-discount-detail/{product_id}', 'HomeController@MenuShowProductDiscountDetail');
+//Order Tracking
+Route::get('/order-tracking', 'HomeController@OrderTracking');
+Route::post('/get-order-tracking', 'HomeController@GetRequestOrderTracking');
+Route::get('/show-order-tracking', 'HomeController@ShowOrderTracking');
+Route::get('/show-order-tracking-detai/{order_id}', 'HomeController@ShowOrderTrackingDetail');
 
+Route::get('/sendmail', 'HomeController@sendmail');
 
 //Add cart
 Route::post('/add-cart', 'CartController@AddToCart');
@@ -31,11 +38,53 @@ Route::get('/cart', 'CartController@ShowCart');
 Route::get('/delete-cart', 'CartController@DeleteCartRow');
 Route::post('/update-cart', 'CartController@UpdateCart');
 Route::post('/check-coupon', 'CartController@CheckCoupon');
+Route::get('/delete-mini-cart/{session_id}', 'CartController@DeleteMiniCart');
+
 //Checkout
 Route::get('/checkout', 'CheckoutController@Index');
 Route::post('/select-transport-fee-home', 'CheckoutController@SelectTransportFeeHome');
 Route::post('/check-transport-feeship', 'CheckoutController@CheckTransportFee');
 Route::post('/order-checkout-save', 'CheckoutController@OrderCheckoutSave');
+Route::post('/select-address', 'CheckoutController@SelectAddress');
+
+
+//Account
+Route::get('/login-customer', 'CustomerController@ShowLogin');
+Route::get('/show-verification-email-customer', 'CustomerController@ShowVerificationEmail');
+Route::post('/verification-email-customer', 'CustomerController@VerificationEmailCustomer');
+Route::get('/register-customer', 'CustomerController@ShowRegister');
+Route::post('/register-customer-save', 'CustomerController@RegisterCustomer');
+Route::post('/check-login-customer', 'CustomerController@CheckLoginCustomer');
+Route::get('/my-account', 'CustomerController@ShowMyAccount');
+Route::post('/customer-edit-save/{customer_id}', 'CustomerController@CustomerEditSave');
+Route::get('/logout-customer', 'CustomerController@LogoutCustomer');
+
+Route::get('/customer-show-order/{order_id}', 'CustomerController@ShowCustomerOrderDetail');
+Route::get('/customer-cancel-order/{order_id}', 'CustomerController@CustomerCancelOrder');
+
+Route::get('/show-verification-password-customer', 'CustomerController@ShowVerificationResetPassword');
+Route::post('/verification-password-customer', 'CustomerController@VerificationResetPasswordCustomer');
+Route::get('/reset-password-customer', 'CustomerController@ShowResetPassword');
+Route::post('/reset-password-customer-save', 'CustomerController@ResetPasswordCustomer');
+
+Route::post('/customer-change-password-save/{customer_email}', 'CustomerController@ChangePasswordCustomer');
+
+//Comment Review
+Route::post('/post-comment-customer', 'CommentController@PostCommentCustomer');
+Route::post('/load-comment','CommentController@LoadComment');
+
+//Search
+Route::get('/search-product-customer', 'SearchController@ShowProductSearchHeaderCustomer');
+Route::post('/get-keyword-search', 'SearchController@GetKeyWordSearch');
+Route::post('/get-filter-search-customer', 'SearchController@GetFilterSearchCustomer');
+Route::get('/search-product-filter-customer', 'SearchController@ShowProductSearchFilterCustomer');
+
+//About US
+Route::get('/about-us', 'AboutStoreController@ShowAboutUS');
+
+//Wishlist
+Route::get('/my-wishlists', 'HomeController@ShowMyWishlist');
+
 
 // ==========Admin==========
 Route::get('/admin', 'AdminHomeController@Index');
@@ -44,6 +93,14 @@ Route::get('/loginadmin', 'AdminHomeController@LoginAdmin');
 Route::get('/logout', 'AdminHomeController@Logout');
 Route::get('/dashboard', 'AdminHomeController@ShowDashboard');
 Route::post('/login', 'AdminHomeController@Login');
+
+//Staff
+Route::get('/staff', 'AdminHomeController@ShowStaff');
+Route::get('/staff-add', 'AdminHomeController@ShowStaffAdd');
+Route::post('/staff-add-save', 'AdminHomeController@StaffAddSave');
+Route::get('/staff-edit/{staff_id}', 'AdminHomeController@ShowStaffEdit');
+Route::post('/staff-edit-save/{staff_id}', 'AdminHomeController@StaffEditSave');
+
 
 //product type admin
 Route::get('/product-type', 'ProductTypeController@Index');
@@ -159,6 +216,12 @@ Route::post('/product-save-edit/{product_id}', 'ProductController@ProductSaveEdi
 Route::get('/product-edit/{product_id}', 'ProductController@ProductEdit');
 Route::get('/unactive-product/{product_id}', 'ProductController@UnactiveProduct');
 Route::get('/active-product/{product_id}', 'ProductController@ActiveProduct');
+Route::get('/product-images/{product_id}', 'ProductController@ShowProductImages');
+Route::post('/product-image-add/{product_id}', 'ProductController@ProductImageAdd');
+Route::get('/product-images-delete/{product_image_id}', 'ProductController@ProductImageDelete');
+
+
+
 
 //Product Import
 Route::get('/product-import', 'ProductImportController@Index');
@@ -211,8 +274,11 @@ Route::post('/order-admin-add-save', 'OrderController@OrderAdminAddSave');
 Route::post('/order-add-save', 'OrderController@OrderAddSave');
 Route::get('/order-show-detail/{order_id}', 'OrderController@OrderShowDetail');
 Route::get('/order-print-pdf/{order_id}', 'OrderController@OrderPrintPdf');
-Route::post('/order-edit-save/{order_id}', 'OrderController@OrderEditSave');
+Route::get('/order-confirm/{order_id}', 'OrderController@OrderConfirm');
+Route::get('/order-confirm-payment/{order_id}', 'OrderController@OrderConfirmPayment');
+Route::get('/order-confirm-delivery/{order_id}', 'OrderController@OrderConfirmDelivery');
 Route::get('/order-canceled/{order_id}', 'OrderController@OrderCanceled');
+Route::get('/order-in-transit/{order_id}', 'OrderController@OrderInTransit');
 // Route::post('/check-coupon', 'OrderController@CheckCoupon');
 // Route::post('/check-transport-fee', 'OrderController@CheckTransportFee');
 
@@ -223,6 +289,12 @@ Route::get('/update-order-id-delivery', 'OrderController@UpdateOrderIdDelivery')
 //Customer
 Route::get('/customer', 'CustomerController@Index');
 
+//Comment
+Route::get('/comment', 'CommentController@Index');
+Route::post('/approval-comment', 'CommentController@ApprovalComment');
+Route::get('/show-comment-detail/{comment_id}', 'CommentController@ShowCommentDetail');
+Route::post('/admin-reply-to-comment', 'CommentController@AdminReplyToComment');
+Route::get('/delete-comment/{comment_id}', 'CommentController@DeleteComment');
 //Demo
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');

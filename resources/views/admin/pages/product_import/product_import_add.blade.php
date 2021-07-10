@@ -26,13 +26,17 @@
                         <div class="card-box">
                             <h4 class="header-title">Product Import</h4>
                             <hr>
-                            <?php
-                            $message=Session::get('message');
-                            if($message){
-                                echo '<p class="text-muted">'.$message.'</p>';
-                                Session::put('message',null);
-                                }
-                            ?>
+                            @if(session()->has('message'))
+                                <div class="alert alert-success">
+                                    {!! session()->get('message') !!}
+                                    {!! session()->forget('message') !!}
+                                </div>
+                            @elseif(session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {!! session()->get('error') !!}
+                                    {!! session()->forget('error') !!}
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">

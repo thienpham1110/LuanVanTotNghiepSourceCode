@@ -7,87 +7,9 @@
                         <nav>
                             <ul>
                                 <li class="active"><a href="{{URL::to ('/')}}">Home</a>
-
                                 </li>
                                 <li>
                                     <a href="{{URL::to ('/shop-now')}}">shop now</a>
-                                </li>
-                                <li><a href="#">women</a>
-                                    <div class="mega_menu">
-                                        <div class="mega_top fix">
-                                            <div class="mega_items">
-                                                <h3><a href="#">Accessories</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Cocktai</a></li>
-                                                    <li><a href="#">day</a></li>
-                                                    <li><a href="#">Evening</a></li>
-                                                    <li><a href="#">Sundresses</a></li>
-                                                    <li><a href="#">Belts</a></li>
-                                                    <li><a href="#">Sweets</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="mega_items">
-                                                <h3><a href="#">HandBags</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Accessories</a></li>
-                                                    <li><a href="#">Hats and Gloves</a></li>
-                                                    <li><a href="#">Lifestyle</a></li>
-                                                    <li><a href="#">Bras</a></li>
-                                                    <li><a href="#">Scarves</a></li>
-                                                    <li><a href="#">Small Leathers</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="mega_items">
-                                                <h3><a href="#">Tops</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Evening</a></li>
-                                                    <li><a href="#">Long Sleeved</a></li>
-                                                    <li><a href="#">Shrot Sleeved</a></li>
-                                                    <li><a href="#">Tanks and Camis</a></li>
-                                                    <li><a href="#">Sleeveless</a></li>
-                                                    <li><a href="#">Sleeveless</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="mega_bottom fix">
-                                            <div class="mega_thumb">
-                                                <a href="#"><img src="{{asset('public/frontend/img/banner/banner1.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="mega_thumb">
-                                                <a href="#"><img src="{{asset('public/frontend/img/banner/banner2.jpg')}}" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="#">men</a>
-                                    <div class="mega_menu">
-                                        <div class="mega_top fix">
-                                            <div class="mega_items">
-                                                <h3><a href="#">Rings</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Platinum Rings</a></li>
-                                                    <li><a href="#">Gold Ring</a></li>
-                                                    <li><a href="#">Silver Ring</a></li>
-                                                    <li><a href="#">Tungsten Ring</a></li>
-                                                    <li><a href="#">Sweets</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="mega_items">
-                                                <h3><a href="#">Bands</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Platinum Bands</a></li>
-                                                    <li><a href="#">Gold Bands</a></li>
-                                                    <li><a href="#">Silver Bands</a></li>
-                                                    <li><a href="#">Silver Bands</a></li>
-                                                    <li><a href="#">Sweets</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="mega_items">
-                                                <a href="#"><img src="{{asset('public/frontend/img/banner/banner3.jpg')}}" alt=""></a>
-                                            </div>
-                                        </div>
-
-                                    </div>
                                 </li>
                                 <li><a href="#">pages</a>
                                     <div class="mega_menu">
@@ -117,33 +39,42 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                        <div class="mega_bottom fix">
+                                            <div class="mega_thumb">
+                                                <a href="#"><img src="{{URL::asset('public/frontend/img/banner/banner1.jpg')}}" alt=""></a>
+                                            </div>
+                                            <div class="mega_thumb">
+                                                <a href="#"><img src="{{URL::asset('public/frontend/img/banner/banner2.jpg')}}" alt=""></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
-
+                                {{--  <li><a href="#">Collection</a>
+                                    <div class="mega_menu">
+                                        <div class="mega_top fix">
+                                            @foreach ($product_collection as $key => $collection)
+                                                <div class="mega_items">
+                                                    <ul>
+                                                        <li><a href="{{URL::to ('/product-collection/'.$collection->id)}}">{{ $collection->dongsanpham_ten }}</a></li>
+                                                    </ul>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="mega_bottom fix">
+                                            <div class="mega_thumb">
+                                                <a href="#"><img src="{{URL::asset('public/frontend/img/banner/banner1.jpg')}}" alt=""></a>
+                                            </div>
+                                            <div class="mega_thumb">
+                                                <a href="#"><img src="{{URL::asset('public/frontend/img/banner/banner2.jpg')}}" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>  --}}
                                 <li>
                                     <a href="{{URL::to ('/promotion')}}">Promotion</a>
                                 </li>
-                                <li><a href="blog.html">Blog</a>
-                                    <div class="mega_menu jewelry">
-                                        <div class="mega_items jewelry">
-                                            <ul>
-                                                <li><a href="blog-details.html">blog details</a></li>
-                                                <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
-                                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="blog.html">About Us</a>
-                                    <div class="mega_menu jewelry">
-                                        <div class="mega_items jewelry">
-                                            <ul>
-                                                <li><a href="blog-details.html">blog details</a></li>
-                                                <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
-                                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <li>
+                                    <a href="{{URL::to ('/about-us')}}">About Us</a>
                                 </li>
                             </ul>
                         </nav>
@@ -151,162 +82,102 @@
                     <div class="mobile-menu d-lg-none">
                         <nav>
                             <ul>
-                                <li><a href="index.html">Home</a>
+                                <li>
+                                    <a href="{{URL::to ('/')}}"> <h5> Home</h5></a>
+                                </li>
+                                <li>
+                                    <a href="{{URL::to ('/shop-now')}}"><h5>shop now</h5></a>
+                                </li>
+                                <li><a href=""><h5>WOMEN </h5></a></li>
                                     <div>
-                                        <div>
+                                        <li>
+                                            <h3><a href="#">Accessories</a></h3>
                                             <ul>
-                                                <li><a href="index.html">Home 1</a></li>
-                                                <li><a href="index-2.html">Home 2</a></li>
+                                                <li><a href="#">Cocktai</a></li>
+                                                <li><a href="#">day</a></li>
+                                                <li><a href="#">Evening</a></li>
+                                                <li><a href="#">Sundresses</a></li>
+                                                <li><a href="#">Belts</a></li>
+                                                <li><a href="#">Sweets</a></li>
                                             </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="shop.html">shop</a>
-                                    <div>
-                                        <div>
+                                        </li>
+                                        <li>
+                                            <h3><a href="#">HandBags</a></h3>
                                             <ul>
-                                                <li><a href="shop-list.html">shop list</a></li>
-                                                <li><a href="shop-fullwidth.html">shop Full Width Grid</a></li>
-                                                <li><a href="shop-fullwidth-list.html">shop Full Width list</a></li>
-                                                <li><a href="shop-sidebar.html">shop Right Sidebar</a></li>
-                                                <li><a href="shop-sidebar-list.html">shop list Right Sidebar</a></li>
-                                                <li><a href="single-product.html">Product Details</a></li>
-                                                <li><a href="single-product-sidebar.html">Product sidebar</a></li>
-                                                <li><a href="single-product-video.html">Product Details video</a></li>
-                                                <li><a href="single-product-gallery.html">Product Details Gallery</a></li>
+                                                <li><a href="#">Accessories</a></li>
+                                                <li><a href="#">Hats and Gloves</a></li>
+                                                <li><a href="#">Lifestyle</a></li>
+                                                <li><a href="#">Bras</a></li>
+                                                <li><a href="#">Scarves</a></li>
+                                                <li><a href="#">Small Leathers</a></li>
                                             </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="#">women</a>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <h3><a href="#">Accessories</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Cocktai</a></li>
-                                                    <li><a href="#">day</a></li>
-                                                    <li><a href="#">Evening</a></li>
-                                                    <li><a href="#">Sundresses</a></li>
-                                                    <li><a href="#">Belts</a></li>
-                                                    <li><a href="#">Sweets</a></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3><a href="#">HandBags</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Accessories</a></li>
-                                                    <li><a href="#">Hats and Gloves</a></li>
-                                                    <li><a href="#">Lifestyle</a></li>
-                                                    <li><a href="#">Bras</a></li>
-                                                    <li><a href="#">Scarves</a></li>
-                                                    <li><a href="#">Small Leathers</a></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3><a href="#">Tops</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Evening</a></li>
-                                                    <li><a href="#">Long Sleeved</a></li>
-                                                    <li><a href="#">Shrot Sleeved</a></li>
-                                                    <li><a href="#">Tanks and Camis</a></li>
-                                                    <li><a href="#">Sleeveless</a></li>
-                                                    <li><a href="#">Sleeveless</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <a href="#"><img src="assets\img\banner\banner1.jpg" alt=""></a>
-                                            </div>
-                                            <div>
-                                                <a href="#"><img src="assets\img\banner\banner2.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="#">men</a>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <h3><a href="#">Rings</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Platinum Rings</a></li>
-                                                    <li><a href="#">Gold Ring</a></li>
-                                                    <li><a href="#">Silver Ring</a></li>
-                                                    <li><a href="#">Tungsten Ring</a></li>
-                                                    <li><a href="#">Sweets</a></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3><a href="#">Bands</a></h3>
-                                                <ul>
-                                                    <li><a href="#">Platinum Bands</a></li>
-                                                    <li><a href="#">Gold Bands</a></li>
-                                                    <li><a href="#">Silver Bands</a></li>
-                                                    <li><a href="#">Silver Bands</a></li>
-                                                    <li><a href="#">Sweets</a></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <a href="#"><img src="assets\img\banner\banner3.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </li>
-                                <li><a href="#">pages</a>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <h3><a href="#">Column1</a></h3>
-                                                <ul>
-                                                    <li><a href="portfolio.html">Portfolio</a></li>
-                                                    <li><a href="portfolio-details.html">single portfolio </a></li>
-                                                    <li><a href="about.html">About Us </a></li>
-                                                    <li><a href="about-2.html">About Us 2</a></li>
-                                                    <li><a href="services.html">Service </a></li>
-                                                    <li><a href="my-account.html">my account </a></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3><a href="#">Column2</a></h3>
-                                                <ul>
-                                                    <li><a href="blog.html">Blog </a></li>
-                                                    <li><a href="blog-details.html">Blog  Details </a></li>
-                                                    <li><a href="blog-fullwidth.html">Blog FullWidth</a></li>
-                                                    <li><a href="blog-sidebar.html">Blog  Sidebar</a></li>
-                                                    <li><a href="faq.html">Frequently Questions</a></li>
-                                                    <li><a href="404.html">404</a></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3><a href="#">Column3</a></h3>
-                                                <ul>
-                                                    <li><a href="contact.html">Contact</a></li>
-                                                    <li><a href="cart.html">cart</a></li>
-                                                    <li><a href="checkout.html">Checkout  </a></li>
-                                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                                    <li><a href="login.html">Login</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li><a href="blog.html">blog</a>
-                                    <div>
-                                        <div>
+                                        </li>
+                                        <li>
+                                            <h3><a href="#">Tops</a></h3>
                                             <ul>
-                                                <li><a href="blog-details.html">blog details</a></li>
-                                                <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
-                                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                                <li><a href="#">Evening</a></li>
+                                                <li><a href="#">Long Sleeved</a></li>
+                                                <li><a href="#">Shrot Sleeved</a></li>
+                                                <li><a href="#">Tanks and Camis</a></li>
+                                                <li><a href="#">Sleeveless</a></li>
+                                                <li><a href="#">Sleeveless</a></li>
                                             </ul>
-                                        </div>
+                                        </li>
                                     </div>
+                                <li><a href=""><h5>MEN </h5></a></li>
+                                    <div>
+                                        <li>
+                                            <h3><a href="#">Rings</a></h3>
+                                            <ul>
+                                                <li><a href="#">Platinum Rings</a></li>
+                                                <li><a href="#">Gold Ring</a></li>
+                                                <li><a href="#">Silver Ring</a></li>
+                                                <li><a href="#">Tungsten Ring</a></li>
+                                                <li><a href="#">Sweets</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3><a href="#">Bands</a></h3>
+                                            <ul>
+                                                <li><a href="#">Platinum Bands</a></li>
+                                                <li><a href="#">Gold Bands</a></li>
+                                                <li><a href="#">Silver Bands</a></li>
+                                                <li><a href="#">Silver Bands</a></li>
+                                                <li><a href="#">Sweets</a></li>
+                                            </ul>
+                                        </li>
+                                    </div>
+                                <li><a href=""><h5>PAGES </h5></a></li>
+                                    <div>
+                                        <li>
+                                            <a href="#">Brand</a>
+                                            <ul>
+                                                @foreach ($product_brand as $key => $brand)
+                                                    <li><a href="{{URL::to ('/product-brand/'.$brand->id)}}">{{ $brand->thuonghieu_ten }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">Category</a>
+                                            <ul>
+                                                @foreach ($product_type as $key => $pro_type)
+                                                    <li><a href="{{URL::to ('/product-category/'.$pro_type->id)}}">{{ $pro_type->loaisanpham_ten }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">Collection</a>
+                                            <ul>
+                                                @foreach ($product_collection as $key => $collection)
+                                                    <li><a href="{{URL::to ('/product-collection/'.$collection->id)}}">{{ $collection->dongsanpham_ten }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    </div>
+                                <li>
+                                    <a href="{{URL::to ('/promotion')}}"><h5>promotion</h5></a>
                                 </li>
-                                <li><a href="contact.html">contact us</a></li>
-
+                                <li><a href="contact.html"> <h5>contact us</h5></a></li>
                             </ul>
                         </nav>
                     </div>

@@ -15,7 +15,10 @@
         <link rel="stylesheet" href="{{asset('public/frontend/css/plugin.css')}}">
         <link rel="stylesheet" href="{{asset('public/frontend/css/bundle.css')}}">
         <link rel="stylesheet" href="{{asset('public/frontend/css/style.css')}}">
+        <link rel="stylesheet" href="{{asset('public/frontend/css/lightgallery.min.css')}}">
         <link rel="stylesheet" href="{{asset('public/frontend/css/responsive.css')}}">
+        <link rel="stylesheet" href="{{asset('public/frontend/css/lightslider.css')}}">
+        <link rel="stylesheet" href="{{asset('public/frontend/css/prettify.css')}}">
         <script src="{{asset('public/frontend/js/vendor/modernizr-2.8.3.min.js')}}"></script>
         <link href="{{URL::asset('public/frontend/css/sweetalert.css')}}" rel="stylesheet">
     </head>
@@ -70,10 +73,208 @@
         <script src="{{asset('public/frontend/js/ajax-mail.js')}}"></script>
         <script src="{{asset('public/frontend/js/plugins.js')}}"></script>
         <script src="{{asset('public/frontend/js/main.js')}}"></script>
-
-
+         <script src="{{asset('public/frontend/js/lightgallery-all.min.js')}}"></script>
+         <script src="{{asset('public/frontend/js/prettify.js')}}"></script>
+         <script src="{{asset('public/frontend/js/lightslider.js')}}"></script>
     </body>
 </html>
+<script type="text/javascript">
+    show_product_wishlist();
+    count_product_wishlist();
+    view_wishlist();
+    function show_product_wishlist(){
+        if(localStorage.getItem('data_wishlist')!=null){
+            var data = JSON.parse(localStorage.getItem('data_wishlist'));
+            data.reverse();
+            for(i=0;i<data.length;i++){
+                var id =data[i].id;
+                var name = data[i].name;
+                var price = data[i].price;
+                var image = data[i].image;
+                var url = data[i].url;
+                $('#show_product_wishlist').append('<tr><td class="product_remove"><a type="button" onclick="delete_row_wishlist('+id+');">X</a></td><td class="product_thumb"><a href="'+url+'"><img src="'+image+'" alt="" width="70px" height="75px"></a></td><td class="product_name"><a href="'+url+'">'+name+'</a></td><td class="product-price">'+price+'</td><td class="product_total"><a href="'+url+'">Detail</a></td></tr>');
+            }
+        }
+    }
+    function delete_row_wishlist(pro_id_wishlist){
+        if(localStorage.getItem('data_wishlist')!=null){
+            var data = JSON.parse(localStorage.getItem('data_wishlist'));
+            data.reverse();
+            var count=1;
+            for(i=0;i<data.length;i++){
+                var id =data[i].id;
+                if(id==pro_id_wishlist){
+                    data.splice(i, 1);//thêm 0 phần tử vào data tại i => xóa i i= vị trí 1=sl xóa
+                    localStorage.data_wishlist=JSON.stringify(data);
+                    break;
+                }
+            }
+            alert('Delete success');
+            window.location.reload();
+        }
+    }
+    function view_wishlist(){
+        if(localStorage.getItem('data_wishlist')!=null){
+            var data = JSON.parse(localStorage.getItem('data_wishlist'));
+            data.reverse();
+            var count=1;
+            for(i=0;i<data.length;i++){
+                if(count<=3){
+                    var id =data[i].id;
+                    var name = data[i].name;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    $('#list_row_wishlist').append('<div class="cart_item"><div class="cart_img"><a href="'+url+'"><img src="'+image+'" alt=""></a></div><div class="cart_info"><a href="'+url+'">'+name+'</a><span class="cart_price">'+price+'</span></div><div class="cart_remove"><a type="button" title="Remove this item" onclick="delete_row_wishlist('+id+');"><i class="fa fa-times-circle"></i></a></div></div>');
+                    count++;
+                }else{
+                    break;
+                }
+            }
+       }
+   }
+   function count_product_wishlist(){
+        if(localStorage.getItem('data_wishlist')!=null){
+            var data = JSON.parse(localStorage.getItem('data_wishlist'));
+            data.reverse();
+        $('#count_product_wishlist').append(data.length +' products');
+    }
+   }
+
+
+    function add_wistlist(clicked_id){
+        var id = clicked_id;
+        var name = document.getElementById('wishlist_product_name'+id).value;
+        var price = document.getElementById('wishlist_product_price'+id).value;
+        var image = document.getElementById('wishlist_product_image'+id).src;
+        var get_url = document.getElementById('wishlist_product_url'+id).href;
+        if(get_url!=null){
+            var url = document.getElementById('wishlist_product_url'+id).href;
+        }else{
+            var url = document.getElementById('wishlist_product_url'+id).value;
+        }
+        var newItem = {
+            'url':url,
+            'id' :id,
+            'name': name,
+            'price': price,
+            'image': image
+        }
+        if(localStorage.getItem('data_wishlist')==null){
+           localStorage.setItem('data_wishlist', '[]');
+        }
+        var old_data = JSON.parse(localStorage.getItem('data_wishlist'));
+        var matches = $.grep(old_data, function(obj){
+            return obj.id == id;
+        })
+        if(matches.length){
+            alert('The product is already in the wishlist');
+        }else{
+            old_data.push(newItem);
+            $('#list_row_wishlist').append('<div class="cart_item"><div class="cart_img"><a href="'+newItem.url+'"><img src="'+newItem.image+'" alt=""></a></div><div class="cart_info"><a href="'+newItem.url+'">'+newItem.name+'</a><span class="cart_price">'+newItem.price+'</span></div><div class="cart_remove"><a type="button" title="Remove this item" onclick="delete_row_wishlist('+newItem.id+');"><i class="fa fa-times-circle"></i></a></div></div>');
+            alert('Add Success');
+        }
+        localStorage.setItem('data_wishlist', JSON.stringify(old_data));
+   }
+
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#imageGallery').lightSlider({
+            gallery:true,
+            item:1,
+            loop:true,
+            thumbItem:3,
+            slideMargin:0,
+            enableDrag: false,
+            currentPagerPosition:'left',
+            onSliderLoad: function(el) {
+                el.lightGallery({
+                    selector: '#imageGallery .lslide'
+                });
+            }
+        });
+      });
+
+</script>
+<script type="text/javascript">
+    var ratedIndex=-1;
+    function resetColors(){
+        $(".rps i").css('color','#e2e2e2')
+    }
+    function setStars(max){
+        for(var i=0;i<=max;i++){
+            $(".rps i:eq(" + i +")").css('color','#f7bf17')
+        }
+    }
+    $(document).ready( function () {
+        resetColors();
+        localStorage.removeItem("rating");
+        $('.rps i').mouseover(function(){
+            resetColors();
+            var currentIndex = parseInt($(this).data("index"));
+            setStars(currentIndex);
+        })
+        $('.rps i').on('click',function(){
+            ratedIndex = parseInt($(this).data("index"));
+            localStorage.setItem("rating",ratedIndex);
+            $(".starRateV").val(parseInt(localStorage.getItem("rating")));
+
+        })
+        $('.rps i').mouseleave(function(){
+            resetColors();
+            if(ratedIndex != -1){
+                setStars(ratedIndex);
+            }
+        })
+        if(localStorage.getItem("rating")!=null){
+            setStars(parseInt(localStorage.getItem("rating")));
+            $("starRateV").val(parseInt(localStorage.getItem("rating")));
+        }
+
+        {{--  $(".review_coment_customer").click(function(){
+            if($("#review-comment").val() == '' && $("#review-name").val() == ''){
+                $(".rate-error").html("Please Fill In The Text Box!");
+            }else{
+                $(".rate-error").html("");
+                var $form =$(this).closest(".rmp");
+                var starRateV =$form.find(".starRateV").val();
+                var review_comment =$form.find(".review_comment").val();
+                var review_name =$form.find(".review_name").val();
+                var product_id =$form.find(".product_id").val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{url('/post-comment-customer')}}',
+                    method: 'POST',
+                    data:{
+                        starRateV:starRateV,
+                        review_comment:review_comment,
+                        review_name:review_name,
+                        product_id:product_id,
+                        _token:_token
+                       },
+                    success:function(data){
+                        load_comment();
+                   }
+                });
+            }
+        });
+        function load_comment(){
+            var comment_product_id = $('.comment_product_id').val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+              url:"{{url('/load-comment')}}",
+              method:"POST",
+              data:{comment_product_id:comment_product_id, _token:_token},
+              success:function(data){
+                $('#comment_show').html(data);
+              }
+            });
+        }  --}}
+    } );
+</script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('.add-to-cart').click(function(){
@@ -147,13 +348,33 @@
                 data:{action:action,ma_id:ma_id,_token:_token},
                 success:function(data){
                    $('#'+ result).html(data);
-                   {{-- alert(data); --}}
+
+                }
+            });
+        });
+        $('.choose-address').on('change',function(){
+            var action = $(this).attr('id');
+            var ma_id = $(this).val();
+            var _token = $('input[name="_token"]').val();
+            var result = '';
+            {{-- alert(ma_id); --}}
+            if(action=='order_city'){
+                result = 'order_province';
+            }else{
+                result = 'order_wards';
+            }
+            $.ajax({
+                url : '{{url('/select-address')}}',
+                method: 'POST',
+                data:{action:action,ma_id:ma_id,_token:_token},
+                success:function(data){
+                   $('#'+ result).html(data);
                 }
             });
         });
     });
 </script>
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     $(document).ready(function(){
         $('.check-transport-fee-home').on('click',function(){
             var city = $('.city').val();
@@ -174,4 +395,4 @@
             }
         });
    });
-</script>
+</script> --}}
