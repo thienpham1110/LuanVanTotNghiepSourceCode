@@ -24,7 +24,7 @@
                     <div class="product_tab_button">
                         <ul id="imageGallery">
                             <li data-thumb="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" data-src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}">
-                              <img class="product-img" id="wishlist_product_image{{ $product->id }}"  src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" />
+                              <img class="product-img" id="wishlist_viewed_product_image{{ $product->id }}"  src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" />
                             </li>
                             @foreach ($all_product_image as $key =>$pro_img)
                                 <li data-thumb="{{asset('public/uploads/admin/productimages/'.$pro_img->anhsanpham_ten)}}" data-src="{{asset('public/uploads/admin/productimages/'.$pro_img->anhsanpham_ten)}}">
@@ -103,11 +103,11 @@
                                 @endforeach
                                 max="{{ $qty_in_stock }}"
                                  value="1" type="number">
-                                 <input type="hidden" value="{{$price}}" id="wishlist_product_price{{ $product->id }}">
-                                 <input id="wishlist_product_url{{ $product->id }}"  value="{{URL::to('/product-discount-detail/'.$product->id)}}"  type="hidden">
+                                 <input type="hidden" value="{{$price}}" id="wishlist_viewed_product_price{{ $product->id }}">
+                                 <input id="wishlist_viewed_product_url{{ $product->id }}"  value="{{URL::to('/product-discount-detail/'.$product->id)}}"  type="hidden">
                                 <input name="product_id" value="{{ $product->id }}" class="product_id_{{ $product->id }}" type="hidden">
                                 <input name="product_img" value="{{ $product->sanpham_anh }}" class="product_img_{{ $product->id }}" type="hidden">
-                                <input name="product_name" id="wishlist_product_name{{ $product->id }}" value="{{ $product->sanpham_ten }}" class="product_name_{{ $product->id }}" type="hidden">
+                                <input name="product_name" id="wishlist_viewed_product_name{{ $product->id }}" value="{{ $product->sanpham_ten }}" class="product_name_{{ $product->id }}" type="hidden">
                                 <input name="product_price" class="product_price_{{ $product->id }}"
                                 @if(isset($product_discount))
                                     @if($product_discount->sanpham_id==$product->id)

@@ -47,6 +47,41 @@
                     </div>
                 </div>
                 <!--wishlist block end-->
+                <!--viewed block start-->
+                <div class="sidebar_widget wishlist mb-30">
+                    <div class="block_title">
+                        <h3><a href="#">Product Viewed</a></h3>
+                    </div>
+                    @php
+                        $count_re=0;
+                    @endphp
+                    @foreach ($all_product_viewed as $key=>$product_viewed)
+                        @if ($count_re<=3)
+                            <div class="cart_item">
+                                <div class="cart_img">
+                                    <a href="{{URL::to('/product-detail/'.$product_viewed->id)}}"><img src="{{asset('public/uploads/admin/product/'.$product_viewed->sanpham_anh)}}" width="70px" height="75px" alt=""></a>
+                                </div>
+                                <div class="cart_info">
+                                    <a href="{{URL::to('/product-detail/'.$product_viewed->id)}}">{{ $product_viewed->sanpham_ten }}</a>
+                                    <span class="cart_price">{{number_format($product_viewed->sanpham_gia_ban,0,',','.').' VNĐ' }}</span>
+                                </div>
+                                <div class="cart_remove">
+                                    <a title="Remove this item" href="{{ URL::to('/delete-mini-product-viewed/'.$product_viewed->id)}}"><i class="fa fa-times-circle"></i></a>
+                                </div>
+                            </div>
+                            @php
+                                $count_re++;
+                            @endphp
+                        @else
+                        @break
+                        @endif
+                    @endforeach
+                     <div class="block_content">
+                         <p>{{ $count_re }}  products</p>
+                         <a href="#">» My wishlists</a>
+                     </div>
+                </div>
+                <!--viewed block end-->
             <!--special product start-->
             <div class="sidebar_widget special">
                 <div class="block_title">
@@ -120,7 +155,7 @@
                                     <div class="col-lg-4 col-md-6">
                                         <div class="single_product">
                                             <div class="product_thumb">
-                                               <a href="{{URL::to('/product-discount-detail/'.$product->id)}}"><img id="wishlist_product_image{{ $product->id }}" src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" alt=""></a>
+                                               <a href="{{URL::to('/product-discount-detail/'.$product->id)}}"><img id="wishlist_viewed_product_image{{ $product->id }}" src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" alt=""></a>
                                                <div class="hot_img">
                                                    <img src="{{asset('public/frontend/img/cart/span-hot.png')}}" alt="">
                                                </div>
@@ -148,10 +183,10 @@
                                             </div>
                                             <div class="product_info">
                                                 <ul>
-                                                    <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_product_name{{ $product->id }}">
-                                                    <input type="hidden" value="{{$price }}" id="wishlist_product_price{{ $product->id }}">
+                                                    <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
+                                                    <input type="hidden" value="{{$price }}" id="wishlist_viewed_product_price{{ $product->id }}">
                                                     <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                                    <li><a id="wishlist_product_url{{ $product->id }}"  href="{{URL::to('/product-discount-detail/'.$product->id)}}"  title="Quick view">View Detail</a></li>
+                                                    <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"  href="{{URL::to('/product-discount-detail/'.$product->id)}}"  title="Quick view">View Detail</a></li>
                                                 </ul>
                                             </div>
                                         </div>

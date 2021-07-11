@@ -57,33 +57,16 @@ class TransportFeeController extends Controller
     public function SelectFee(){
         $fee=TransportFee::orderby('id','DESC')->paginate(5);
         $output = '';
-        $output .=
-         '<div class="card-box">
-            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"  id="myTable">
-                <thead class="bg-light">
-                <tr>
-                    <th class="font-weight-medium">City</th>
-                    <th class="font-weight-medium">Province</th>
-                    <th class="font-weight-medium">Wards</th>
-                    <th class="font-weight-medium">Fee</th>
-                    <th class="font-weight-medium">Fee Day</th>
-                </tr>
-                </thead>
-                <tbody class="font-14">';
-                    foreach ($fee as $key=>$value){
-                        $output .=
-                        '<tr>
-                            <td>'. $value->City->tinhthanhpho_name .'</td>
-                            <td>'. $value->Province->quanhuyen_name .'</td>
-                            <td>'. $value->Wards->xaphuongthitran_name .'</td>
-                            <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit">'.number_format( $value->phivanchuyen_phi_van_chuyen,0,',','.', ).'</td>
-                            <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit-day">'. $value->phivanchuyen_ngay_giao_hang_du_kien .'</td>
-                        </tr>';
-                    }
-                    $output .='
-                </tbody>
-            </table>
-        </div>';
+        foreach ($fee as $key=>$value){
+            $output .=
+            '<tr>
+                <td>'. $value->City->tinhthanhpho_name .'</td>
+                <td>'. $value->Province->quanhuyen_name .'</td>
+                <td>'. $value->Wards->xaphuongthitran_name .'</td>
+                <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit">'.number_format( $value->phivanchuyen_phi_van_chuyen,0,',','.', ).'</td>
+                <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit-day">'. $value->phivanchuyen_ngay_giao_hang_du_kien .'</td>
+            </tr>';
+        }
         echo $output;
     }
 

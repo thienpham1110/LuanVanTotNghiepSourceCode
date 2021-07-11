@@ -21,7 +21,7 @@
         @csrf
         <div class="row">
             <div class="col-12">
-                <div class="table_desc">
+                <div class="table_cart">
                     <div class="cart_page table-responsive">
                         <table>
                             <thead>

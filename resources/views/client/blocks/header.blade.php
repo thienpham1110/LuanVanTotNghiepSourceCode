@@ -8,7 +8,6 @@
          <div class="col-lg-6 col-md-6">
              <div class="header_links">
                  <ul>
-                     <li><a href="index_contact.php" title="Contact">Contact</a></li>
                      <li><a href="{{URL::to('/my-wishlists')}}" title="wishlist">My wishlist</a></li>
                      <li><a href="{{ URL::to('/order-tracking')}}" title="order tracking">Order Tracking</a></li>
                      <li><a href="{{ URL::to('/cart')}}" title="My cart">My cart</a></li>

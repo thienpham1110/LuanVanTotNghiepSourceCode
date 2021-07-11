@@ -22,8 +22,23 @@
             </div>
             <!-- content -->
             <div class="row">
-                <div class="col-12 load-transport-fee">
+                <div class="col-12 ">
+                    <div class="card-box">
+                        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"  id="myTable">
+                            <thead class="bg-light">
+                            <tr>
+                                <th class="font-weight-medium">City</th>
+                                <th class="font-weight-medium">Province</th>
+                                <th class="font-weight-medium">Wards</th>
+                                <th class="font-weight-medium">Fee</th>
+                                <th class="font-weight-medium">Fee Day</th>
+                            </tr>
+                            </thead>
+                            <tbody class="font-14 load-transport-fee">
 
+                            </tbody>
+                        </table>
+                    </div>
                     {{--  {!!$fee->links()!!}  --}}
                 </div><!-- end col -->
                     <div class="col-12">

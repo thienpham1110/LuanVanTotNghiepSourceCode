@@ -6,6 +6,7 @@
         <title>RGUWB Shop</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{csrf_token()}}">
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('public/frontend/img/favicon.png')}}">
 
@@ -79,6 +80,61 @@
     </body>
 </html>
 <script type="text/javascript">
+    {{--  $(document).ready(function(){
+        var data_id = JSON.parse(localStorage.getItem('data_wishlist'));
+        if(data_id.length>0){
+            data_id.reverse();
+            var id=new Array();
+            for(i=0;i<data_id.length;i++){
+                id.push(data_id[i].id);
+            }
+            $.ajax({
+                url:"{{url('/show-wishlist')}}",
+                method:"POST",
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{id:id},
+                success:function(data){
+                    $('.show_wishlish_pro').html(data);
+                }
+            });
+        }
+     });  --}}
+    {{--  $(document).ready(function(){
+        $('.views-product-detail').click(function(){
+            var id = $(this).data('views_product_id');
+            var name = document.getElementById('wishlist_viewed_product_name'+id).value;
+            var price = document.getElementById('wishlist_viewed_product_price'+id).value;
+            var image = document.getElementById('wishlist_viewed_product_image'+id).src;
+            var get_url = document.getElementById('wishlist_viewed_product_url'+id).href;
+            if(get_url!=null){
+                var url = document.getElementById('wishlist_viewed_product_url'+id).href;
+            }else{
+                var url = document.getElementById('wishlist_viewed_product_url'+id).value;
+            }
+            var newItem = {
+                'url':url,
+                'id' :id,
+                'name': name,
+                'price': price,
+                'image': image
+            }
+            if(localStorage.getItem('data_products_viewed')==null){
+               localStorage.setItem('data_products_viewed', '[]');
+            }
+            var old_data = JSON.parse(localStorage.getItem('data_products_viewed'));
+            var matches = $.grep(old_data, function(obj){
+                return obj.id == id;
+            })
+            if(!matches.length){
+                old_data.push(newItem);
+            }
+            localStorage.setItem('data_products_viewed', JSON.stringify(old_data));
+         });
+    });  --}}
+</script>
+<script type="text/javascript">
     show_product_wishlist();
     count_product_wishlist();
     view_wishlist();
@@ -144,14 +200,14 @@
 
     function add_wistlist(clicked_id){
         var id = clicked_id;
-        var name = document.getElementById('wishlist_product_name'+id).value;
-        var price = document.getElementById('wishlist_product_price'+id).value;
-        var image = document.getElementById('wishlist_product_image'+id).src;
-        var get_url = document.getElementById('wishlist_product_url'+id).href;
+        var name = document.getElementById('wishlist_viewed_product_name'+id).value;
+        var price = document.getElementById('wishlist_viewed_product_price'+id).value;
+        var image = document.getElementById('wishlist_viewed_product_image'+id).src;
+        var get_url = document.getElementById('wishlist_viewed_product_url'+id).href;
         if(get_url!=null){
-            var url = document.getElementById('wishlist_product_url'+id).href;
+            var url = document.getElementById('wishlist_viewed_product_url'+id).href;
         }else{
-            var url = document.getElementById('wishlist_product_url'+id).value;
+            var url = document.getElementById('wishlist_viewed_product_url'+id).value;
         }
         var newItem = {
             'url':url,
@@ -176,7 +232,6 @@
         }
         localStorage.setItem('data_wishlist', JSON.stringify(old_data));
    }
-
 
 </script>
 <script type="text/javascript">

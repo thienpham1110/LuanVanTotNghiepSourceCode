@@ -84,6 +84,10 @@ Route::get('/about-us', 'AboutStoreController@ShowAboutUS');
 
 //Wishlist
 Route::get('/my-wishlists', 'HomeController@ShowMyWishlist');
+Route::post('/show-wishlist', 'HomeController@ShowAllWishlist');
+
+//Viewed
+Route::get('/delete-mini-product-viewed/{product_id}', 'HomeController@DeleteMiniProductViewed');
 
 
 // ==========Admin==========
@@ -259,7 +263,7 @@ Route::get('/product-discount-show-product', 'ProductDiscountController@ShowProd
 Route::get('/transport-fee', 'TransportFeeController@TransportFee');
 Route::post('/select-transport-fee', 'TransportFeeController@SelectTransportFee');
 Route::post('/transport-fee-add', 'TransportFeeController@TransportFeeAdd');
-Route::post('/select-fee', 'TransportFeeController@SelectFee');
+Route::get('/select-fee', 'TransportFeeController@SelectFee');
 
 Route::post('/update-fee', 'TransportFeeController@TransportFeeUpdate');
 Route::post('/update-fee-day', 'TransportFeeController@TransportFeeUpdateDay');
@@ -295,6 +299,23 @@ Route::post('/approval-comment', 'CommentController@ApprovalComment');
 Route::get('/show-comment-detail/{comment_id}', 'CommentController@ShowCommentDetail');
 Route::post('/admin-reply-to-comment', 'CommentController@AdminReplyToComment');
 Route::get('/delete-comment/{comment_id}', 'CommentController@DeleteComment');
+
+
+//Statistical
+Route::get('/product-view-statistics', 'StatisticsController@ShowProductViewsStatistics');
+Route::get('/search-view-select', 'StatisticsController@SearchViewsSelect');
+Route::get('/search-from-to-day-views', 'StatisticsController@SearchFromToDayViews');
+
+Route::get('/product-in-stock-statistics', 'StatisticsController@ShowProductInStockStatistics');
+Route::get('/search-product-in-stock-statistics', 'StatisticsController@SearchProductInStockStatistics');
+
+Route::get('/import-statistics', 'StatisticsController@ShowImportStatistics');
+Route::get('/search-import-statistics', 'StatisticsController@SearchImportStatistics');
+Route::get('/search-select-product-import', 'StatisticsController@SearchSelectImportStatistics');
+
+Route::get('/sales-statistics', 'StatisticsController@ShowSalesStatistics');
+
+
 //Demo
 Route::get('search', 'ProductImportController@getSearch');
 Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');

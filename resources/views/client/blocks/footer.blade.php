@@ -9,7 +9,7 @@
                         <div class="footer_widget_contect">
                             <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ $get_about_us_bottom->cuahang_dia_chi }}</p>
                             <p><i class="fa fa-mobile" aria-hidden="true"></i> (84+) {{ $get_about_us_bottom->cuahang_so_dien_thoai }}</p>
-                            <a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i> {{ $get_about_us_bottom->cuahang_email }} </a>
+                            <a href="{{ URL::to('https://mail.google.com/mail')}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> {{ $get_about_us_bottom->cuahang_email }} </a>
                         </div>
                     </div>
                 </div>

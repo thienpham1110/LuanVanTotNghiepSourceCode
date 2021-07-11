@@ -2727,6 +2727,11 @@ a {
     margin-bottom: 35px;
 }
 
+.table_cart {
+    border: 1px solid #ddd;
+    margin-bottom: 35px;
+}
+
 .cart_page table thead tr th {
     border-bottom: 3px solid #1abc9c;
     border-right: 1px solid #ddd;
@@ -2738,6 +2743,8 @@ a {
     text-align: center;
 }
 
+.table_desc table thead tr th.product-price,
+.table_desc table thead tr th.product_quantity,
 .table_desc table thead tr th.product_remove,
 .table_desc table thead tr th.product_total {
     min-width: 195px;
@@ -2751,9 +2758,69 @@ a {
     min-width: 200px;
 }
 
-.table_desc table thead tr th.product-price,
-.table_desc table thead tr th.product_quantity {
-    min-width: 195px;
+.table_cart table thead tr th.product-price,
+.table_cart table thead tr th.product_total {
+    min-width: 180px;
+}
+
+.table_cart table thead tr th.product_quantity,
+.table_cart table thead tr th.product_remove {
+    min-width: 127px;
+}
+
+.table_cart table thead tr th.product_name {
+    min-width: 300px;
+}
+
+.table_cart table thead tr th.product_thumb {
+    min-width: 200px;
+}
+
+.table_cart table tbody tr td:last-child {
+    border-right: 0;
+}
+
+.table_cart table tbody tr td {
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+.table_cart table tbody tr td.product_thumb img {
+    width: inherit;
+}
+
+.table_cart table tbody tr td.product_name a {
+    color: #333;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.table_cart table tbody tr td.product_name a:hover,
+.table_cart table tbody tr td.product_remove a:hover {
+    color: #e84c3d;
+}
+
+.table_cart table tbody tr td.product-price,
+.table_cart table tbody tr td.product_total {
+    color: #1abc9c;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.table_cart table tbody tr td.product_quantity input {
+    width: 60px;
+    height: 40px;
+    padding: 0 5px 0 10px;
+    background: none;
+    border: 1px solid #ddd;
+}
+
+.table_cart table tbody tr td.product_remove a {
+    font-size: 20px;
+    color: #1abc9c;
 }
 
 .cart_page table thead tr:last-child th,
@@ -3006,6 +3073,25 @@ a {
 
 .account_form {
     margin-bottom: 35px;
+}
+
+.table_cart.wishlist table tbody tr td.product_total a {
+    background: #1abc9c;
+    font-size: 12px;
+    font-weight: 700;
+    height: 38px;
+    line-height: 18px;
+    padding: 10px 20px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.table_cart.wishlist table tbody tr td.product_total a:hover {
+    background: #e84c3d;
+}
+
+.table_cart.wishlist table tbody tr:last-child td {
+    border-bottom: 0;
 }
 
 .table_desc.wishlist table tbody tr td.product_total a {

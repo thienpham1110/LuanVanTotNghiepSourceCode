@@ -107,6 +107,187 @@
 
 </html>
 <script>
+    $(document).ready(function(){
+        $('.search-type-statistical-product-import').on('change',function(){
+            var search=$('.search-type-statistical-product-import option:selected').val();
+            $.ajax({
+                url:"{{url('/search-select-product-import')}}",
+                method:"GET",
+                data:{search_type:search},
+                success:function(data){
+                   $('.show_search_import_product_statistics').html(data);
+                }
+            });
+        })
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('.clear-search-statistical-product-import').click(function() {
+            $(this).closest('form').find("input[type=date]").val("");
+            $(this).closest('form').find("select").val("0");
+            var from_day = document.getElementById('search_from_day_statistical_product_import').value;
+            var to_day =document.getElementById('search_to_day_statistical_product_import').value;
+            $.ajax({
+                url:"{{url('/search-import-statistics')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_search_import_product_statistics').html(data);
+                }
+            });
+        });
+        $('#search_from_day_statistical_product_import').on('change',function(){
+            var from_day = document.getElementById('search_from_day_statistical_product_import').value;
+            var to_day =document.getElementById('search_to_day_statistical_product_import').value;
+            $.ajax({
+                url:"{{url('/search-import-statistics')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_search_import_product_statistics').html(data);
+                }
+            });
+        });
+        $('#search_to_day_statistical_product_import').on('change',function(){
+            var from_day = document.getElementById('search_from_day_statistical_product_import').value;
+            var to_day =document.getElementById('search_to_day_statistical_product_import').value;
+            $.ajax({
+                url:"{{url('/search-import-statistics')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_search_import_product_statistics').html(data);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('.clear-search-statistics-product-in-stock').click(function() {
+            $(this).closest('form').find("input[type=search]").val("");
+            $(this).closest('form').find("select").val("0");
+            var product_name = document.getElementById('search_name_statistics_product_in_stock').value;
+            var product_size =document.getElementById('search_size_statistics_product_in_stock').value;
+            $.ajax({
+                url:"{{url('/search-product-in-stock-statistics')}}",
+                method:"GET",
+                data:{product_name:product_name,product_size:product_size},
+                success:function(data){
+                    {{--  alert(data);  --}}
+                   $('.show_in_stock_search').html(data);
+                }
+            });
+        });
+
+        $('.search_size_statistics_product_in_stock').on('change',function(){
+            var product_name = document.getElementById('search_name_statistics_product_in_stock').value;
+            var product_size =document.getElementById('search_size_statistics_product_in_stock').value;
+            $.ajax({
+                url:"{{url('/search-product-in-stock-statistics')}}",
+                method:"GET",
+                data:{product_name:product_name,product_size:product_size},
+                success:function(data){
+                    {{--  alert(data);  --}}
+                   $('.show_in_stock_search').html(data);
+                }
+            });
+        });
+        $('.search_name_statistics_product_in_stock').keyup(function(){
+            var product_name = document.getElementById('search_name_statistics_product_in_stock').value;
+            var product_size =document.getElementById('search_size_statistics_product_in_stock').value;
+            $.ajax({
+                url:"{{url('/search-product-in-stock-statistics')}}",
+                method:"GET",
+                data:{product_name:product_name,product_size:product_size},
+                success:function(data){
+                    {{--  alert(data);  --}}
+                   $('.show_in_stock_search').html(data);
+                }
+            });
+        });
+
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        {{--  $('.search-from-to-day-views').on('click',function(){
+            var search=$('.search-view-select option:selected').val();
+            if(search==0){
+                var from_day = document.getElementById('search_from_day_views').value;
+                var to_day =document.getElementById('search_to_day_views').value;
+                if(!from_day && !to_day){
+                    alert("Please select a date to search");
+                }else{
+                    $.ajax({
+                        url:"{{url('/search-from-to-day-views')}}",
+                        method:"GET",
+                        data:{from_day:from_day,to_day:to_day},
+                        success:function(data){
+                           $('.show_views_type_search').html(data);
+                        }
+                    });
+                }
+            }else{
+                alert('You are searching by selection')
+            }
+        });  --}}
+        $('.clear-search-views').click(function() {
+            $(this).closest('form').find("input[type=date]").val("");
+            var from_day = document.getElementById('search_from_day_views').value;
+            var to_day =document.getElementById('search_to_day_views').value;
+            $.ajax({
+                url:"{{url('/search-from-to-day-views')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_views_type_search').html(data);
+                }
+            });
+        });
+        $('.search_from_day_views').on('change',function(){
+            var from_day = document.getElementById('search_from_day_views').value;
+            var to_day =document.getElementById('search_to_day_views').value;
+            $.ajax({
+                url:"{{url('/search-from-to-day-views')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_views_type_search').html(data);
+                }
+            });
+        });
+        $('.search_to_day_views').on('change',function(){
+            var from_day = document.getElementById('search_from_day_views').value;
+            var to_day =document.getElementById('search_to_day_views').value;
+            $.ajax({
+                url:"{{url('/search-from-to-day-views')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_views_type_search').html(data);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('.search-view-select').on('change',function(){
+            var search=$('.search-view-select option:selected').val();
+            $.ajax({
+                url:"{{url('/search-view-select')}}",
+                method:"GET",
+                data:{search_type:search},
+                success:function(data){
+                   $('.show_views_type_search').html(data);
+                }
+            });
+        })
+    });
+</script>
+<script>
     $(function() {
     // Multiple images preview with JavaScript
         var multiImgPreview = function(input, imgPreviewPlaceholder) {
@@ -391,11 +572,9 @@ $("#ProductMoreImagesInput").change(function () {
 $(document).ready(function(){
     fetch_transport_fee();
     function fetch_transport_fee(){
-        var _token = $('input[name="_token"]').val();
         $.ajax({
             url : '{{url('/select-fee')}}',
-            method: 'POST',
-            data:{_token:_token},
+            method: 'GET',
             success:function(data){
                $('.load-transport-fee').html(data);
             }

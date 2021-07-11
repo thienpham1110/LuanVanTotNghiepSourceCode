@@ -119,7 +119,7 @@
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class="remixicon-folder-add-line"></i>
-                        <span>Manage Statistical</span>
+                        <span>Manage Statistics</span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level nav" aria-expanded="false">
@@ -132,7 +132,9 @@
                         <li>
                             <a href="{{URL::to('/product-view-statistics')}}">Product View Statisticss</a>
                         </li>
-
+                        <li>
+                            <a href="{{URL::to('/product-in-stock-statistics')}}">Product In Stock Statisticss</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
