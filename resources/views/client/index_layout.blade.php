@@ -20,8 +20,10 @@
         <link rel="stylesheet" href="{{asset('public/frontend/css/responsive.css')}}">
         <link rel="stylesheet" href="{{asset('public/frontend/css/lightslider.css')}}">
         <link rel="stylesheet" href="{{asset('public/frontend/css/prettify.css')}}">
+        <link rel="stylesheet" href="{{asset('public/frontend/css/rate.css')}}">
         <script src="{{asset('public/frontend/js/vendor/modernizr-2.8.3.min.js')}}"></script>
         <link href="{{URL::asset('public/frontend/css/sweetalert.css')}}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
     </head>
     <body>
             <!-- Add your site or application content here -->
@@ -77,8 +79,68 @@
          <script src="{{asset('public/frontend/js/lightgallery-all.min.js')}}"></script>
          <script src="{{asset('public/frontend/js/prettify.js')}}"></script>
          <script src="{{asset('public/frontend/js/lightslider.js')}}"></script>
+         <script src="{{asset('public/frontend/js/rate.js')}}"></script>
+         {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script> --}}
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </body>
 </html>
+
+<script>
+    $(document).ready(function() {
+        var count_rate =document.getElementById('count_rate').value;//=100%
+        var rating_star_1=((document.getElementById('rating-1-star').value)*100)/count_rate;
+        var rating_star_2=((document.getElementById('rating-2-star').value)*100)/count_rate;
+        var rating_star_3=((document.getElementById('rating-3-star').value)*100)/count_rate;
+        var rating_star_4=((document.getElementById('rating-4-star').value)*100)/count_rate;
+        var rating_star_5=((document.getElementById('rating-5-star').value)*100)/count_rate;
+        $('.bar span').hide();
+        $('#bar-five').animate({
+           width: rating_star_5+'%'}, 1000);
+        $('#bar-four').animate({
+           width: rating_star_4+'%'}, 1000);
+        $('#bar-three').animate({
+           width: rating_star_3+'%'}, 1000);
+        $('#bar-two').animate({
+           width: rating_star_2+'%'}, 1000);
+        $('#bar-one').animate({
+           width: rating_star_1+'%'}, 1000);
+        setTimeout(function() {
+          $('.bar span').fadeIn('slow');
+        }, 1000);
+      });
+</script>
+<script>
+    $(function () {
+        $("#ratetotal").rateYo({
+          rating    : document.getElementById('average_rating').value,
+          spacing   : "5px",
+          readOnly: true,
+          multiColor: {
+            "endColor"  : "#f7bf17"
+          }
+        });
+      });
+      $(function () {
+        $("#ratetotal1").rateYo({
+          rating    : document.getElementById('average_rating').value,
+          spacing   : "5px",
+          readOnly: true,
+          multiColor: {
+            "endColor"  : "#f7bf17"
+          }
+        });
+      });
+      $(function () {
+        $("#rateYo").rateYo({
+          rating    : document.getElementById('average_rating').value,
+          spacing   : "5px",
+          readOnly: true,
+          multiColor: {
+            "endColor"  : "#f7bf17"
+          }
+        });
+      });
+</script>
 <script type="text/javascript">
     {{--  $(document).ready(function(){
         var data_id = JSON.parse(localStorage.getItem('data_wishlist'));

@@ -1940,6 +1940,36 @@ a {
     cursor: pointer;
 }
 
+.star-ratings-css {
+    unicode-bidi: bidi-override;
+    color: #e2e2e2;
+    font-size: 25px;
+    height: 25px;
+    width: 100px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0;
+    text-shadow: 0px 1px 0 #e2e2e2;
+}
+
+.star-ratings-css-top {
+    color: #f7bf17;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: block;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    font-size: 1.6rem;
+}
+
+.star-ratings-css-bottom {
+    padding: 0;
+    display: block;
+    z-index: 0;
+}
+
 .ratting_review {
     font-size: 1.6rem;
     cursor: pointer;

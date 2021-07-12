@@ -82,19 +82,35 @@
             </div>
 
             <div class="col-lg-8 col-md-6">
-                <div class="product_d_right">
+                <div class="product_d_right ">
                     <h1>{{ $product->sanpham_ten }}</h1>
-
                      <div class="product_ratting mb-10">
+                        <div id="rateYo"></div>
                         <ul>
                             @php
                             $sum=0;
                             $count_rate=0;
+                            $count_rate_1=0;
+                            $count_rate_2=0;
+                            $count_rate_3=0;
+                            $count_rate_4=0;
+                            $count_rate_5=0;
                             @endphp
                             @foreach($comment_customer as $k=>$comment_cus)
                                 @php
                                     $sum+=$comment_cus->binhluan_diem_danh_gia;
                                     $count_rate++;
+                                    if($comment_cus->binhluan_diem_danh_gia==1){
+                                        $count_rate_1++;
+                                    }elseif($comment_cus->binhluan_diem_danh_gia==2){
+                                        $count_rate_2++;
+                                    }elseif($comment_cus->binhluan_diem_danh_gia==3){
+                                        $count_rate_3++;
+                                    }elseif($comment_cus->binhluan_diem_danh_gia==4){
+                                        $count_rate_4++;
+                                    }elseif($comment_cus->binhluan_diem_danh_gia==5){
+                                        $count_rate_5++;
+                                    }
                                 @endphp
                             @endforeach
                             @php
@@ -104,16 +120,24 @@
                                 $average=0;
                             }
                             @endphp
-                            @for($count = 1; $count <=5; $count++)
+                            {{-- @for($count = 1; $count <=5; $count++)
                                 @if($count <= $average)
                                     <i class="fa fa-star ratting_review"></i>
                                 @else
                                     <i class="fa fa-star ratting_no_review"></i>
                                 @endif
-                            @endfor
-                            <li><a href="#"> Number of reviews : <span>{{ $count_rate }}</span></a></li>
+                            @endfor --}}
+                            <input type="hidden" value="{{ $average }}" id="average_rating">
+                            <input type="hidden" value="{{ $count_rate }}" id="count_rate">
+                            <li><a href="#"> Number of reviews : <span>{{ $count_rate }}</span> <h4>{{ $average }} Point</h4></a></li>
                         </ul>
                     </div>
+
+                    {{-- <div class="star-ratings-css">
+                        <div class="star-ratings-css-top" style="width:{{($average*100)/5 }}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                      </div>
+                      <div class="Stars" id="rating-score-star" style="--rarting: 4.5"></div> --}}
                     <div class="product_desc">
                         <p>{{ $product->sanpham_mo_ta }}</p>
                     </div>
@@ -156,7 +180,6 @@
                             </select>
                         </div>
                     </form>
-
                     <div class="product_stock mb-20">
                        <p>{{$qty_in_stock }} items</p>
                         <span>
@@ -167,6 +190,190 @@
                             @endif
                         </span>
                     </div>
+                    <div class="container rating-a">
+                        <div class="inner">
+                          <div class="rating">
+                            <span class="rating-num">{{ $average }} </span>
+                            {{-- <div class="rating-stars">
+                              <span><i class="active fa fa-star"></i></span>
+                              <span><i class="active fa-star"></i></span>
+                              <span><i class="active fa-star"></i></span>
+                              <span><i class="active fa-star"></i></span>
+                              <span><i class="icon-star"></i></span>
+                            </div> --}}
+                            <div id="ratetotal"></div>
+                            <div class="rating-users">
+                              <i class="icon-user"></i> {{ $count_rate }} Rating
+                            </div>
+                          </div>
+                          <div class="histo">
+                            <div class="five histo-rate">
+                              <span class="histo-star">
+                                <i class="active fa fa-star ratting_review"></i>   5    -    {{number_format( ($count_rate_5*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                              <span class="bar-block">
+                                <span id="bar-five" class="bar">
+                                  <span>
+                                    @if($count_rate_5!=0)
+                                        {{number_format( $count_rate_5  ,0,',','.') }}
+                                        <input type="hidden" id="rating-5-star" value="{{ $count_rate_5 }}">
+                                    @else
+                                       0
+                                       <input type="hidden" id="rating-5-star" value="0">
+                                    @endif
+                                </span>&nbsp;
+                                </span>
+                              </span>
+                            </div>
+
+                            <div class="four histo-rate">
+                              <span class="histo-star">
+                                <i class="active fa fa-star ratting_review"></i>   4    -    {{number_format( ($count_rate_4*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                              <span class="bar-block">
+                                <span id="bar-four" class="bar">
+                                  <span>
+                                    @if($count_rate_4!=0)
+                                    {{number_format( $count_rate_4 ,0,',','.') }}
+                                    <input type="hidden" id="rating-4-star" value="{{ $count_rate_4 }}">
+                                    @else
+                                    0
+                                    <input type="hidden" id="rating-4-star" value="0">
+                                    @endif
+                                </span>&nbsp;
+                                </span>
+                              </span>
+                            </div>
+
+                            <div class="three histo-rate">
+                              <span class="histo-star">
+                                <i class="active fa fa-star ratting_review"></i>   3    -    {{number_format( ($count_rate_3*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                              <span class="bar-block">
+                                <span id="bar-three" class="bar">
+                                <span>
+                                    @if($count_rate_3!=0)
+                                    {{number_format( $count_rate_3  ,0,',','.') }}
+                                    <input type="hidden" id="rating-3-star" value="{{ $count_rate_3 }}">
+                                    @else
+                                       0
+                                       <input type="hidden" id="rating-3-star" value="0">
+                                    @endif
+                                </span>&nbsp;
+                                </span>
+                              </span>
+                            </div>
+
+                            <div class="two histo-rate">
+                              <span class="histo-star">
+                                <i class="active fa fa-star ratting_review"></i>   2    -    {{number_format( ($count_rate_2*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                              <span class="bar-block">
+                                <span id="bar-two" class="bar">
+                                  <span>
+                                    @if($count_rate_2!=0)
+                                    {{number_format( $count_rate_2  ,0,',','.') }}
+                                    <input type="hidden" id="rating-2-star" value="{{ $count_rate_2 }}">
+                                    @else
+                                    0
+                                    <input type="hidden" id="rating-2-star" value="0">
+                                    @endif
+                                </span>&nbsp;
+                                </span>
+                              </span>
+                            </div>
+
+                            <div class="one histo-rate">
+                              <span class="histo-star">
+                                <i class="active fa fa-star ratting_review"></i>   1    -    {{number_format( ($count_rate_1*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                              <span class="bar-block">
+                                <span id="bar-one" class="bar">
+                                  <span>
+                                    @if($count_rate_1!=0)
+                                    {{number_format( $count_rate_1 ,0,',','.') }}
+                                    <input type="hidden" id="rating-1-star" value="{{ $count_rate_1 }}">
+                                    @else
+                                    0
+                                    <input type="hidden" id="rating-1-star" value="0">
+                                    @endif
+                                </span>&nbsp;
+
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {{-- <div class="container">
+                        <h3 class="heading">User Rating</h3>
+                        <div class="star-rating">
+                            <span class="fa fa-star-o" title="1"></span>
+                            <span class="fa fa-star-o" title="2"></span>
+                            <span class="fa fa-star-o" title="3"></span>
+                            <span class="fa fa-star-o" title="4"></span>
+                            <span class="fa fa-star-o" title="5"></span>
+                        </div>
+                        <h3 class="heading">Reviews</h3>
+                        <div class="review-rating">
+                            <div class="left-review">
+                                <div class="review-title">3.5</div>
+                                <div class="review-star">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star-harf-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </div>
+                                <div class="review-people">
+                                    <i class="fa fa-user"></i>
+                                    8.000.000 total
+                                </div>
+                            </div>
+                            <div class="right-reviews">
+                                <div class="row-bar">
+                                    <div class="left-bar">5</div>
+                                    <div class="right-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-5" style="width:80%"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-bar">
+                                    <div class="left-bar">4</div>
+                                    <div class="right-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-4" style="width:30%"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-bar">
+                                    <div class="left-bar">3</div>
+                                    <div class="right-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-3" style="width:70%"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-bar">
+                                    <div class="left-bar">2</div>
+                                    <div class="right-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-2" style="width:40%"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-bar">
+                                    <div class="left-bar">1</div>
+                                    <div class="right-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-1" style="width:10%"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

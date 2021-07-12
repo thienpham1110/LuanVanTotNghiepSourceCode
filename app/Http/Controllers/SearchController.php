@@ -151,6 +151,14 @@ class SearchController extends Controller
                 foreach ($all_product_in_stock as $key =>$in_stock) {
                     $product_id[]=$in_stock->sanpham_id;
                 }
+                $viewed=Session::get('product_viewed');
+                if($viewed){
+                    foreach($viewed as $key=>$view){
+                        $view_id[]=$view['product_id_viewed'];
+                    }
+                }else{
+                    $view_id[]=null;
+                }
                 $discount=Discount::where('khuyenmai_trang_thai', 1)->get();//lay tin km
                 if ($discount->count()>0) {
                     foreach ($discount as $key => $value) {
@@ -159,6 +167,9 @@ class SearchController extends Controller
                             $pro_dis[]=$v->sanpham_id;//id sp km
                         }
                     }
+                    $all_product_viewed=Product::whereIn('id',$view_id)->where('sanpham_trang_thai','1')
+                    ->whereIn('id',$product_id)
+                    ->whereNotIn('id',$pro_dis)->orderBy('id','DESC')->get();
                     if($search_customer_brand!=null){
                         if($search_customer_product_type!=null){//brand!=null
                             if($search_customer_collection!=null){//brand!=null product type != null
@@ -897,6 +908,8 @@ class SearchController extends Controller
                         }
                     }
                 } else {
+                    $all_product_viewed=Product::whereIn('id',$view_id)->where('sanpham_trang_thai','1')
+                    ->whereIn('id',$product_id)->orderBy('id','DESC')->get();
                     if($search_customer_brand!=null){
                         if($search_customer_product_type!=null){//brand!=null
                             if($search_customer_collection!=null){//brand!=null product type != null
@@ -1633,6 +1646,7 @@ class SearchController extends Controller
                         }
                     }
                 }
+
                 $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
                 $all_size=Size::where('size_trang_thai', 1)->orderby('size_thu_tu', 'ASC')->get();
                 $all_product_type=ProductType::where('loaisanpham_trang_thai', '1')->orderBy('id', 'DESC')->get();
@@ -1653,6 +1667,7 @@ class SearchController extends Controller
                 ->with('product_collection', $all_collection)
                 ->with('header_show', $all_header)
                 ->with('all_size', $all_size)
+                ->with('all_product_viewed', $all_product_viewed)
                 ->with('comment_customer', $comment_customer)
                 ->with('header_min', $thu_tu_header);
             }
