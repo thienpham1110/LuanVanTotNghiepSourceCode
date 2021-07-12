@@ -477,9 +477,9 @@ class CustomerController extends Controller
                 $product_in_stock_update->sanphamtonkho_so_luong_da_ban -= $value->chitietdondathang_so_luong;
                 $product_in_stock_update->save();
             }
-            $order->dondathang_tinh_trang_thanh_toan=2;//đã hủy hoàn tiền lại
+            $order->dondathang_tinh_trang_thanh_toan=2;//đã hủy hoàn tiền lại đã thanh toán
         }elseif($order->dondathang_tinh_trang_thanh_toan==0){
-            $order->dondathang_tinh_trang_thanh_toan=3;//đã hủy k hoàn tiền lại
+            $order->dondathang_tinh_trang_thanh_toan=3;//đã hủy k hoàn tiền lại chưa thanh toán
         }
         $order->save();
         $order_delivery_update->save();

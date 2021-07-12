@@ -501,8 +501,9 @@ class OrderController extends Controller
                 $product_in_stock_update->sanphamtonkho_so_luong_da_ban += $value->chitietdondathang_so_luong;
                 $product_in_stock_update->save();
             }
-            $order->dondathang_tinh_trang_thanh_toan==1;
+            $order->dondathang_tinh_trang_thanh_toan=1;
         }
+
         $order->save();
         $order_delivery_update->save();
         return redirect()->back();

@@ -314,6 +314,8 @@ Route::get('/search-import-statistics', 'StatisticsController@SearchImportStatis
 Route::get('/search-select-product-import', 'StatisticsController@SearchSelectImportStatistics');
 
 Route::get('/sales-statistics', 'StatisticsController@ShowSalesStatistics');
+Route::get('/search-order-statistics', 'StatisticsController@SearchOrderStatistics');
+Route::get('/search-select-order-statistics', 'StatisticsController@SearchSelectOrderStatistics');
 
 
 //Demo

@@ -57,6 +57,7 @@
                         <div class="card-box show_search_import_product_statistics">
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
                                 <h4 class="mt-3 mb-3"><span>Total: </span><span>{{number_format( $sum_total_import ,0,',','.' ).' VNĐ' }}</span></h4>
+                                <h4 class="mt-3 mb-3"><span>Import: </span><span>{{ number_format( $count_import ,0,',','.' ) }} </span></h4>
                                 <h4 class="mt-3 mb-3"><span>Product: </span><span>{{ number_format( $count_detail ,0,',','.' ) }} </span></h4>
                                 <h4 class="mt-3 mb-3"><span>Import Quantity: </span><span>{{ number_format( $sum_detail ,0,',','.' ) }}</span></h4>
                                 <thead class="bg-light">
@@ -67,7 +68,7 @@
                                     <th class="font-weight-medium">Total</th>
                                 </tr>
                                 </thead>
-                                <tbody class="font-14 show_views_type_search" >
+                                <tbody class="font-14 " >
                                     @foreach ($all_product_import_statistics as $key=>$product_import)
                                     <tr>
                                         <td>
@@ -86,7 +87,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                            {{--  <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
                                 <h4 class="mt-3 mb-3"><span>Product: </span></h4>
                                 <thead class="bg-light">
                                     <tr>
@@ -126,7 +127,7 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-                            </table>
+                            </table>  --}}
                         </div>
                     </div><!-- end col -->
                 </div>

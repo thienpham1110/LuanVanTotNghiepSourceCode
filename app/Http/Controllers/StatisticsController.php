@@ -15,6 +15,8 @@ use App\Models\Brand;
 use App\Models\Size;
 use App\Models\Collection;
 use App\Models\HeaderShow;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\ProductViews;
 use App\Models\ProductImport;
 use Carbon\Carbon;
@@ -263,10 +265,12 @@ class StatisticsController extends Controller
         $sum_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->sum('chitietnhap_so_luong_nhap');
         $all_import_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->get();
         $sum_total_import=ProductImport::sum('donnhaphang_tong_tien');
+        $count_import=ProductImport::whereIn('id',$id_import)->count();
         return view('admin.pages.statistics.statistics_product_import')
         ->with('all_import_detail',$all_import_detail)
         ->with('sum_total_import',$sum_total_import)
         ->with('sum_detail',$sum_detail)
+        ->with('count_import',$count_import)
         ->with('count_detail',$count_detail)
         ->with('all_product_import_statistics',$all_product_import_statistics);
     }
@@ -296,13 +300,23 @@ class StatisticsController extends Controller
         }else{
             $id_import=null;
         }
-        $all_import_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->get();
-        $count_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->count();
-        $sum_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->sum('chitietnhap_so_luong_nhap');
+        if($id_import!=null){
+            $all_import_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->get();
+            $count_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->count();
+            $sum_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->sum('chitietnhap_so_luong_nhap');
+            $count_import=ProductImport::whereIn('id',$id_import)->count();
+        }else{
+            $all_import_detail=null;
+            $count_detail=0;
+            $sum_detail=0;
+            $count_import=0;
+        }
+
         $output = '';
         $output .= '
         <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
             <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format( $sum_total_import ,0,',','.' )." VNĐ" .'</span></h4>
+            <h4 class="mt-3 mb-3"><span>Import: </span><span>'. number_format( $count_import ,0,',','.' ) .' </span></h4>
             <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format( $count_detail ,0,',','.' ) .'</span></h4>
             <h4 class="mt-3 mb-3"><span>Import Quantity: </span><span>'.number_format( $sum_detail ,0,',','.' ) .'</span></h4>
             <thead class="bg-light">
@@ -347,30 +361,32 @@ class StatisticsController extends Controller
                 </tr>
             </thead>
             <tbody class="font-14 show_views_type_search" >';
-                foreach ($all_import_detail as $key=>$product_import_detail){
-                    $output .= ' <tr>
-                        <td>
-                            '. $product_import_detail->chitietnhap_ma_don_nhap_hang .'
-                        </td>
-                        <td>
-                            '. date('d-m-Y', strtotime( $product_import_detail->ProductImport->donnhaphang_ngay_nhap)) .'
-                        </td>
-                        <td>
-                        '.$product_import_detail->Product->sanpham_ten .'
-                        </td>
-                        <td>
-                        '.$product_import_detail->Size->size .'
-                        </td>
-                        <td>
-                            '.number_format( $product_import_detail->chitietnhap_gia_nhap ,0,',','.' ).' VNĐ' .'
-                        </td>
-                        <td>
-                        '.$product_import_detail->chitietnhap_so_luong_nhap .'
-                        </td>
-                        <td>
-                            '.number_format( $product_import_detail->chitietnhap_so_luong_nhap* $product_import_detail->chitietnhap_gia_nhap,0,',','.' ).' VNĐ' .'
-                        </td>
-                    </tr>';
+                if($all_import_detail!=null){
+                    foreach ($all_import_detail as $key=>$product_import_detail){
+                        $output .= ' <tr>
+                            <td>
+                                '. $product_import_detail->chitietnhap_ma_don_nhap_hang .'
+                            </td>
+                            <td>
+                                '. date('d-m-Y', strtotime( $product_import_detail->ProductImport->donnhaphang_ngay_nhap)) .'
+                            </td>
+                            <td>
+                            '.$product_import_detail->Product->sanpham_ten .'
+                            </td>
+                            <td>
+                            '.$product_import_detail->Size->size .'
+                            </td>
+                            <td>
+                                '.number_format( $product_import_detail->chitietnhap_gia_nhap ,0,',','.' ).' VNĐ' .'
+                            </td>
+                            <td>
+                            '.$product_import_detail->chitietnhap_so_luong_nhap .'
+                            </td>
+                            <td>
+                                '.number_format( $product_import_detail->chitietnhap_so_luong_nhap* $product_import_detail->chitietnhap_gia_nhap,0,',','.' ).' VNĐ' .'
+                            </td>
+                        </tr>';
+                    }
                 }
                 $output .= '
             </tbody>
@@ -414,13 +430,22 @@ class StatisticsController extends Controller
         }else{
             $id_import=null;
         }
-        $all_import_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->get();
-        $count_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->count();
-        $sum_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->sum('chitietnhap_so_luong_nhap');
+        if($id_import!=null){
+            $all_import_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->get();
+            $count_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->count();
+            $sum_detail=ProductImportDetail::whereIn('donnhaphang_id',$id_import)->sum('chitietnhap_so_luong_nhap');
+            $count_import=ProductImport::whereIn('id',$id_import)->count();
+        }else{
+            $all_import_detail=null;
+            $count_detail=0;
+            $sum_detail=0;
+            $count_import=0;
+        }
         $output = '';
         $output .= '
         <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
             <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format( $sum_total_import ,0,',','.' )." VNĐ" .'</span></h4>
+            <h4 class="mt-3 mb-3"><span>Import: </span><span>'. number_format( $count_import ,0,',','.' ) .' </span></h4>
             <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format( $count_detail ,0,',','.' ) .'</span></h4>
             <h4 class="mt-3 mb-3"><span>Import Quantity: </span><span>'.number_format( $sum_detail ,0,',','.' ) .'</span></h4>
             <thead class="bg-light">
@@ -465,34 +490,484 @@ class StatisticsController extends Controller
             </tr>
         </thead>
         <tbody class="font-14 show_views_type_search" >';
-            foreach ($all_import_detail as $key=>$product_import_detail){
-                $output .= ' <tr>
-                    <td>
-                        '. $product_import_detail->chitietnhap_ma_don_nhap_hang .'
-                    </td>
-                    <td>
-                        '. date('d-m-Y', strtotime( $product_import_detail->ProductImport->donnhaphang_ngay_nhap)) .'
-                    </td>
-                    <td>
-                    '.$product_import_detail->Product->sanpham_ten .'
-                    </td>
-                    <td>
-                    '.$product_import_detail->Size->size .'
-                    </td>
-                    <td>
-                        '.number_format( $product_import_detail->chitietnhap_gia_nhap ,0,',','.' ).' VNĐ' .'
-                    </td>
-                    <td>
-                    '.$product_import_detail->chitietnhap_so_luong_nhap .'
-                    </td>
-                    <td>
-                        '.number_format( $product_import_detail->chitietnhap_so_luong_nhap* $product_import_detail->chitietnhap_gia_nhap,0,',','.' ).' VNĐ' .'
-                    </td>
-                </tr>';
+            if($all_import_detail!=null){
+                foreach ($all_import_detail as $key=>$product_import_detail){
+                    $output .= ' <tr>
+                        <td>
+                            '. $product_import_detail->chitietnhap_ma_don_nhap_hang .'
+                        </td>
+                        <td>
+                            '. date('d-m-Y', strtotime( $product_import_detail->ProductImport->donnhaphang_ngay_nhap)) .'
+                        </td>
+                        <td>
+                        '.$product_import_detail->Product->sanpham_ten .'
+                        </td>
+                        <td>
+                        '.$product_import_detail->Size->size .'
+                        </td>
+                        <td>
+                            '.number_format( $product_import_detail->chitietnhap_gia_nhap ,0,',','.' ).' VNĐ' .'
+                        </td>
+                        <td>
+                        '.$product_import_detail->chitietnhap_so_luong_nhap .'
+                        </td>
+                        <td>
+                            '.number_format( $product_import_detail->chitietnhap_so_luong_nhap* $product_import_detail->chitietnhap_gia_nhap,0,',','.' ).' VNĐ' .'
+                        </td>
+                    </tr>';
+                }
             }
             $output .= '
         </tbody>
     </table>
+        ';
+        echo $output;
+    }
+
+    public function ShowSalesStatistics(){
+        $this->AuthLogin();
+        $all_order_statistics=Order::orderby('id','DESC')->get();
+        if($all_order_statistics->count()>0){
+            foreach($all_order_statistics as $key=>$order){
+                $id_order[]=$order->id;
+            }
+        }else{
+            $id_order=null;
+        }
+
+        if($id_order !=null){
+            $count_detail=OrderDetail::whereIn('dondathang_id',$id_order)->count();
+            $sum_total_order=Order::sum('dondathang_tong_tien');
+            $count_order=Order::whereIn('id',$id_order)->count();
+            $count_order_unconfirmed=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',0)->count();
+            $count_order_confirmed=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',1)->count();
+            $count_order_in_transit=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',2)->count();
+            $count_order_delivered=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',3)->count();
+            $count_order_cancel=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',4)->count();
+        }else{
+            $count_detail=0;
+            $sum_total_order=0;
+            $count_order=0;
+            $count_order_unconfirmed=0;
+            $count_order_confirmed=0;
+            $count_order_in_transit=0;
+            $count_order_delivered=0;
+            $count_order_cancel=0;
+        }
+        $all_order_statistics_success=Order::orderby('id','DESC')->where('dondathang_trang_thai',3)->get();
+        if($all_order_statistics_success->count()>0){
+            foreach($all_order_statistics_success as $key=>$order_success){
+                $id_order_success[]=$order_success->id;
+            }
+        }else{
+            $id_order_success=null;
+        }
+        if($id_order_success !=null){
+            $sum_total_order_success=Order::whereIn('id',$id_order_success)->sum('dondathang_tong_tien');
+            $sum_total_fee_success=Order::whereIn('id',$id_order_success)->sum('dondathang_phi_van_chuyen');
+            $sum_detail=OrderDetail::whereIn('dondathang_id',$id_order_success)->sum('chitietdondathang_so_luong');
+            $all_order_detail=OrderDetail::whereIn('dondathang_id',$id_order_success)->get();
+            foreach($all_order_detail as $key=>$order_detail){
+                $all_import_detail=ProductImportDetail::all();
+                $sum_total_import=0;
+                foreach($all_import_detail as $key=>$import_de){
+                    if($order_detail->sanpham_id==$import_de->sanpham_id && $order_detail->size_id==$import_de->size_id){
+                        $sum_total_import+=Orderdetail::whereIn('dondathang_id',$id_order_success)
+                        ->sum('chitietdondathang_so_luong')*$import_de->chitietnhap_gia_nhap;
+                    }
+                }
+            }
+        }else{
+            $sum_detail=0;
+            $sum_total_order_success=0;
+            $sum_total_import=0;
+        }
+        return view('admin.pages.statistics.statistics_order')
+        ->with('sum_total_order',$sum_total_order)
+        ->with('sum_total_order_success',$sum_total_order_success)
+        ->with('sum_detail',$sum_detail)
+        ->with('sum_total_fee_success',$sum_total_fee_success)
+        ->with('sum_total_import',$sum_total_import)
+        ->with('count_order',$count_order)
+        ->with('count_detail',$count_detail)
+        ->with('all_order_statistics',$all_order_statistics)
+        ->with('count_order_cancel',$count_order_cancel)
+        ->with('count_order_delivered',$count_order_delivered)
+        ->with('count_order_in_transit',$count_order_in_transit)
+        ->with('count_order_confirmed',$count_order_confirmed)
+        ->with('count_order_unconfirmed',$count_order_unconfirmed);
+    }
+
+    public function SearchOrderStatistics(Request $request){
+        $this->AuthLogin();
+        $data=$request->all();
+        if($data['from_day'] && $data['to_day']){
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','>=',$data['from_day'])
+            ->whereDate('dondathang_ngay_dat_hang','<=',$data['to_day'])->get();
+            $sum_total_order=Order::whereDate('dondathang_ngay_dat_hang','>=',$data['from_day'])
+            ->whereDate('dondathang_ngay_dat_hang','<=',$data['to_day'])->sum('dondathang_tong_tien');
+        }elseif(!$data['from_day'] && $data['to_day']){
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','<=',$data['to_day'])->get();
+            $sum_total_order=Order::whereDate('dondathang_ngay_dat_hang','<=',$data['to_day'])->sum('dondathang_tong_tien');
+        }elseif($data['from_day'] && !$data['to_day']){
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','>=',$data['from_day'])->get();
+            $sum_total_order=Order::whereDate('dondathang_ngay_dat_hang','>=',$data['from_day'])->sum('dondathang_tong_tien');
+        }else{
+            $all_order_statistics=Order::orderby('dondathang_ngay_dat_hang','DESC')->get();
+            $sum_total_order=Order::sum('dondathang_tong_tien');
+        }
+        if($all_order_statistics->count()>0){
+            foreach($all_order_statistics as $key=>$order){
+                $id_order[]=$order->id;
+            }
+        }else{
+            $id_order=null;
+        }
+        if($id_order !=null){
+            $all_order_statistics_success=Order::whereIn('id',$id_order)->where('dondathang_trang_thai','=',3)->get();
+            $count_detail=OrderDetail::whereIn('dondathang_id',$id_order)->count();
+            $all_order_detail=OrderDetail::whereIn('dondathang_id',$id_order)->get();
+            $count_order=Order::whereIn('id',$id_order)->count();
+            $count_order_unconfirmed=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',0)->count();
+            $count_order_confirmed=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',1)->count();
+            $count_order_in_transit=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',2)->count();
+            $count_order_delivered=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',3)->count();
+            $count_order_cancel=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',4)->count();
+            if($all_order_statistics_success->count()>0){
+                foreach($all_order_statistics_success as $key=>$order_success){
+                    $id_order_success[]=$order_success->id;
+                }
+            }else{
+                $id_order_success=null;
+            }
+            if($id_order_success !=null){
+                $sum_total_order_success=Order::whereIn('id',$id_order_success)->sum('dondathang_tong_tien');
+                $sum_total_fee_success=Order::whereIn('id',$id_order_success)->sum('dondathang_phi_van_chuyen');
+                $sum_detail=OrderDetail::whereIn('dondathang_id',$id_order_success)->sum('chitietdondathang_so_luong');
+                $all_order_detail_success=OrderDetail::whereIn('dondathang_id',$id_order_success)->get();
+                foreach($all_order_detail_success as $key=>$order_detail){
+                    $all_import_detail=ProductImportDetail::all();
+                    $sum_total_import=0;
+                    foreach($all_import_detail as $key=>$import_de){
+                        if($order_detail->sanpham_id==$import_de->sanpham_id && $order_detail->size_id==$import_de->size_id){
+                            $sum_total_import+=Orderdetail::whereIn('dondathang_id',$id_order_success)
+                            ->sum('chitietdondathang_so_luong')*$import_de->chitietnhap_gia_nhap;
+                        }
+                    }
+                }
+            }else{
+                $sum_detail=0;
+                $sum_total_order_success=0;
+                $sum_total_import=0;
+                $sum_total_fee_success=0;
+            }
+        }else{
+            $count_detail=0;
+            $all_order_detail=null;
+            $count_order=0;
+            $count_order_unconfirmed=0;
+            $count_order_confirmed=0;
+            $count_order_in_transit=0;
+            $count_order_delivered=0;
+            $count_order_cancel=0;
+            $sum_detail=0;
+            $sum_total_order_success=0;
+            $sum_total_import=0;
+            $sum_total_fee_success=0;
+        }
+        $output = '';
+        $output .= '
+        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+        <h4 class="mt-3 mb-3"><span>Profit Has Shipping Fee: </span><span>'.number_format($sum_total_order_success - $sum_total_import,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Profit: </span><span>'.number_format($sum_total_order_success - $sum_total_import -$sum_total_fee_success,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Total Amount Sold: </span><span>'.number_format( $sum_total_order_success ,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format( $sum_total_order ,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Order: </span><span>'. number_format( $count_order ,0,',','.' ) .' </span></h4>
+        <h4 class="mt-3 mb-3"><span>Unconfirmed Order: </span><span>'. number_format( $count_order_unconfirmed ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Confirmed Order: </span><span>'. number_format( $count_order_confirmed ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Orders In Transit: </span><span>'.number_format( $count_order_in_transit ,0,',','.' ) .' </span></h4>
+        <h4 class="mt-3 mb-3"><span>Orders Delivered: </span><span>'. number_format( $count_order_delivered ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Cancel Order: </span><span>'. number_format( $count_order_cancel ,0,',','.' ) .' </span></h4>
+        <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format( $count_detail ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Quantity Sold: </span><span>'. number_format( $sum_detail ,0,',','.' ) .'</span></h4>
+            <thead class="bg-light">
+                <tr>
+                    <th class="font-weight-medium">No.</th>
+                    <th class="font-weight-medium">Day</th>
+                    <th class="font-weight-medium">Customer</th>
+                    <th class="font-weight-medium">Total</th>
+                    <th class="font-weight-medium">Status</th>
+                </tr>
+            </thead>
+            <tbody class="font-14 show_views_type_search" >';
+                foreach ($all_order_statistics as $key=>$order){
+                    $output .= ' <tr>
+                        <td>
+                            '. $order->dondathang_ma_don_dat_hang .'
+                        </td>
+                        <td>
+                            '. date('d-m-Y', strtotime( $order->dondathang_ngay_dat_hang)) .'
+                        </td>
+                        <td>
+                        '.$order->Customer->khachhang_ho.' '. $order->Customer->khachhang_ten.'
+                        </td>
+                        <td>
+                            '.number_format( $order->dondathang_tong_tien ,0,',','.' ).' VNĐ' .'
+                        </td>
+                        <td>';
+                        if($order->dondathang_trang_thai==0){
+                            $output .= ' Unconfirmed';
+                        }elseif($order->dondathang_trang_thai==1){
+                            $output .= '  Confirmed';
+                        }elseif($order->dondathang_trang_thai==2){
+                            $output .= ' In Transit';
+                        }elseif($order->dondathang_trang_thai==3){
+                            $output .= ' Delivered';
+                        }elseif($order->dondathang_trang_thai==4){
+                            $output .= ' Order Has Been Canceled';
+                            }
+                            $output .= '</td>
+                    </tr>';
+                }
+                $output .= '
+            </tbody>
+        </table>
+        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+            <h4 class="mt-3 mb-3"><span>Product: </span></h4>
+            <thead class="bg-light">
+                <tr>
+                    <th class="font-weight-medium">No.</th>
+                    <th class="font-weight-medium">Day</th>
+                    <th class="font-weight-medium">Product Name</th>
+                    <th class="font-weight-medium">Size</th>
+                    <th class="font-weight-medium">Price</th>
+                    <th class="font-weight-medium">Quantity</th>
+                    <th class="font-weight-medium">Total</th>
+                </tr>
+            </thead>
+            <tbody class="font-14 show_views_type_search" >';
+                if($all_order_detail!=null){
+                    foreach ($all_order_detail as $k=>$order_detail){
+                        $output .= ' <tr>
+                            <td>
+                                '. $order_detail->chitietdondathang_ma_don_dat_hang .'
+                            </td>
+                            <td>
+                                '. date('d-m-Y', strtotime( $order_detail->Order->dondathang_ngay_dat_hang)) .'
+                            </td>
+                            <td>
+                            '.$order_detail->Product->sanpham_ten .'
+                            </td>
+                            <td>
+                            '.$order_detail->Size->size .'
+                            </td>
+                            <td>
+                                '.number_format( $order_detail->chitietdondathang_don_gia ,0,',','.' ).' VNĐ' .'
+                            </td>
+                            <td>
+                            '.$order_detail->chitietdondathang_so_luong .'
+                            </td>
+                            <td>
+                                '.number_format( $order_detail->chitietdondathang_so_luong* $order_detail->chitietdondathang_don_gia,0,',','.' ).' VNĐ' .'
+                            </td>
+                        </tr>';
+                    }
+                }
+                $output .= '
+            </tbody>
+        </table>
+        ';
+        echo $output;
+    }
+
+    public function SearchSelectOrderStatistics(Request $request){
+        $this->AuthLogin();
+        $data=$request->all();
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date_now = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
+        $date_week=date("Y-m-d", strtotime($date_now . "- 7  day"));
+        $date_month=date("Y-m-d", strtotime($date_now . "- 30  day"));
+        $date_quarter=date("Y-m-d", strtotime($date_now . "- 120  day"));
+        $date_year=date("Y-m-d", strtotime($date_now . "- 365  day"));
+        if($data['search_type']==1){
+            $sum_total_order=Order::whereDate('dondathang_ngay_dat_hang','=', $date_now)->sum('dondathang_tong_tien');
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','=', $date_now)->get();
+        }elseif($data['search_type']==2){
+            $sum_total_order=Order::whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=',$date_week)->sum('dondathang_tong_tien');
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=',$date_week)->get();
+        }elseif($data['search_type']==3){
+            $sum_total_order=Order::whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=', $date_month)->sum('dondathang_tong_tien');
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=', $date_month)->get();
+        }elseif($data['search_type']==4){
+            $sum_total_order=Order::whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=',$date_quarter)->sum('dondathang_tong_tien');
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=',$date_quarter)->get();
+        }elseif($data['search_type']==5){
+            $sum_total_order=Order:: whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=',$date_year)->sum('dondathang_tong_tien');
+            $all_order_statistics=Order::whereDate('dondathang_ngay_dat_hang','<=', $date_now)->whereDate('dondathang_ngay_dat_hang','>=',$date_year)->get();
+        }else{
+            $sum_total_order=Order::sum('dondathang_tong_tien');
+            $all_order_statistics=Order::orderby('dondathang_ngay_dat_hang','DESC')->get();
+        }
+        if($all_order_statistics->count()>0){
+            foreach($all_order_statistics as $key=>$order){
+                $id_order[]=$order->id;
+            }
+        }else{
+            $id_order=null;
+        }
+        if($id_order !=null){
+            $all_order_statistics_success=Order::whereIn('id',$id_order)->where('dondathang_trang_thai','=',3)->get();
+            $count_detail=OrderDetail::whereIn('dondathang_id',$id_order)->count();
+            $all_order_detail=OrderDetail::whereIn('dondathang_id',$id_order)->get();
+            $count_order=Order::whereIn('id',$id_order)->count();
+            $count_order_unconfirmed=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',0)->count();
+            $count_order_confirmed=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',1)->count();
+            $count_order_in_transit=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',2)->count();
+            $count_order_delivered=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',3)->count();
+            $count_order_cancel=Order::whereIn('id',$id_order)->where('dondathang_trang_thai',4)->count();
+            if($all_order_statistics_success->count()>0){
+                foreach($all_order_statistics_success as $key=>$order_success){
+                    $id_order_success[]=$order_success->id;
+                }
+            }else{
+                $id_order_success=null;
+            }
+            if($id_order_success !=null){
+                $sum_total_order_success=Order::whereIn('id',$id_order_success)->sum('dondathang_tong_tien');
+                $sum_total_fee_success=Order::whereIn('id',$id_order_success)->sum('dondathang_phi_van_chuyen');
+                $sum_detail=OrderDetail::whereIn('dondathang_id',$id_order_success)->sum('chitietdondathang_so_luong');
+                $all_order_detail_success=OrderDetail::whereIn('dondathang_id',$id_order_success)->get();
+                foreach($all_order_detail_success as $key=>$order_detail){
+                    $all_import_detail=ProductImportDetail::all();
+                    $sum_total_import=0;
+                    foreach($all_import_detail as $key=>$import_de){
+                        if($order_detail->sanpham_id==$import_de->sanpham_id && $order_detail->size_id==$import_de->size_id){
+                            $sum_total_import+=Orderdetail::whereIn('dondathang_id',$id_order_success)
+                            ->sum('chitietdondathang_so_luong')*$import_de->chitietnhap_gia_nhap;
+                        }
+                    }
+                }
+            }else{
+                $sum_detail=0;
+                $sum_total_fee_success=0;
+                $sum_total_order_success=0;
+                $sum_total_import=0;
+            }
+        }else{
+            $count_detail=0;
+            $all_order_detail=null;
+            $count_order=0;
+            $count_order_unconfirmed=0;
+            $count_order_confirmed=0;
+            $count_order_in_transit=0;
+            $count_order_delivered=0;
+            $count_order_cancel=0;
+            $sum_detail=0;
+            $sum_total_order_success=0;
+            $sum_total_import=0;
+            $sum_total_fee_success=0;
+        }
+        $output = '';
+        $output .= '
+        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+        <h4 class="mt-3 mb-3"><span>Profit Has Shipping Fee: </span><span>'.number_format($sum_total_order_success - $sum_total_import,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Profit: </span><span>'.number_format($sum_total_order_success - $sum_total_import -$sum_total_fee_success,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Total Amount Sold: </span><span>'.number_format( $sum_total_order_success ,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format( $sum_total_order ,0,',','.' ).' VNĐ' .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Order: </span><span>'. number_format( $count_order ,0,',','.' ) .' </span></h4>
+        <h4 class="mt-3 mb-3"><span>Unconfirmed Order: </span><span>'. number_format( $count_order_unconfirmed ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Confirmed Order: </span><span>'. number_format( $count_order_confirmed ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Orders In Transit: </span><span>'.number_format( $count_order_in_transit ,0,',','.' ) .' </span></h4>
+        <h4 class="mt-3 mb-3"><span>Orders Delivered: </span><span>'. number_format( $count_order_delivered ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Cancel Order: </span><span>'. number_format( $count_order_cancel ,0,',','.' ) .' </span></h4>
+        <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format( $count_detail ,0,',','.' ) .'</span></h4>
+        <h4 class="mt-3 mb-3"><span>Quantity Sold: </span><span>'. number_format( $sum_detail ,0,',','.' ) .'</span></h4>
+            <thead class="bg-light">
+                <tr>
+                    <th class="font-weight-medium">No.</th>
+                    <th class="font-weight-medium">Day</th>
+                    <th class="font-weight-medium">Customer</th>
+                    <th class="font-weight-medium">Total</th>
+                    <th class="font-weight-medium">Status</th>
+                </tr>
+            </thead>
+            <tbody class="font-14 show_views_type_search" >';
+                foreach ($all_order_statistics as $key=>$order){
+                    $output .= ' <tr>
+                        <td>
+                            '. $order->dondathang_ma_don_dat_hang .'
+                        </td>
+                        <td>
+                            '. date('d-m-Y', strtotime( $order->dondathang_ngay_dat_hang)) .'
+                        </td>
+                        <td>
+                        '.$order->Customer->khachhang_ho.' '. $order->Customer->khachhang_ten.'
+                        </td>
+                        <td>
+                            '.number_format( $order->dondathang_tong_tien ,0,',','.' ).' VNĐ' .'
+                        </td>
+                        <td>';
+                        if($order->dondathang_trang_thai==0){
+                            $output .= ' Unconfirmed';
+                        }elseif($order->dondathang_trang_thai==1){
+                            $output .= '  Confirmed';
+                        }elseif($order->dondathang_trang_thai==2){
+                            $output .= ' In Transit';
+                        }elseif($order->dondathang_trang_thai==3){
+                            $output .= ' Delivered';
+                        }elseif($order->dondathang_trang_thai==4){
+                            $output .= ' Order Has Been Canceled';
+                            }
+                            $output .= '</td>
+                    </tr>';
+                }
+                $output .= '
+            </tbody>
+        </table>
+        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+            <h4 class="mt-3 mb-3"><span>Product: </span></h4>
+            <thead class="bg-light">
+                <tr>
+                    <th class="font-weight-medium">No.</th>
+                    <th class="font-weight-medium">Day</th>
+                    <th class="font-weight-medium">Product Name</th>
+                    <th class="font-weight-medium">Size</th>
+                    <th class="font-weight-medium">Price</th>
+                    <th class="font-weight-medium">Quantity</th>
+                    <th class="font-weight-medium">Total</th>
+                </tr>
+            </thead>
+            <tbody class="font-14 show_views_type_search" >';
+                if($all_order_detail!=null){
+                    foreach ($all_order_detail as $k=>$order_detail){
+                        $output .= ' <tr>
+                            <td>
+                                '. $order_detail->chitietdondathang_ma_don_dat_hang .'
+                            </td>
+                            <td>
+                                '. date('d-m-Y', strtotime( $order_detail->Order->dondathang_ngay_dat_hang)) .'
+                            </td>
+                            <td>
+                            '.$order_detail->Product->sanpham_ten .'
+                            </td>
+                            <td>
+                            '.$order_detail->Size->size .'
+                            </td>
+                            <td>
+                                '.number_format( $order_detail->chitietdondathang_don_gia ,0,',','.' ).' VNĐ' .'
+                            </td>
+                            <td>
+                            '.$order_detail->chitietdondathang_so_luong .'
+                            </td>
+                            <td>
+                                '.number_format( $order_detail->chitietdondathang_so_luong* $order_detail->chitietdondathang_don_gia,0,',','.' ).' VNĐ' .'
+                            </td>
+                        </tr>';
+                    }
+                }
+                $output .= '
+            </tbody>
+        </table>
         ';
         echo $output;
     }

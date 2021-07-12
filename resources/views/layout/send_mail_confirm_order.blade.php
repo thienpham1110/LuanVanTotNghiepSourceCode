@@ -96,7 +96,7 @@
                                 <tr>
                                     <td align="center" style="font-family: Open Sans; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
                                         <img src="https://img.icons8.com/carbon-copy/100/000000/checked-checkbox.png" width="125" height="120" style="display: block; border: 0px;" /><br>
-                                        <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;"> Bạn vừa đặt một đơn hàng! </h2>
+                                        <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;"> Đơn hàng của bạn đã dược xác nhận! </h2>
                                     </td>
                                 </tr>
                                 <tr>
@@ -129,7 +129,6 @@
 												@else
 												COD
 												@endif
-												{{$code['coupon_code']}}
 												</td>
                                             </tr>
 											@foreach ($cart_array as $cart )

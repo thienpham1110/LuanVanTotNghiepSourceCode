@@ -103,9 +103,67 @@
     <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
     {{--  <script src="{{URL::asset('public/libs/switchery/switchery.min.js')}}" ></script>  --}}
     {{--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  --}}
+
 </body>
 
 </html>
+<script>
+    $(document).ready(function(){
+        $('.search-type-statistical-order').on('change',function(){
+            var search=$('.search-type-statistical-order option:selected').val();
+            $.ajax({
+                url:"{{url('/search-select-order-statistics')}}",
+                method:"GET",
+                data:{search_type:search},
+                success:function(data){
+                   $('.show_search_order_statistics').html(data);
+                }
+            });
+        })
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('.clear-search-statistical-order').click(function() {
+            $(this).closest('form').find("input[type=date]").val("");
+            $(this).closest('form').find("select").val("0");
+            var from_day = document.getElementById('search_from_day_statistical_order').value;
+            var to_day =document.getElementById('search_to_day_statistical_order').value;
+            $.ajax({
+                url:"{{url('/search-order-statistics')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_search_order_statistics').html(data);
+                }
+            });
+        });
+        $('#search_from_day_statistical_order').on('change',function(){
+            var from_day = document.getElementById('search_from_day_statistical_order').value;
+            var to_day =document.getElementById('search_to_day_statistical_order').value;
+            $.ajax({
+                url:"{{url('/search-order-statistics')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_search_order_statistics').html(data);
+                }
+            });
+        });
+        $('#search_to_day_statistical_order').on('change',function(){
+            var from_day = document.getElementById('search_from_day_statistical_order').value;
+            var to_day =document.getElementById('search_to_day_statistical_order').value;
+            $.ajax({
+                url:"{{url('/search-order-statistics')}}",
+                method:"GET",
+                data:{from_day:from_day,to_day:to_day},
+                success:function(data){
+                   $('.show_search_order_statistics').html(data);
+                }
+            });
+        });
+    });
+</script>
 <script>
     $(document).ready(function(){
         $('.search-type-statistical-product-import').on('change',function(){
@@ -361,18 +419,7 @@ $("#ProductMoreImagesInput").change(function () {
         });
     });
 </script>
-<script type="text/javascript">
-    document.getElementById("files").onchange = function () {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById("image").src = e.target.result;
-        };
-        reader.readAsDataURL(this.files[0]);
-    };
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );
-</script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('.add-order-admin-coupon').click(function(){

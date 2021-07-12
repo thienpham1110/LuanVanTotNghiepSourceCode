@@ -40,6 +40,7 @@ class AdminHomeController extends Controller
             if($result->loainguoidung_id ==2 || $result->loainguoidung_id ==1 ||$result->loainguoidung_id ==3){
                 Session::put('admin_name',$result->user_ten);
                 Session::put('admin_id',$result->id);
+                Session::put('admin_role',$result->loainguoidung_id);
                 return Redirect::to('/dashboard');
             }
         }else{
@@ -52,6 +53,7 @@ class AdminHomeController extends Controller
         $this->AuthLogin();
         Session::forget('admin_name');
         Session::forget('admin_id');
+        Session::forget('admin_role');
         return Redirect::to('/admin');
     }
 

@@ -237,13 +237,13 @@
                                                             @if($order->dondathang_tinh_trang_thanh_toan==0 && $order_delivery->giaohang_phuong_thuc_thanh_toan==1)
                                                                 <a href="{{URL::to('/order-confirm-payment/'.$order->id)}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Payment Confirmation</a>
                                                             @endif
-                                                            @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=4)
-                                                                <a href="{{URL::to('/order-canceled/'.$order->id)}}"  class="btn btn-success waves-effect" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2"></i>Cancel Order</a>
+                                                            @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4)
+                                                                <a href="{{URL::to('/order-canceled/'.$order->id)}}"  class="btn btn-success waves-effect" onclick="return confirm('You Sure Cancel?')"><i class="mdi mdi-delete mr-2"></i>Cancel Order</a>
                                                             @endif
-                                                            @if($order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4)
+                                                            @if($order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4 && $order->dondathang_trang_thai!=0)
                                                             <a href="{{URL::to('/order-in-transit/'.$order->id)}}"  class="btn btn-success waves-effect" onclick="return confirm('You Sure?')"><i class="mdi mdi-content-save mr-2"></i>Confirm Pickup</a>
                                                             @endif
-                                                            @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4)
+                                                            @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4 && $order->dondathang_trang_thai!=0)
                                                             <a href="{{URL::to('/order-confirm-delivery/'.$order->id)}}"  class="btn btn-success waves-effect" onclick="return confirm('You Sure?')"><i class="mdi mdi-content-save mr-2"></i>Confirm Delivery</a>
                                                             @endif
                                                         </div>
