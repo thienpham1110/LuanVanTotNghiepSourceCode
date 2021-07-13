@@ -28,13 +28,17 @@
                         <div class="card-box">
                             <h4 class="header-title">Product Discount</h4>
                             <hr>
-                            <?php
-                                $message=Session::get('message');
-                                if($message){
-                                    echo '<p class="text-muted">'.$message.'</p>';
-                                    Session::put('message',null);
-                                }
-                            ?>
+                             @if(session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {!! session()->get('message') !!}
+                                        {!! session()->forget('message') !!}
+                                    </div>
+                                @elseif(session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {!! session()->get('error') !!}
+                                        {!! session()->forget('error') !!}
+                                    </div>
+                                @endif
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -127,6 +131,11 @@
                                                                     @endforeach
                                                                 </tbody>
                                                             </table>
+                                                            <nav>
+                                                                <ul class="pagination pagination-rounded mb-3">
+                                                                    {{ $all_product->links('layout.paginationlinks') }}
+                                                                </ul>
+                                                            </nav>
                                                         </div> <!-- end card body-->
                                                     </div>
                                                 </div>

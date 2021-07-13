@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/order-add-show-product')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">

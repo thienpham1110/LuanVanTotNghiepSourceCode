@@ -487,18 +487,13 @@ $("#ProductMoreImagesInput").change(function () {
                 data:{product_id:product_id,product_size_id:product_size_id,product_price:product_price,
                     product_name:product_name ,product_size_name:product_size_name,product_in_stock:product_in_stock,_token:_token},
                 success:function(data){
-                    swal({
-                        title: "Đã thêm sản phẩm vào giỏ hàng",
-                        showCancelButton: true,
-                        cancelButtonText: "Xem tiếp",
-                        confirmButtonClass: "btn btn-info",
-                        cancelButtonClass: "btn btn-success",
-                        confirmButtonText: "Tạo đơn hàng",
-                        closeOnConfirm: false
-                    },
-                    function() {
-                        window.location.href = "{{url('/order-add')}}";
-                    });
+                    Swal.fire({
+                        title: "Add Success",
+                        type: "success",
+                        showConfirmButton: !1,
+                        timer: 1000
+                    })
+                    window.location.href = "{{url('/order-add')}}";
                }
             });
          });

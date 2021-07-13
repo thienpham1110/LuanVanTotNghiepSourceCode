@@ -256,7 +256,7 @@
                                                                                 @endforeach
                                                                             </select>
                                                                         </td>
-                                                                        <td><input type="text" name="product_total[{{ $product['product_id'] }}]" class="form-control product_total"></td>
+                                                                        <td><input type="text" readonly name="product_total[{{ $product['product_id'] }}]" class="form-control product_total"></td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>

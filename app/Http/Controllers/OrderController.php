@@ -43,37 +43,37 @@ class OrderController extends Controller
     }
     public function OrderAdd(){
         $this->AuthLogin();
-		$all_product_in_stock = ProductInStock::where('sanphamtonkho_so_luong_ton','>',0)
-        ->orderby('sanpham_id', 'desc')->get();//lấy sản phẩm tồn kho
-        foreach($all_product_in_stock as $key=> $value){
-                $product[]=$value->sanpham_id;
-                $size[]=$value->size_id;
-        }
+        $all_product=Product::where('sanpham_trang_thai',1)->get();
+        if($all_product->count()>0){
+            foreach($all_product as $key=> $value){
+                $product_id[]=$value->id;
+            }
+        }else{
+            $product_id=null;
+        } 
+        $all_product_in_stock = ProductInStock::where('sanphamtonkho_so_luong_ton','>',0)
+        ->whereIn('sanpham_id',$product_id)
+        ->orderby('sanpham_id', 'desc')->paginate(5);//lấy sản phẩm tồn kho
         $city=City::orderby('id','ASC')->get();
-        $all_product=Product::whereIn('id',$product)
-        ->where('sanpham_trang_thai',1)->get();
-        $all_size=Size::whereIn('id',$size)->get();
 		return view('admin.pages.order.order_add')
-		->with('all_size', $all_size)
-        ->with('all_product', $all_product)
-        ->with('all_product_in_stock', $all_product_in_stock)
-        ->with('city',$city);
+        ->with('city',$city)
+        ->with('all_product_in_stock', $all_product_in_stock);
     }
 
     public function OrderAddShowProduct(){
         $this->AuthLogin();
-		$all_product_in_stock = ProductInStock::where('sanphamtonkho_so_luong_ton','>',0)
-        ->orderby('sanpham_id', 'desc')->get();//lấy sản phẩm tồn kho
-        foreach($all_product_in_stock as $key=> $value){
-                $product[]=$value->sanpham_id;
-                $size[]=$value->size_id;
-        }
-        $all_product=Product::whereIn('id',$product)
-        ->where('sanpham_trang_thai',1)->get();
-        $all_size=Size::whereIn('id',$size)->get();
+        $all_product=Product::where('sanpham_trang_thai',1)->get();
+        if($all_product->count()>0){
+            foreach($all_product as $key=> $value){
+                $product_id[]=$value->id;
+            }
+        }else{
+            $product_id=null;
+        } 
+        $all_product_in_stock = ProductInStock::where('sanphamtonkho_so_luong_ton','>',0)
+        ->whereIn('sanpham_id',$product_id)
+        ->orderby('sanpham_id', 'desc')->paginate(5);//lấy sản phẩm tồn kho
 		return view('admin.pages.order.order_add_show_product')
-        ->with('all_product', $all_product)
-        ->with('all_size', $all_size)
         ->with('all_product_in_stock', $all_product_in_stock);
     }
 

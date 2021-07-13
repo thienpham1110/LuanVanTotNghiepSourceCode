@@ -62,25 +62,17 @@ class ProductDiscountController extends Controller
             foreach($product_import_in_stock as $in=>$in_stock){
                 $pro_id[]=$in_stock->sanpham_id;
             }
-            $product=Product::whereIn('id',$pro_id)->get();
+            $product=Product::whereIn('id',$pro_id)->paginate(10);
         }else{
             $product_import_in_stock=ProductInstock::where('sanphamtonkho_so_luong_ton', '>', 0)->get();//lay sp k km con ton kho
             foreach($product_import_in_stock as $in=>$in_stock){
                 $pro_id[]=$in_stock->sanpham_id;
             }
-            $product=Product::whereIn('id',$pro_id)->get();
+            $product=Product::whereIn('id',$pro_id)->paginate(10);
         }
-        // print($product_import_in_stock);
-        // if (empty($pro_dis)) {
-        // 	$product_no_dis = Product::whereNotIn('id', ['0'])->get();
-        // } else {
-        // 	$product_no_dis = Product::whereNotIn('id', $pro_dis)->get();
-        // }
         return view('admin.pages.product_discount.product_discount_add')
-        ->with('all_product', $product)
-        ->with('product_import_in_stock', $product_import_in_stock);
+        ->with('all_product', $product);
     }
-
     public function ProductDiscountAddSave(Request $request)
     {
         $this->AuthLogin();

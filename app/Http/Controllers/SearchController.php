@@ -1645,7 +1645,7 @@ class SearchController extends Controller
             'search_customer_product_type' => $search_customer_product_type,
             'search_customer_collection' => $search_customer_collection,
             'search_customer_price' => $search_customer_price,
-            'search_customer_gender' => $search_customer_gender ],
+            'search_customer_gender' => $search_customer_gender,
             'search_customer_size' => $search_customer_size ]);
             $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
             $all_size=Size::where('size_trang_thai', 1)->orderby('size_thu_tu', 'ASC')->get();

@@ -324,10 +324,3 @@ Route::get('/admin-search-order', 'SearchController@AdminSearchOrder');
 Route::get('/admin-search-import', 'SearchController@AdminSearchProductImport');
 Route::get('/admin-search-comment', 'SearchController@AdminSearchComment');
 Route::get('/admin-search-product', 'SearchController@AdminSearchProduct');
-
-
-//Demo
-Route::get('search', 'ProductImportController@getSearch');
-Route::post('search/name', 'ProductImportController@getSearchAjax')->name('search');
-Route::get('/demo', 'ProductImportController@home');
-Route::post('/demo2', 'ProductImportController@demo');

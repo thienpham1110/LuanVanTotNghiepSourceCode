@@ -24,15 +24,70 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title">Product Import</h4>
+                        <h4 class="header-title">Product Order</h4>
                         <hr>
-                        <?php
-                            $message=Session::get('message');
-                            if($message){
-                                echo '<p class="text-muted">'.$message.'</p>';
-                                Session::put('message',null);
-                            }
-                        ?>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
+                                        @if(session()->has('message'))
+                                            <div class="alert alert-success">
+                                                {!! session()->get('message') !!}
+                                                {!! session()->forget('message') !!}
+                                            </div>
+                                        @elseif(session()->has('error'))
+                                            <div class="alert alert-danger">
+                                                {!! session()->get('error') !!}
+                                                {!! session()->forget('error') !!}
+                                            </div>
+                                        @endif
+                                        <thead class="bg-light">
+                                        <tr>
+                                            <th class="font-weight-medium">#</th>
+                                            <th class="font-weight-medium">Images</th>
+                                            <th class="font-weight-medium">Name</th>
+                                            <th class="font-weight-medium">Price</th>
+                                            <th class="font-weight-medium">Size</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="font-14">
+                                            <form >
+                                                @csrf
+                                                    @foreach ($all_product_in_stock as $k=>$in_stock)
+                                                        <tr>
+                                                            <input type="hidden" value="{{ $in_stock->sanpham_id }}" class="product_id_{{ $in_stock->sanpham_id }}">
+                                                            <input type="hidden" value="{{ $in_stock->Product->sanpham_ten }}" class="product_name_{{ $in_stock->sanpham_id }}">
+                                                            <input type="hidden" value="{{number_format( $in_stock->Product->sanpham_gia_ban ,0,',','') }}" class="product_price_{{ $in_stock->sanpham_id }}">
+                                                            <input type="hidden" value="{{ $in_stock->size_id }}" class="product_size_id_{{ $in_stock->sanpham_id }}">
+                                                            <input type="hidden" value="{{ $in_stock->Size->size }}" class="product_size_name_{{ $in_stock->sanpham_id }}">
+                                                            <input type="hidden" value="{{ $in_stock->sanphamtonkho_so_luong_ton }}" class="product_in_stock_{{ $in_stock->sanpham_id }}">
+                                                            <td>
+                                                                <button type="button" data-id_product="{{ $in_stock->sanpham_id}}" name="add-order-admin" class="btn btn-success waves-effect waves-light btn-sm add-order-admin">
+                                                                <i class="mdi mdi-plus-circle mr-1"></i>Add</button>
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript: void(0);">
+                                                                    <img src="{{asset('public/uploads/admin/product/'.$in_stock->Product->sanpham_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
+                                                                </a>
+                                                            </td>
+                                                            <td>{{$in_stock->Product->sanpham_ten }}</td>
+                                                            <td>{{number_format( $in_stock->Product->sanpham_gia_ban,0,',','.' )." VND" }}</td>
+                                                            <td>{{$in_stock->Size->size }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                            </form>
+                                        </tbody>
+                                    </table>
+                                    <nav>
+                                        <ul class="pagination pagination-rounded mb-3">
+                                        {{$all_product_in_stock->links('layout.paginationlinks') }}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -40,7 +95,7 @@
                                             {{ csrf_field() }}
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
-                                                    <label class="col-form-label">Product Import</label>
+                                                    <label class="col-form-label">Order</label>
                                                     <div class="table-responsive" id="ajax-queue">
                                                         <table class="table table-hover  mb-0">
                                                             <thead>
@@ -173,15 +228,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                            </div>                                    
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- end row -->
-                    </div> <!-- end card-box -->
-                </div><!-- end col -->
+                            
+                    </div>
+                </div>
             </div>
             <!-- end row -->
             <!-- end content -->

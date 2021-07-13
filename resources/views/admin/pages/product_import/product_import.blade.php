@@ -8,27 +8,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-
                         <div class="page-title-right mr-3">
                             <div class="text-lg-right mt-3 mt-lg-0">
                                 <a href="{{URL::to('/product-import-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
-                        </div>
-                        <div class="page-title-right mr-3">
-                            <li class="d-none d-sm-block">
-                                <form class="app-search">
-                                    <div class="app-search-box">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="submit">
-                                                    <i class="fe-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </li>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
