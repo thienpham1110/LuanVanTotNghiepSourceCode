@@ -14,8 +14,8 @@ class SupplierController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_supplier=DB::table('tbl_nhacungcap')->get();
-        $all_supplier=Supplier::all();
+        // $all_supplier=DB::table('tbl_nhacungcap')->get();
+        $all_supplier=Supplier::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.supplier.supplier')->with('all_supplier',$all_supplier);
     }
 

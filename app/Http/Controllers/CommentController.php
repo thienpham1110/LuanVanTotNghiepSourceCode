@@ -19,8 +19,8 @@ class CommentController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $comment_customer=Comment::where('binhluan_id_phan_hoi','=',0)->orderby('id','DESC')->get();
-        $comment_admin=Comment::where('binhluan_id_phan_hoi','>',0)->get();
+        $comment_customer=Comment::where('binhluan_id_phan_hoi','=',0)->orderby('id','DESC')->paginate(5);
+        $comment_admin=Comment::where('binhluan_id_phan_hoi','>',0)->paginate(5);
         return view('admin.pages.comment.show_comment')->with(compact('comment_customer', 'comment_admin'));
     }
 

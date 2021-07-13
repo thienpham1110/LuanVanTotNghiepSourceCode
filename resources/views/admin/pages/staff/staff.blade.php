@@ -28,23 +28,44 @@
                         <div class="card-box">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form class="form-inline">
+                                    <form class="form-inline" action="{{URL::to('/admin-search-staff')}}" method="GET">
                                         <div class="form-group">
                                             <label for="inputPassword2" class="sr-only">Search</label>
-                                            <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
+                                            <input type="search" class="form-control" name="search_staff_keyword"
+                                            @if(isset($search_keyword))
+                                                value="{{ $search_keyword }}"
+                                            @endif
+                                            placeholder="Search Keyword...">
                                         </div>
                                         <div class="form-group mx-sm-3">
-                                            <label for="status-select" class="mr-2">Brand</label>
-                                            <select class="custom-select" id="status-select">
-                                                <option selected="">All</option>
-                                                <option value="1">Date</option>
-                                                <option value="2">Name</option>
-                                                <option value="3">Revenue</option>
-                                                <option value="4">Employees</option>
+                                            <label for="status-select" class="mr-2">Gender</label>
+                                            <select class="custom-select" name="search_select_gender" id="status-select">
+                                                @if(isset($search_gender))
+                                                    @if($search_gender==-1)
+                                                        <option selected="" value="-1">All</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="0">Female</option>
+                                                    @elseif($search_gender==1)
+                                                        <option  value="-1">All</option>
+                                                        <option selected="" value="1">Male</option>
+                                                        <option value="0">Female</option>
+                                                    @elseif($search_gender==0)
+                                                        <option value="-1">All</option>
+                                                        <option value="1">Male</option>
+                                                        <option selected="" value="0">Female</option>
+                                                    @endif
+                                                @else
+                                                    <option selected="" value="-1">All</option>
+                                                    <option value="1">Male</option>
+                                                    <option value="0">Female</option>
+                                                @endif
                                             </select>
                                         </div>
                                         <div class="form-group mx-sm-3">
-                                            <a href="index_save_add.php" class="btn btn-success waves-effect waves-light">Search</a>
+                                            <button type="submit" class="btn btn-success waves-effect waves-light">Search</button>
+                                        </div>
+                                        <div class="form-group ">
+                                            <a href="{{URL::to('/staff')}}" class="btn btn-success waves-effect waves-light">All</a>
                                         </div>
                                     </form>
                                 </div>
@@ -142,23 +163,7 @@
                 <!-- end row -->
                 <nav>
                 <ul class="pagination pagination-rounded mb-3">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
+                    {{ $all_staff->links('layout.paginationlinks') }}
                 </ul>
             </nav>
             <!-- end content -->

@@ -65,12 +65,25 @@
                                             <hr>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Images</label>
-                                                <div class="col-sm-10">
+                                                {{--  <div class="col-sm-10">
                                                     <div class="fileupload btn btn-primary waves-effect mt-1">
                                                         <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
                                                         <input type="file" value="{{ $slideshow->slidequangcao_anh }}"  name="slideshow_img" class="upload" multiple="" id="files">
                                                     </div>
                                                     <img width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/slideshow/'.$slideshow->slidequangcao_anh)}}" />
+                                                </div>  --}}
+                                                <div class="col-sm-10">
+                                                    <div class="user-image mb-3 text-center">
+                                                        <div class="imgPreview" >
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="upload custom-file-input" value="{{ $slideshow->slidequangcao_anh }}"  name="slideshow_img" id="images">
+                                                        <label class="custom-file-label" for="images">Choose image</label>
+                                                    </div>
+                                                    <label class="col-form-label mt-3">Old image</label>
+                                                    <img class=" mt-3" width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/slideshow/'.$slideshow->slidequangcao_anh)}}" />
                                                 </div>
                                             </div>
                                             <hr>

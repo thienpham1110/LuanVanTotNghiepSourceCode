@@ -14,7 +14,7 @@ class SizeController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_size=Size::all();
+        $all_size=Size::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.size.size')->with('all_size',$all_size);
     }
 

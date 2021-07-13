@@ -21,34 +21,22 @@
                 </div>
             </div>
             <!-- content -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-box">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <form class="form-inline">
-                                    <div class="form-group">
-                                        <label for="inputPassword2" class="sr-only">Search</label>
-                                        <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
-                                    </div>
-                                </form>
-                            </div>
-                           <!-- end col-->
-                        </div> <!-- end row -->
-                    </div> <!-- end card-box -->
-                </div><!-- end col-->
-            </div>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <?php
-                                    $message=Session::get('message');
-                                    if($message){
-                                        echo '<p class="text-muted">'.$message.'</p>';
-                                        Session::put('message',null);
-                                    }
-                                ?>
+                                @if(session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {!! session()->get('message') !!}
+                                        {!! session()->forget('message') !!}
+                                    </div>
+                                @elseif(session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {!! session()->get('error') !!}
+                                        {!! session()->forget('error') !!}
+                                    </div>
+                                @endif
                                 <thead class="bg-light">
                                 <tr>
                                     <th class="font-weight-medium">Images</th>
@@ -114,23 +102,7 @@
                 <!-- end row -->
                 <nav>
                     <ul class="pagination pagination-rounded mb-3">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
+                        {{ $all_about_store->links('layout.paginationlinks') }}
                     </ul>
                 </nav>
             <!-- end content -->

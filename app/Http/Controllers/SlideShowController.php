@@ -14,7 +14,7 @@ class SlideShowController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_slideshow=SlideShow::all();
+        $all_slideshow=SlideShow::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.slideshow.slideshow')->with('all_slideshow',$all_slideshow);
     }
 

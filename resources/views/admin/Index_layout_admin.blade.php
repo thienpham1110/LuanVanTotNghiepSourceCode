@@ -35,8 +35,6 @@
     <link href="{{URL::asset('public/backend/libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css">
     <link href="{{URL::asset('public/backend/libs/switchery/switchery.min.css')}}"  rel="stylesheet" type="text/css">
     <link href="{{URL::asset('public/backend/css/sweetalert.css')}}" rel="stylesheet">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -61,7 +59,6 @@
         <!-- ============================================================== -->
     </div>
       <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
-    {{--  <script src="{{URL::asset('public/backend/libs/datatables/jquery.dataTables.min.js')}}"></script>  --}}
     {{--  <script src="{{URL::asset('public/backend/libs/datatables/dataTables.buttons.min.js')}}"></script>  --}}
     {{--  <script src="{{URL::asset('public/backend/js/pages/datatables.init.js')}}"></script>  --}}
     {{--  <script src="{{URL::asset('public/backend/libs/datatables/dataTables.bootstrap4.js')}}"></script>  --}}
@@ -107,6 +104,27 @@
 </body>
 
 </html>
+{{--  <script>
+    {{--  Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
+    });  --}}
+    {{--  $(document).ready( function() {
+        var from_day = document.getElementById('get_search_admin_from_day_order').value;
+        var to_day = document.getElementById('get_search_admin_to_day_order').value;
+        if(from_day!=null){
+            $('.search_admin_from_day_order').val(from_day);
+        }else{
+            $('.search_admin_from_day_order').val(new Date().toDateInputValue());
+        }
+        if(to_day!=null){
+            $('.search_admin_to_day_order').val(to_day);
+        }else{
+            $('.search_admin_to_day_order').val(new Date().toDateInputValue());
+        }
+    });  --}}
+{{--  </script>  --}}
 <script>
     $(document).ready(function(){
         $('.search-type-statistical-order').on('change',function(){
@@ -119,7 +137,7 @@
                    $('.show_search_order_statistics').html(data);
                 }
             });
-        })
+        });
     });
 </script>
 <script>

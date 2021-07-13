@@ -358,11 +358,11 @@ class HomeController extends Controller
             $all_product=Product::whereIn('id',$pro_id)->where('sanpham_trang_thai','1')
             ->whereNotIn('id',[$product_id])
             ->whereNotIn('id',$pro_dis)->orderBy('id','DESC')->get();
-            $all_product_wishlist=Product::whereIn('id',$product_viewed)->where('sanpham_trang_thai','1')
+            $all_product_viewed=Product::whereIn('id',$product_viewed)->where('sanpham_trang_thai','1')
             ->whereIn('id',$pro_id)
             ->whereNotIn('id',$pro_dis)->orderBy('id','DESC')->get();
         }else{
-            $all_product_wishlist=Product::whereIn('id',$product_viewed)->where('sanpham_trang_thai','1')
+            $all_product_viewed=Product::whereIn('id',$product_viewed)->where('sanpham_trang_thai','1')
             ->whereIn('id',$pro_id)->orderBy('id','DESC')->get();
             $related_product=Product::whereIn('id',$pro_id)->where('loaisanpham_id',$product_type_id)
             ->where('sanpham_trang_thai','1')->whereNotIn('id',[$product_id])->get();
@@ -390,7 +390,7 @@ class HomeController extends Controller
         ->with('all_size',$all_size)
         ->with('get_in_stock',$get_in_stock)
         ->with('all_product',$all_product)
-        ->with('all_product_wishlist',$all_product_wishlist)
+        ->with('all_product_viewed',$all_product_viewed)
         ->with('product_type',$all_product_type)
         ->with('product_brand',$all_brand)
         ->with('product_collection',$all_collection)

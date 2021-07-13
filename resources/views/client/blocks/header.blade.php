@@ -68,9 +68,12 @@
          <div class="col-lg-9 col-md-9">
              <div class="header_right_info">
                  <div class="search_bar">
-                    <form action="{{URL::to ('/get-keyword-search')}}" method="POST">
-                        @csrf
-                        <input placeholder="Search..." required="" name="search_product_customer" type="text">
+                    <form action="{{URL::to ('/search-product-customer')}}" method="GET">
+                        <input placeholder="Search Keyword..." required=""
+                        @if(isset($search_keyword))
+                        value="{{ $search_keyword }}"
+                        @endif
+                        name="search_product_customer" type="search">
                         <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
                  </div>

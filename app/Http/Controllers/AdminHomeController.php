@@ -80,7 +80,7 @@ class AdminHomeController extends Controller
                 }
             }
         }
-        $all_staff = Admin::orderBy('id','DESC')->get();
+        $all_staff = Admin::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.staff.staff')->with('all_staff',$all_staff);
     }
     public function ShowStaffAdd(){

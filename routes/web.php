@@ -73,11 +73,10 @@ Route::post('/customer-change-password-save/{customer_email}', 'CustomerControll
 Route::post('/post-comment-customer', 'CommentController@PostCommentCustomer');
 Route::post('/load-comment','CommentController@LoadComment');
 
-//Search
+//Search Customer
 Route::get('/search-product-customer', 'SearchController@ShowProductSearchHeaderCustomer');
-Route::post('/get-keyword-search', 'SearchController@GetKeyWordSearch');
-Route::post('/get-filter-search-customer', 'SearchController@GetFilterSearchCustomer');
 Route::get('/search-product-filter-customer', 'SearchController@ShowProductSearchFilterCustomer');
+
 
 //About US
 Route::get('/about-us', 'AboutStoreController@ShowAboutUS');
@@ -225,8 +224,6 @@ Route::post('/product-image-add/{product_id}', 'ProductController@ProductImageAd
 Route::get('/product-images-delete/{product_image_id}', 'ProductController@ProductImageDelete');
 
 
-
-
 //Product Import
 Route::get('/product-import', 'ProductImportController@Index');
 Route::get('/product-import-add-multiple', 'ProductImportController@ProductImportAddMultiple');
@@ -236,6 +233,7 @@ Route::post('/product-import-add-multiple-save', 'ProductImportController@Produc
 
 Route::get('/product-import-add', 'ProductImportController@ProductImportAdd');
 Route::post('/product-import-add-save', 'ProductImportController@ProductImportAddSave');
+Route::get('/product-import-edit/{product_import_id}', 'ProductImportController@ProductImportEdit');
 Route::get('/product-import-show-detail/{product_import_id}', 'ProductImportController@ProductImportShowDetail');
 Route::post('/product-import-edit-save/{product_import_id}', 'ProductImportController@ProductImportEditSave');
 Route::get('/unactive-product-import/{product_import_id}', 'ProductImportController@UnactiveProductImport');
@@ -255,8 +253,7 @@ Route::post('/product-discount-add-save', 'ProductDiscountController@ProductDisc
 Route::get('/product-discount-edit/{product_discount_id}', 'ProductDiscountController@ProductDiscountEdit');
 Route::post('/product-discount-edit-save/{product_discount_id}', 'ProductDiscountController@ProductDiscountEditSave');
 
-//show product discount
-Route::get('/product-discount-show-product', 'ProductDiscountController@ShowProductDiscount');
+Route::get('/product-discount-admin-detail/{product_discount_id}', 'ProductDiscountController@ShowProductDiscountDetail');
 
 
 // Transport Fee
@@ -291,7 +288,9 @@ Route::get('/delivery', 'OrderController@GetDelivery');
 Route::get('/update-order-id-delivery', 'OrderController@UpdateOrderIdDelivery');
 
 //Customer
-Route::get('/customer', 'CustomerController@Index');
+Route::get('/customer', 'CustomerController@ShowAllCustomer');
+Route::get('/show-order-customer/{customer_id}', 'CustomerController@ShowAllOrderCustomer');
+Route::get('/show-customer-detail/{customer_id}', 'CustomerController@ShowCustomerDetail');
 
 //Comment
 Route::get('/comment', 'CommentController@Index');
@@ -316,6 +315,15 @@ Route::get('/search-select-product-import', 'StatisticsController@SearchSelectIm
 Route::get('/sales-statistics', 'StatisticsController@ShowSalesStatistics');
 Route::get('/search-order-statistics', 'StatisticsController@SearchOrderStatistics');
 Route::get('/search-select-order-statistics', 'StatisticsController@SearchSelectOrderStatistics');
+
+//Search
+Route::get('/admin-search-staff', 'SearchController@AdminSearchStaff');
+Route::get('/admin-search-customer', 'SearchController@AdminSearchCustomer');
+Route::get('/admin-search-delivery', 'SearchController@AdminSearchDelivery');
+Route::get('/admin-search-order', 'SearchController@AdminSearchOrder');
+Route::get('/admin-search-import', 'SearchController@AdminSearchProductImport');
+Route::get('/admin-search-comment', 'SearchController@AdminSearchComment');
+Route::get('/admin-search-product', 'SearchController@AdminSearchProduct');
 
 
 //Demo

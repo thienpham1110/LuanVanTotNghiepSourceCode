@@ -24,7 +24,7 @@
                     <div class="tab-content produc_tab_c">
                         <div class="tab-pane fade show active" id="p_tab1" role="tabpanel">
                             <div class="modal_img">
-                                <a href="#"><img id="wishlist_viewed_product_image{{ $product->id }}" src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" alt=""></a>
+                                <a href="#"><img id="wishlist_viewed_product_image{{ $product->id }}" src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" width="380px" height="490px" alt=""></a>
                                 <div class="img_icone">
                                    <img src="{{asset('public/frontend/img/cart/span-new.png')}}" alt="">
                                </div>
@@ -209,7 +209,13 @@
                           <div class="histo">
                             <div class="five histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   5    -    {{number_format( ($count_rate_5*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                                <i class="active fa fa-star ratting_review"></i>   5    -
+                                @if ($count_rate>0)
+                                {{number_format( ($count_rate_5*100)/$count_rate  ,0,',','.'). ' %' }}
+                                @else
+                                0 %
+                                @endif
+                                </span>
                               <span class="bar-block">
                                 <span id="bar-five" class="bar">
                                   <span>
@@ -227,7 +233,13 @@
 
                             <div class="four histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   4    -    {{number_format( ($count_rate_4*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                                <i class="active fa fa-star ratting_review"></i>   4    -
+                                @if ($count_rate>0)
+                                {{number_format( ($count_rate_4*100)/$count_rate  ,0,',','.'). ' %' }}
+                                @else
+                                0 %
+                                @endif
+                                </span>
                               <span class="bar-block">
                                 <span id="bar-four" class="bar">
                                   <span>
@@ -245,7 +257,13 @@
 
                             <div class="three histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   3    -    {{number_format( ($count_rate_3*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                                <i class="active fa fa-star ratting_review"></i>   3    -
+                                @if ($count_rate>0)
+                                {{number_format( ($count_rate_3*100)/$count_rate  ,0,',','.'). ' %' }}
+                                @else
+                                0 %
+                                @endif
+                                </span>
                               <span class="bar-block">
                                 <span id="bar-three" class="bar">
                                 <span>
@@ -263,7 +281,13 @@
 
                             <div class="two histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   2    -    {{number_format( ($count_rate_2*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                                <i class="active fa fa-star ratting_review"></i>   2    -
+                                @if ($count_rate>0)
+                                {{number_format( ($count_rate_2*100)/$count_rate  ,0,',','.'). ' %' }}
+                                @else
+                                0 %
+                                @endif
+                                </span>
                               <span class="bar-block">
                                 <span id="bar-two" class="bar">
                                   <span>
@@ -281,7 +305,13 @@
 
                             <div class="one histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   1    -    {{number_format( ($count_rate_1*100)/$count_rate  ,0,',','.'). ' %' }}</span>
+                                <i class="active fa fa-star ratting_review"></i>   1    -
+                                @if ($count_rate>0)
+                                {{number_format( ($count_rate_1*100)/$count_rate  ,0,',','.'). ' %' }}
+                                @else
+                                0 %
+                                @endif
+                                </span>
                               <span class="bar-block">
                                 <span id="bar-one" class="bar">
                                   <span>
@@ -669,13 +699,13 @@
     <div class="row">
         <div class="col-12">
             <div class="block_title">
-            <h3>Related Products</h3>
+            <h3>Products Viewed</h3>
         </div>
         </div>
     </div>
     <div class="row">
         <div class="single_p_active owl-carousel">
-            @foreach ($all_product_wishlist as $key => $product )
+            @foreach ($all_product_viewed as $key => $product )
                 <div class="col-lg-3">
                     <div class="single_product">
                         <div class="product_thumb">

@@ -26,10 +26,20 @@
                     <div class="card-box">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form class="form-inline">
+                                <form class="form-inline" action="{{URL::to('/admin-search-delivery')}}" method="GET">
                                     <div class="form-group">
                                         <label for="inputPassword2" class="sr-only">Search</label>
-                                        <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
+                                        <input type="search" class="form-control" required="" name="search_delivery_keyword"
+                                        @if(isset($search_keyword))
+                                        value="{{ $search_keyword }}"
+                                        @endif
+                                        placeholder="Search Keyword...">
+                                    </div>
+                                    <div class="form-group mx-sm-3">
+                                        <button type="submit" class="btn btn-success waves-effect waves-light">Search</button>
+                                    </div>
+                                    <div class="form-group ">
+                                        <a href="{{URL::to('/delivery')}}" class="btn btn-success waves-effect waves-light">All</a>
                                     </div>
                                 </form>
                             </div>
@@ -42,13 +52,17 @@
                     <div class="col-12">
                         <div class="card-box">
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <?php
-                                    $message=Session::get('message');
-                                    if($message){
-                                        echo '<p class="text-muted">'.$message.'</p>';
-                                        Session::put('message',null);
-                                    }
-                                ?>
+                                @if(session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {!! session()->get('message') !!}
+                                        {!! session()->forget('message') !!}
+                                    </div>
+                                @elseif(session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {!! session()->get('error') !!}
+                                        {!! session()->forget('error') !!}
+                                    </div>
+                                @endif
                                 <thead class="bg-light">
                                 <tr>
                                     <th class="font-weight-medium">Orders Code</th>
@@ -69,7 +83,7 @@
                                             {{ $delivery->giaohang_ma_don_dat_hang }}
                                         </td>
                                         <td>
-                                            {{ $delivery->giaohang_tong_tien_thanh_toan }}
+                                            {{number_format($delivery->giaohang_tong_tien_thanh_toan,0,',','.').' VNĐ' }}
                                         </td>
                                         <td>
                                             {{ $delivery->giaohang_nguoi_nhan }}
@@ -107,23 +121,7 @@
                 <!-- end row -->
                 <nav>
                     <ul class="pagination pagination-rounded mb-3">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
+                        {{$all_delivery->links('layout.paginationlinks') }}
                     </ul>
                 </nav>
             <!-- end content -->

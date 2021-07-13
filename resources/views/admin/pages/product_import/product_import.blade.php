@@ -8,10 +8,27 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <div class="page-title-right">
+
+                        <div class="page-title-right mr-3">
                             <div class="text-lg-right mt-3 mt-lg-0">
                                 <a href="{{URL::to('/product-import-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
+                        </div>
+                        <div class="page-title-right mr-3">
+                            <li class="d-none d-sm-block">
+                                <form class="app-search">
+                                    <div class="app-search-box">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search...">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fe-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
@@ -26,43 +43,42 @@
                         <div class="card-box">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form class="form-inline">
-                                        <div class="form-group">
+                                    <form class="form-inline" action="{{URL::to('/admin-search-import')}}" method="GET">
+                                        <div class="form-group mr-3">
+                                            <label for="status-select" class="mr-2">From Day</label>
+                                            <input type="date" name="search_admin_from_day_import"  class="form-control">
+                                        </div>
+                                        <div class="form-group mr-3">
+                                            <label for="status-select" class="mr-2">To Day</label>
+                                            <input type="date" name="search_admin_to_day_import"  class="form-control">
+                                        </div>
+                                        <div class="form-group mr-3">
+                                            <input type="number" min="1"
+                                            @if(isset($search_filter_admin))
+                                            value="{{ $search_filter_admin[0]['search_admin_from_total_import'] }}"
+                                            @endif
+                                            name="search_admin_from_total_import" class="form-control" placeholder="From Total">
+                                        </div>
+                                        <div class="form-group mr-3">
+                                            <input type="number" min="1"
+                                            @if(isset($search_filter_admin))
+                                            value="{{ $search_filter_admin[0]['search_admin_to_total_import'] }}"
+                                            @endif
+                                            name="search_admin_to_total_import" class="form-control" placeholder="To total">
+                                        </div>
+                                        <div class="form-group mr-3 mt-3">
                                             <label for="inputPassword2" class="sr-only">Search</label>
-                                            <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
+                                            <input type="search" class="form-control" name="search_import_keyword"
+                                            @if(isset($search_filter_admin))
+                                            value="{{ $search_filter_admin[0]['search_import_keyword'] }}"
+                                            @endif
+                                            placeholder="Search Keyword...">
                                         </div>
-                                        <div class="form-group mx-sm-3">
-                                            <label for="status-select" class="mr-2">Brand</label>
-                                            <select class="custom-select" id="status-select">
-                                                <option selected="">All</option>
-                                                <option value="1">Date</option>
-                                                <option value="2">Name</option>
-                                                <option value="3">Revenue</option>
-                                                <option value="4">Employees</option>
-                                            </select>
+                                        <div class="form-group mx-sm-3 mt-3">
+                                            <button type="submit" class="btn btn-success waves-effect waves-light ">Search</button>
                                         </div>
-                                        <div class="form-group mx-sm-3">
-                                            <label for="status-select" class="mr-2">Colection</label>
-                                            <select class="custom-select" id="status-select">
-                                                <option selected="">All</option>
-                                                <option value="1">Date</option>
-                                                <option value="2">Name</option>
-                                                <option value="3">Revenue</option>
-                                                <option value="4">Employees</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group mx-sm-3">
-                                            <label for="status-select" class="mr-2">Type</label>
-                                            <select class="custom-select" id="status-select">
-                                                <option selected="">All</option>
-                                                <option value="1">Date</option>
-                                                <option value="2">Name</option>
-                                                <option value="3">Revenue</option>
-                                                <option value="4">Employees</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group mx-sm-3">
-                                            <a href="index_save_add.php" class="btn btn-success waves-effect waves-light">Search</a>
+                                        <div class="form-group mt-3">
+                                            <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light">All</a>
                                         </div>
                                     </form>
                                 </div>
@@ -93,6 +109,7 @@
                                     <th class="font-weight-medium">ID</th>
                                     <th class="font-weight-medium">Date</th>
                                     <th class="font-weight-medium">Total</th>
+                                    <th class="font-weight-medium">Supplier</th>
                                     <th class="font-weight-medium">Status</th>
                                     <th class="font-weight-medium">Action</th>
                                 </tr>
@@ -105,21 +122,24 @@
                                             {{ $product_import->donnhaphang_ma_don_nhap_hang}}
                                         </td>
                                         <td>
-                                            {{ $product_import->donnhaphang_ngay_nhap }}
+                                            {{ date('d-m-Y', strtotime( $product_import->donnhaphang_ngay_nhap)) }}
                                         </td>
                                         <td>
                                             {{number_format($product_import->donnhaphang_tong_tien ).' VNĐ' }}
+                                        </td>
+                                        <td>
+                                            {{ $product_import->Supplier->nhacungcap_ten}}
                                         </td>
                                         <td>
                                             <span class="badge">
                                                 <?php
                                                 if($product_import->donnhaphang_trang_thai==1)
                                                 { ?>
-                                                <a href="{{URL::to ('/unactive-product-import/'.$product_import->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
+                                                <a href="#"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
                                                 <?php
                                                 }else
                                                 { ?>
-                                                    <a href="{{URL::to ('/active-product-import/'.$product_import->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
+                                                    <a href="#"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
                                                 <?php
                                                 }
                                                 ?>
@@ -130,6 +150,7 @@
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{URL::to('/product-import-show-detail/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-import-edit/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
                                                     <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 </div>
                                             </div>
@@ -144,23 +165,7 @@
                 <!-- end row -->
                 <nav>
                 <ul class="pagination pagination-rounded mb-3">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
+                    {{ $all_product_import->links('layout.paginationlinks') }}
                 </ul>
             </nav>
             <!-- end content -->

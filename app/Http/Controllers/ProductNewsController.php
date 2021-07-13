@@ -15,7 +15,7 @@ class ProductNewsController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_product_news=BlogNews::all();
+        $all_product_news=BlogNews::orderby('id','DESC')->paginate(5);
         return view('admin.pages.product_news.product_news')->with('all_product_news',$all_product_news);
     }
 

@@ -14,7 +14,7 @@ class ProductTypeController extends Controller
     public function Index(){
         $this->AuthLogin();
         // $all_product_type=DB::table('tbl_loaisanpham')->get();
-        $all_product_type=ProductType::orderBy('id','DESC')->get();
+        $all_product_type=ProductType::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.product_type.product_type')->with('all_product_type',$all_product_type);
     }
     public function AuthLogin(){

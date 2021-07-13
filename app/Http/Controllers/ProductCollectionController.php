@@ -12,7 +12,7 @@ class ProductCollectionController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_collection = Collection::orderBy('id','DESC')->get();
+        $all_collection = Collection::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.product_collection.collection')->with('all_collection',$all_collection);
     }
     public function AuthLogin(){

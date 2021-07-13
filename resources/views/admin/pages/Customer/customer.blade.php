@@ -8,11 +8,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <div class="page-title-right">
-                            <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
-                            </div>
-                        </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
                             <li class="breadcrumb-item active">Customer</li>
@@ -28,23 +23,44 @@
                         <div class="card-box">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form class="form-inline">
+                                    <form class="form-inline" action="{{URL::to('/admin-search-customer')}}" method="GET">
                                         <div class="form-group">
                                             <label for="inputPassword2" class="sr-only">Search</label>
-                                            <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
+                                            <input type="search" class="form-control" name="search_customer_keyword"
+                                            @if(isset($search_keyword))
+                                                value="{{ $search_keyword }}"
+                                            @endif
+                                            placeholder="Search Keyword...">
                                         </div>
                                         <div class="form-group mx-sm-3">
-                                            <label for="status-select" class="mr-2">Brand</label>
-                                            <select class="custom-select" id="status-select">
-                                                <option selected="">All</option>
-                                                <option value="1">Date</option>
-                                                <option value="2">Name</option>
-                                                <option value="3">Revenue</option>
-                                                <option value="4">Employees</option>
+                                            <label for="status-select" class="mr-2">Gender</label>
+                                            <select class="custom-select" name="search_select_gender" id="status-select">
+                                                @if(isset($search_gender))
+                                                    @if($search_gender==-1)
+                                                        <option selected="" value="-1">All</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="0">Female</option>
+                                                    @elseif($search_gender==1)
+                                                        <option  value="-1">All</option>
+                                                        <option selected="" value="1">Male</option>
+                                                        <option value="0">Female</option>
+                                                    @elseif($search_gender==0)
+                                                        <option value="-1">All</option>
+                                                        <option value="1">Male</option>
+                                                        <option selected="" value="0">Female</option>
+                                                    @endif
+                                                @else
+                                                    <option selected="" value="-1">All</option>
+                                                    <option value="1">Male</option>
+                                                    <option value="0">Female</option>
+                                                @endif
                                             </select>
                                         </div>
                                         <div class="form-group mx-sm-3">
-                                            <a href="index_save_add.php" class="btn btn-success waves-effect waves-light">Search</a>
+                                            <button type="submit" class="btn btn-success waves-effect waves-light">Search</button>
+                                        </div>
+                                        <div class="form-group ">
+                                            <a href="{{URL::to('/customer')}}" class="btn btn-success waves-effect waves-light">All</a>
                                         </div>
                                     </form>
                                 </div>
@@ -86,7 +102,7 @@
                                     <tr>
                                         <td>
                                             <a href="javascript: void(0);">
-                                                <img src="{{asset('public/uploads/admin/customer/'.$customer->khachang_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
+                                                <img src="{{asset('public/uploads/client/customer/'.$customer->khachhang_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
                                             </a>
                                         </td>
                                         <td>
@@ -111,8 +127,9 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/product-edit/'.$customer->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                    <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/show-customer-detail/'.$customer->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/show-order-customer/'.$customer->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Show Order</a>
+                                                    {{--  <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>  --}}
                                                 </div>
                                             </div>
                                         </td>
@@ -126,23 +143,7 @@
                 <!-- end row -->
                 <nav>
                 <ul class="pagination pagination-rounded mb-3">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
+                    {{ $all_customer->links('layout.paginationlinks') }}
                 </ul>
             </nav>
             <!-- end content -->

@@ -10,15 +10,14 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="index_save_add.php" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Save</a>
+                                <a href="{{URL::to('/staff')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product</li>
+                            <li class="breadcrumb-item active">Staff</li>
                         </ol>
                     </div>
-
                 </div>
             </div>
             <!-- content -->
@@ -129,12 +128,25 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <div class="col-sm-10">
+                                                    {{--  <div class="col-sm-10">
                                                         <div class="fileupload btn btn-primary waves-effect mt-1">
                                                             <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
                                                             <input type="file" class="upload" name="staff_img" multiple="" id="files">
                                                         </div>
                                                         <img width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/staff/'.$staff->admin_anh)}}"/>
+                                                    </div>  --}}
+                                                    <div class="col-sm-10">
+                                                        <div class="user-image mb-3 text-center">
+                                                            <div class="imgPreview" >
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-file">
+                                                            <input type="file" class="upload custom-file-input" value="{{ $staff->admin_anh }}" name="staff_img" id="images">
+                                                            <label class="custom-file-label" for="images">Choose image</label>
+                                                        </div>
+                                                        <label class="col-form-label mt-3">Old image</label>
+                                                        <img class=" mt-3" width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/staff/'.$staff->admin_anh)}}" />
                                                     </div>
                                                 </div>
                                             </div>

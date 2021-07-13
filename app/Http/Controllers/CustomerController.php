@@ -485,4 +485,39 @@ class CustomerController extends Controller
         $order_delivery_update->save();
         return redirect()->back();
     }
+
+    //=====Admin=====
+
+    public function AuthLogin(){
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return Redirect::to('/dashboard');
+        }else{
+            return Redirect::to('/admin')->send();
+        }
+    }
+
+    public function ShowAllCustomer(){
+        $this->AuthLogin();
+        $all_customer=Customer::orderby('id','DESC')->paginate(5);
+        return view('admin.pages.customer.customer')->with('all_customer',$all_customer);
+    }
+
+    public function ShowAllOrderCustomer($customer_id){
+        $this->AuthLogin();
+        $all_order_customer=Order::where('khachhang_id',$customer_id)->orderby('id','DESC')->paginate(5);
+        $customer=Customer::find($customer_id);
+        return view('admin.pages.customer.customer_show_order')
+        ->with('customer',$customer)
+        ->with('all_order_customer',$all_order_customer);
+    }
+
+    public function ShowCustomerDetail($customer_id){
+        $this->AuthLogin();
+        $all_order_customer=Order::where('khachhang_id',$customer_id)->orderby('id','DESC')->paginate(5);
+        $customer=Customer::find($customer_id);
+        return view('admin.pages.customer.customer_detail')
+        ->with('customer',$customer)
+        ->with('all_order_customer',$all_order_customer);
+    }
 }

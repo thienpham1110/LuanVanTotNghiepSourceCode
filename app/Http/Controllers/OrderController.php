@@ -29,7 +29,7 @@ class OrderController extends Controller
 
     public function Index(){
         $this->AuthLogin();
-        $all_order = Order::orderBy('id','DESC')->get();
+        $all_order = Order::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.order.order') ->with(compact('all_order'));
     }
 
@@ -581,7 +581,7 @@ class OrderController extends Controller
     }
     public function GetDelivery(){
         $this->AuthLogin();
-        $all_delivery=Delivery::orderby('id','DESC')->get();
+        $all_delivery=Delivery::orderby('id','DESC')->paginate(5);
         $all_order=Order::all();
         foreach($all_order as $key =>$order){
             foreach($all_delivery as $key =>$delivery){

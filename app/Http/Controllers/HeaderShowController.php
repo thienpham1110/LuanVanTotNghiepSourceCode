@@ -14,7 +14,7 @@ class HeaderShowController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_headershow=HeaderShow::all();
+        $all_headershow=HeaderShow::orderby('id','DESC')->paginate(5);
         return view('admin.pages.headershow.headershow')->with('all_headershow',$all_headershow);
     }
 

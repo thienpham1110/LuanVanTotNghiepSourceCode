@@ -21,9 +21,6 @@
                             <a href="{{URL::to('/product')}}">Product</a>
                         </li>
                         <li>
-                            <a href="{{URL::to('/product-discount-show-product')}}">Discount Products</a>
-                        </li>
-                        <li>
                             <a href="{{URL::to('/brand')}}">Brand</a>
                         </li>
                         <li>
@@ -123,12 +120,11 @@
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level nav" aria-expanded="false">
-
-                        <li>
-                            <a href="{{URL::to('/import-statistics')}}">Import Statistics</a>
-                        </li>
                         <li>
                             <a href="{{URL::to('/sales-statistics')}}">Sales Statistics</a>
+                        </li>
+                        <li>
+                            <a href="{{URL::to('/import-statistics')}}">Import Statistics</a>
                         </li>
                         <li>
                             <a href="{{URL::to('/product-view-statistics')}}">Product View Statisticss</a>

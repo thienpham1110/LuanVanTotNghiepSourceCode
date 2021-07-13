@@ -21,24 +21,6 @@
                 </div>
             </div>
             <!-- content -->
-            <div class="row">
-                    <div class="col-12">
-                        <div class="card-box">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <form class="form-inline">
-                                        <div class="form-group">
-                                            <label for="inputPassword2" class="sr-only">Search</label>
-                                            <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
-                                        </div>
-                                    </form>
-                                </div>
-                               <!-- end col-->
-                            </div> <!-- end row -->
-                        </div> <!-- end card-box -->
-                    </div><!-- end col-->
-                </div>
-                <!-- end row -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
@@ -77,10 +59,14 @@
                                             {{ $product_discount->khuyenmai_tieu_de}}
                                         </td>
                                         <td>
-                                            {{ $product_discount->khuyenmai_gia_tri }}
+                                            @if($product_discount->khuyenmai_loai==1)
+                                            {{number_format($product_discount->khuyenmai_gia_tri ).' %' }}
+                                            @else
+                                                {{number_format($product_discount->khuyenmai_gia_tri ).' $' }}
+                                            @endif
                                         </td>
                                         <td>
-                                            {{ $product_discount->khuyenmai_so_ngay_khuyen_mai }}
+                                            {{number_format( $product_discount->khuyenmai_so_ngay_khuyen_mai ).' Day' }}
                                         </td>
                                         <td>
                                             {{$product_discount->khuyenmai_trang_thai?' On Promotion':' Promotion Ends'}}
@@ -89,6 +75,7 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="{{URL::to('/product-discount-admin-detail/'.$product_discount->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
                                                     <a class="dropdown-item" href="{{URL::to('/product-discount-edit/'.$product_discount->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
                                                     <a class="dropdown-item" href="{{URL::to('/product-discount-delete/'.$product_discount->id)}}"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 </div>
@@ -104,23 +91,7 @@
                 <!-- end row -->
                 <nav>
                 <ul class="pagination pagination-rounded mb-3">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
+                    {{ $all_product_discount->links('layout.paginationlinks') }}
                 </ul>
             </nav>
             <!-- end content -->

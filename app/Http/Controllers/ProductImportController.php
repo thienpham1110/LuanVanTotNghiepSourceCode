@@ -19,7 +19,7 @@ session_start();
 class ProductImportController extends Controller {
 	public function Index() {
 		$this->AuthLogin();
-        $all_product_import = ProductImport::where('donnhaphang_trang_thai',1)->orderby('id', 'desc')->get();
+        $all_product_import = ProductImport::orderby('id', 'desc')->paginate(5);
 		return view('admin.pages.product_import.product_import')->with('all_product_import', $all_product_import);
 	}
 	public function AuthLogin() {
@@ -291,7 +291,7 @@ class ProductImportController extends Controller {
         $this->AuthLogin();
         $admin = Admin::where('user_id', Session::get('admin_id'))->get();
 		$all_supplier = Supplier::orderby('id', 'desc')->get();
-        $all_product_import = ProductImport::where('donnhaphang_trang_thai',0)->get();
+        $all_product_import = ProductImport::where('donnhaphang_trang_thai',0)->paginate(5);
 		return view('admin.pages.product_import.product_import_add')
 		->with('get_admin', $admin)
         ->with('all_product_import', $all_product_import)
@@ -324,7 +324,7 @@ class ProductImportController extends Controller {
     }
 
 
-	public function ProductImportShowDetail($product_import_id) {
+	public function ProductImportEdit($product_import_id) {
 		$this->AuthLogin();
 		$admin = Admin::where('user_id', Session::get('admin_id'))->get();
 		$all_product = Product::orderby('tbl_sanpham.id', 'desc')->get();
@@ -332,7 +332,7 @@ class ProductImportController extends Controller {
 		$all_size = Size::orderby('id', 'desc')->get();
 		$product_import = ProductImport::find($product_import_id);
 		$get_product_import_detail = ProductImportDetail::where('chitietnhap_ma_don_nhap_hang', $product_import->donnhaphang_ma_don_nhap_hang)->get();
-		return view('admin.pages.product_import.product_import_show_detail')
+		return view('admin.pages.product_import.product_import_edit')
 			->with('all_product', $all_product)
 			->with('get_admin', $admin)
 			->with('all_size', $all_size)
@@ -340,6 +340,15 @@ class ProductImportController extends Controller {
 			->with('get_product_import_detail', $get_product_import_detail)
 			->with('all_supplier', $all_supplier);
 	}
+
+    public function ProductImportShowDetail($product_import_id){
+        $this->AuthLogin();
+        $product_import=ProductImport::find($product_import_id);
+        $product_import_detail=ProductImportDetail::where('donnhaphang_id',$product_import_id)->get();
+        return view('admin.pages.product_import.product_import_show_detail')
+        ->with('product_import',$product_import)
+        ->with('product_import_detail',$product_import_detail);
+    }
 
 	public function ProductImportEditSave(Request $request, $product_import_id) {
 		$this->AuthLogin();

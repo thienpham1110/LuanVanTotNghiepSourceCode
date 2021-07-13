@@ -99,57 +99,57 @@
                         <h3>Special Products</h3>
                     </div>
                     @php
-                        $count=0;
+                        $count_rate_break=0;
                     @endphp
                     @foreach ($all_product_rate as $key => $pro_rating)
-                        @if($count==5)
-                            @break
-                        @else
+                        @if($count_rate_break<3)
                             <div class="special_product_inner mb-20">
-                                <div class="special_p_thumb">
+                               <div class="special_p_thumb">
                                     <a href="{{URL::to('/product-detail/'.$pro_rating->id)}}"><img src="{{asset('public/uploads/admin/product/'.$pro_rating->sanpham_anh)}}" class="pro-img-rating" width="60px" height="80px" alt=""></a>
                                 </div>
-                                <div class="small_p_desc">
-                                    <div class="product_ratting">
-                                    <ul>
-                                        @php
-                                        $sum=0;
-                                        $count_rate=0;
-                                        @endphp
-                                        @foreach($comment_customer as $k=>$comment_cus)
-                                            @if ($comment_cus->sanpham_id==$pro_rating->id)
+                                    <div class="small_p_desc">
+                                        <div class="product_ratting">
+                                        <ul>
                                             @php
-                                                $sum+=$comment_cus->binhluan_diem_danh_gia;
-                                                $count_rate++;
+                                            $sum=0;
+                                            $count_rate=0;
                                             @endphp
-                                            @endif
-                                        @endforeach
-                                        @php
-                                        if($count_rate!=0){
-                                            $average=$sum/$count_rate;
-                                        }else{
-                                            $average=0;
-                                        }
-                                        @endphp
-                                        @for($count = 1; $count <=5; $count++)
-                                            @if($count <= $average)
-                                                <i class="fa fa-star ratting_review"></i>
-                                            @else
-                                                <i class="fa fa-star ratting_no_review"></i>
-                                            @endif
-                                        @endfor
-                                    </ul>
-                                </div>
-                                    <h3><a href="single-product.html">{{ $pro_rating->sanpham_ten }}</a></h3>
-                                    <div class="special_product_proce">
-                                        {{--  <span class="old_price">$124.58</span>  --}}
-                                        <span class="new_price">{{number_format($pro_rating->sanpham_gia_ban,0,',','.').' VNĐ' }}</span>
+                                            @foreach($comment_customer as $k=>$comment_cus)
+                                                @if ($comment_cus->sanpham_id==$pro_rating->id)
+                                                @php
+                                                    $sum+=$comment_cus->binhluan_diem_danh_gia;
+                                                    $count_rate++;
+                                                @endphp
+                                                @endif
+                                            @endforeach
+                                            @php
+                                            if($count_rate!=0){
+                                                $average=$sum/$count_rate;
+                                            }else{
+                                                $average=0;
+                                            }
+                                            @endphp
+                                            @for($i = 1; $i <=5; $i++)
+                                                @if($i <= $average)
+                                                    <i class="fa fa-star ratting_review"></i>
+                                                @else
+                                                    <i class="fa fa-star ratting_no_review"></i>
+                                                @endif
+                                            @endfor
+                                        </ul>
+                                    </div>
+                                        <h3><a href="single-product.html">{{ $pro_rating->sanpham_ten }}</a></h3>
+                                        <div class="special_product_proce">
+                                            {{--  <span class="old_price">$124.58</span>  --}}
+                                            <span class="new_price">{{number_format($pro_rating->sanpham_gia_ban,0,',','.').' VNĐ' }}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            @php
-                                $count++;
-                            @endphp
+                                @php
+                                    $count_rate_break++;
+                                @endphp     
+                        @else
+                            @break
                         @endif
                     @endforeach
                 </div>
@@ -158,17 +158,13 @@
             <div class="col-lg-9 col-md-12">
                 <!--shop toolbar start-->
                 <div class="col-md-12 mb-35">
-                    <form class="form-inline" action="{{URL::to('/get-filter-search-customer')}}" method="POST">
-                        @csrf
-                        @php
-                            $session_search_filter_customer=Session::get('search_filter_customer');
-                        @endphp
+                    <form class="form-inline" action="{{URL::to('/search-product-filter-customer')}}" method="GET">
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_brand" class="custom-select" id="status-select">
                                 <option value="" selected="">---Brand---</option>
                                 @foreach ($product_brand as $key => $brand)
-                                    @if($session_search_filter_customer)
-                                        @foreach ($session_search_filter_customer as $key=>$brd)
+                                    @if(isset($search_filter_customer))
+                                        @foreach ($search_filter_customer as $key=>$brd)
                                             @if($brand->id==$brd['search_customer_brand'])
                                                 <option selected value="{{ $brand->id }}">{{ $brand->thuonghieu_ten }}</option>
                                             @else
@@ -185,8 +181,8 @@
                             <select name="search_customer_product_type" class="custom-select" id="status-select">
                                 <option value="" selected="">---Catygory---</option>
                                 @foreach ($product_type as $key => $pro_type)
-                                    @if($session_search_filter_customer)
-                                        @foreach ($session_search_filter_customer as $key=>$type_pro)
+                                    @if(isset($search_filter_customer))
+                                        @foreach ($search_filter_customer as $key=>$type_pro)
                                             @if($pro_type->id==$type_pro['search_customer_product_type'])
                                                 <option selected value="{{ $pro_type->id }}">{{ $pro_type->loaisanpham_ten}}</option>
                                             @else
@@ -203,8 +199,8 @@
                             <select name="search_customer_collection" class="custom-select" id="status-select">
                                 <option value="" selected="">---Collection---</option>
                                 @foreach ($product_collection as $key => $collection)
-                                    @if($session_search_filter_customer)
-                                        @foreach ($session_search_filter_customer as $key=>$collec)
+                                    @if(isset($search_filter_customer))
+                                        @foreach ($search_filter_customer as $key=>$collec)
                                             @if($collection->id==$collec['search_customer_collection'])
                                                 <option selected value="{{ $collection->id }}">{{ $collection->dongsanpham_ten }}</option>
                                             @else
@@ -220,8 +216,8 @@
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_price" class="custom-select" id="status-select">
                                 <option value="" selected="">---Price---</option>
-                                @if($session_search_filter_customer)
-                                    @foreach ($session_search_filter_customer as $key=>$price)
+                                @if(isset($search_filter_customer))
+                                    @foreach ($search_filter_customer as $key=>$price)
                                         @if($price['search_customer_price']==1)
                                             <option selected value="1">< 500.000 VNĐ</option>
                                             <option value="2">500.000 VNĐ - 1.000.000 VNĐ</option>
@@ -286,8 +282,8 @@
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_gender" class="custom-select" id="status-select">
                                 <option value="" selected="">---Gender---</option>
-                                @if($session_search_filter_customer)
-                                    @foreach ($session_search_filter_customer as $key=>$gender)
+                                @if(isset($search_filter_customer))
+                                    @foreach ($search_filter_customer as $key=>$gender)
                                         @if($gender['search_customer_gender']==1)
                                             <option selected value="1">Male</option>
                                             <option value="2">Famale</option>
@@ -327,8 +323,8 @@
                             <select name="search_customer_size" class="custom-select" id="status-select">
                                 <option value="" selected="">---Size---</option>
                                 @foreach ($all_size as $key => $size)
-                                    @if($session_search_filter_customer)
-                                        @foreach ($session_search_filter_customer as $key=>$si)
+                                    @if(isset($search_filter_customer))
+                                        @foreach ($search_filter_customer as $key=>$si)
                                             @if($size->id==$si['search_customer_size'])
                                                 <option selected value="{{ $size->id }}">{{ $size->size}}</option>
                                             @else

@@ -188,7 +188,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="custom-file">
-                                                        <input type="file" class="upload custom-file-input" required="" value="{{ $product->sanpham_anh }}" name="product_img" id="images">
+                                                        <input type="file" class="upload custom-file-input"  value="{{ $product->sanpham_anh }}" name="product_img" id="images">
                                                         <label class="custom-file-label" for="images">Choose image</label>
                                                     </div>
                                                     <label class="col-form-label mt-3">Old image</label>

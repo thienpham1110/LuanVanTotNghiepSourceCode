@@ -14,8 +14,8 @@ class BrandController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        // $all_brand = Brand::orderBy('id','DESC')->paginate(5);
-        $all_brand = Brand::orderBy('id','DESC')->get();
+        $all_brand = Brand::orderBy('id','DESC')->paginate(5);
+        // $all_brand = Brand::orderBy('id','DESC')->get();
         return view('admin.pages.brand.brand')->with('all_brand',$all_brand);
     }
 

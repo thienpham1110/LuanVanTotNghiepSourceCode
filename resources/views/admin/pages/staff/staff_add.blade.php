@@ -9,24 +9,13 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <div class="page-title-right">
-                            <li class="d-none d-sm-block">
-                                <form class="app-search">
-                                    <div class="app-search-box">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="submit">
-                                                    <i class="fe-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </li>
+                            <div class="text-lg-right mt-3 mt-lg-0">
+                                <a href="{{URL::to('/staff')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                            </div>
                         </div>
                         <ol class="breadcrumb page-title">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
-                            <li class="breadcrumb-item active">Change Password</li>
+                            <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
+                            <li class="breadcrumb-item active">Add Staff</li>
                         </ol>
                     </div>
                 </div>

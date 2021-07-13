@@ -17,10 +17,9 @@ use Session;
 
 class ProductDiscountController extends Controller
 {
-    public function Index()
-    {
+    public function Index(){
         $this->AuthLogin();
-        $all_product_discount = Discount::orderby('id', 'desc')->get();
+        $all_product_discount = Discount::orderby('id', 'desc')->paginate(5);
         foreach ($all_product_discount as $key=> $value) {
             $today = date("Y-m-d"); // Năm/Tháng/Ngày
             $start_date = date("Y-m-d", strtotime("$value->khuyenmai_ngay_khuyen_mai")); // Năm/Tháng/Ngày
@@ -35,7 +34,7 @@ class ProductDiscountController extends Controller
                 $discount->save();
             }
         }
-        $all_product_discount_new = Discount::orderby('id', 'desc')->get();
+        $all_product_discount_new = Discount::orderby('id', 'desc')->paginate(5);
         return view('admin.pages.product_discount.product_discount')->with('all_product_discount', $all_product_discount_new);
     }
     public function AuthLogin()
@@ -196,20 +195,22 @@ class ProductDiscountController extends Controller
         }
     }
 
-    public function ShowProductDiscount(){
+    public function ShowProductDiscountDetail($discount_id){
         $this->AuthLogin();
-        $discount=Discount::all();//lay tin km
-        foreach($discount as $key => $value){
-            $product_discount=ProductDiscount::where('khuyenmai_id',$value->id)->get();//lay sp dc km
-            foreach ($product_discount as $k => $v) {
-                $pro_dis[]=$v->sanpham_id;//id sp km
+        $discount=Discount::find($discount_id);
+        $product_discount=ProductDiscount::where('khuyenmai_id',$discount_id)->get();
+        if($product_discount->count()>0){
+            foreach($product_discount as $key =>$pro_dis){
+                $pro_id[]=$pro_dis->sanpham_id;
             }
+        }else{
+            $pro_id=null;
         }
-        $product_import_in_stock=ProductInstock::whereIn('sanpham_id',$pro_dis)->get();//lay sp km trong kho
-        $all_product=Product::whereIn('id',$pro_dis)->get();//lay sp km
+        $product_import_in_stock=ProductInstock::whereIn('sanpham_id',$pro_dis)->get();
+        $all_product=Product::whereIn('id',$pro_id)->get();//lay sp km
         return view('admin.pages.product_discount.product_discount_show_product')
-		->with('all_product_discount', $product_discount)
-        ->with('all_product', $all_product)
-        ->with('product_import_in_stock', $product_import_in_stock);
+        ->with('product_discount', $discount)
+        ->with('product_import_in_stock', $product_import_in_stock)
+        ->with('all_product', $all_product);
     }
 }

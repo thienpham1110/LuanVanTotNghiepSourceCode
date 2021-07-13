@@ -73,11 +73,23 @@
                                                         <div class="form-row">
                                                             <div class="form-group col-md-12">
                                                                 <label class="col-form-label">Images</label>
-                                                                <div class="fileupload btn btn-primary waves-effect mt-1">
+                                                                {{--  <div class="fileupload btn btn-primary waves-effect mt-1">
                                                                     <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
                                                                     <input type="file" class="upload product_discount_img" required="" name="product_discount_img" multiple="" id="files">
                                                                 </div>
-                                                                <img width="100px" height="100px" id="image" />
+                                                                <img width="100px" height="100px" id="image" />  --}}
+
+                                                                <div class="col-sm-12">
+                                                                    <div class="user-image mb-3 text-center">
+                                                                        <div class="imgPreview" >
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="custom-file">
+                                                                        <input type="file" class="upload custom-file-input" required="" name="product_discount_img" id="images">
+                                                                        <label class="custom-file-label" for="images">Choose image</label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <hr>

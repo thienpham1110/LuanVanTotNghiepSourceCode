@@ -87,12 +87,37 @@
 
 <script>
     $(document).ready(function() {
-        var count_rate =document.getElementById('count_rate').value;//=100%
-        var rating_star_1=((document.getElementById('rating-1-star').value)*100)/count_rate;
-        var rating_star_2=((document.getElementById('rating-2-star').value)*100)/count_rate;
-        var rating_star_3=((document.getElementById('rating-3-star').value)*100)/count_rate;
-        var rating_star_4=((document.getElementById('rating-4-star').value)*100)/count_rate;
-        var rating_star_5=((document.getElementById('rating-5-star').value)*100)/count_rate;
+        if(document.getElementById('count_rate')){
+            var count_rate =document.getElementById('count_rate').value;//=100%
+        }else{
+            var count_rate =1;
+        }
+        if(document.getElementById('rating-1-star')){
+            var rating_star_1=((document.getElementById('rating-1-star').value)*100)/count_rate;
+        }else{
+            var rating_star_1=0;
+        }
+         if(document.getElementById('rating-2-star')){
+           var rating_star_2=((document.getElementById('rating-2-star').value)*100)/count_rate;
+        }else{
+            var rating_star_2=0;
+        }
+         if(document.getElementById('rating-3-star')){
+            var rating_star_3=((document.getElementById('rating-3-star').value)*100)/count_rate;
+        }else{
+            var rating_star_3=0;
+        }
+         if(document.getElementById('rating-4-star')){
+           var rating_star_4=((document.getElementById('rating-4-star').value)*100)/count_rate;
+        }else{
+            var rating_star_4=0;
+        }
+         if(document.getElementById('rating-5-star')){
+             var rating_star_5=((document.getElementById('rating-5-star').value)*100)/count_rate;
+        }else{
+            var rating_star_5=0;
+        }
+                 
         $('.bar span').hide();
         $('#bar-five').animate({
            width: rating_star_5+'%'}, 1000);
@@ -111,8 +136,13 @@
 </script>
 <script>
     $(function () {
+         if(document.getElementById('average_rating')!=null){
+                var average_rating = document.getElementById('average_rating').value;
+            }else{
+                var average_rating =0;
+            }
         $("#ratetotal").rateYo({
-          rating    : document.getElementById('average_rating').value,
+          rating    : average_rating ,
           spacing   : "5px",
           readOnly: true,
           multiColor: {
@@ -121,8 +151,14 @@
         });
       });
       $(function () {
+          if(document.getElementById('average_rating')!=null){
+                var average_rating = document.getElementById('average_rating').value;
+            }else{
+                var average_rating =0;
+            }
         $("#ratetotal1").rateYo({
-          rating    : document.getElementById('average_rating').value,
+           
+          rating    : average_rating ,
           spacing   : "5px",
           readOnly: true,
           multiColor: {
@@ -131,8 +167,13 @@
         });
       });
       $(function () {
+           if(document.getElementById('average_rating')!=null){
+                var average_rating = document.getElementById('average_rating').value;
+            }else{
+                var average_rating =0;
+            }
         $("#rateYo").rateYo({
-          rating    : document.getElementById('average_rating').value,
+          rating    : average_rating ,
           spacing   : "5px",
           readOnly: true,
           multiColor: {

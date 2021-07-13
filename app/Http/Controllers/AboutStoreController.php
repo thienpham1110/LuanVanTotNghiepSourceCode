@@ -55,7 +55,7 @@ class AboutStoreController extends Controller
     }
     public function Index(){
         $this->AuthLogin();
-        $all_about_store=AboutStore::all();
+        $all_about_store=AboutStore::orderby('id','DESC')->paginate(5);
         return view('admin.pages.aboutstore.about_store')->with('all_about_store',$all_about_store);
     }
 

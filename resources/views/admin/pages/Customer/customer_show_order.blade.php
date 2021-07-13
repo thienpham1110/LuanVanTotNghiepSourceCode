@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="index_save_add.php" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Save</a>
+                                <a href="{{URL::to('/customer')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Customer</li>
+                            <li class="breadcrumb-item active">Customer Order</li>
                         </ol>
                     </div>
 
@@ -24,104 +24,161 @@
 
             <!-- content -->
             <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-12">
                         <div class="card-box">
-                        <h4 class="header-title">Customer Information</h4>
-                            <hr>
-                            <div class="tab-content">
-                                <div class="tab-pane show active" id="settings">
-                                    <form action="/" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="firstname">First Name</label>
-                                                    <input type="text" class="form-control" id="firstname" placeholder="Enter first name">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="lastname">Last Name</label>
-                                                    <input type="text" class="form-control" id="lastname" placeholder="Enter last name">
-                                                </div>
-                                            </div> <!-- end col -->
-                                        </div> <!-- end row -->
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="useremail">Email Address</label>
-                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="userpassword">Phone Number</label>
-                                                    <input type="number" class="form-control" id="userpassword" placeholder="Enter phone number">
-                                                </div>
-                                            </div>
-                                             <!-- end col -->
-                                        </div> <!-- end row -->
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="useremail">Gender </label> <br>
-                                                    <div class="custom-control custom-radio">
-                                                        <input class=" custom-control-input" type="radio" name="gender" id="male" checked>
-                                                        <label class=" custom-control-label" for="male">Male</label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio">
-                                                        <input class=" custom-control-input" type="radio" name="gender" id="female" >
-                                                        <label class="custom-control-label" for="female">Female</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="useremail">Address</label>
-                                                    <input type="text" class="form-control" id="useremail" placeholder="HCM...">
-                                                </div>
-                                            </div><!-- end col -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="inputPassword2" class="sr-only">Search</label>
+                                            <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Images</label>
-                                            <div class="col-sm-10">
-                                                <div class="fileupload btn btn-primary waves-effect mt-1">
-                                                    <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
-                                                    <input type="file" class="upload" name="brand_img" multiple="" id="files">
-                                                </div>
-                                                <img width="100px" height="100px" id="image" />
-                                            </div>
+                                        <div class="form-group mx-sm-3">
+                                            <label for="status-select" class="mr-2">Brand</label>
+                                            <select class="custom-select" id="status-select">
+                                                <option selected="">All</option>
+                                                <option value="1">Date</option>
+                                                <option value="2">Name</option>
+                                                <option value="3">Revenue</option>
+                                                <option value="4">Employees</option>
+                                            </select>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                <label class="col-form-label">Status</label>
-                                                    <select name="Sex" class="form-control">
-                                                        <option>---#---</option>
-                                                        <option>A</option>
-                                                        <option>B</option>
-                                                        <option>C</option>
-                                                        <option>D</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="text-right">
-                                            <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                        <div class="form-group mx-sm-3">
+                                            <a href="index_save_add.php" class="btn btn-success waves-effect waves-light">Search</a>
                                         </div>
                                     </form>
                                 </div>
-                                <!-- end settings content-->
-                            </div> <!-- end tab-content -->
-                        </div> <!-- end card-box-->
-                    </div> <!-- end col -->
+                               <!-- end col-->
+                            </div> <!-- end row -->
+                        </div> <!-- end card-box -->
+                    </div><!-- end col-->
                 </div>
-                <!-- end row-->
-            <!-- end content -->
+                <!-- end row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
+                                <h4 class="mt-3 mb-3"><span>Customer: </span></h4>
+                                <thead class="bg-light">
+                                <tr>
+                                    <th class="font-weight-medium">Images</th>
+                                    <th class="font-weight-medium">Name</th>
+                                    <th class="font-weight-medium">Gender</th>
+                                    <th class="font-weight-medium">Email</th>
+                                    <th class="font-weight-medium">Phone Number</th>
+                                    <th class="font-weight-medium">Address</th>
+                                    <th class="font-weight-medium">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody class="font-14">
+                                    <tr>
+                                        <td>
+                                            <a href="javascript: void(0);">
+                                                <img src="{{asset('public/uploads/client/customer/'.$customer->khachhang_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ $customer->khachhang_ho}}  {{ $customer->khachhang_ten}}
+                                        </td>
+                                        <td>
+                                            {{ $customer->khachhang_gioi_tinh?'Male':'Famale' }}
+                                        </td>
+                                        <td>
+                                            {{ $customer->khachhang_email}}
+                                        </td>
+                                        <td>
+                                            {{ $customer->khachhang_so_dien_thoai }}
+                                        </td>
+                                        <td>
+                                            {{ $customer->khachhang_dia_chi }}
+                                        </td>
+                                        <td>
+                                            {{ $customer->khachhang_trang_thai?'Online':'Offline' }}
+                                        </td>
 
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
+                                <h4 class="mt-3 mb-3"><span>Order: </span></h4>
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="font-weight-medium">Orders Code</th>
+                                        <th class="font-weight-medium">Total</th>
+                                        <th class="font-weight-medium">Note</th>
+                                        <th class="font-weight-medium">Status Delivery</th>
+                                        <th class="font-weight-medium">Status Pay</th>
+                                        <th class="font-weight-medium">Status</th>
+                                        <th class="font-weight-medium">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="font-14">
+                                        @foreach ($all_order_customer as $key=>$order)
+                                        <tr>
+                                            <td>
+                                                {{ $order->dondathang_ma_don_dat_hang }}
+                                            </td>
+                                            <td>
+                                                {{number_format($order->dondathang_tong_tien,0,',','.' )." VND" }}
+                                            </td>
+                                            <td>
+                                                {{ $order->dondathang_ghi_chu }}
+                                            </td>
+                                            <td>
+                                                @if($order->dondathang_trang_thai==2)
+                                                    In Transit
+                                                @elseif($order->dondathang_trang_thai==3)
+                                                    Delivered
+                                                @elseif($order->dondathang_trang_thai==4)
+                                                    Order Has Been Canceled
+                                                @else
+                                                    Not Delivered
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ $order->dondathang_tinh_trang_thanh_toan?'Paid':'Unpaid' }}
+                                            </td>
+
+                                            <td>
+                                                @if($order->dondathang_trang_thai == 0)
+                                                Unconfirmed
+                                                @elseif($order->dondathang_trang_thai == 1)
+                                                Confirmed
+                                                @elseif($order->dondathang_trang_thai == 2)
+                                                In Transit
+                                                @elseif($order->dondathang_trang_thai == 3)
+                                                Delivered - Processed
+                                                @elseif($order->dondathang_trang_thai == 4)
+                                                Order Has Been Canceled
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                <div class="btn-group dropdown">
+                                                    <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$order->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
+                                                        @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=4)
+                                                        <a class="dropdown-item" href="{{URL::to('/order-canceled/'.$order->id)}}"onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Cancel Order</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div><!-- end col -->
+                </div>
+                <!-- end row -->
+                <nav>
+                <ul class="pagination pagination-rounded mb-3">
+                    {{--  {{ $all_customer->links('layout.paginationlinks') }}  --}}
+                </ul>
+            </nav>
+            <!-- end content -->
             <!-- end page title -->
         </div>
         <!-- container -->
@@ -130,6 +187,5 @@
     <!-- Footer Start -->
     @include('admin.blocks.footer_admin')
     <!-- end Footer -->
-
 </div>
 @endsection

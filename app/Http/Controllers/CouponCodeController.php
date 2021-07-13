@@ -14,7 +14,7 @@ class CouponCodeController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_coupon_code=Coupon::orderBy('id','DESC')->get();
+        $all_coupon_code=Coupon::orderBy('id','DESC')->paginate(5);
         return view('admin.pages.coupon_code.coupon_code')->with('all_coupon_code',$all_coupon_code);
     }
 
