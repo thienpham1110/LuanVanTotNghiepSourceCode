@@ -630,8 +630,8 @@ $("#ProductMoreImagesInput").change(function () {
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-    fetch_transport_fee();
-    function fetch_transport_fee(){
+    {{--  fetch_transport_fee();  --}}
+    {{--  function fetch_transport_fee(){
         $.ajax({
             url : '{{url('/select-fee')}}',
             method: 'GET',
@@ -639,8 +639,8 @@ $(document).ready(function(){
                $('.load-transport-fee').html(data);
             }
         });
-    }
-    $('.transport-fee-add').on('click',function(){
+    }  --}}
+    {{--  $('.transport-fee-add').on('click',function(){
         var city = $('.city').val();
         var province = $('.province').val();
         var wards = $('.wards').val();
@@ -661,7 +661,7 @@ $(document).ready(function(){
                 fetch_transport_fee();
              }
          });
-     });
+     });  --}}
      $('.choose').on('change',function(){
          var action = $(this).attr('id');
          var ma_id = $(this).val();

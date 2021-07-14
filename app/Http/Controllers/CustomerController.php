@@ -264,7 +264,7 @@ class CustomerController extends Controller
         $user_account_update_password=UserAccount::find($user_account->id);
         $data=$request->all();
         if(md5($data['change_old_password']) != $user_account_update_password->user_password){
-            return redirect()->back()->with('error','Old password is not correct');
+            return redirect()->back()->with('error','Incorrect Password');
         }elseif($data['change_new_password'] != $data['change_confirm_new_password']){
             return redirect()->back()->with('error','Confirmation password is incorrect');
         }else{

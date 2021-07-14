@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class TransportFeeController extends Controller
 {
-    public function TransportFee(Request $request){
+    public function TransportFee(){
+        $fee=TransportFee::orderby('tinhthanhpho_id','ASC')->paginate(5);
         $city=City::orderby('id','ASC')->get();
         return view('admin.pages.transportfee.transport_fee')
-        ->with(compact('city'));
+        ->with('city',$city)
+        ->with('all_fee',$fee);
     }
 
     public function SelectTransportFee(Request $request){
@@ -39,36 +41,41 @@ class TransportFeeController extends Controller
     }
     public function TransportFeeAdd(Request $request){
         $data =$request->all();
-        $transport_fee_old=TransportFee::orderby('id','DESC')->get();
-        foreach($transport_fee_old as $key =>$value){
-            if($value->xaphuong_id==$data['wards']&& $value->quanhuyen_id==$data['province']&& $value->tinhthanhpho_id==$data['city']){
-                return Redirect::to('/transport-fee');
-            }else{
-                $transport_fee=new TransportFee();
-                $transport_fee->tinhthanhpho_id=$data['city'];
-                $transport_fee->quanhuyen_id=$data['province'];
-                $transport_fee->xaphuong_id=$data['wards'];
-                $transport_fee->phivanchuyen_phi_van_chuyen=$data['transport_fee'];
-                $transport_fee->phivanchuyen_ngay_giao_hang_du_kien=$data['transport_fee_day'];
-                $transport_fee->save();
-            }
+        $transport_fee_old=TransportFee::where('tinhthanhpho_id',$data['city'])
+        ->where('quanhuyen_id',$data['province'])
+        ->where('xaphuong_id',$data['wards'])->orderby('id','DESC')->first();
+        if($transport_fee_old){
+            return Redirect::to('/transport-fee')->with('error','Add Fail, Shipping Fee Has Been Charged For This Area');
+        }else{
+            $transport_fee=new TransportFee();
+            $transport_fee->tinhthanhpho_id=$data['city'];
+            $transport_fee->quanhuyen_id=$data['province'];
+            $transport_fee->xaphuong_id=$data['wards'];
+            $transport_fee->phivanchuyen_phi_van_chuyen=$data['transport_fee'];
+            $transport_fee->phivanchuyen_ngay_giao_hang_du_kien=$data['transport_fee_day'];
+            $transport_fee->save();
+            return Redirect::to('/transport-fee')->with('message','Add Success');
         }
     }
-    public function SelectFee(){
-        $fee=TransportFee::orderby('id','DESC')->paginate(5);
-        $output = '';
-        foreach ($fee as $key=>$value){
-            $output .=
-            '<tr>
-                <td>'. $value->City->tinhthanhpho_name .'</td>
-                <td>'. $value->Province->quanhuyen_name .'</td>
-                <td>'. $value->Wards->xaphuongthitran_name .'</td>
-                <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit">'.number_format( $value->phivanchuyen_phi_van_chuyen,0,',','.', ).'</td>
-                <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit-day">'. $value->phivanchuyen_ngay_giao_hang_du_kien .'</td>
-            </tr>';
-        }
-        echo $output;
-    }
+    // public function SelectFee(){
+    //     $fee=TransportFee::orderby('id','DESC')->paginate(5);
+    //     // $output = '';
+    //     // foreach ($fee as $key=>$value){
+    //     //     $output .=
+    //     //     '<tr>
+    //     //         <td>'. $value->City->tinhthanhpho_name .'</td>
+    //     //         <td>'. $value->Province->quanhuyen_name .'</td>
+    //     //         <td>'. $value->Wards->xaphuongthitran_name .'</td>
+    //     //         <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit">'.number_format( $value->phivanchuyen_phi_van_chuyen,0,',','.', ).'</td>
+    //     //         <td contenteditable data-feeship_id="'.$value->id.'" class="fee-edit-day">'. $value->phivanchuyen_ngay_giao_hang_du_kien .'</td>
+    //     //     </tr>';
+    //     // }
+    //     // echo $output;
+    //     $city=City::orderby('id','ASC')->get();
+    //     return view('admin.pages.transportfee.transport_fee')
+    //     ->with('city',$city)
+    //     ->with('all_fee',$fee);
+    // }
 
     public function TransportFeeUpdate(Request $request){
         $data =$request->all();

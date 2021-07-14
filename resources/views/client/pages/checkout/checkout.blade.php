@@ -79,8 +79,9 @@
                                 <form action="{{ URL::to('/check-coupon')}}" method="POST">
                                     @csrf
                                     <div class="coupon_inner">
-                                        <input placeholder="Coupon code" name="cart_coupon" type="text">
+                                        <input placeholder="Coupon code" required="" name="cart_coupon" type="text">
                                         <input type="submit" class="check-coupon" name="check_coupon" value="Apply coupon">
+
                                     </div>
                                 </form>
                             @else
@@ -278,7 +279,7 @@
                                                     @if(Session::get('feeship'))
                                                             {{number_format($subtotal+$fee_ship,0,',','.').' VNĐ' }}
                                                     @else
-                                                        {{number_format($subtotal,0,',','.').' VNĐ' }}
+                                                        {{number_format($subtotal+35000,0,',','.').' VNĐ' }}
                                                     @endif
                                                 @endif
                                             @else
@@ -293,6 +294,8 @@
                                  <div class="order_button">
                                      <a type="button" class="btn btn-warning" href="{{ URL::to('/cart')}}">Back To Cart</a>
                                      <a type="button" class="btn btn-success" href="{{ URL::to('/shop-now')}}" >Keep Shopping</a>
+                                     <a type="button" class="btn btn-danger" href="{{ URL::to('/delete-coupon-cart')}}" >Delete Coupon</a>
+                                     <a type="button" class="btn btn-danger" href="{{ URL::to('/delete-transport-fee-cart')}}" >Delete Feeship</a>
                                  </div>
                              </div>
                         </form>

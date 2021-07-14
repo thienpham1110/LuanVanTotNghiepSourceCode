@@ -9,7 +9,8 @@ class ProductImportDetail extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'chitietnhap_so_luong_nhap', 'chitietnhap_gia_nhap','sanpham_id','donnhaphang_id','size_id','chitietnhap_ma_don_nhap_hang'
+    	'chitietnhap_so_luong_nhap', 'chitietnhap_gia_nhap','sanpham_id','donnhaphang_id',
+        'size_id','chitietnhap_ma_don_nhap_hang'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_chitietnhap';

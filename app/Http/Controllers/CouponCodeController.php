@@ -34,16 +34,23 @@ class CouponCodeController extends Controller
     public function CouponCodeSave(Request $request){
         $this->AuthLogin();
         $data=$request->all();
-        $coupon_code=new Coupon();
-        $coupon_code->makhuyenmai_ten_ma = $data['coupon_code_name'];
-        $coupon_code->makhuyenmai_ma = $data['coupon_code_code'];
-        $coupon_code->makhuyenmai_so_luong = $data['coupon_code_quantity'];
-        $coupon_code->makhuyenmai_loai_ma = $data['coupon_code_type'];
-        $coupon_code->makhuyenmai_gia_tri = $data['coupon_code_value'];
-        $coupon_code->makhuyenmai_trang_thai = $data['coupon_code_status'];
-        $coupon_code->save();
-        Session::put('message','Add Success');
-    	return Redirect::to('/coupon-code');
+        if(empty($data['coupon_code_from_day']) && empty($data['coupon_code_to_day'])){
+            return redirect()->back()->with('error','Fail, Please select a date');
+        }else{
+            $coupon_code=new Coupon();
+            $coupon_code->makhuyenmai_ten_ma = $data['coupon_code_name'];
+            $coupon_code->makhuyenmai_ma = $data['coupon_code_code'];
+            $coupon_code->makhuyenmai_so_luong = $data['coupon_code_quantity'];
+            $coupon_code->makhuyenmai_loai_ma = $data['coupon_code_type'];
+            $coupon_code->makhuyenmai_gia_tri = $data['coupon_code_value'];
+            $coupon_code->makhuyenmai_trang_thai = $data['coupon_code_status'];
+            $coupon_code->makhuyenmai_ngay_bat_dau = $data['coupon_code_from_day'];
+            $coupon_code->makhuyenmai_ngay_ket_thuc = $data['coupon_code_to_day'];
+            $coupon_code->save();
+            Session::put('message','Add Success');
+            return Redirect::to('/coupon-code');
+        }
+
     }
 
     public function UnactiveCouponCode($coupon_code_id){
@@ -73,15 +80,21 @@ class CouponCodeController extends Controller
     public function CouponCodeSaveEdit(Request $request,$coupon_code_id){
         $this->AuthLogin();
         $data=$request->all();
-        $coupon_code=Coupon::find($coupon_code_id);
-        $coupon_code->makhuyenmai_ten_ma = $data['coupon_code_name'];
-        $coupon_code->makhuyenmai_ma = $data['coupon_code_code'];
-        $coupon_code->makhuyenmai_so_luong = $data['coupon_code_quantity'];
-        $coupon_code->makhuyenmai_loai_ma = $data['coupon_code_type'];
-        $coupon_code->makhuyenmai_gia_tri = $data['coupon_code_value'];
-        $coupon_code->makhuyenmai_trang_thai = $data['coupon_code_status'];
-        $coupon_code->save();
-        Session::put('message','Update Success');
-         return Redirect::to('/coupon-code');
+        if(empty($data['coupon_code_from_day']) && empty($data['coupon_code_to_day'])){
+            return redirect()->back()->with('error','Fail ,Please select a date');
+        }else{
+            $coupon_code=Coupon::find($coupon_code_id);
+            $coupon_code->makhuyenmai_ten_ma = $data['coupon_code_name'];
+            $coupon_code->makhuyenmai_ma = $data['coupon_code_code'];
+            $coupon_code->makhuyenmai_so_luong = $data['coupon_code_quantity'];
+            $coupon_code->makhuyenmai_loai_ma = $data['coupon_code_type'];
+            $coupon_code->makhuyenmai_gia_tri = $data['coupon_code_value'];
+            $coupon_code->makhuyenmai_trang_thai = $data['coupon_code_status'];
+            $coupon_code->makhuyenmai_ngay_bat_dau = $data['coupon_code_from_day'];
+            $coupon_code->makhuyenmai_ngay_ket_thuc = $data['coupon_code_to_day'];
+            $coupon_code->save();
+            Session::put('message', 'Update Success');
+            return Redirect::to('/coupon-code');
+        }
     }
 }

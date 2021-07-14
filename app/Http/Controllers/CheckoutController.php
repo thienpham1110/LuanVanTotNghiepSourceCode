@@ -104,20 +104,56 @@ class CheckoutController extends Controller
             Session::forget('feeship');
         }
     }
+    public function DeleteFeeship(){
+        $coupon =Session::get('coupon');
+        if($coupon){
+            $this->DeleteTransportFee();
+            return redirect()->back()->with('message','Delete Success');
+        }else{
+            return redirect()->back()->with('error','Feeship Not Found');
+        }
+    }
+
+    public function DeleteCoupon(){
+        $coupon =Session::get('coupon');
+        if($coupon){
+            Session::forget('coupon');
+            return redirect()->back()->with('message','Delete Success');
+        }else{
+            return redirect()->back()->with('error','Coupon Not Found');
+        }
+    }
 
     public function CheckTransportFee(Request $request){
         $data=$request->all();
         $feeship=TransportFee::where('tinhthanhpho_id',$data['city'])->where('quanhuyen_id',$data['province'])
         ->where('xaphuong_id',$data['wards'])->first();
-        if($feeship==true){
-            $fee[]=array(
-                'fee_id'=>$feeship->id,
-                'fee'=>$feeship->phivanchuyen_phi_van_chuyen,
-                'fee_day'=>$feeship->phivanchuyen_ngay_giao_hang_du_kien,
-            );
-            Session::put('feeship', $fee);
-        }
-        else{
+
+        if($feeship){
+            if(Session::get('feeship')){
+                $is_va=0;
+                foreach ($feeship as $key => $val) {
+                	if ($val['id'] == $data['fee_id']) {
+                		$is_va++;
+                	}
+                }
+                if($is_va==0){
+                    $fee[]=array(
+                        'fee_id'=>$feeship['id'],
+                        'fee'=>$feeship['phivanchuyen_phi_van_chuyen'],
+                        'fee_day'=>$feeship['phivanchuyen_ngay_giao_hang_du_kien'],
+                    );
+                    Session::put('feeship', $fee);
+                }
+            }else{
+                $fee[]=array(
+                    'fee_id'=>$feeship['id'],
+                    'fee'=>$feeship['phivanchuyen_phi_van_chuyen'],
+                    'fee_day'=>$feeship['phivanchuyen_ngay_giao_hang_du_kien'],
+                );
+                Session::put('feeship', $fee);
+            }
+        }else{
             $fee[]=array(
                 'fee_id'=>null,
                 'fee'=>35000,
@@ -125,8 +161,9 @@ class CheckoutController extends Controller
             );
             Session::put('feeship', $fee);
         }
-        Session::save();
-        return redirect()->back()->with('message','Add Success');
+          print_r(Session::get('feeship'));
+        // Session::save();
+        // return redirect()->back()->with('message','Add Success');
     }
 
     public function OrderCheckoutSave(Request $request){

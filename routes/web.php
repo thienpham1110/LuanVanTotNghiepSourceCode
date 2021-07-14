@@ -46,7 +46,8 @@ Route::post('/select-transport-fee-home', 'CheckoutController@SelectTransportFee
 Route::post('/check-transport-feeship', 'CheckoutController@CheckTransportFee');
 Route::post('/order-checkout-save', 'CheckoutController@OrderCheckoutSave');
 Route::post('/select-address', 'CheckoutController@SelectAddress');
-
+Route::get('/delete-coupon-cart', 'CheckoutController@DeleteCoupon');
+Route::get('/delete-transport-fee-cart', 'CheckoutController@DeleteFeeship');
 
 //Account
 Route::get('/login-customer', 'CustomerController@ShowLogin');
@@ -91,8 +92,12 @@ Route::get('/delete-mini-product-viewed/{product_id}', 'HomeController@DeleteMin
 
 // ==========Admin==========
 Route::get('/admin', 'AdminHomeController@Index');
-Route::get('/resetpass', 'AdminHomeController@ResetPassword');
-Route::get('/loginadmin', 'AdminHomeController@LoginAdmin');
+Route::get('/get-email-admin', 'AdminHomeController@GetEmailResetPassword');
+Route::post('/verification-email-admin', 'AdminHomeController@VerificationResetPasswordStaff');
+Route::get('/reset-password-admin', 'AdminHomeController@ShowResetPasswordStaff');
+Route::post('/reset-password-admin-save', 'AdminHomeController@ResetPasswordStaff');
+
+
 Route::get('/logout', 'AdminHomeController@Logout');
 Route::get('/dashboard', 'AdminHomeController@ShowDashboard');
 Route::post('/login', 'AdminHomeController@Login');
@@ -103,6 +108,14 @@ Route::get('/staff-add', 'AdminHomeController@ShowStaffAdd');
 Route::post('/staff-add-save', 'AdminHomeController@StaffAddSave');
 Route::get('/staff-edit/{staff_id}', 'AdminHomeController@ShowStaffEdit');
 Route::post('/staff-edit-save/{staff_id}', 'AdminHomeController@StaffEditSave');
+
+Route::get('/staff-my-account', 'AdminHomeController@ShowStaffMyAccount');
+Route::post('/staff-update-my-account/{staff_id}', 'AdminHomeController@StaffUpdateMyAccount');
+Route::get('/staff-my-account-change-password', 'AdminHomeController@ShowStaffChangePassword');
+Route::post('/staff-my-account-change-password-save', 'AdminHomeController@StaffChangePasswordSave');
+
+Route::get('/admin-change-password-staff', 'AdminHomeController@ShowAdminChangePasswordStaff');
+Route::post('/admin-change-password-staff-save', 'AdminHomeController@AdminChangePasswordStaffSave');
 
 
 //product type admin

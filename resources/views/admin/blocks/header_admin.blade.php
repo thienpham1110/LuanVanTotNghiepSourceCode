@@ -2,7 +2,11 @@
     <ul class="list-unstyled topnav-menu float-right mb-0">
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="{{asset('public/backend/images/users/a.jpg')}}" alt="user-image" class="rounded-circle">
+                @if(Session::get('admin_image'))
+                <img src="{{asset('public/uploads/admin/staff/'.Session::get('admin_image'))}}" alt="user-image" class="rounded-circle">
+                @else
+                <img src="{{asset('public/backend/images/users/businessman.jpg')}}" alt="user-image" class="rounded-circle">
+                @endif
                 <span class="pro-user-name ml-1">
                     <?php
                     $name=Session::get('admin_name');
@@ -18,12 +22,12 @@
                     <h6 class="text-overflow m-0">Welcome !</h6>
                 </div>
                 <!-- item-->
-                <a href="index_profile.php" class="dropdown-item notify-item">
+                <a href="{{URL::to('/staff-my-account')}}" class="dropdown-item notify-item">
                     <i class="remixicon-account-circle-line"></i>
                     <span>My Account</span>
                 </a>
                 <!-- item-->
-                <a href="index_change_password.php" class="dropdown-item notify-item">
+                <a href="{{URL::to('/staff-my-account-change-password')}}" class="dropdown-item notify-item">
                     <i class="remixicon-lock-line"></i>
                     <span>Change Password</span>
                 </a>

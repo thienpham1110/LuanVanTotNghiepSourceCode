@@ -137,16 +137,21 @@
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class="remixicon-stack-line"></i>
-                        <span>Manage Customer</span>
+                        <span>Manage User</span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
                             <a href="{{URL::to('/customer')}}">Customer</a>
                         </li>
+                        @if(Session::get('admin_id') && Session::get('admin_role')==1)
                         <li>
                             <a href="{{URL::to('/staff')}}">Staff</a>
                         </li>
+                        <li>
+                            <a href="{{URL::to('/admin-change-password-staff')}}">Change Password Staff</a>
+                        </li>
+                        @endif
                     </ul>
                 </li>
 

@@ -54,6 +54,7 @@
                          </p>
                         <div class="login_submit">
                             <button type="submit">Confirm</button>
+                            <a href="{{ URL::to('/show-verification-password-customer')}}">Verification Email</a>
                         </div>
                     </form>
                 </div>

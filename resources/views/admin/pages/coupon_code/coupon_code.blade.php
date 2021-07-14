@@ -43,6 +43,8 @@
                                     <th class="font-weight-medium">Quantity</th>
                                     <th class="font-weight-medium">Coupon Type</th>
                                     <th class="font-weight-medium">Value</th>
+                                    <th class="font-weight-medium">From Day</th>
+                                    <th class="font-weight-medium">To Day</th>
                                     <th class="font-weight-medium">Status</th>
                                     <th class="font-weight-medium">Action</th>
                                 </tr>
@@ -64,6 +66,12 @@
                                         </td>
                                         <td>
                                             {{ $coupon_code->makhuyenmai_gia_tri }}
+                                        </td>
+                                        <td>
+                                            {{ date('d-m-Y', strtotime( $coupon_code->makhuyenmai_ngay_bat_dau)) }}
+                                        </td>
+                                        <td>
+                                            {{ date('d-m-Y', strtotime( $coupon_code->makhuyenmai_ngay_ket_thuc)) }}
                                         </td>
                                         <td>
                                             <span class="badge">

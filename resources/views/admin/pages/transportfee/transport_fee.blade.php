@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/brand')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/transport-fee')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Refresh</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Brand</li>
+                            <li class="breadcrumb-item active">Transport Fee</li>
                         </ol>
                     </div>
                 </div>
@@ -35,9 +35,22 @@
                             </tr>
                             </thead>
                             <tbody class="font-14 load-transport-fee">
-
+                                @foreach ($all_fee as $key=>$value)
+                                <tr>
+                                    <td>{{ $value->City->tinhthanhpho_name  }} </td>
+                                    <td>{{ $value->Province->quanhuyen_name  }} </td>
+                                    <td>{{ $value->Wards->xaphuongthitran_name }}  </td>
+                                    <td contenteditable data-feeship_id="{{ $value->id }}" class="fee-edit">{{ number_format( $value->phivanchuyen_phi_van_chuyen,0,',','.', ) }}</td>
+                                    <td contenteditable data-feeship_id="{{ $value->id }}" class="fee-edit-day">{{ $value->phivanchuyen_ngay_giao_hang_du_kien }} </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        <nav>
+                            <ul class="pagination pagination-rounded mb-3">
+                            {{$all_fee->links('layout.paginationlinks') }}
+                            </ul>
+                        </nav>
                     </div>
                     {{--  {!!$fee->links()!!}  --}}
                 </div><!-- end col -->
@@ -59,7 +72,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        <form class="form-horizontal" >
+                                        <form class="form-horizontal" action="{{URL::to('/transport-fee-add')}}" method="POST">
                                             @csrf
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" for="example-email">City</label>
@@ -113,7 +126,7 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
-                                                        <button type="button" name="transport_fee_add" class="transport-fee-add btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Add</button>
+                                                        <button type="submit" name="transport_fee_add" class="transport-fee-add btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Add</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,7 +141,6 @@
                     <!-- end card-box -->
                 </div>
                 <!-- end col -->
-
             </div>
             <!-- end row -->
             <!-- end row -->

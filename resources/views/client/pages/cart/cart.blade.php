@@ -92,8 +92,8 @@
                                             {!! session()->get('error') !!}
                                         </div>
                                     @endif
-                                    <input placeholder="Coupon code" name="cart_coupon" type="text">
-                                    <button type="submit" class="check-coupon" name="check_coupon" >Apply coupon</button>
+                                    <input placeholder="Coupon code" required="" name="cart_coupon" type="text">
+                                    <button type="submit" class="check-coupon">Apply coupon</button>
                                 </div>
                             </form>
                         @else
@@ -160,7 +160,6 @@
                                                     @php
                                                         $total_coupon =$subtotal- (($subtotal*$cou['coupon_number'])/100);
                                                     @endphp
-
                                                 @else
                                                 {{number_format( $cou['coupon_number'],0,',','.').' VNĐ' }}
                                                     @php

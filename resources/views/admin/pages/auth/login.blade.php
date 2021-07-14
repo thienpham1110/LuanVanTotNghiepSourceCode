@@ -11,13 +11,17 @@
                                 <span><img src="{{asset('public/backend/images/logo-dark.png')}}" alt="" height="22"></span>
                             </a>
                             <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
-                        <?php
-                        $message=Session::get('message');
-                        if($message){
-                            echo '<p class="text-muted">'.$message.'</p>';
-                            Session::put('message',null);
-                        }
-                        ?>
+                            @if(session()->has('message'))
+                                <div class="alert alert-success">
+                                    {!! session()->get('message') !!}
+                                    {!! session()->forget('message') !!}
+                                </div>
+                            @elseif(session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {!! session()->get('error') !!}
+                                    {!! session()->forget('error') !!}
+                                </div>
+                            @endif
                         </div>
                         <form action="{{ URL::to('/login') }}" method="POST">
                             {{ csrf_field() }}
@@ -44,12 +48,9 @@
                     </div> <!-- end card-body -->
                 </div>
                 <!-- end card -->
-
                 <div class="row mt-3">
                     <div class="col-12 text-center">
-                        <p> <a href="{{URL::to('/resetpass')}}" class="text-primary font-weight-medium ml-1">Forgot your password?</a></p>
-                        <p class="text-muted">Login Admin<a href="{{URL::to('/loginadmin')}}" class="text-primary font-weight-medium ml-1">Login</a></p>
-
+                        <p> <a href="{{URL::to('/get-email-admin')}}" class="text-primary font-weight-medium ml-1">Forgot your password?</a></p>
                     </div> <!-- end col -->
                 </div>
                 <!-- end row -->

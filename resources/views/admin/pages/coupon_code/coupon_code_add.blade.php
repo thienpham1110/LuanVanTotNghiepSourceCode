@@ -27,6 +27,17 @@
                         <div class="card-box">
                             <h4 class="header-title">Coupon Information</h4>
                             <hr>
+                            @if(session()->has('message'))
+                                <div class="alert alert-success">
+                                    {!! session()->get('message') !!}
+                                    {!! session()->forget('message') !!}
+                                </div>
+                            @elseif(session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {!! session()->get('error') !!}
+                                    {!! session()->forget('error') !!}
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -72,6 +83,22 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Coupon Number</label>
                                                     <input type="number" min="1" name="coupon_code_value" class="form-control" required="" placeholder="1%">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" >From Day</label>
+                                                <div class="col-sm-10">
+                                                    <label class="col-form-label">From Day</label>
+                                                    <input type="date" name="coupon_code_from_day" class="form-control" required="">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" >To Day</label>
+                                                <div class="col-sm-10">
+                                                    <label class="col-form-label">To Day</label>
+                                                    <input type="date"  name="coupon_code_to_day" class="form-control" required="">
                                                 </div>
                                             </div>
                                             <hr>

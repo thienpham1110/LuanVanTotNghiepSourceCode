@@ -166,26 +166,34 @@ class CartController extends Controller
 
     public function CheckCoupon(Request $request){
         $data=$request->all();
-        $today = Carbon::now('Asia/Ho_Chi_Minh');
-        if(Session::get('customer_id')){
-            $coupon=Coupon::where('makhuyenmai_ma',$data['cart_coupon'])
-            ->where('makhuyenmai_trang_thai', 1)
-            // ->where('makhuyenmai_ngay_ket_thuc', '>=', $today)
-            ->where('makhuyenmai_user', 'LIKE', '%' . Session::get('customer_id') . '%')
-            ->first();
-            if ($coupon) {
-                return redirect()->back()->with('error', 'Discount code already used');
-            }else{
-                $coupon_login = Coupon::where('makhuyenmai_ma', $data['cart_coupon'])
+        $now=time();
+        $today = date("Y-m-d");
+        if($data['cart_coupon'] =='' || !(Coupon::where('makhuyenmai_ma',$data['cart_coupon'])->where('makhuyenmai_trang_thai', 1)->first())){
+            $this->DeleteCoupon();
+            return redirect()->back()->with('error', 'Add Coupon Fail, Coupon Not Found ');
+        }else{
+            if(Session::get('customer_id')){
+                $coupon=Coupon::where('makhuyenmai_ma',$data['cart_coupon'])
                 ->where('makhuyenmai_trang_thai', 1)
-                ->where('makhuyenmai_so_luong','>', 0)->first();
-                $end_date = date("d/m/Y", strtotime("$coupon_login->makhuyenmai_ngay_ket_thuc"));
-                if($coupon_login && strtotime($end_date) >= strtotime($today)){
-                    $count_coupon = $coupon_login->count();
-                    if($count_coupon>0){
+                ->where('makhuyenmai_user', 'LIKE', '%' . Session::get('customer_id') . '%')
+                ->first();
+                if ($coupon) {
+                    return redirect()->back()->with('error', 'Discount Code Already Used');
+                }else{
+                    $coupon_login = Coupon::where('makhuyenmai_ma', $data['cart_coupon'])
+                    ->where('makhuyenmai_trang_thai', 1)
+                    ->whereDate('makhuyenmai_ngay_bat_dau', '<=', $today)
+                    ->whereDate('makhuyenmai_ngay_ket_thuc', '>=', $today)
+                    ->where('makhuyenmai_so_luong','>', 0)->first();
+                    if($coupon_login){
                         $coupon_session=Session::get('coupon');
                         if($coupon_session==true){
                             $is_ava=0;
+                            foreach ($coupon_session as $key => $val) {
+                                if ($val['coupon_code'] == $data['cart_coupon']) {
+                                    $is_ava++;
+                                }
+                            }
                             if($is_ava==0){
                                 $cou[]=array(
                                     'coupon_id' =>$coupon_login->id,
@@ -211,23 +219,29 @@ class CartController extends Controller
                         Session::save();
                         return redirect()->back()->with('message','Add Coupon Success');
                     }
+                    else{
+                        $this->DeleteCoupon();
+                        return redirect()->back()->with('error','Add Coupon Fail, Coupon Codes Are Out Of Stock Or Expired');
+                    }
                 }
-                else{
-                    $this->DeleteCoupon();
-                    return redirect()->back()->with('error','Add Coupon Fail, Coupon Not Found ');
-                }
-            }
-        }else{
-            $coupon = Coupon::where('makhuyenmai_ma', $data['cart_coupon'])
-            ->where('makhuyenmai_trang_thai', 1)
-            ->where('makhuyenmai_so_luong','>', 0)->first();
-            $end_date = date("d/m/Y", strtotime("$coupon->makhuyenmai_ngay_ket_thuc"));
-            if($coupon && strtotime($end_date) >= strtotime($today)){
-                $count_coupon=$coupon->count();
-                if($count_coupon>0){
+            }else{
+                $coupon = Coupon::where('makhuyenmai_ma', $data['cart_coupon'])
+                ->where('makhuyenmai_trang_thai', 1)
+                ->whereDate('makhuyenmai_ngay_bat_dau', '<=', $today)
+                ->whereDate('makhuyenmai_ngay_ket_thuc','>=',$today)
+                ->where('makhuyenmai_so_luong','>', 0)->first();
+                // print_r($coupon);
+                if(!$coupon){
+                    return redirect()->back()->with('error', 'Add Coupon Fail, Coupon Codes Are Out Of Stock Or Expired');
+                }else{
                     $coupon_session=Session::get('coupon');
                     if($coupon_session==true){
                         $is_ava=0;
+                        foreach ($coupon_session as $key => $val) {
+                            if ($val['coupon_code'] == $data['cart_coupon']) {
+                                $is_ava++;
+                            }
+                        }
                         if($is_ava==0){
                             $cou[]=array(
                                 'coupon_id' =>$coupon->id,
@@ -236,6 +250,7 @@ class CartController extends Controller
                                 'coupon_type' =>$coupon->makhuyenmai_loai_ma,
                                 'coupon_number' =>$coupon->makhuyenmai_gia_tri,
                                 'coupon_status' =>$coupon->makhuyenmai_trang_thai,
+                                'coupon_time'=>$now + 180
                             );
                             Session::put('coupon',$cou);
                         }
@@ -253,9 +268,6 @@ class CartController extends Controller
                     Session::save();
                     return redirect()->back()->with('message','Add Coupon Success');
                 }
-            }else{
-                $this->DeleteCoupon();
-                return redirect()->back()->with('error','Add Coupon Fail, Coupon Not Found ');
             }
         }
 
