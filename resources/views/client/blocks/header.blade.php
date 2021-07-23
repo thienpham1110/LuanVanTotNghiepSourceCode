@@ -2,7 +2,7 @@
     <div class="row align-items-center">
          <div class="col-lg-6 col-md-6">
             <div class="switcher">
-                <label for="">HOTLINE : <a class="link_a" href="">0961682847</a></label>
+                <label for="">HOTLINE : <a class="link_a" href="">0123456789</a></label>
              </div>
          </div>
          <div class="col-lg-6 col-md-6">
@@ -32,18 +32,21 @@
              <div class="breadcrumb_content hr3">
                  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                      <div class="carousel-inner">
+                         @if($header_show)
                          @foreach ($header_show as $key => $header)
-                            @if($header->headerquangcao_thu_tu==$header_min)
-                            <div class="carousel-item hr2 active">
-                                {{ $header->headerquangcao_noi_dung }}
-                            </div>
-                            @else
-                            <div class="carousel-item hr2">
-                                {{ $header->headerquangcao_noi_dung }}
-                            </div>
-                            @endif
+                         @if($header->headerquangcao_thu_tu==$header_min)
+                         <div class="carousel-item hr2 active">
+                             {{ $header->headerquangcao_noi_dung }}
+                         </div>
+                         @else
+                         <div class="carousel-item hr2">
+                             {{ $header->headerquangcao_noi_dung }}
+                         </div>
+                         @endif
 
-                         @endforeach
+                      @endforeach
+                         @endif
+
                      </div>
                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                      </button>

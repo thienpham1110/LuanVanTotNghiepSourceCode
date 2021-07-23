@@ -177,6 +177,7 @@
                                                                 {{number_format( $product->sanpham_gia_ban - $product_discount->khuyenmai_gia_tri ,0,',','.').' VND' }}
                                                                 @endif
                                                             </span>
+                                                            @break
                                                         @endif
                                                     @endforeach
                                                 <h3 class="product_title"><a href="{{URL::to('/product-discount-detail/'.$product->id)}}">{{ $product->sanpham_ten }}</a></h3>

@@ -31,14 +31,20 @@
     @endif
 <div class="row">
            <!--login area start-->
+
            <div class="col-md-3"></div>
             <div class="col-lg-6 col-md-6">
                 <div class="account_form">
                     <h2 style="text-align: center">login</h2>
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <p class="alert alert-danger">{{ $error}}</p>
+                        @endforeach
+                    @endif
                     <form action="{{ URL::to('/check-login-customer')}}" method="POST">
                         @csrf
                         <p>
-                            <label>Username or email <span>*</span></label>
+                            <label>Email <span>*</span></label>
                             <input type="email" required="" name="customer_email_login">
                         </p>
                         <p>
@@ -47,10 +53,10 @@
                         </p>
                         <div class="login_submit">
                             <button type="submit">login</button>
-                            <label for="remember">
+                            {{--  <label for="remember">
                                 <input id="remember" type="checkbox">
                                 Remember me
-                            </label>
+                            </label>  --}}
                             <a href="{{ URL::to('/show-verification-password-customer')}}">Lost your password?</a>
                         </div>
                     </form>

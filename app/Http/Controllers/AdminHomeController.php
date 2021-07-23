@@ -53,13 +53,15 @@ class AdminHomeController extends Controller
                         $user_login_fail=UserAccount::find($email->id);
                         $user_login_fail->user_login_fail = 0;
                         $user_login_fail->save();
-                        $admin=Admin::where('admin_email',$email->user_email)->first();
-                        $admin_update=Admin::find($admin->id);
-                        $admin_update->user_id=$email->id;
-                        $admin_update->save();
+                        $admin_update=Admin::where('user_id',$user_login_fail->id)->first();
+                        if(!$admin_update){
+                            $admin_update_email=Admin::where('admin_email',$user_login_fail->user_email)->first();
+                            $admin_update_email->user_id=$email->id;
+                            $admin_update_email->save();
+                        }
                         Session::put('admin_name',$email->user_ten);
                         Session::put('admin_id',$email->id);
-                        Session::put('admin_image',$admin->admin_anh);
+                        Session::put('admin_image',$user_login_fail->admin_anh);
                         Session::put('admin_role',$email->loainguoidung_id);
                         return Redirect::to('/dashboard');
                     }else{
@@ -95,7 +97,8 @@ class AdminHomeController extends Controller
                     }
                 }
             }
-            $all_staff = Admin::orderBy('id','DESC')->paginate(5);
+            $get_admin=UserAccount::where('loainguoidung_id',1)->first();
+            $all_staff = Admin::orderBy('id','DESC')->whereNotIn('user_id',[$get_admin->id])->paginate(5);
             return view('admin.pages.staff.staff')->with('all_staff',$all_staff);
         }
 
@@ -115,25 +118,42 @@ class AdminHomeController extends Controller
             return Redirect::to('/dashboard');
         }else{
             $data=$request->all();
+            $this->validate($request,[
+                'staff_name' => 'bail|required|max:255|min:6',
+                'staff_email' => 'bail|required|email|max:255',
+                'staff_password' => 'bail|required|max:255|min:6',
+                'staff_password_confirm' => 'bail|required|max:255|min:6'
+            ],
+            [
+                'required' => 'Field is not empty',
+                'email' => 'Email format is incorrect',
+                'min' => 'Too short',
+                'max' => 'Too long'
+            ],);
             if ($data['staff_password']!=$data['staff_password_confirm']) {
-                Session::put('message', 'Confirmation password is incorrect');
-                return Redirect::to('/staff-add');
+                return Redirect::to('/staff-add')->with('error','Confirmation password is incorrect');
             } else {
-                $staff=new Admin();
-                $user_acc=new UserAccount();
-                date_default_timezone_set('Asia/Ho_Chi_Minh');
-                $date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
-                $staff->admin_ten=$data['staff_name'];
-                $staff->admin_email=$data['staff_email'];
-                $staff->admin_trang_thai=1;
-                $staff->admin_ngay_vao_lam=$date;
-                $user_acc->user_ten=$data['staff_name'];
-                $user_acc->user_email=$data['staff_email'];
-                $user_acc->user_password=md5($data['staff_password']);
-                $user_acc->loainguoidung_id=$data['admin_role'];
-                $staff->save();
-                $user_acc->save();
-                return Redirect::to('/staff-add')->with('message', 'Create Success');
+                $get_user=UserAccount::where('user_email',$data['staff_email'])->first();
+                $get_admin=Admin::where('admin_email',$data['staff_email'])->first();
+                if($get_user && $get_admin){
+                    return Redirect::to('/staff-add')->with('error','Add Fail, Already exists');
+                }else{
+                    $staff=new Admin();
+                    $user_acc=new UserAccount();
+                    date_default_timezone_set('Asia/Ho_Chi_Minh');
+                    $date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
+                    $staff->admin_ten=$data['staff_name'];
+                    $staff->admin_email=$data['staff_email'];
+                    $staff->admin_trang_thai=1;
+                    $staff->admin_ngay_vao_lam=$date;
+                    $user_acc->user_ten=$data['staff_name'];
+                    $user_acc->user_email=$data['staff_email'];
+                    $user_acc->user_password=md5($data['staff_password']);
+                    $user_acc->loainguoidung_id=$data['admin_role'];
+                    $staff->save();
+                    $user_acc->save();
+                    return Redirect::to('/staff-add')->with('message', 'Add Success');
+                }
             }
         }
     }
@@ -153,45 +173,60 @@ class AdminHomeController extends Controller
         if(Session::get('admin_role')!=1){
             return Redirect::to('/dashboard');
         }else{
-            $staff=Admin::find($staff_id);
             $data=$request->all();
-            $staff->admin_ho=$data['staff_first_name'];
-            $staff->admin_ten=$data['staff_last_name'];
-            $staff->admin_so_dien_thoai=$data['staff_phone_number'];
-            $staff->admin_dia_chi=$data['staff_address'];
-            $staff->admin_id=$data['staff_admin_id'];
-            $staff->admin_gioi_tinh=$data['staff_gender'];
-            $staff->admin_trang_thai=$data['staff_status'];
-            $old_name_img=$staff->admin_anh;
-            $get_image = $request->file('staff_img');
-            $path = 'public/uploads/admin/staff/';
-            if ($old_name_img) {
+            $this->validate($request,[
+                'staff_first_name' => 'bail|required|max:255|min:6',
+                'staff_last_name' => 'bail|required|max:255|min:6',
+                'staff_phone_number' => 'bail|required|max:255|min:10',
+                'staff_address' => 'bail|required|max:255|min:20',
+                'staff_admin_id' => 'bail|required|max:255|min:15',
+                'staff_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+            ],
+            [
+                'required' => 'Field is not empty',
+                'min' => 'Too short',
+                'max' => 'Too long',
+                'mimes' => 'Wrong image format'
+            ]);
+            $get_admin=Admin::where('admin_id',$data['staff_admin_id'])->whereNotIn('id',[$staff_id])->first();
+            if($get_admin){
+                return Redirect::to('/staff-edit/'.$staff_id)->with('error','Edit Fail, Id Already exists');
+            }else{
+                $staff=Admin::find($staff_id);
+                $staff->admin_ho=$data['staff_first_name'];
+                $staff->admin_ten=$data['staff_last_name'];
+                $staff->admin_so_dien_thoai=$data['staff_phone_number'];
+                $staff->admin_dia_chi=$data['staff_address'];
+                $staff->admin_id=$data['staff_admin_id'];
+                $staff->admin_gioi_tinh=$data['staff_gender'];
+                $staff->admin_trang_thai=$data['staff_status'];
+                $old_name_img=$staff->admin_anh;
+                $get_image = $request->file('staff_img');
+                $path = 'public/uploads/admin/staff/';
                 if ($get_image) {
-                    unlink($path.$old_name_img);
-                    $get_name_image = $get_image->getClientOriginalName();
-                    $name_image = current(explode('.', $get_name_image));
-                    $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
-                    $get_image->move($path, $new_image);
-                    $staff->admin_anh  = $new_image;
-                    $staff->save();
-                    return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
+                    if($path.$get_image && $path.$get_image!=$path.$old_name_img){
+                        return Redirect::to('/staff-edit/'.$staff_id)->with('error', 'Update Fail, Please choose another photo');
+                    }else{
+                        if ($old_name_img!=null) {
+                            unlink($path.$old_name_img);
+                        }
+                        $get_name_image = $get_image->getClientOriginalName();
+                        $name_image = current(explode('.', $get_name_image));
+                        $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
+                        $get_image->move($path, $new_image);
+                        $staff->admin_anh  = $new_image;
+                        $staff->save();
+                        return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
+                    }
+                }else{
+                    if($old_name_img!=null){
+                        $staff->admin_anh = $old_name_img;
+                        $staff->save();
+                        return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
+                    }else{
+                        return Redirect::to('/staff-edit/'.$staff_id)->with('error','Edit Fail, Choose Image');
+                    }
                 }
-                $staff->admin_anh = $old_name_img;
-                $staff->save();
-                return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
-            } else {
-                if ($get_image) {
-                    $get_name_image = $get_image->getClientOriginalName();
-                    $name_image = current(explode('.', $get_name_image));
-                    $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
-                    $get_image->move($path, $new_image);
-                    $staff->admin_anh = $new_image;
-                    $staff->save();
-                    return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
-                }
-                $staff->admin_anh = '';
-                $staff->save();
-                return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
             }
         }
     }
@@ -205,45 +240,110 @@ class AdminHomeController extends Controller
 
     public function StaffUpdateMyAccount(Request $request, $staff_id){
         $this->AuthLogin();
-        $staff=Admin::find($staff_id);
         $data=$request->all();
-        $staff->admin_ho=$data['staff_first_name'];
-        $staff->admin_ten=$data['staff_last_name'];
-        $staff->admin_so_dien_thoai=$data['staff_phone_number'];
-        $staff->admin_dia_chi=$data['staff_address'];
-        $staff->admin_id=$data['staff_admin_id'];
-        $staff->admin_gioi_tinh=$data['staff_gender'];
-        $staff->admin_trang_thai=$data['staff_status'];
-        $old_name_img=$staff->admin_anh;
-        $get_image = $request->file('staff_img');
-        $path = 'public/uploads/admin/staff/';
-        if ($old_name_img) {
+        $this->validate($request,[
+            'staff_first_name' => 'bail|required|max:255|min:6',
+            'staff_last_name' => 'bail|required|max:255|min:6',
+            'staff_phone_number' => 'bail|required|max:255|min:10',
+            'staff_email' => 'bail|required|email',
+            'staff_address' => 'bail|required|max:255|min:20',
+            'staff_admin_id' => 'bail|required|max:255|min:15',
+            'staff_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'email' => 'Email format is incorrect',
+            'min' => 'Too short',
+            'max' => 'Too long',
+            'mimes' => 'Wrong image format'
+        ]);
+        $get_admin=Admin::where('admin_id',$data['staff_admin_id'])->whereNotIn('id',[$staff_id])->first();
+        if($get_admin){
+            return Redirect::to('/staff-my-account')->with('error','Edit Fail, Id Already exists');
+        }else{
+            $staff=Admin::find($staff_id);
+            $staff->admin_ho=$data['staff_first_name'];
+            $staff->admin_ten=$data['staff_last_name'];
+            $staff->admin_so_dien_thoai=$data['staff_phone_number'];
+            $staff->admin_dia_chi=$data['staff_address'];
+            $staff->admin_id=$data['staff_admin_id'];
+            $staff->admin_gioi_tinh=$data['staff_gender'];
+            $staff->admin_trang_thai=$data['staff_status'];
+            $old_name_img=$staff->admin_anh;
+            $get_image = $request->file('staff_img');
+            $path = 'public/uploads/admin/staff/';
             if ($get_image) {
-                unlink($path.$old_name_img);
-                $get_name_image = $get_image->getClientOriginalName();
-                $name_image = current(explode('.', $get_name_image));
-                $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
-                $get_image->move($path, $new_image);
-                $staff->admin_anh  = $new_image;
-                $staff->save();
-                return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
+                if($path.$get_image && $path.$get_image!=$path.$old_name_img){
+                    return Redirect::to('/staff-my-account')->with('error', 'Update Fail, Please choose another photo');
+                }else{
+                    if ($old_name_img!=null) {
+                        unlink($path.$old_name_img);
+                    }
+                    $get_name_image = $get_image->getClientOriginalName();
+                    $name_image = current(explode('.', $get_name_image));
+                    $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
+                    $get_image->move($path, $new_image);
+                    $staff->admin_anh  = $new_image;
+                    $staff->save();
+                    return Redirect::to('/staff-my-account')->with('message', 'Update Success');
+                }
+            }else{
+                if($old_name_img!=null){
+                    $staff->admin_anh = $old_name_img;
+                    $staff->save();
+                    return Redirect::to('/staff-my-account')->with('message', 'Update Success');
+                }else{
+                    return Redirect::to('/staff-my-account')->with('error','Edit Fail, Choose Image');
+                }
             }
-            $staff->admin_anh = $old_name_img;
-            $staff->save();
-            return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
+        }
+    }
+
+    public function ShowStaffChangeEmail(){
+        $this->AuthLogin();
+        return view('admin.pages.staff.staff_my_account_change_email');
+    }
+
+    public function StaffChangeEmailSave(Request $request){
+        $this->AuthLogin();
+        $data=$request->all();
+        $this->validate($request,[
+            'staff_email' => 'bail|required|email',
+            'staff_new_email' => 'bail|required|email',
+            'staff_password' => 'bail|required'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'email' => 'Email format is incorrect'
+        ]);
+        $user_staff=UserAccount::where('user_email', $data['staff_email'])->first();
+        if (!$user_staff) {
+            return Redirect::to('/staff-my-account-change-email')->with('error', 'Email is incorrect');
         } else {
-            if ($get_image) {
-                $get_name_image = $get_image->getClientOriginalName();
-                $name_image = current(explode('.', $get_name_image));
-                $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
-                $get_image->move($path, $new_image);
-                $staff->admin_anh = $new_image;
-                $staff->save();
-                return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
+            if ($data['staff_email'] == $data['staff_new_email']) {
+                return Redirect::to('/staff-my-account-change-email')->with('error', 'Email is incorrect');
+            } else {
+                $user_staff_email=UserAccount::where('user_email', $data['staff_new_email'])->whereNotIn('id',[$user_staff->id])->first();
+                if($user_staff_email){
+                    return Redirect::to('/staff-my-account-change-email')->with('error', 'Email is incorrect');
+                }else{
+                    $user_staff_password=UserAccount::where('user_password',md5($data['staff_password']))->where('id',$user_staff->id)->first();
+                    if(!$user_staff_password){
+                        return Redirect::to('/staff-my-account-change-email')->with('error','Incorrect Password');
+                    }else{
+                        $user_staff_update=UserAccount::find($user_staff->id);
+                        $user_staff_update->user_email=$data['staff_new_email'];
+                        $admin_email_update=Admin::where('user_id',$user_staff_update->id)->first();
+                        $admin_email_update->admin_email=$data['staff_new_email'];
+                        $user_staff_update->save();
+                        $admin_email_update->save();
+                        Session::forget('admin_name');
+                        Session::forget('admin_id');
+                        Session::forget('admin_role');
+                        return Redirect::to('/admin')->with('message','Changed email successfully, please login again');
+                    }
+                }
             }
-            $staff->admin_anh = '';
-            $staff->save();
-            return Redirect::to('/staff-edit/'.$staff_id)->with('message', 'Update Success');
         }
     }
 
@@ -255,6 +355,16 @@ class AdminHomeController extends Controller
     public function StaffChangePasswordSave(Request $request){
         $this->AuthLogin();
         $data=$request->all();
+        $this->validate($request,[
+            'my_account_old_password' => 'bail|required|max:255|min:6',
+            'my_account_new_password' => 'bail|required|max:255|min:6',
+            'my_account_confirm_new_password' => 'bail|required|max:255|min:6'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'min' => 'Too short',
+            'max' => 'Too long'
+        ]);
         $user_id=Session::get('admin_id');
         $user_staff=UserAccount::where('id',$user_id)->where('user_password',md5($data['my_account_old_password']))->first();
         if(!$user_staff){
@@ -264,6 +374,7 @@ class AdminHomeController extends Controller
                 return Redirect::to('/staff-my-account-change-password')->with('error','Confirmation password is incorrect');
             }else{
                 $user_staff_update=UserAccount::find($user_id);
+                $user_staff_update->user_email=$user_staff->user_email;
                 $user_staff_update->user_password=md5($data['my_account_new_password']);
                 $user_staff_update->save();
                 Session::forget('admin_name');
@@ -290,6 +401,15 @@ class AdminHomeController extends Controller
             return Redirect::to('/dashboard');
         }else{
             $data=$request->all();
+            $this->validate($request,[
+                'staff_new_password' => 'bail|required|max:255|min:6',
+                'staff_confirm_new_password' => 'bail|required|max:255|min:6'
+            ],
+            [
+                'required' => 'Field is not empty',
+                'min' => 'Too short',
+                'max' => 'Too long'
+            ]);
             $user_staff=UserAccount::where('user_email', $data['staff_email'])->first();
             if (!$user_staff) {
                 return Redirect::to('/admin-change-password-staff')->with('error', 'Email is incorrect');
@@ -301,6 +421,53 @@ class AdminHomeController extends Controller
                     $user_staff_update->user_password=md5($data['staff_new_password']);
                     $user_staff_update->save();
                     return Redirect::to('/admin-change-password-staff')->with('message', 'Change Password Success');
+                }
+            }
+        }
+    }
+
+    public function ShowAdminChangeEmailStaff(){
+        $this->AuthLogin();
+        if(Session::get('admin_role')!=1){
+            return Redirect::to('/dashboard');
+        }else{
+            return view('admin.pages.auth.admin_change_email_staff');
+        }
+    }
+
+    public function AdminChangeEmailStaffSave(Request $request){
+        $this->AuthLogin();
+        if(Session::get('admin_role')!=1){
+            return Redirect::to('/dashboard');
+        }else{
+            $data=$request->all();
+            $this->validate($request,[
+                'staff_email' => 'bail|required|email',
+                'staff_new_email' => 'bail|required|email'
+            ],
+            [
+                'required' => 'Field is not empty',
+                'email' => 'Email format is incorrect'
+            ]);
+            $user_staff=UserAccount::where('user_email', $data['staff_email'])->first();
+            if (!$user_staff) {
+                return Redirect::to('/admin-change-email-staff')->with('error', 'Email is incorrect');
+            } else {
+                if ($data['staff_new_email'] == $data['staff_email']) {
+                    return Redirect::to('/admin-change-email-staff')->with('error', 'Email is incorrect');
+                } else {
+                    $user_staff_email=UserAccount::where('user_email', $data['staff_new_email'])->whereNotIn('id',[$user_staff->id])->first();
+                    if($user_staff_email){
+                        return Redirect::to('/admin-change-email-staff')->with('error', 'Email is incorrect');
+                    }else{
+                        $user_staff_update=UserAccount::find($user_staff->id);
+                        $user_staff_update->user_email=$data['staff_new_email'];
+                        $admin_email_update=Admin::where('user_id',$user_staff_update->id)->first();
+                        $admin_email_update->admin_email=$data['staff_new_email'];
+                        $user_staff_update->save();
+                        $admin_email_update->save();
+                        return Redirect::to('/admin-change-email-staff')->with('message', 'Change Email Success');
+                    }
                 }
             }
         }
@@ -343,6 +510,15 @@ class AdminHomeController extends Controller
     public function ResetPasswordStaff(Request $request){
         $data=$request->all();
         $now=time();
+        $this->validate($request,[
+            'admin_reset_new_password' => 'bail|required|max:255|min:6',
+            'admin_reset_confirm_new_password' => 'bail|required|max:255|min:6'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'min' => 'Too short',
+            'max' => 'Too long'
+        ]);
         $verification=Session::get('verification_password_staff');
         if($data['admin_reset_new_password']!= $data['admin_reset_confirm_new_password']){
             return Redirect::to('/reset-password-admin')->with('error','Confirmation password is incorrect');

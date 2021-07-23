@@ -37,6 +37,9 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Size</label>
                                                     <input type="text" value="{{ $size->size }}" name="size" required="" class="form-control" placeholder="Example: 40-VN-7-US-6.5-Uk..">
+                                                    @error('size')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>
@@ -45,6 +48,9 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">No.</label>
                                                     <input type="number" min="1" name="size_number" value="{{ $size->size_thu_tu }}" required="" class="form-control" placeholder="STT 1">
+                                                    @error('size_number')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>

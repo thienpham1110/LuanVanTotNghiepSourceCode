@@ -193,7 +193,7 @@
                                             </div>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" name="product_image[]" class="custom-file-input" id="images" multiple="multiple">
+                                            <input type="file" name="product_image[]" class="custom-file-input" accept=".jpeg,.png,.gif,.jpg" id="images" multiple="multiple">
                                             <label class="custom-file-label" for="images">Choose image</label>
                                         </div>
                                         <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">

@@ -37,9 +37,14 @@ class CustomerController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.customer.login')
         ->with('product_type',$all_product_type)
@@ -57,9 +62,14 @@ class CustomerController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.customer.verification_email')
         ->with('product_type',$all_product_type)
@@ -103,9 +113,14 @@ class CustomerController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.customer.register')
         ->with('product_type',$all_product_type)
@@ -119,6 +134,18 @@ class CustomerController extends Controller
         $data=$request->all();
         $now=time();
         $verification=Session::get('verification_email_customer');
+        $this->validate($request,[
+            'customer_user_name_register' => 'bail|required|max:255|min:6',
+            'customer_email_register' => 'bail|required|email|max:255',
+            'customer_password_register' => 'bail|required|max:255|min:6',
+            'customer_confirm_password_register' => 'bail|required|max:255|min:6'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'email' => 'Email format is incorrect',
+            'min' => 'Too short',
+            'max' => 'Too long'
+        ],);
         if($data['customer_password_register']!= $data['customer_confirm_password_register']){
             return Redirect::to('/register-customer')->with('error','Confirmation password is incorrect');
         }else{
@@ -164,9 +191,14 @@ class CustomerController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.customer.verification_password')
         ->with('product_type',$all_product_type)
@@ -210,9 +242,14 @@ class CustomerController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.customer.reset_password')
         ->with('product_type',$all_product_type)
@@ -225,6 +262,15 @@ class CustomerController extends Controller
     public function ResetPasswordCustomer(Request $request){
         $data=$request->all();
         $now=time();
+        $this->validate($request,[
+            'customer_confirm_password_reset_password' => 'bail|required|max:255|min:6',
+            'customer_password_reset_password' => 'bail|required|max:255|min:6'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'min' => 'Too short',
+            'max' => 'Too long'
+        ]);
         $verification=Session::get('verification_password_customer');
         if($data['customer_password_reset_password']!= $data['customer_confirm_password_reset_password']){
             return Redirect::to('/reset-password-customer')->with('error','Confirmation password is incorrect');
@@ -263,6 +309,15 @@ class CustomerController extends Controller
         $user_account=UserAccount::where('user_email',$customer_email)->first();
         $user_account_update_password=UserAccount::find($user_account->id);
         $data=$request->all();
+        $this->validate($request,[
+            'change_new_password' => 'bail|required|max:255|min:6',
+            'change_confirm_new_password' => 'bail|required|max:255|min:6'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'min' => 'Too short',
+            'max' => 'Too long'
+        ]);
         if(md5($data['change_old_password']) != $user_account_update_password->user_password){
             return redirect()->back()->with('error','Incorrect Password');
         }elseif($data['change_new_password'] != $data['change_confirm_new_password']){
@@ -281,6 +336,15 @@ class CustomerController extends Controller
         $customer_email=$request->customer_email_login;
         $customer_password=md5($request->customer_password_login);
         $email=UserAccount::where('user_email',$customer_email)->first();
+        $this->validate($request,[
+            'customer_email_login' => 'required|email|max:255',
+            'customer_password_login' => 'required|max:255|min:6'
+        ],
+        [
+            'customer_email_login.required' => 'field is not empty',
+            'customer_email_login.email' => 'Email format is incorrect',
+            'customer_password_login.min' => 'password is too short',
+        ],);
         if(!$email){
             return Redirect::to('/login-customer')->with('error','Account does not exist');
         }else{
@@ -358,9 +422,14 @@ class CustomerController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.customer.show_account')
         ->with('product_type',$all_product_type)
@@ -377,6 +446,19 @@ class CustomerController extends Controller
     public function CustomerEditSave(Request $request, $customer_id){
         $this->CheckLogin();
         $data=$request->all();
+        $this->validate($request,[
+            'customer_first_name' => 'bail|required|max:255|min:6',
+            'customer_last_name' => 'bail|required|max:255|min:6',
+            'customer_phone_number' => 'bail|required|max:255|min:10',
+            'customer_address' => 'bail|required|max:255|min:20',
+            'customer_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+        ],
+        [
+            'required' => 'Field is not empty',
+            'min' => 'Too short',
+            'max' => 'Too long',
+            'mimes' => 'Wrong image format'
+        ]);
         $customer=Customer::find($customer_id);
         $customer->khachhang_ho=$data['customer_first_name'];
         $customer->khachhang_ten=$data['customer_last_name'];
@@ -386,37 +468,65 @@ class CustomerController extends Controller
         $old_name_img=$customer->khachhang_anh;
         $get_image = $request->file('customer_img');
         $path = 'public/uploads/client/customer/';
-        if($old_name_img){
             if($get_image){
-                unlink($path.$old_name_img);
-                $get_name_image = $get_image->getClientOriginalName();
-                $name_image = current(explode('.',$get_name_image));
-                $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-                $get_image->move($path,$new_image);
-                $customer->khachhang_anh  = $new_image;
-                $customer->save();
-                return Redirect::to('/my-account')->with('message','Update Success');
+                if($path.$get_image && $path.$get_image!=$path.$old_name_img){
+                    return Redirect::to('/my-account')->with('error', 'Update Fail, Please choose another photo');
+                }else{
+                    if($old_name_img!=null){
+                        unlink($path.$old_name_img);
+                    }
+                    $get_name_image = $get_image->getClientOriginalName();
+                    $name_image = current(explode('.', $get_name_image));
+                    $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
+                    $get_image->move($path, $new_image);
+                    $customer->khachhang_anh  = $new_image;
+                    $customer->save();
+                    return Redirect::to('/my-account')->with('message', 'Update Success');
+                }
+            }else{
+                if ($old_name_img!=null) {
+                    $customer->khachhang_anh = $old_name_img;
+                    $customer->save();
+                    return Redirect::to('/my-account')->with('message', 'Update Success');
+                } else {
+                    return Redirect::to('/my-account')->with('error', 'Update Fail,Please Choose Image');
+                }
             }
-            $customer->khachhang_anh = $old_name_img;
-            $customer->save();
-            Session::put('message','Update Success');
-            return Redirect::to('/my-account');
-        }else{
-            if($get_image){
-                $get_name_image = $get_image->getClientOriginalName();
-                $name_image = current(explode('.',$get_name_image));
-                $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-                $get_image->move($path,$new_image);
-                $customer->khachhang_anh = $new_image;
-                $customer->save();
-                return Redirect::to('/my-account')->with('message','Update Success');
-            }
-            $customer->khachhang_anh = '';
-            $customer->save();
-            return Redirect::to('/my-account')->with('message','Update Success');
-        }
+
     }
 
+    public function CustomerUpdateAddressDelivery(Request $request, $order_id){
+        $this->CheckLogin();
+        $data=$request->all();
+        $order_delivery=Order::find($order_id);
+        if($order_delivery->dondathang_trang_thai==0 ||$order_delivery->dondathang_trang_thai==1){
+            $delivery_update=Delivery::where('dondathang_id',$order_id)->first();
+            $delivery_update->giaohang_ma_don_dat_hang=$order_delivery->dondathang_ma_don_dat_hang;
+            $delivery_update->giaohang_nguoi_nhan=$data['delivery_update_name'];
+            $delivery_update->giaohang_nguoi_nhan_email=$data['delivery_update_email'];
+            $delivery_update->giaohang_nguoi_nhan_so_dien_thoai=$data['delivery_update_phone_number'];
+            $ci=City::find($data['order_city']);
+            $prov=Province::find($data['order_province']);
+            $wards=Wards::find($data['order_wards']);
+            if ($ci && $prov && $wards) {
+                $address=$data['delivery_update_address'].','.$wards->xaphuongthitran_name.','.$prov->quanhuyen_name.','.$ci->tinhthanhpho_name;
+                $delivery_update->giaohang_nguoi_nhan_dia_chi=$address;
+            }else {
+                $delivery_update->giaohang_nguoi_nhan_dia_chi=$data['delivery_update_address'];
+            }
+            if ($data['delivery_update_note']!=null ||$data['delivery_update_note']!='') {
+                $order_delivery->dondathang_ghi_chu=$data['delivery_update_note'];
+                $order_delivery->save();
+            } else {
+                $order_delivery->dondathang_ghi_chu='';
+                $order_delivery->save();
+            }
+            $delivery_update->save();
+            return Redirect::to('/customer-show-order/'.$order_id)->with('message','Update Success');
+        }else{
+            return Redirect::to('/customer-show-order/'.$order_id)->with('error','Update Fail, Your order is being shipped');
+        }
+    }
     public function LogoutCustomer(){
         $this->CheckLogin();
         Session::forget('customer_id');
@@ -440,9 +550,14 @@ class CustomerController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.customer.order_show_detail')
         ->with('product_type',$all_product_type)

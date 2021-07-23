@@ -10,10 +10,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/order')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
-                                <a href="{{URL::to('/delivery')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Delivery</a>
-                                <a href="{{URL::to('/customer')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Customer</a>
-                                <a href="{{URL::to('/order-add-show-product')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">

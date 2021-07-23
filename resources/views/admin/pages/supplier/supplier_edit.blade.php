@@ -37,12 +37,44 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Name</label>
                                                     <input type="text" value="{{ $supplier->nhacungcap_ten }}" required="" name="supplier_name"  class="form-control" placeholder="Adidas">
+                                                    @error('supplier_name')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Address</label>
                                                     <input type="text" value="{{ $supplier->nhacungcap_dia_chi }}" required="" name="supplier_address" class="form-control" placeholder="HCM">
+                                                    @error('supplier_address')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Phone Number</label>
                                                     <input type="number" value="{{ $supplier->nhacungcap_so_dien_thoai }}" required="" name="supplier_phone_number" class="form-control" placeholder="0123456789">
+                                                    @error('supplier_phone_number')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Email</label>
                                                     <input type="text" value="{{ $supplier->nhacungcap_email }}" required="" name="supplier_email"  class="form-control" placeholder="supplier@gmail.com">
+                                                    @error('supplier_email')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Images</label>
+                                                <div class="col-sm-10">
+                                                    <div class="user-image mb-3 text-center">
+                                                        <div class="imgPreview" >
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="upload custom-file-input" value="{{ $supplier->nhacungcap_anh }}" required="" accept=".jpeg,.png,.gif,.jpg" name="supplier_img" id="images">
+                                                        <label class="custom-file-label" for="images">Choose image</label>
+                                                        @error('supplier_img')
+                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                        @enderror
+                                                    </div>
+                                                    <label class="col-form-label mt-3">Old image</label>
+                                                    <img class=" mt-3" width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/supplier/'.$supplier->nhacungcap_anh)}}" />
                                                 </div>
                                             </div>
                                             <hr>

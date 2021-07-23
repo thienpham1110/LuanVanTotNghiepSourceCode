@@ -34,7 +34,6 @@
                         <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">Click Here To Calculate Fee</a>
                     </h3>
                      <div id="checkout_login" class="collapse" data-parent="#accordion">
-
                         <div class="checkout_info">
                             <p>Calculate Fee</p>
                             <form action="{{ URL::to('/check-transport-feeship')}}" method="POST">
@@ -121,8 +120,8 @@
                             </div>
                             <div class="col-12 mb-30">
                                 <label for="country">City <span>*</span></label>
-                                <select name="order_city" id="order_city" required="" class="choose-address order_city form-control ">
-                                    <option>Choose City</option>
+                                <select name="order_city" id="order_city" required="" class="choose-address order_city form-control">
+                                    <option value="-1">Choose City</option>
                                     @foreach ($city as $key=>$cty)
                                         <option value="{{$cty->id}}">{{ $cty->tinhthanhpho_name }}</option>
                                     @endforeach
@@ -131,19 +130,19 @@
                             <div class="col-12 mb-30">
                                 <label for="country">Province <span>*</span></label>
                                 <select name="order_province" required="" id="order_province" class="choose-address select-province form-control">
-                                    <option>Province</option>
+                                    <option value="-1">Province</option>
                                 </select>
                             </div>
                             <div class="col-12 mb-30">
                                 <label for="country">Wards <span>*</span></label>
                                 <select name="order_wards" required="" id="order_wards" class="select-wards form-control">
-                                    <option >Wards</option>
+                                    <option value="-1">Wards</option>
                                 </select>
                             </div>
                             <div class="col-lg-12 mb-30">
                                 <div class="order-notes">
                                     <label for="order_note">Order Notes</label>
-                                   <textarea id="order_note" name="order_checkout_note" required="" placeholder="Notes about your order"></textarea>
+                                   <textarea id="order_note" name="order_checkout_note" placeholder="Notes about your order"></textarea>
                                </div>
                             </div>
                             <div class="col-lg-12 mb-30">
@@ -164,7 +163,6 @@
                                  </div>
                             </div>
                             <div class="col-12 mb-30">
-
                                 <label for="account" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">
                                     <input id="account" name="order_checkout_create_account" value="1" type="checkbox" data-target="createp_account">
                                     Create an account?

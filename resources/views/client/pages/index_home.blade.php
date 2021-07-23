@@ -17,6 +17,7 @@
         </div>
         <div class="row">
             <div class="single_p_active owl-carousel">
+                @if($all_product)
                 @foreach ($all_product as $key => $product)
                 <div class="col-lg-3">
                     <div class="single_product">
@@ -43,6 +44,8 @@
                     </div>
                 </div>
                 @endforeach
+                @endif
+
             </div>
         </div>
     </div>
@@ -58,6 +61,7 @@
         </div>
         <div class="row">
             <div class="single_p_active owl-carousel">
+                @if($all_product_featured)
                 @foreach ($all_product_featured as $key => $product)
                 <div class="col-lg-3">
                     <div class="single_product">
@@ -84,6 +88,8 @@
                     </div>
                 </div>
                 @endforeach
+                @endif
+
             </div>
         </div>
     </div>
@@ -99,6 +105,7 @@
         </div>
         <div class="row">
             <div class="single_p_active owl-carousel show-product-wishlist">
+                @if($all_product_viewed)
                 @foreach ($all_product_viewed as $key => $product)
                 <div class="col-lg-3">
                     <div class="single_product">
@@ -122,6 +129,8 @@
                     </div>
                 </div>
                 @endforeach
+                @endif
+
             </div>
         </div>
     </div>
@@ -157,6 +166,7 @@
         </div>
         <div class="row">
             <div class="brand_active owl-carousel">
+                @if($product_brand)
                 @foreach ($product_brand as $key => $brand)
                 <div class="col-lg-2">
                     <div class="single_brand">
@@ -164,6 +174,7 @@
                     </div>
                 </div>
                 @endforeach
+                @endif
             </div>
         </div>
     </div>

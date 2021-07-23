@@ -33,30 +33,40 @@ session_start();
 class AboutStoreController extends Controller
 {
     public function ShowAboutUS(){
-        $all_about_us=AboutStore::orderby('cuahang_thu_tu','ASC')->get();
-        $all_product_type=ProductType::where('loaisanpham_trang_thai','1')->orderBy('id','DESC')->get();
-        $all_brand=Brand::where('thuonghieu_trang_thai','1')->orderBy('id','DESC')->get();
-        $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
-        $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
-        ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        $all_about_us=AboutStore::orderby('cuahang_thu_tu', 'ASC')->get();
+        $all_product_type=ProductType::where('loaisanpham_trang_thai', '1')->orderBy('id', 'DESC')->get();
+        $all_brand=Brand::where('thuonghieu_trang_thai', '1')->orderBy('id', 'DESC')->get();
+        $all_collection=Collection::where('dongsanpham_trang_thai', '1')->orderBy('id', 'DESC')->get();
+        $all_header=HeaderShow::where('headerquangcao_trang_thai', '1')
+        ->orderby('headerquangcao_thu_tu', 'ASC')->get();
+        if ($all_header->count()>0) {
+            foreach ($all_header as $key=>$value) {
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        } else {
+            $all_header=null;
+            $thu_tu_header=null;
         }
-        $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
-    	return view('client.pages.about_us.about_us')
-        ->with('product_type',$all_product_type)
-        ->with('product_brand',$all_brand)
-        ->with('all_about_us',$all_about_us)
-        ->with('get_about_us_bottom',$get_about_us_bottom)
-        ->with('product_collection',$all_collection)
-        ->with('header_show',$all_header)
-        ->with('header_min',$thu_tu_header);
+        $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu', 'ASC')->first();
+        return view('client.pages.about_us.about_us')
+        ->with('product_type', $all_product_type)
+        ->with('product_brand', $all_brand)
+        ->with('all_about_us', $all_about_us)
+        ->with('get_about_us_bottom', $get_about_us_bottom)
+        ->with('product_collection', $all_collection)
+        ->with('header_show', $all_header)
+        ->with('header_min', $thu_tu_header);
+
     }
     public function Index(){
         $this->AuthLogin();
-        $all_about_store=AboutStore::orderby('id','DESC')->paginate(5);
-        return view('admin.pages.aboutstore.about_store')->with('all_about_store',$all_about_store);
+        if (Session::get('admin_role')==3) {
+            return Redirect::to('/dashboard');
+        } else {
+            $all_about_store=AboutStore::orderby('id', 'DESC')->paginate(5);
+            return view('admin.pages.aboutstore.about_store')->with('all_about_store', $all_about_store);
+        }
     }
 
     public function AuthLogin(){
@@ -69,93 +79,188 @@ class AboutStoreController extends Controller
     }
     public function AboutStoreAdd(){
         $this->AuthLogin();
-    	return view('admin.pages.aboutstore.about_store_add');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            return view('admin.pages.aboutstore.about_store_add');
+        }
     }
 
     public function AboutStoreSave(Request $request){
         $this->AuthLogin();
-        $data=$request->all();
-        $about_store=new AboutStore();
-        $about_store->cuahang_tieu_de = $data['about_store_title'];
-        $about_store->cuahang_mo_ta = $data['about_store_description'];
-        $about_store->cuahang_dia_chi = $data['about_store_address'];
-        $about_store->cuahang_so_dien_thoai = $data['about_store_phone_number'];
-        $about_store->cuahang_trang_thai = $data['about_store_status'];
-        $get_image = $request->file('about_store_img');
-        $path = 'public/uploads/admin/aboutstore';
-        //them hinh anh
-        if($get_image){
-            $get_name_image = $get_image->getClientOriginalName();
-            $name_image = current(explode('.',$get_name_image));
-            $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $get_image->move($path,$new_image);
-            $about_store->cuahang_anh = $new_image;
-            $about_store->save();
-            Session::put('message','Add Success');
-    	    return Redirect::to('/about-store');
+        $this->validate($request,[
+            'about_store_title' => 'bail|required|max:255|min:5',
+            'about_store_description' => 'bail|required|max:255|min:5',
+            'about_store_address' => 'bail|required|max:255|min:5',
+            'about_store_phone_number' => 'bail|required|max:12|min:10',
+            'about_store_email' => 'bail|required|email|max:255',
+            'about_store_number' => 'bail|required|max:255',
+            'about_store_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+        ],[
+            'required' => 'Fields cannot be left blank',
+            'email' => 'Wrong email format',
+            'max' => 'Too long',
+            'min' => 'Length is too small',
+            'mimes' => 'Wrong image format'
+        ]);
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $data=$request->all();
+            $get_about=AboutStore::where('cuahang_thu_tu', $data['about_store_number'])->first();
+            if ($get_about) {
+                return Redirect::to('/about-store-add')->with('error', 'Add Fail, Number already exists');
+            } else {
+                $about_store=new AboutStore();
+                $about_store->cuahang_tieu_de = $data['about_store_title'];
+                $about_store->cuahang_mo_ta = $data['about_store_description'];
+                $about_store->cuahang_dia_chi = $data['about_store_address'];
+                $about_store->cuahang_so_dien_thoai = $data['about_store_phone_number'];
+                $about_store->cuahang_trang_thai = $data['about_store_status'];
+                $about_store->cuahang_thu_tu = $data['about_store_number'];
+                $about_store->cuahang_email = $data['about_store_email'];
+                $get_image = $request->file('about_store_img');
+                $path = 'public/uploads/admin/aboutstore';
+                //them hinh anh
+                if ($get_image) {
+                    if($path.$get_image){
+                        return Redirect::to('/about-store-add')->with('error', 'Add Fail, Please choose another photo');
+                    }else{
+                        $get_name_image = $get_image->getClientOriginalName();
+                        $name_image = current(explode('.', $get_name_image));
+                        $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
+                        $get_image->move($path, $new_image);
+                        $about_store->cuahang_anh = $new_image;
+                        $about_store->save();
+                        return Redirect::to('/about-store')->with('message', 'Add Success');
+                    }
+                } else {
+                    return Redirect::to('/about-store-add')->with('error', 'Add Fail,Please Choose Image');
+                }
+            }
         }
-        $about_store->cuahang_anh = '';
-        $about_store->save();
-        Session::put('message','Add Success');
-    	return Redirect::to('/about-store');
     }
 
     public function UnactiveAboutStore($about_store_id){
         $this->AuthLogin();
-        $unactive_about_store=AboutStore::find($about_store_id);
-        $unactive_about_store->cuahang_trang_thai=0;
-        $unactive_about_store->save();
-        Session::put('message','Hide Success');
-        return Redirect::to('/about-store');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $unactive_about_store=AboutStore::find($about_store_id);
+            if (!$unactive_about_store) {
+                return Redirect::to('/about-store')->with('error', 'Not found');
+            } else {
+                $unactive_about_store->cuahang_trang_thai=0;
+                $unactive_about_store->save();
+                return Redirect::to('/about-store')->with('message', 'Hide Success');
+            }
+        }
     }
     public function ActiveAboutStore($about_store_id){
         $this->AuthLogin();
-        $active_about_store=AboutStore::find($about_store_id);
-        $active_about_store->cuahang_trang_thai=1;
-        $active_about_store->save();
-        Session::put('message','Show Success');
-        return Redirect::to('/about-store');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $active_about_store=AboutStore::find($about_store_id);
+            if (!$active_about_store) {
+                return Redirect::to('/about-store')->with('error', 'Not found');
+            } else {
+                $active_about_store->cuahang_trang_thai=1;
+                $active_about_store->save();
+                return Redirect::to('/about-store')->with('message', 'Show Success');
+            }
+        }
     }
 
     public function AboutStoreEdit($about_store_id){
         $this->AuthLogin();
-        $edit_about_store=AboutStore::find($about_store_id);
-        return view('admin.pages.aboutstore.about_store_edit')
-        ->with('about_store',$edit_about_store);
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $edit_about_store=AboutStore::find($about_store_id);
+            if (!$edit_about_store) {
+                return Redirect::to('/about-store')->with('error', 'Not found');
+            } else {
+                return view('admin.pages.aboutstore.about_store_edit')
+        ->with('about_store', $edit_about_store);
+            }
+        }
     }
 
     public function AboutStoreSaveEdit(Request $request,$about_store_id){
         $this->AuthLogin();
-        $data=$request->all();
-        $about_store=AboutStore::find($about_store_id);
-        $about_store->cuahang_tieu_de = $data['about_store_title'];
-        $about_store->cuahang_mo_ta = $data['about_store_description'];
-        $about_store->cuahang_dia_chi = $data['about_store_address'];
-        $about_store->cuahang_so_dien_thoai = $data['about_store_phone_number'];
-        $about_store->cuahang_trang_thai = $data['about_store_status'];
-        $old_name=$about_store->cuahang_anh;
-        $get_image = $request->file('about_store_img');
-        $path = 'public/uploads/admin/aboutstore/';
-        if($get_image){
-            unlink($path.$old_name);
-            $get_name_image = $get_image->getClientOriginalName();
-            $name_image = current(explode('.',$get_name_image));
-            $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $get_image->move($path,$new_image);
-            $about_store->cuahang_anh= $new_image;
-            $about_store->save();
-            Session::put('message','Update Success');
-            return Redirect::to('/about-store');
+        $this->validate($request,[
+            'about_store_title' => 'bail|required|max:255|min:5',
+            'about_store_description' => 'bail|required|max:255|min:5',
+            'about_store_address' => 'bail|required|max:255|min:5',
+            'about_store_phone_number' => 'bail|required|max:12|min:10',
+            'about_store_email' => 'bail|required|email|max:255',
+            'about_store_number' => 'bail|required|max:255',
+            'about_store_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+        ],[
+            'required' => 'Field is not empty',
+            'email' => 'Email format is incorrect',
+            'max' => 'Too long',
+            'min' => 'Length is too small',
+            'mimes' => 'Wrong image format'
+        ]);
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $data=$request->all();
+            $about_store=AboutStore::find($about_store_id);
+            if (!$about_store) {
+                return Redirect::to('/about-store')->with('error', 'Not found');
+            } else {
+                $about_store->cuahang_tieu_de = $data['about_store_title'];
+                $about_store->cuahang_mo_ta = $data['about_store_description'];
+                $about_store->cuahang_dia_chi = $data['about_store_address'];
+                $about_store->cuahang_so_dien_thoai = $data['about_store_phone_number'];
+                $about_store->cuahang_trang_thai = $data['about_store_status'];
+                $about_store->cuahang_thu_tu = $data['about_store_number'];
+                $about_store->cuahang_email = $data['about_store_email'];
+                $old_name=$about_store->cuahang_anh;
+                $get_image = $request->file('about_store_img');
+                $path = 'public/uploads/admin/aboutstore/';
+                if ($get_image) {
+                    if($path.$get_image && $path.$get_image!=$path.$old_name){
+                        return Redirect::to('/about-store-edit/'.$about_store_id)->with('error', 'Update Fail, Please choose another photo');
+                    }else{
+                        if ($old_name!=null) {
+                            unlink($path.$old_name);
+                        }
+                        $get_name_image = $get_image->getClientOriginalName();
+                        $name_image = current(explode('.', $get_name_image));
+                        $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
+                        $get_image->move($path, $new_image);
+                        $about_store->cuahang_anh= $new_image;
+                        $about_store->save();
+                        return Redirect::to('/about-store')->with('message', 'Update Success');
+                    }
+                } else {
+                    if ($old_name!=null) {
+                        $about_store->cuahang_anh = $old_name;
+                        $about_store->save();
+                        return Redirect::to('/about-store')->with('message', 'Update Success');
+                    } else {
+                        return Redirect::to('/about-store-edit/'.$about_store_id)->with('error', 'Update Fail,Please Choose Image');
+                    }
+                }
+            }
         }
-        $about_store->cuahang_anh = $old_name;
-        $about_store->save();
-        Session::put('message','Update Success');
-        return Redirect::to('/about-store');
     }
     public function AboutStoreDelete($about_store_id){
         $this->AuthLogin();
-        DB::table('tbl_cuahang')->where('id',$about_store_id)->delete();
-        Session::put('message','Delete Success');
-        return Redirect::to('/aboutstore');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $delete_about=AboutStore::find($about_store_id);
+            if (!$delete_about) {
+                return Redirect::to('/about-store')->with('error', 'Not found');
+            } else {
+                $delete_about->delete();
+                return Redirect::to('/about-store')->with('message', 'Delete Success');
+            }
+        }
     }
 }

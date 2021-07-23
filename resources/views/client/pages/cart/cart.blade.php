@@ -15,6 +15,17 @@
     </div>
 </div>
 <!--breadcrumbs area end-->
+@if(session()->has('message'))
+<div class="alert alert-success">
+    {!! session()->get('message') !!}
+    {!! session()->forget('message') !!}
+</div>
+@elseif(session()->has('error'))
+<div class="alert alert-danger">
+    {!! session()->get('error') !!}
+    {!! session()->forget('error') !!}
+</div>
+@endif
  <!--shopping cart area start -->
 <div class="shopping_cart_area">
     <form action="{{ URL::to('/update-cart')}}" method="POST">
@@ -49,7 +60,7 @@
                                             <td class="product_thumb"><a href="#"><img src="{{asset('public/uploads/admin/product/'.$product['product_img'])}}" width="70px" height="75px" alt=""></a></td>
                                             <td class="product_name"><a href="#">{{ $product['product_name'] }}</a> <br><label>Size: {{ $product['product_size_name'] }}</label> </td>
                                             <td class="product-price">{{number_format($product['product_price']  ,0,',','.').' VNĐ' }}</td>
-                                            <td class="product_quantity"><input min="1" name="cart_quantity[{{$product['session_id']}}]" max="{{ $product['product_in_stock'] }}" value="{{ $product['product_quantity'] }}" type="number"></td>
+                                            <td class="product_quantity"><input min="1" name="cart_quantity[{{$product['session_id']}}]"  value="{{ $product['product_quantity'] }}" type="number"></td>
                                             <td class="product_total">{{number_format( $product['product_price'] * $product['product_quantity'] ,0,',','.').' VNĐ' }}</td>
                                         </tr>
                                     @endforeach
@@ -63,11 +74,12 @@
                             </tbody>
                         </table>
                     </div>
-                    @if(Session::get('cart')==true)
                     <div class="cart_submit">
+                        @if(Session::get('cart')==true)
+                        <a type="button" class="btn btn-danger mr-2" href="{{ URL::to('/shop-now')}}" >Shop Now</a>
                         <button type="submit" >update cart</button>
+                        @endif
                     </div>
-                    @endif
                 </div>
              </div>
          </div>

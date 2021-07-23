@@ -16,6 +16,15 @@
     </div>
 </div>
 <!--breadcrumbs area end-->
+@if(session()->has('message'))
+<div class="alert alert-success">
+    {!! session()->get('message') !!}
+</div>
+@elseif(session()->has('error'))
+<div class="alert alert-danger">
+    {!! session()->get('error') !!}
+</div>
+@endif
 <!--Checkout page section-->
 <div class="Checkout_section">
     <div class="row">
@@ -227,20 +236,20 @@
                             @csrf
                                 <div class="col-lg-12 mb-30">
                                     <label>Name <span>*</span></label>
-                                    <input name="order_checkout_name" value="{{ $customer_delivery->giaohang_nguoi_nhan }}" required="" type="text">
+                                    <input name="delivery_update_name" value="{{ $customer_delivery->giaohang_nguoi_nhan }}" required="" type="text">
                                 </div>
                                 <div class="col-lg-12 mb-30">
                                     <label> Email   <span>*</span></label>
-                                      <input name="order_checkout_email" value="{{ $customer_delivery->giaohang_nguoi_nhan_email }}" required="" type="text">
+                                      <input name="delivery_update_email" value="{{ $customer_delivery->giaohang_nguoi_nhan_email }}" required="" type="text">
                                 </div>
                                 <div class="col-lg-12 mb-30">
                                     <label>Phone<span>*</span></label>
-                                    <input name="order_checkout_phone_number" value="{{ $customer_delivery->giaohang_nguoi_nhan_so_dien_thoai }}" required="" type="number">
+                                    <input name="delivery_update_phone_number" value="{{ $customer_delivery->giaohang_nguoi_nhan_so_dien_thoai }}" required="" type="number">
                                 </div>
 
                                 <div class="col-12 mb-30">
                                     <label>address  <span>*</span></label>
-                                    <input name="order_checkout_address" value="{{ $customer_delivery->giaohang_nguoi_nhan_dia_chi }}" required="" type="text">
+                                    <input name="delivery_update_address" value="{{ $customer_delivery->giaohang_nguoi_nhan_dia_chi }}" required="" type="text">
                                 </div>
                                 <div class="user-actions mb-30">
                                     <div class="col-12 mb-30">
@@ -250,7 +259,7 @@
                                         <div class="col-12 mb-30">
                                             <label for="country">City <span>*</span></label>
                                             <select name="order_city" id="order_city" required="" class="choose-address order_city form-control ">
-                                                <option>Choose City</option>
+                                                <option value="-1">Choose City</option>
                                                 @foreach ($city as $key=>$cty)
                                                     <option value="{{$cty->id}}">{{ $cty->tinhthanhpho_name }}</option>
                                                 @endforeach
@@ -259,13 +268,13 @@
                                         <div class="col-12 mb-30">
                                             <label for="country">Province <span>*</span></label>
                                             <select name="order_province" required="" id="order_province" class="choose-address select-province form-control">
-                                                <option>Province</option>
+                                                <option value="-1">Province</option>
                                             </select>
                                         </div>
                                         <div class="col-12 mb-30">
                                             <label for="country">Wards <span>*</span></label>
                                             <select name="order_wards" required="" id="order_wards" class="select-wards form-control">
-                                                <option >Wards</option>
+                                                <option value="-1">Wards</option>
                                             </select>
                                         </div>
                                     </div>
@@ -273,7 +282,7 @@
                                 <div class="col-lg-12 mb-30">
                                     <div class="order-notes">
                                         <label for="order_note">Order Notes</label>
-                                       <textarea id="order_note" name="order_checkout_note" required="" placeholder="Notes about your order">{{ $customer_order->dondathang_ghi_chu }}</textarea>
+                                       <textarea id="order_note" name="delivery_update_note" placeholder="Notes about your order">{{ $customer_order->dondathang_ghi_chu }}</textarea>
                                    </div>
                                 </div>
                                 <div class="col-12 mb-30">

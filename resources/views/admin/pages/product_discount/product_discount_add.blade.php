@@ -50,8 +50,14 @@
                                                     <div class="card-body">
                                                         <label class="col-form-label">Title</label>
                                                         <input type="text" name="product_discount_title" required="" class="form-control product_discount_title" placeholder="12/12">
+                                                        @error('product_discount_title')
+                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                        @enderror
                                                         <label class="col-form-label">Time</label>
                                                         <input type="number" name="product_discount_time" required="" class="form-control product_discount_time" placeholder="10.Day">
+                                                        @error('product_discount_time')
+                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                        @enderror
                                                         <label class=" col-form-label">Day Discount</label>
                                                         <input type="date" name="product_discount_day" required="" class="form-control " >
                                                         <hr>
@@ -64,13 +70,19 @@
                                                                 </select>
                                                                 <label class="col-form-label">Discount</label>
                                                                 <input type="number" min="1" name="product_discount_number" required="" class="form-control product_discount_number" placeholder="10%,..">
+                                                                @error('product_discount_number')
+                                                                <p class="alert alert-danger"> {{ $message }}</p>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <div class="form-row">
                                                             <div class="form-group col-md-12">
                                                                 <label class="col-form-label">Content</label>
-                                                                <textarea class="form-control product_discount_content" required="" name="product_discount_content"  placeholder="Content.."></textarea>
+                                                                <textarea class="form-control product_discount_content" id="product-discount-description-ckeditor" required="" name="product_discount_content"  placeholder="Content.."></textarea>
+                                                                @error('product_discount_content')
+                                                                <p class="alert alert-danger"> {{ $message }}</p>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -90,8 +102,11 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="custom-file">
-                                                                        <input type="file" class="upload custom-file-input" required="" name="product_discount_img" id="images">
+                                                                        <input type="file" class="upload custom-file-input" accept=".jpeg,.png,.gif,.jpg" required="" name="product_discount_img" id="images">
                                                                         <label class="custom-file-label" for="images">Choose image</label>
+                                                                        @error('product_discount_img')
+                                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                                        @enderror
                                                                     </div>
                                                                 </div>
                                                             </div>

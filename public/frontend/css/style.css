@@ -1037,8 +1037,8 @@ a {
 .product_info {
     text-align: center;
     padding: 10px 0 5px;
-    opacity: 0;
-    visibility: hidden;
+    opacity: 1;
+    visibility: visible;
     -webkit-transition: .3s;
     transition: .3s;
 }

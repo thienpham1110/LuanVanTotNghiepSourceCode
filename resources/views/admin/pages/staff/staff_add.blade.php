@@ -44,18 +44,30 @@
                                 <div class="form-group">
                                     <label for="pass1">Name<span class="text-danger">*</span></label>
                                     <input name="staff_name" type="text" placeholder="Name" required="" class="form-control">
+                                    @error('staff_name')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="pass1">Email<span class="text-danger">*</span></label>
                                     <input name="staff_email" type="text" placeholder="Email" required="" class="form-control">
+                                    @error('staff_email')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="pass1">Password<span class="text-danger">*</span></label>
                                     <input name="staff_password" type="password" placeholder="Password" required="" class="form-control">
+                                    @error('staff_password')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="passWord2">Confirm Password <span class="text-danger">*</span></label>
                                     <input name="staff_password_confirm" type="password" required="" placeholder="Password" class="form-control">
+                                    @error('staff_password_confirm')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label">Role</label>

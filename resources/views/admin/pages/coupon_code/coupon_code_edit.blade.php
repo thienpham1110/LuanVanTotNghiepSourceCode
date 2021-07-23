@@ -49,6 +49,9 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Name</label>
                                                     <input type="text" value="{{ $coupon_code->makhuyenmai_ten_ma }}" name="coupon_code_name" class="form-control" required="" placeholder="voucher 1">
+                                                    @error('coupon_code_name')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>
@@ -57,6 +60,9 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Coupon Code</label>
                                                     <input type="text" name="coupon_code_code" value="{{ $coupon_code->makhuyenmai_ma }}" class="form-control" required="" placeholder="Example: COVID">
+                                                    @error('coupon_code_code')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>
@@ -65,6 +71,9 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Coupon Quantity</label>
                                                     <input type="number" value="{{ $coupon_code->makhuyenmai_so_luong }}" min="1" name="coupon_code_quantity" class="form-control" required="" placeholder="1">
+                                                    @error('coupon_code_quantity')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>

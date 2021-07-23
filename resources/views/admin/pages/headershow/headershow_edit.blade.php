@@ -37,10 +37,19 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Content</label>
                                                     <input type="text" value="{{$headershow->headerquangcao_noi_dung}}" name="header_content" required="" class="form-control" placeholder="KM">
+                                                    @error('header_content')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Link</label>
                                                     <input type="text" value="{{$headershow->headerquangcao_lien_ket}}"  name="header_link" required="" class="form-control" placeholder="http://...">
+                                                    @error('header_link')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">No.</label>
                                                     <input type="number" value="{{$headershow->headerquangcao_thu_tu}}"  min="1" name="header_no" required="" class="form-control" placeholder="1">
+                                                    @error('header_no')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>

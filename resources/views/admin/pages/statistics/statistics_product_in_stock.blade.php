@@ -83,6 +83,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <nav>
+                                <ul class="pagination pagination-rounded mb-3">
+                                    {{ $all_product_in_stock_statistics->links('layout.paginationlinks') }}
+                                </ul>
+                            </nav>
                         </div>
                     </div><!-- end col -->
                 </div>

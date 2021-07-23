@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use File;
 use App\Models\Brand;
+use App\Models\Product;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 session_start();
@@ -14,9 +15,13 @@ class BrandController extends Controller
 {
     public function Index(){
         $this->AuthLogin();
-        $all_brand = Brand::orderBy('id','DESC')->paginate(5);
-        // $all_brand = Brand::orderBy('id','DESC')->get();
-        return view('admin.pages.brand.brand')->with('all_brand',$all_brand);
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $all_brand = Brand::orderBy('id', 'DESC')->paginate(5);
+            // $all_brand = Brand::orderBy('id','DESC')->get();
+        return view('admin.pages.brand.brand')->with('all_brand', $all_brand);
+        }
     }
 
     public function AuthLogin(){
@@ -29,82 +34,183 @@ class BrandController extends Controller
     }
     public function BrandAdd(){
         $this->AuthLogin();
-    	return view('admin.pages.brand.brand_add');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            return view('admin.pages.brand.brand_add');
+        }
     }
 
     public function BrandSave(Request $request){
         $this->AuthLogin();
-        $data=$request->all();
-        $brand=new Brand();
-        $brand->thuonghieu_ten = $data['brand_name'];
-        $brand->thuonghieu_mo_ta = $data['brand_description'];
-        $brand->thuonghieu_trang_thai = $data['brand_status'];
-        $get_image = $request->file('brand_img');
-        $path = 'public/uploads/admin/brand';
-        //them hinh anh
-        if($get_image){
-            $get_name_image = $get_image->getClientOriginalName();
-            $name_image = current(explode('.',$get_name_image));
-            $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $get_image->move($path,$new_image);
-            $brand->thuonghieu_anh = $new_image;
-            $brand->save();
-            Session::put('message','Add Success');
-    	    return Redirect::to('/brand');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $data=$request->all();
+            $this->validate($request,[
+                'brand_name' => 'bail|required|max:255|min:6',
+                'brand_description' => 'bail|required|max:255|min:6',
+                'brand_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+            ],
+            [
+                'required' => 'Field is not empty',
+                'min' => 'Too short',
+                'max' => 'Too long',
+                'mimes' => 'Wrong image format'
+            ]);
+            $get_brand=Brand::where('thuonghieu_ten', $data['brand_name'])->first();
+            if ($get_brand) {
+                return Redirect::to('/brand-add')->with('error', 'Brand already exists');
+            } else {
+                $brand=new Brand();
+                $brand->thuonghieu_ten = $data['brand_name'];
+                $brand->thuonghieu_mo_ta = $data['brand_description'];
+                $brand->thuonghieu_trang_thai = $data['brand_status'];
+                $get_image = $request->file('brand_img');
+                $path = 'public/uploads/admin/brand';
+                //them hinh anh
+                if ($get_image) {
+                    if($path.$get_image){
+                        return Redirect::to('/collection-add')->with('error', 'Add Fail, Please choose another photo');
+                    }else{
+                        $get_name_image = $get_image->getClientOriginalName();
+                        $name_image = current(explode('.', $get_name_image));
+                        $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
+                        $get_image->move($path, $new_image);
+                        $brand->thuonghieu_anh = $new_image;
+                        $brand->save();
+                        return Redirect::to('/brand')->with('message', 'Add Success');
+                    }
+                } else {
+                    return Redirect::to('/brand-add')->with('error', 'Add Fail,Please Choose Image');
+                }
+            }
         }
-        $brand->thuonghieu_anh = '';
-        $brand->save();
-        Session::put('message','Add Success');
-    	return Redirect::to('/brand');
     }
 
     public function UnactiveBrand($brand_id){
         $this->AuthLogin();
-        $unactive_brand=Brand::find($brand_id);
-        $unactive_brand->thuonghieu_trang_thai=0;
-        $unactive_brand->save();
-        Session::put('message','Hide Success');
-        return Redirect::to('/brand');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $unactive_brand=Brand::find($brand_id);
+            if (!$unactive_brand) {
+                return Redirect::to('/brand')->with('error', 'Brand not found');
+            } else {
+                $unactive_brand->thuonghieu_trang_thai=0;
+                $unactive_brand->save();
+                return Redirect::to('/brand')->with('message', 'Hide Success');
+            }
+        }
     }
     public function ActiveBrand($brand_id){
-        $this->AuthLogin();
-        $active_brand=Brand::find($brand_id);
-        $active_brand->thuonghieu_trang_thai=1;
-        $active_brand->save();
-        Session::put('message','Show Success');
-        return Redirect::to('/brand');
+        $this->AuthLogin(); if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $active_brand=Brand::find($brand_id);
+            if (!$active_brand) {
+                return Redirect::to('/brand')->with('error', 'Brand not found');
+            } else {
+                $active_brand->thuonghieu_trang_thai=1;
+                $active_brand->save();
+                return Redirect::to('/brand')->with('message', 'Show Success');
+            }
+        }
     }
 
     public function BrandEdit($brand_id){
         $this->AuthLogin();
-        $edit_brand=Brand::find($brand_id);
-        return view('admin.pages.brand.brand_edit')->with('brand',$edit_brand);
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $edit_brand=Brand::find($brand_id);
+            if (!$edit_brand) {
+                return Redirect::to('/brand')->with('error', 'Brand not found');
+            } else {
+                return view('admin.pages.brand.brand_edit')->with('brand', $edit_brand);
+            }
+        }
     }
 
     public function BrandSaveEdit(Request $request,$brand_id){
         $this->AuthLogin();
-        $data=$request->all();
-        $brand= Brand::find($brand_id);
-        $brand->thuonghieu_ten = $data['brand_name'];
-        $brand->thuonghieu_mo_ta = $data['brand_description'];
-        $brand->thuonghieu_trang_thai = $data['brand_status'];
-        $old_name_img=$brand->thuonghieu_anh;
-        $get_image = $request->file('brand_img');
-        $path = 'public/uploads/admin/brand/';
-        if($get_image){
-            unlink($path.$old_name_img);
-            $get_name_image = $get_image->getClientOriginalName();
-            $name_image = current(explode('.',$get_name_image));
-            $new_image =  $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $get_image->move($path,$new_image);
-            $brand->thuonghieu_anh  = $new_image;
-            $brand->save();
-            Session::put('message','Update Success');
-            return Redirect::to('/brand');
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $edit_brand=Brand::find($brand_id);
+            if (!$edit_brand) {
+                return Redirect::to('/brand')->with('error', 'Brand not found');
+            } else {
+                $data=$request->all();
+                $this->validate($request,[
+                    'brand_name' => 'bail|required|max:255|min:6',
+                    'brand_description' => 'bail|required|max:255|min:6',
+                    'brand_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+                ],
+                [
+                    'required' => 'Field is not empty',
+                    'min' => 'Too short',
+                    'max' => 'Too long',
+                    'mimes' => 'Wrong image format'
+                ]);
+                $get_brand=Brand::where('thuonghieu_ten', $data['brand_name'])->whereNotIn('id', [$brand_id])->first();
+                if ($get_brand) {
+                    return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Brand already exists');
+                } else {
+                    $brand= Brand::find($brand_id);
+                    $brand->thuonghieu_ten = $data['brand_name'];
+                    $brand->thuonghieu_mo_ta = $data['brand_description'];
+                    $brand->thuonghieu_trang_thai = $data['brand_status'];
+                    $old_name_img=$brand->thuonghieu_anh;
+                    $get_image = $request->file('brand_img');
+                    $path = 'public/uploads/admin/brand/';
+                    if ($get_image) {
+                        if($path.$get_image && $path.$get_image!=$path.$old_name_img){
+                            return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Update Fail, Please choose another photo');
+                        }else{
+                            if ($old_name_img!=null) {
+                                unlink($path.$old_name_img);
+                            }
+                            $get_name_image = $get_image->getClientOriginalName();
+                            $name_image = current(explode('.', $get_name_image));
+                            $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
+                            $get_image->move($path, $new_image);
+                            $brand->thuonghieu_anh  = $new_image;
+                            $brand->save();
+                            return Redirect::to('/brand')->with('message', 'Update Success');
+                        }
+                    } else {
+                        if ($old_name_img!=null) {
+                            $brand->thuonghieu_anh = $old_name_img;
+                            $brand->save();
+                            return Redirect::to('/brand')->with('message', 'Update Success');
+                        } else {
+                            return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Update Fail,Please Choose Image');
+                        }
+                    }
+                }
+            }
         }
-        $brand->thuonghieu_anh = $old_name_img;
-        $brand->save();
-        Session::put('message','Update Success');
-        return Redirect::to('/brand');
+    }
+
+    public function DeleteBrand($brand_id){
+        $this->AuthLogin();
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $brand=Brand::find($brand_id);
+            if (!$brand) {
+                return Redirect::to('/brand')->with('error', 'Brand not found');
+            } else {
+                $get_brand=Product::where('thuonghieu_id', $brand_id)->first();
+                if ($get_brand) {
+                    return Redirect::to('/brand')->with('error', 'Delete Fail, Can not delete');
+                } else {
+                    $delete_brand=Brand::find($brand_id);
+                    $delete_brand->delete();
+                    return Redirect::to('/brand')->with('message', 'Delete Success');
+                }
+            }
+        }
     }
 }

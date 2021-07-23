@@ -99,6 +99,9 @@
                                             <div class="col-sm-12">
                                                 <textarea name="reply_admin_comment" required="" class="form-control" placeholder="reply comment"></textarea>
                                                 <input type="hidden" name="reply_product_id" value="{{ $comment->sanpham_id }}">
+                                                @error('reply_admin_comment')
+                                                <p class="alert alert-danger"> {{ $message }}</p>
+                                                @enderror
                                                 @if ($comment->khachhang_id )
                                                 <input type="hidden" name="reply_customer_id" value="{{ $comment->khachhang_id }}">
                                                 @endif

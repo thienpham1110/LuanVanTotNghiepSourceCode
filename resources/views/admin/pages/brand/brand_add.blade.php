@@ -26,6 +26,17 @@
                         <div class="card-box">
                             <h4 class="header-title">Brand Information</h4>
                             <hr>
+                            @if(session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {!! session()->get('message') !!}
+                                        {!! session()->forget('message') !!}
+                                    </div>
+                                @elseif(session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {!! session()->get('error') !!}
+                                        {!! session()->forget('error') !!}
+                                    </div>
+                                @endif
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -36,9 +47,14 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Name</label>
                                                     <input type="text" name="brand_name" required="" class="form-control" placeholder="nike">
-
+                                                    @error('brand_name')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Description</label>
                                                     <textarea name="brand_description" required="" class="form-control" placeholder="Des.."></textarea>
+                                                    @error('brand_description')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>
@@ -58,8 +74,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="custom-file">
-                                                        <input type="file" class="upload custom-file-input" required="" name="brand_img" id="images">
+                                                        <input type="file" class="upload custom-file-input" accept=".jpeg,.png,.gif,.jpg" required="" name="brand_img" id="images">
                                                         <label class="custom-file-label" for="images">Choose image</label>
+                                                        @error('brand_img')
+                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>

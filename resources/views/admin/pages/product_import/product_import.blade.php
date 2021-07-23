@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right mr-3">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-import-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/product-import-add-multiple')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
@@ -118,11 +118,11 @@
                                                 <?php
                                                 if($product_import->donnhaphang_trang_thai==1)
                                                 { ?>
-                                                <a href="#"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
+                                                <a href="{{URL::to ('/unactive-product-import/'.$product_import->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-up"></i></a>
                                                 <?php
                                                 }else
                                                 { ?>
-                                                    <a href="#"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
+                                                    <a href="{{URL::to ('/active-product-import/'.$product_import->id)}}"> <i class="fa fa-thumbs-styling fa-thumbs-down"></i></a>
                                                 <?php
                                                 }
                                                 ?>
@@ -134,7 +134,6 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{URL::to('/product-import-show-detail/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
                                                     <a class="dropdown-item" href="{{URL::to('/product-import-edit/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                    <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 </div>
                                             </div>
                                         </td>

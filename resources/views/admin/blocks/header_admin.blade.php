@@ -31,6 +31,10 @@
                     <i class="remixicon-lock-line"></i>
                     <span>Change Password</span>
                 </a>
+                <a href="{{URL::to('/staff-my-account-change-email')}}" class="dropdown-item notify-item">
+                    <i class="remixicon-lock-line"></i>
+                    <span>Change Email</span>
+                </a>
                 <div class="dropdown-divider"></div>
                 <!-- item-->
                 <a href="{{ URL::to('/logout') }}" class="dropdown-item notify-item">

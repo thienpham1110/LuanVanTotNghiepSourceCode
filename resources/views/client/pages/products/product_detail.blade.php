@@ -151,7 +151,8 @@
                         {{ csrf_field() }}
                         <div class="box_quantity mb-20 ">
                                 <h5>quantity</h5>
-                                <input name="product_quantity" class="product_quantity_{{ $product->id }}" min="1"
+                                <input name="product_quantity" class="product_quantity_{{ $product->id }}" min="1" value="1" type="number">
+                                <input name="product_quantity_in_stock" class="product_quantity_in_stock_{{ $product->id }}" min="1"
                                 @php
                                     $qty_in_stock=0;
                                 @endphp
@@ -160,8 +161,7 @@
                                     $qty_in_stock += $in_stock->sanphamtonkho_so_luong_ton;
                                 @endphp
                                 @endforeach
-                                max="{{ $qty_in_stock }}"
-                                 value="1" type="number">
+                                 value="{{ $qty_in_stock }}" type="hidden">
                                  <input type="hidden" value=" {{number_format($product->sanpham_gia_ban ,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
                                  <input id="wishlist_viewed_product_url{{ $product->id }}"  value="{{URL::to('/product-detail/'.$product->id)}}"  type="hidden">
                                 <input name="product_id" value="{{ $product->id }}" class="product_id_{{ $product->id }}" type="hidden">
@@ -171,8 +171,8 @@
                                 <button type="button" data-id_product="{{ $product->id}}" class="add-to-cart"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                 <a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title="add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         </div>
-                        <div class="product_d_size mb-20 col-md-3">
-                            <label for="group_1" class="col-6">size</label>
+                        <div class="mb-20 col-md-4">
+                            <label for="group_1" class="col-4"><h4>Size:</h3></label>
                             <select name="product_size_id" class="product_size_id_{{ $product->id }} form-control" id="group_1">
                                 @foreach ($all_size as $key=>$size )
                                 <option value="{{ $size->size_id }}">{{$size->Size->size}}</option>
@@ -180,9 +180,18 @@
                             </select>
                         </div>
                     </form>
+                    @php
+                    $qty_in_stock=0;
+                    @endphp
+                    @foreach ($get_in_stock as $key=>$in_stock )
+                    @php
+                        $qty_in_stock += $in_stock->sanphamtonkho_so_luong_ton;
+                    @endphp
+                    @endforeach
                     <div class="product_stock mb-20">
                        <p>{{$qty_in_stock }} items</p>
                         <span>
+
                             @if($qty_in_stock>0)
                             In Stock
                             @else
@@ -209,13 +218,7 @@
                           <div class="histo">
                             <div class="five histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   5    -
-                                @if ($count_rate>0)
-                                {{number_format( ($count_rate_5*100)/$count_rate  ,0,',','.'). ' %' }}
-                                @else
-                                0 %
-                                @endif
-                                </span>
+                                <i class="active fa fa-star ratting_review"></i>   5    </span>
                               <span class="bar-block">
                                 <span id="bar-five" class="bar">
                                   <span>
@@ -233,13 +236,7 @@
 
                             <div class="four histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   4    -
-                                @if ($count_rate>0)
-                                {{number_format( ($count_rate_4*100)/$count_rate  ,0,',','.'). ' %' }}
-                                @else
-                                0 %
-                                @endif
-                                </span>
+                                <i class="active fa fa-star ratting_review"></i>   4    </span>
                               <span class="bar-block">
                                 <span id="bar-four" class="bar">
                                   <span>
@@ -257,13 +254,7 @@
 
                             <div class="three histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   3    -
-                                @if ($count_rate>0)
-                                {{number_format( ($count_rate_3*100)/$count_rate  ,0,',','.'). ' %' }}
-                                @else
-                                0 %
-                                @endif
-                                </span>
+                                <i class="active fa fa-star ratting_review"></i>   3    </span>
                               <span class="bar-block">
                                 <span id="bar-three" class="bar">
                                 <span>
@@ -281,13 +272,7 @@
 
                             <div class="two histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   2    -
-                                @if ($count_rate>0)
-                                {{number_format( ($count_rate_2*100)/$count_rate  ,0,',','.'). ' %' }}
-                                @else
-                                0 %
-                                @endif
-                                </span>
+                                <i class="active fa fa-star ratting_review"></i>   2    </span>
                               <span class="bar-block">
                                 <span id="bar-two" class="bar">
                                   <span>
@@ -305,13 +290,7 @@
 
                             <div class="one histo-rate">
                               <span class="histo-star">
-                                <i class="active fa fa-star ratting_review"></i>   1    -
-                                @if ($count_rate>0)
-                                {{number_format( ($count_rate_1*100)/$count_rate  ,0,',','.'). ' %' }}
-                                @else
-                                0 %
-                                @endif
-                                </span>
+                                <i class="active fa fa-star ratting_review"></i>   1    </span>
                               <span class="bar-block">
                                 <span id="bar-one" class="bar">
                                   <span>

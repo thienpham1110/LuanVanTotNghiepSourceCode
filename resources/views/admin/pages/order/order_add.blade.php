@@ -10,9 +10,8 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/order-add-show-product')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle  mr-1"></i>Add Product</a>
+                                <a href="{{URL::to('/order')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>                            </div>
                             </div>
-                        </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
                             <li class="breadcrumb-item active">Product Import Add</li>
@@ -53,6 +52,7 @@
                                         <tbody class="font-14">
                                             <form >
                                                 @csrf
+                                                @if($all_product_in_stock!=null)
                                                     @foreach ($all_product_in_stock as $k=>$in_stock)
                                                         <tr>
                                                             <input type="hidden" value="{{ $in_stock->sanpham_id }}" class="product_id_{{ $in_stock->sanpham_id }}">
@@ -75,19 +75,22 @@
                                                             <td>{{$in_stock->Size->size }}</td>
                                                         </tr>
                                                     @endforeach
+                                                @endif
                                             </form>
                                         </tbody>
                                     </table>
                                     <nav>
                                         <ul class="pagination pagination-rounded mb-3">
-                                        {{$all_product_in_stock->links('layout.paginationlinks') }}
+                                            @if($all_product_in_stock!=null)
+                                                {{$all_product_in_stock->links('layout.paginationlinks') }}
+                                            @endif
                                         </ul>
                                     </nav>
                                 </div>
                             </div><!-- end col -->
                         </div>
                         <!-- end row -->
-                        
+
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -228,12 +231,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>                                    
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                            
+
                     </div>
                 </div>
             </div>

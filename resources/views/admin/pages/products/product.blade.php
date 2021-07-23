@@ -141,7 +141,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{URL::to('/product-edit/'.$product->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
                                                     <a class="dropdown-item" href="{{URL::to('/product-images/'.$product->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Get Images</a>
-                                                    <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-delete/'.$product->id)}}" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -157,23 +157,6 @@
                 <nav>
                 <ul class="pagination pagination-rounded mb-3">
                     {{ $all_product->links('layout.paginationlinks') }}
-                    {{--  <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#"> </a></li>
-                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>  --}}
                 </ul>
             </nav>
             <!-- end content -->

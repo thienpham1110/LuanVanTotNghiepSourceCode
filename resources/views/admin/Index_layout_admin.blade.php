@@ -100,6 +100,7 @@
     <script src="{{URL::asset('public/backend/js/sweetalert.min.js')}}"></script>
     {{--  <script src="{{URL::asset('public/libs/switchery/switchery.min.js')}}" ></script>  --}}
     {{--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  --}}
+    <script src="{{URL::asset('public/backend/ckeditor/ckeditor.js')}}"></script>
 
 </body>
 
@@ -448,7 +449,6 @@ $("#ProductMoreImagesInput").change(function () {
                 method: 'POST',
                 data:{product_order_coupon:product_order_coupon,_token:_token},
                 success:function(data){
-
                     $('#show-coupon').html(data);
                }
             });
@@ -493,7 +493,7 @@ $("#ProductMoreImagesInput").change(function () {
                         showConfirmButton: !1,
                         timer: 1000
                     })
-                    window.location.href = "{{url('/order-add')}}";
+                    location.reload();
                }
             });
          });
@@ -511,7 +511,7 @@ $("#ProductMoreImagesInput").change(function () {
                      method: 'GET',
                      data:{product_session_id:product_session_id,_token:_token},
                      success:function(data){
-                        window.location.href = "{{url('/order-add')}}";
+                        location.reload();
                     }
                  });
              });
@@ -521,59 +521,51 @@ $("#ProductMoreImagesInput").change(function () {
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
-        function load_queue(){
-            $('.add-queue').click(function(){
-                var id = $(this).data('id_product');
-                var product_id =$('.product_id_' + id).val();
-                var product_name =$('.product_name_' + id).val();
-                var _token = $('input[name="_token"]').val();
-                 $.ajax({
-                     url: '{{url('/product-import-add-queue')}}',
-                     method: 'POST',
-                     data:{product_id:product_id,product_name:product_name,_token:_token},
-                     success:function(data){
-                         Swal.fire({
-                             title: "Add Success",
-                             type: "success",
-                             showConfirmButton: !1,
-                            timer: 500
-                             })
-                         {{--  $('#show-list-product').html(data);  --}}
-                         window.location.href = "{{url('/product-import-add-multiple')}}";
-                     }
-                 });
+        $('.add-queue').click(function(){
+            var id = $(this).data('id_product');
+            var product_id =$('.product_id_' + id).val();
+            var product_name =$('.product_name_' + id).val();
+            var product_image =$('.product_image_' + id).val();
+            var _token = $('input[name="_token"]').val();
+             $.ajax({
+                 url: '{{url('/product-import-add-queue')}}',
+                 method: 'POST',
+                 data:{product_id:product_id,product_name:product_name,product_image:product_image,_token:_token},
+                 success:function(data){
+                     Swal.fire({
+                         title: "Add Success",
+                         type: "success",
+                         showConfirmButton: !1,
+                        timer: 500
+                         })
+                         location.reload();
+                 }
              });
-        }load_queue();
+         });
     });
 </script>
 <script type="text/javascript">
-    $(document).on('mouseup','.delete-row-queue',function(){
-        function delete_row_queue(){
-            $('.delete-row-queue').click(function(){
-                var id = $(this).data('id_product');
-                var product_id =$('.product_id_' + id).val();
-                var product_session_id =$('.product_session_id_' + id).val();
-                var product_name =$('.product_name_' + id).val();
-                var _token = $('input[name="_token"]').val();
-
-                 $.ajax({
-                     url: '{{url('/product-import-delete-row-queue')}}',
-                     method: 'GET',
-                     data:{product_id:product_id,product_session_id:product_session_id,product_name:product_name ,_token:_token},
-                     success:function(data){
-                        Swal.fire({
-                            title: "Delete Success",
-                            type: "success",
-                            showConfirmButton: !1,
-                           timer: 500
-                            });
-                        {{--  $('#show-list-product').html(data);  --}}
-                        window.location.href = "{{url('/product-import-add-multiple')}}";
-                    }
-                 });
+    $(document).ready(function(){
+        $('.delete-row-queue').click(function(){
+            var id = $(this).data('id_product');
+            var product_id =$('.product_id_' + id).val();
+            var product_session_id =$('.product_session_id_' + id).val();
+            var _token = $('input[name="_token"]').val();
+             $.ajax({
+                 url: '{{url('/product-import-delete-row-queue')}}',
+                 method: 'GET',
+                 data:{product_id:product_id,product_session_id:product_session_id,_token:_token},
+                 success:function(data){
+                    Swal.fire({
+                        title: "Delete Success",
+                        type: "success",
+                        showConfirmButton: !1,
+                       timer: 500
+                        });
+                        location.reload();
+                }
              });
-        }
-        delete_row_queue();
+         });
     });
 </script>
 <script type="text/javascript">
@@ -702,11 +694,8 @@ $(document).ready(function(){
             url : '{{url('/update-fee-day')}}',
             method: 'POST',
             data:{feeship_id:feeship_id, fee_value:fee_value, _token:_token},
-            success:function(data){
-                fetch_transport_fee();
-            }
         });
 
-    }); fetch_transport_fee();
+    });
 });
 </script>

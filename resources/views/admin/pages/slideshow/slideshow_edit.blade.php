@@ -27,6 +27,17 @@
                         <div class="card-box">
                             <h4 class="header-title">Slideshow News Information</h4>
                             <hr>
+                                @if(session()->has('message'))
+                                <div class="alert alert-success">
+                                    {!! session()->get('message') !!}
+                                    {!! session()->forget('message') !!}
+                                </div>
+                            @elseif(session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {!! session()->get('error') !!}
+                                    {!! session()->forget('error') !!}
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -37,12 +48,24 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Title</label>
                                                     <input type="text" value="{{ $slideshow->slidequangcao_tieu_de }}" name="slideshow_title" required="" class="form-control" placeholder="KM">
+                                                    @error('slideshow_title')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Content</label>
                                                     <input type="text" value="{{ $slideshow->slidequangcao_noi_dung }}" name="slideshow_content" required="" class="form-control" placeholder="KM ND">
+                                                    @error('slideshow_content')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Link</label>
                                                     <input type="text" value="{{ $slideshow->slidequangcao_lien_ket }}"  name="slideshow_link" required="" class="form-control" placeholder="http://...">
+                                                    @error('slideshow_link')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">No.</label>
                                                     <input type="number" value="{{ $slideshow->slidequangcao_thu_tu }}"  min="1" name="slideshow_no" required="" class="form-control" placeholder="1">
+                                                    @error('slideshow_no')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>
@@ -79,8 +102,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="custom-file">
-                                                        <input type="file" class="upload custom-file-input" value="{{ $slideshow->slidequangcao_anh }}"  name="slideshow_img" id="images">
+                                                        <input type="file" class="upload custom-file-input" accept=".jpeg,.png,.gif,.jpg" value="{{ $slideshow->slidequangcao_anh }}"  name="slideshow_img" id="images">
                                                         <label class="custom-file-label" for="images">Choose image</label>
+                                                        @error('slideshow_img')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     </div>
                                                     <label class="col-form-label mt-3">Old image</label>
                                                     <img class=" mt-3" width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/slideshow/'.$slideshow->slidequangcao_anh)}}" />

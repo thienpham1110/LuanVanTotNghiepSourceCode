@@ -10,7 +10,7 @@
                             <a href="index.html">
                                 <span><img src="{{asset('public/backend/images/logo-dark.png')}}" alt="" height="22"></span>
                             </a>
-                            <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
+                            <p class="text-muted mb-4 mt-3">Reset password.</p>
                             @if(session()->has('message'))
                                 <div class="alert alert-success">
                                     {!! session()->get('message') !!}
@@ -32,10 +32,16 @@
                             <div class="form-group mb-3">
                                 <label for="password">New Password</label>
                                 <input name="admin_reset_new_password" class="form-control" type="password" required=""  placeholder="Enter your new password">
+                                @error('admin_reset_new_password')
+                                <p class="alert alert-danger"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label for="password">Confirm NewPassword</label>
                                 <input name="admin_reset_confirm_new_password" class="form-control" type="password" required="" placeholder="Enter your confirm new password">
+                                @error('admin_reset_confirm_new_password')
+                                <p class="alert alert-danger"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label for="password">Verification Code</label>

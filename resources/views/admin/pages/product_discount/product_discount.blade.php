@@ -77,7 +77,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{URL::to('/product-discount-admin-detail/'.$product_discount->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
                                                     <a class="dropdown-item" href="{{URL::to('/product-discount-edit/'.$product_discount->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                    <a class="dropdown-item" href="{{URL::to('/product-discount-delete/'.$product_discount->id)}}"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-discount-delete/'.$product_discount->id)}}" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 </div>
                                             </div>
                                         </td>

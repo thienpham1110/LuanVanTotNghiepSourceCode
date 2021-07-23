@@ -109,6 +109,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <nav>
+                                <ul class="pagination pagination-rounded mb-3">
+                                    {{ $all_order_statistics->links('layout.paginationlinks') }}
+                                </ul>
+                            </nav>
                             {{--  <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
                                 <h4 class="mt-3 mb-3"><span>Product: </span></h4>
                                 <thead class="bg-light">

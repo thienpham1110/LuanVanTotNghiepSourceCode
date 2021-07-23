@@ -32,7 +32,7 @@ class HomeController extends Controller
 {
     public function Index(){
         $all_product_in_stock=ProductInStock::where('sanphamtonkho_so_luong_ton','>',0)->orderby('id','DESC')->get();
-        if($all_product_in_stock){
+        if($all_product_in_stock->count()>0){
             foreach($all_product_in_stock as $key =>$in_stock){
                 $product_id[]=$in_stock->sanpham_id;
             }
@@ -40,7 +40,7 @@ class HomeController extends Controller
             $product_id[]=null;
         }
         $all_featured=ProductInStock::where('sanphamtonkho_so_luong_ton','>',0)->orderby('sanphamtonkho_so_luong_da_ban','DESC')->get();
-        if($all_featured){
+        if($all_featured->count()>0){
             foreach($all_featured as $key =>$featured){
                 $pro_fea_id[]=$featured->sanpham_id;
             }
@@ -69,10 +69,16 @@ class HomeController extends Controller
             $all_product=Product::whereIn('id',$product_id)->where('sanpham_trang_thai','1')->whereNotIn('id',$pro_dis)->orderBy('id','DESC')->get();
             $all_product_featured=Product::whereIn('id',$pro_fea_id)->whereNotIn('id',$pro_dis)->where('sanpham_trang_thai','1')->get();
         }else{
-            $all_product_viewed=Product::whereIn('id',$view_id)->where('sanpham_trang_thai','1')
-            ->whereIn('id',$product_id)->orderBy('id','DESC')->get();
-            $all_product=Product::whereIn('id',$product_id)->where('sanpham_trang_thai','1')->orderBy('id','DESC')->get();
-            $all_product_featured=Product::whereIn('id',$pro_fea_id)->where('sanpham_trang_thai','1')->get();
+            if(empty($product_id)){
+                $all_product_viewed=null;
+                $all_product=null;
+                $all_product_featured=null;
+            }else{
+                $all_product_viewed=Product::whereIn('id',$view_id)->where('sanpham_trang_thai','1')
+                ->whereIn('id',$product_id)->orderBy('id','DESC')->get();
+                $all_product=Product::whereIn('id',$product_id)->where('sanpham_trang_thai','1')->orderBy('id','DESC')->get();
+                $all_product_featured=Product::whereIn('id',$pro_fea_id)->where('sanpham_trang_thai','1')->get();
+            }
         }
         $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
         $all_product_type=ProductType::where('loaisanpham_trang_thai','1')->orderBy('id','DESC')->get();
@@ -80,15 +86,15 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
-
         $all_slide=SlideShow::where('slidequangcao_trang_thai','1')->orderby('slidequangcao_thu_tu','ASC')->get();
     	return view('client.pages.index_home')
         ->with('all_product',$all_product)
@@ -111,12 +117,13 @@ class HomeController extends Controller
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
         $all_product_in_stock=ProductInStock::where('sanphamtonkho_so_luong_ton','>',0)->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
@@ -235,9 +242,14 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         return view('client.pages.products.show_product_promotion')
 		->with('all_product_discount', $all_product_discount)
@@ -277,9 +289,14 @@ class HomeController extends Controller
         $all_collection=Collection::orderby('id','desc')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
     	return view('client.pages.products.show_detail_product_promotion')
         ->with('product',$get_product)
@@ -382,6 +399,7 @@ class HomeController extends Controller
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
@@ -458,12 +476,13 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
@@ -540,12 +559,13 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $product_type=ProductType::find($product_type_id);
@@ -620,12 +640,13 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $brand=Brand::find($product_brand_id);
@@ -700,12 +721,13 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $collection=Collection::find($product_collection_id);
@@ -732,12 +754,13 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();
@@ -821,12 +844,13 @@ class HomeController extends Controller
             $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
             $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
             ->orderby('headerquangcao_thu_tu','ASC')->get();
-            if($all_header){
+            if($all_header->count()>0){
                 foreach($all_header as $key=>$value){
                     $thu_tu_header=$value->headerquangcao_thu_tu;
                     break;
                 }
             }else{
+                $all_header=null;
                 $thu_tu_header=null;
             }
             return view('client.pages.order_tracking.show_order_tracking')
@@ -849,12 +873,13 @@ class HomeController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        if($all_header){
+        if($all_header->count()>0){
             foreach($all_header as $key=>$value){
                 $thu_tu_header=$value->headerquangcao_thu_tu;
                 break;
             }
         }else{
+            $all_header=null;
             $thu_tu_header=null;
         }
         $get_about_us_bottom=AboutStore::orderby('cuahang_thu_tu','ASC')->first();

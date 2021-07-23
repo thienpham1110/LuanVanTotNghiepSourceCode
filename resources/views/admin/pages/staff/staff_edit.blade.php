@@ -21,6 +21,17 @@
                 </div>
             </div>
             <!-- content -->
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {!! session()->get('message') !!}
+                    {!! session()->forget('message') !!}
+                </div>
+            @elseif(session()->has('error'))
+                <div class="alert alert-danger">
+                    {!! session()->get('error') !!}
+                    {!! session()->forget('error') !!}
+                </div>
+            @endif
             <div class="row">
                     <div class="col-lg-4 col-xl-4">
                         <div class="card-box text-center">
@@ -69,12 +80,18 @@
                                                 <div class="form-group">
                                                     <label for="firstname">First Name</label>
                                                     <input type="text" name="staff_first_name" class="form-control" value="{{ $staff->admin_ho }}" required="">
+                                                    @error('staff_first_name')
+                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="lastname">Last Name</label>
                                                     <input type="text" name="staff_last_name" class="form-control" value="{{ $staff->admin_ten }}" required="" >
+                                                    @error('staff_last_name')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div> <!-- end col -->
                                         </div> <!-- end row -->
@@ -89,6 +106,9 @@
                                                 <div class="form-group">
                                                     <label for="userpassword">Phone Number</label>
                                                     <input type="number" name="staff_phone_number" class="form-control" value="{{ $staff->admin_so_dien_thoai }}" required="" >
+                                                    @error('staff_phone_number')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                              <!-- end col -->
@@ -122,6 +142,9 @@
                                                 <div class="form-group">
                                                     <label for="useremail">Address</label>
                                                     <input type="text" name="staff_address" class="form-control" value="{{ $staff->admin_dia_chi}}" required="">
+                                                    @error('staff_address')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div><!-- end col -->
                                         </div>
@@ -142,8 +165,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="custom-file">
-                                                            <input type="file" class="upload custom-file-input" value="{{ $staff->admin_anh }}" name="staff_img" id="images">
+                                                            <input type="file" class="upload custom-file-input" accept=".jpeg,.png,.gif,.jpg" value="{{ $staff->admin_anh }}" name="staff_img" id="images">
                                                             <label class="custom-file-label" for="images">Choose image</label>
+                                                            @error('staff_img')
+                                                            <p class="alert alert-danger"> {{ $message }}</p>
+                                                            @enderror
                                                         </div>
                                                         <label class="col-form-label mt-3">Old image</label>
                                                         <img class=" mt-3" width="100px" height="100px" id="image" src="{{asset('public/uploads/admin/staff/'.$staff->admin_anh)}}" />
@@ -154,6 +180,9 @@
                                                 <div class="form-group">
                                                     <label for="useremail">ID Number</label>
                                                     <input type="text" name="staff_admin_id" class="form-control" value="{{ $staff->admin_id}}" required="">
+                                                    @error('staff_admin_id')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>

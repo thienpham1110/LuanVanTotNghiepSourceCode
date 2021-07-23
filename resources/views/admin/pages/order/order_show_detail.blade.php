@@ -11,7 +11,6 @@
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
                                 <a href="{{URL::to('/order')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
-                                <a href="{{URL::to('/delivery')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Delivery</a>
                                 <a href="{{URL::to('/customer')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Customer</a>
                                 <a href="{{URL::to('/order-add-show-product')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
@@ -27,7 +26,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title">Product Import</h4>
+                        <h4 class="header-title">Order Detail</h4>
                         <hr>
                         @if(session()->has('message'))
                             <div class="alert alert-success">
@@ -80,11 +79,8 @@
                                                             @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4)
                                                                 <a href="{{URL::to('/order-canceled/'.$order->id)}}"  class="btn btn-success waves-effect" onclick="return confirm('You Sure Cancel?')"><i class="mdi mdi-delete mr-2"></i>Cancel Order</a>
                                                             @endif
-                                                            @if($order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4 && $order->dondathang_trang_thai!=0)
-                                                            <a href="{{URL::to('/order-in-transit/'.$order->id)}}"  class="btn btn-success waves-effect" onclick="return confirm('You Sure?')"><i class="mdi mdi-content-save mr-2"></i>Confirm Pickup</a>
-                                                            @endif
-                                                            @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=4 && $order->dondathang_trang_thai!=0)
-                                                            <a href="{{URL::to('/order-confirm-delivery/'.$order->id)}}"  class="btn btn-success waves-effect" onclick="return confirm('You Sure?')"><i class="mdi mdi-content-save mr-2"></i>Confirm Delivery</a>
+                                                            @if($order->dondathang_trang_thai!=0&& $order->dondathang_trang_thai != 4)
+                                                            <a href="{{URL::to('/order-print-pdf/'.$order->id)}}"  class="btn btn-success waves-effect"><i class="mdi mdi-content-save mr-2"></i>Print PDF</a>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -309,11 +305,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        @if($order->dondathang_trang_thai != 0 && $order->dondathang_trang_thai != 4)
-                                            <div class="text-lg-right mt-3 mt-lg-0">
-                                                <a href="{{URL::to('/order-print-pdf/'.$order->id)}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i>Print Invoice</a>
-                                            </div>
-                                        @endif
+
                                     </div>
                                 </div
                             </div>

@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/product-import-edit/'.$product_import->id)}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
@@ -46,7 +46,7 @@
                                                 <label class="col-form-label">Product Name</label>
                                                 <select name="product_import_detail_product_id" class="form-control">
                                                     @foreach ($all_product as $key => $product)
-                                                        <option value="{{ $product->id }}">{{ $product->sanpham_ten }}</option>
+                                                        <option value="{{ $product->id }}">{{ $product->sanpham_ten }} - {{ $product->sanpham_ma_san_pham }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

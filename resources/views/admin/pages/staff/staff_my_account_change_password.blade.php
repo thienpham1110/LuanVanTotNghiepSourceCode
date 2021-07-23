@@ -39,14 +39,23 @@
                                 <div class="form-group">
                                     <label for="pass1">Password<span class="text-danger">*</span></label>
                                     <input id="pass1" name="my_account_old_password" type="password" placeholder="Password" required="" class="form-control">
+                                    @error('my_account_old_password')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="pass1">New Password<span class="text-danger">*</span></label>
                                     <input id="pass1" name="my_account_new_password" type="password" placeholder="Password" required="" class="form-control">
+                                    @error('my_account_new_password')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="passWord2">Confirm new Password <span class="text-danger">*</span></label>
                                     <input data-parsley-equalto="#pass1" name="my_account_confirm_new_password" type="password" required="" placeholder="Password" class="form-control" id="passWord2">
+                                    @error('my_account_confirm_new_password')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group text-right mb-0">
                                     <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">

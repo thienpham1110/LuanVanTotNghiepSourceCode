@@ -33,12 +33,12 @@
                                 <label for="password">Password</label>
                                 <input name="admin_password" class="form-control" type="password" required="" id="password" placeholder="Enter your password">
                             </div>
-                            <div class="form-group mb-3">
+                            {{--  <div class="form-group mb-3">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked="">
-                                    <label class="custom-control-label" for="checkbox-signin">Remember me</label>
+                                    <input type="checkbox" name="admin_remember_login" value="1" class="custom-control-input" id="checkbox-signin">
+                                    <label class="custom-control-label"  for="checkbox-signin">Remember me</label>
                                 </div>
-                            </div>
+                            </div>  --}}
                             <div class="form-group mb-0 text-center">
                                 <button name="login" class="btn btn-primary btn-block" type="submit"> Login </button>
                             </div>

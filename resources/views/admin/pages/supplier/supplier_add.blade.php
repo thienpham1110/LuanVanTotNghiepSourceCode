@@ -30,18 +30,48 @@
                                 <div class="col-12">
                                     <div class="p-2">
                                         <form action="{{ URL::to('/supplier-save') }}" class="form-horizontal" enctype="multipart/form-data" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label" >Size Information</label>
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Name</label>
                                                     <input type="text" name="supplier_name" required="" class="form-control" placeholder="Adidas">
+                                                    @error('supplier_name')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Address</label>
                                                     <input type="text" name="supplier_address" required="" class="form-control" placeholder="HCM">
+                                                    @error('supplier_address')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Phone Number</label>
                                                     <input type="number" name="supplier_phone_number" required="" class="form-control" placeholder="0123456789">
+                                                    @error('supplier_phone_number')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Email</label>
                                                     <input type="text" name="supplier_email" required=""  class="form-control" placeholder="supplier@gmail.com">
+                                                    @error('supplier_email')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Images</label>
+                                                <div class="col-sm-10">
+                                                    <div class="user-image mb-3 text-center">
+                                                        <div class="imgPreview" >
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="upload custom-file-input" required="" accept=".jpeg,.png,.gif,.jpg" name="supplier_img" id="images">
+                                                        <label class="custom-file-label" for="images">Choose image</label>
+                                                        @error('supplier_img')
+                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
                                             <hr>

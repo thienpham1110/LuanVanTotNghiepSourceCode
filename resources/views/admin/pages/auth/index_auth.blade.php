@@ -19,7 +19,7 @@
 <body>
 @yield('content')
     <footer class="footer footer-alt">
-        2016 - 2019 &copy; Minton theme by <a href="" class="text-muted">Coderthemes</a>
+        2020 - 2021 &copy; RGUWB theme by <a href="" class="text-muted">Coderthemes</a>
     </footer>
     <script src="{{asset('public/backend/js/vendor.min.js')}}"></script>
 	<script src="{{asset('public/backend/js/app.min.js')}}"></script>

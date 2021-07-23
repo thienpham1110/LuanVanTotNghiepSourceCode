@@ -147,7 +147,7 @@
                                 </div>
                                 @php
                                     $count_rate_break++;
-                                @endphp     
+                                @endphp
                         @else
                             @break
                         @endif

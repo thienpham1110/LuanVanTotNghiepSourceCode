@@ -27,6 +27,17 @@
                         <div class="card-box">
                             <h4 class="header-title">Product Information</h4>
                             <hr>
+                            @if(session()->has('message'))
+                                <div class="alert alert-success">
+                                    {!! session()->get('message') !!}
+                                    {!! session()->forget('message') !!}
+                                </div>
+                            @elseif(session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {!! session()->get('error') !!}
+                                    {!! session()->forget('error') !!}
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -107,18 +118,7 @@
                                                             @endif
                                                         @endforeach
                                                     </select>
-                                                    <label class="col-form-label"></label>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <div class="button-list form-group row">
-                                                                <div class="col-sm-12">
-                                                                    <div class=" mt-3 mt-lg-0">
-                                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal"> <i class="mdi mdi-plus-circle mr-1"></i>Add Product Type</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <hr>
@@ -135,18 +135,7 @@
                                                             @endif
                                                         @endforeach
                                                     </select>
-                                                    <label class="col-form-label"></label>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <div class="button-list form-group row">
-                                                                <div class="col-sm-12">
-                                                                    <div class=" mt-3 mt-lg-0">
-                                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal1"> <i class="mdi mdi-plus-circle mr-1"></i>Add Brand</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <hr>
@@ -163,19 +152,7 @@
                                                             @endif
                                                         @endforeach
                                                     </select>
-                                                    <label class="col-form-label"></label>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
 
-                                                            <div class="button-list form-group row">
-                                                                <div class="col-sm-12">
-                                                                    <div class=" mt-3 mt-lg-0">
-                                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal2"> <i class="mdi mdi-plus-circle mr-1"></i>Add Collection</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <hr>
@@ -188,7 +165,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="custom-file">
-                                                        <input type="file" class="upload custom-file-input"  value="{{ $product->sanpham_anh }}" name="product_img" id="images">
+                                                        <input type="file" class="upload custom-file-input" accept=".jpeg,.png,.gif,.jpg" value="{{ $product->sanpham_anh }}" name="product_img" id="images">
                                                         <label class="custom-file-label" for="images">Choose image</label>
                                                     </div>
                                                     <label class="col-form-label mt-3">Old image</label>

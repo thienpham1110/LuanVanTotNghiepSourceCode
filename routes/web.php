@@ -68,6 +68,7 @@ Route::post('/verification-password-customer', 'CustomerController@VerificationR
 Route::get('/reset-password-customer', 'CustomerController@ShowResetPassword');
 Route::post('/reset-password-customer-save', 'CustomerController@ResetPasswordCustomer');
 
+Route::post('/customer-order-delivery-update-save/{order_id}', 'CustomerController@CustomerUpdateAddressDelivery');
 Route::post('/customer-change-password-save/{customer_email}', 'CustomerController@ChangePasswordCustomer');
 
 //Comment Review
@@ -114,9 +115,14 @@ Route::post('/staff-update-my-account/{staff_id}', 'AdminHomeController@StaffUpd
 Route::get('/staff-my-account-change-password', 'AdminHomeController@ShowStaffChangePassword');
 Route::post('/staff-my-account-change-password-save', 'AdminHomeController@StaffChangePasswordSave');
 
+Route::get('/staff-my-account-change-email', 'AdminHomeController@ShowStaffChangeEmail');
+Route::post('/staff-my-account-change-email-save', 'AdminHomeController@StaffChangeEmailSave');
+
 Route::get('/admin-change-password-staff', 'AdminHomeController@ShowAdminChangePasswordStaff');
 Route::post('/admin-change-password-staff-save', 'AdminHomeController@AdminChangePasswordStaffSave');
 
+Route::get('/admin-change-email-staff', 'AdminHomeController@ShowAdminChangeEmailStaff');
+Route::post('/admin-change-email-staff-save', 'AdminHomeController@AdminChangeEmailStaffSave');
 
 //product type admin
 Route::get('/product-type', 'ProductTypeController@Index');
@@ -127,6 +133,7 @@ Route::get('/product-type-edit/{pro_type_id}', 'ProductTypeController@ProductTyp
 
 Route::get('/unactive-product-type/{pro_type_id}', 'ProductTypeController@UnactiveProductType');
 Route::get('/active-product-type/{pro_type_id}', 'ProductTypeController@ActiveProductType');
+Route::get('/delete-product-type/{pro_type_id}', 'ProductTypeController@DeleteProductType');
 
 //Brand
 Route::get('/brand', 'BrandController@Index');
@@ -137,6 +144,7 @@ Route::get('/brand-edit/{brand_id}', 'BrandController@BrandEdit');
 
 Route::get('/unactive-brand/{brand_id}', 'BrandController@UnactiveBrand');
 Route::get('/active-brand/{brand_id}', 'BrandController@ActiveBrand');
+Route::get('/delete-brand/{brand_id}', 'BrandController@DeleteBrand');
 
 //Collection
 Route::get('/collection', 'ProductCollectionController@Index');
@@ -147,6 +155,7 @@ Route::get('/collection-edit/{collection_id}', 'ProductCollectionController@Coll
 
 Route::get('/unactive-collection/{collection_id}', 'ProductCollectionController@UnactiveCollection');
 Route::get('/active-collection/{collection_id}', 'ProductCollectionController@ActiveCollection');
+Route::get('/delete-collection/{collection_id}', 'ProductCollectionController@DeleteCollection');
 
 //Coupon
 Route::get('/coupon-code', 'CouponCodeController@Index');
@@ -157,6 +166,9 @@ Route::get('/coupon-code-edit/{coupon_code_id}', 'CouponCodeController@CouponCod
 
 Route::get('/unactive-coupon-code/{coupon_code_id}', 'CouponCodeController@UnactiveCouponCode');
 Route::get('/active-coupon-code/{coupon_code_id}', 'CouponCodeController@ActiveCouponCode');
+Route::get('/delete-coupon-code/{coupon_code_id}', 'CouponCodeController@CouponCodeDelete');
+
+
 
 //Supplier
 Route::get('/supplier', 'SupplierController@Index');
@@ -235,7 +247,7 @@ Route::get('/active-product/{product_id}', 'ProductController@ActiveProduct');
 Route::get('/product-images/{product_id}', 'ProductController@ShowProductImages');
 Route::post('/product-image-add/{product_id}', 'ProductController@ProductImageAdd');
 Route::get('/product-images-delete/{product_image_id}', 'ProductController@ProductImageDelete');
-
+Route::get('/product-delete/{product_id}', 'ProductController@ProductDelete');
 
 //Product Import
 Route::get('/product-import', 'ProductImportController@Index');
@@ -265,6 +277,7 @@ Route::get('/product-discount-add', 'ProductDiscountController@ProductDiscountAd
 Route::post('/product-discount-add-save', 'ProductDiscountController@ProductDiscountAddSave');
 Route::get('/product-discount-edit/{product_discount_id}', 'ProductDiscountController@ProductDiscountEdit');
 Route::post('/product-discount-edit-save/{product_discount_id}', 'ProductDiscountController@ProductDiscountEditSave');
+Route::get('/product-discount-delete/{product_discount_id}', 'ProductDiscountController@DeleteProductDiscount');
 
 Route::get('/product-discount-admin-detail/{product_discount_id}', 'ProductDiscountController@ShowProductDiscountDetail');
 
@@ -298,6 +311,7 @@ Route::get('/order-in-transit/{order_id}', 'OrderController@OrderInTransit');
 
 //Delivery Order
 Route::get('/delivery', 'OrderController@GetDelivery');
+Route::get('/delivery-show-detail/{order_id}', 'OrderController@DeliveryShowDetail');
 Route::get('/update-order-id-delivery', 'OrderController@UpdateOrderIdDelivery');
 
 //Customer

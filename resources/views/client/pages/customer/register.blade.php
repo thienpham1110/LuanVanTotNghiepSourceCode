@@ -40,18 +40,30 @@
                         <p>
                             <label>Username<span>*</span></label>
                             <input type="text" required="" name="customer_user_name_register">
+                            @error('customer_user_name_register')
+                            <p class="alert alert-danger"> {{ $message }}</p>
+                            @enderror
                         </p>
                         <p>
                             <label>Email address  <span>*</span></label>
                             <input type="text" required="" name="customer_email_register">
+                            @error('customer_email_register')
+                            <p class="alert alert-danger"> {{ $message }}</p>
+                            @enderror
                          </p>
                          <p>
                             <label>Passwords <span>*</span></label>
                             <input type="password" required="" name="customer_password_register">
+                            @error('customer_password_register')
+                            <p class="alert alert-danger"> {{ $message }}</p>
+                            @enderror
                          </p>
                          <p>
                             <label>Confirm Passwords <span>*</span></label>
                             <input type="password" required="" name="customer_confirm_password_register">
+                            @error('customer_confirm_password_register')
+                            <p class="alert alert-danger"> {{ $message }}</p>
+                            @enderror
                          </p>
                          <p>
                             <label>Verification Code<span>*</span></label>

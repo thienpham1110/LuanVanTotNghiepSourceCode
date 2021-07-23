@@ -15,7 +15,7 @@
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Customer</li>
+                            <li class="breadcrumb-item active">Staff</li>
                         </ol>
                     </div>
 

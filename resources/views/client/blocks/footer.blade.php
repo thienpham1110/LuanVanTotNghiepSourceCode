@@ -4,6 +4,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="footer_widget">
+                        @if($get_about_us_bottom)
                         <h3>About us</h3>
                         <p>{{ $get_about_us_bottom->cuahang_mo_ta }}</p>
                         <div class="footer_widget_contect">
@@ -11,6 +12,16 @@
                             <p><i class="fa fa-mobile" aria-hidden="true"></i> (84+) {{ $get_about_us_bottom->cuahang_so_dien_thoai }}</p>
                             <a href="{{ URL::to('https://mail.google.com/mail')}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> {{ $get_about_us_bottom->cuahang_email }} </a>
                         </div>
+                        @else
+                        <h3>About us</h3>
+                        <p>RGUWB</p>
+                        <div class="footer_widget_contect">
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i></p>
+                            <p><i class="fa fa-mobile" aria-hidden="true"></i> (84+)</p>
+                            <a href="{{ URL::to('https://mail.google.com/mail')}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> </a>
+                        </div>
+                        @endif
+
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6">

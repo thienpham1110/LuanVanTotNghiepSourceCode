@@ -11,7 +11,7 @@
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
                                 <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
-                                <a href="{{URL::to('/product-import-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/product-import-add-multiple')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
@@ -109,6 +109,7 @@
                                                         <table class="table table-hover  mb-0">
                                                             <thead>
                                                             <tr>
+                                                                <td>Images</td>
                                                                 <td>Product</td>
                                                                 <td>Quantity</td>
                                                                 <td>Price</td>
@@ -120,6 +121,7 @@
                                                             <tbody id="show-list-product">
                                                                 @foreach ($get_product_import_detail as $key=> $product_import_detail )
                                                                     <tr>
+                                                                        <td><img src="{{asset('public/uploads/admin/product/'.$product_import_detail->Product->sanpham_anh)}}" width="70px" height="75px" alt=""></td>
                                                                         <td>{{ $product_import_detail->Product->sanpham_ten}}</td>
                                                                         <td >{{ $product_import_detail->chitietnhap_so_luong_nhap }} </td>
                                                                         <td>{{number_format($product_import_detail->chitietnhap_gia_nhap ).' VNĐ' }}</td>

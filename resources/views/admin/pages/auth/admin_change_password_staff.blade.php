@@ -9,7 +9,7 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
                             <li class="breadcrumb-item active">Change Password</li>
                         </ol>
                     </div>
@@ -43,10 +43,16 @@
                                 <div class="form-group">
                                     <label for="pass1">New Password<span class="text-danger">*</span></label>
                                     <input id="pass1" name="staff_new_password" type="password" placeholder="Password" required="" class="form-control">
+                                    @error('staff_new_password')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="passWord2">Confirm new Password <span class="text-danger">*</span></label>
                                     <input data-parsley-equalto="#pass1" name="staff_confirm_new_password" type="password" required="" placeholder="Password" class="form-control" id="passWord2">
+                                    @error('staff_confirm_new_password')
+                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group text-right mb-0">
                                     <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">

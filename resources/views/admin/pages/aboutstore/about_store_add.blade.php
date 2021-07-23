@@ -26,6 +26,17 @@
                         <div class="card-box">
                             <h4 class="header-title">About Store Information</h4>
                             <hr>
+                            @if(session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {!! session()->get('message') !!}
+                                        {!! session()->forget('message') !!}
+                                    </div>
+                                @elseif(session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {!! session()->get('error') !!}
+                                        {!! session()->forget('error') !!}
+                                    </div>
+                                @endif
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
@@ -36,12 +47,34 @@
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">Title</label>
                                                     <input type="text" name="about_store_title" required="" class="form-control" placeholder="RGUWB Store">
+                                                    @error('about_store_title')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Description</label>
                                                     <input type="text" name="about_store_description" required="" class="form-control" placeholder="Store">
+                                                    @error('about_store_description')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Address</label>
                                                     <input type="text" name="about_store_address" required="" class="form-control" placeholder="HCM">
+                                                    @error('about_store_address')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                     <label class="col-form-label">Phone Number</label>
                                                     <input type="number" min="1" name="about_store_phone_number" required="" class="form-control" placeholder="0123456789">
+                                                    @error('about_store_phone_number')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
+                                                    <label class="col-form-label">Email</label>
+                                                    <input type="text" name="about_store_email" required="" class="form-control" placeholder="a@gmail.com">
+                                                    @error('about_store_email')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
+                                                    <label class="col-form-label">Number</label>
+                                                    <input type="number" min="1" name="about_store_number" required="" class="form-control">
+                                                    @error('about_store_number')
+                                                    <p class="alert alert-danger"> {{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <hr>
@@ -72,8 +105,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="custom-file">
-                                                        <input type="file" class="upload custom-file-input" required="" name="about_store_img" id="images">
+                                                        <input type="file" class="upload custom-file-input" required="" accept=".jpeg,.png,.gif,.jpg" name="about_store_img" id="images">
                                                         <label class="custom-file-label" for="images">Choose image</label>
+                                                        @error('about_store_img')
+                                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>

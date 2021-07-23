@@ -30,9 +30,14 @@ class CartController extends Controller
         $all_collection=Collection::where('dongsanpham_trang_thai','1')->orderBy('id','DESC')->get();
         $all_header=HeaderShow::where('headerquangcao_trang_thai','1')
         ->orderby('headerquangcao_thu_tu','ASC')->get();
-        foreach($all_header as $key=>$value){
-            $thu_tu_header=$value->headerquangcao_thu_tu;
-            break;
+        if($all_header->count()>0){
+            foreach($all_header as $key=>$value){
+                $thu_tu_header=$value->headerquangcao_thu_tu;
+                break;
+            }
+        }else{
+            $all_header=null;
+            $thu_tu_header=null;
         }
         $city=City::orderby('id','ASC')->get();
         return view('client.pages.cart.cart')
@@ -43,6 +48,31 @@ class CartController extends Controller
         ->with('product_collection',$all_collection)
         ->with('header_show',$all_header)
         ->with('header_min',$thu_tu_header);
+    }
+
+    public function UpdateCart(Request $request){
+        $this->DeleteCoupon();
+        $data=$request->all();
+        $cart=Session::get('cart');
+        if($cart==true){
+            foreach($data['cart_quantity'] as $key =>$value){
+                foreach($cart as $k=>$val){
+                    if($val['session_id']==$key){
+                        $get_in_stock=ProductInStock::where('sanpham_id',$val['product_id'])->where('size_id',$val['product_size_id'])->first();
+                        if($get_in_stock->sanphamtonkho_so_luong_ton < $value){
+                            return Redirect::to('/cart')->with('error','Update Fail, Quantity is too big');
+                        }else{
+                            $cart[$k]['product_quantity']=$value;
+                        }
+                    }
+                }
+            }
+            Session::put('cart', $cart);
+			Session::save();
+            return Redirect::to('/cart')->with('message','Update Quantity Success');
+        }else{
+            return Redirect::to('/cart')->with('error','Update Fail');
+        }
     }
 
     public function AddToCart(Request $request){
@@ -56,6 +86,7 @@ class CartController extends Controller
             $is_ava=0;
             foreach($cart as $key => $value){
                 if($value['product_size_id']==$data['product_size_id'] && $value['product_id']==$data['product_id']){
+                    $cart[$key]['product_quantity'] = $value['product_quantity'] + $data['product_quantity'];
                     $is_ava++;
                 }
             }
@@ -71,9 +102,6 @@ class CartController extends Controller
                     'product_price' => $data['product_price'],
                     'product_in_stock' => $pro_in_stock->sanphamtonkho_so_luong_ton,
                 );
-            }
-            else{
-                return Redirect::to('/product-detail/'.$data['product_id']);
             }
 		} else {
 			$cart[] = array(
@@ -144,25 +172,7 @@ class CartController extends Controller
         }
     }
 
-    public function UpdateCart(Request $request){
-        $this->DeleteCoupon();
-        $data=$request->all();
-        $cart=Session::get('cart');
-        if($cart==true){
-            foreach($data['cart_quantity'] as $key =>$value){
-                foreach($cart as $k=>$val){
-                    if($val['session_id']==$key){
-                        $cart[$k]['product_quantity']=$value;
-                    }
-                }
-            }
-            Session::put('cart', $cart);
-			Session::save();
-            return redirect()->back()->with('message','Update Quantity Success');
-        }else{
-            return redirect()->back()->with('message','Update Fail');
-        }
-    }
+
 
     public function CheckCoupon(Request $request){
         $data=$request->all();
