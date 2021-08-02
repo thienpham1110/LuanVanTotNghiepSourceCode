@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>wishlist</li>
+                    <li>Yêu Thích</li>
                 </ul>
             </div>
         </div>
@@ -24,11 +24,11 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th class="product_remove">Delete</th>
-                                        <th class="product_thumb">Image</th>
-                                        <th class="product_name">Product</th>
-                                        <th class="product-price">Price</th>
-                                        <th class="product_total">Detail</th>
+                                        <th class="product_remove">Xóa</th>
+                                        <th class="product_thumb">Ảnh</th>
+                                        <th class="product_name">Sản Phẩm</th>
+                                        <th class="product-price">Giá</th>
+                                        <th class="product_total">Chi Tiết</th>
                                     </tr>
                                 </thead>
                                 <tbody id="show_product_wishlist">

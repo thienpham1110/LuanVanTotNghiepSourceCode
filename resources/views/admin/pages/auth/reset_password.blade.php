@@ -10,7 +10,7 @@
                             <a href="index.html">
                                 <span><img src="{{asset('public/backend/images/logo-dark.png')}}" alt="" height="22"></span>
                             </a>
-                            <p class="text-muted mb-4 mt-3">Reset password.</p>
+                            <p class="text-muted mb-4 mt-3">Đặt Lại Mật Khẩu</p>
                             @if(session()->has('message'))
                                 <div class="alert alert-success">
                                     {!! session()->get('message') !!}
@@ -26,29 +26,29 @@
                         <form action="{{ URL::to('/reset-password-admin-save') }}" method="POST">
                            @csrf
                             <div class="form-group mb-3">
-                                <label for="emailaddress">Email address</label>
-                                <input name="admin_reset_confirm_email" class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                                <label for="emailaddress">Email</label>
+                                <input name="admin_reset_confirm_email" class="form-control" type="email" id="emailaddress" required="" placeholder="Email">
                             </div>
                             <div class="form-group mb-3">
-                                <label for="password">New Password</label>
-                                <input name="admin_reset_new_password" class="form-control" type="password" required=""  placeholder="Enter your new password">
+                                <label for="password">Mật Khẩu Mới</label>
+                                <input name="admin_reset_new_password" class="form-control" type="password" required=""  placeholder="Mật khẩu mới">
                                 @error('admin_reset_new_password')
                                 <p class="alert alert-danger"> {{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label for="password">Confirm NewPassword</label>
-                                <input name="admin_reset_confirm_new_password" class="form-control" type="password" required="" placeholder="Enter your confirm new password">
+                                <label for="password">Xác Nhận Mật Khẩu</label>
+                                <input name="admin_reset_confirm_new_password" class="form-control" type="password" required="" placeholder="Xác nhận mật khẩu">
                                 @error('admin_reset_confirm_new_password')
                                 <p class="alert alert-danger"> {{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label for="password">Verification Code</label>
-                                <input name="admin_reset_password_verification_code" class="form-control" type="text" required="" placeholder="Enter your verification code">
+                                <label for="password">Mã Xác Thực</label>
+                                <input name="admin_reset_password_verification_code" class="form-control" type="text" required="" placeholder="Mã xác thực">
                             </div>
                             <div class="form-group mb-0 text-center">
-                                <button class="btn btn-primary btn-block" type="submit"> Reset Password </button>
+                                <button class="btn btn-primary btn-block" type="submit">Đặt Lại Mật Khẩu</button>
                             </div>
                         </form>
                     </div> <!-- end card-body -->
@@ -56,8 +56,8 @@
                 <!-- end card -->
                 <div class="row mt-3">
                     <div class="col-12 text-center">
-                        <p class="text-muted">Back to <a href="{{URL::to('/admin')}}" class="text-primary font-weight-medium ml-1">Login</a></p>
-                        <p class="text-muted">Back to <a href="{{URL::to('/get-email-admin')}}" class="text-primary font-weight-medium ml-1">Verification Email</a></p>
+                        <p class="text-muted">Quay Lại <a href="{{URL::to('/admin')}}" class="text-primary font-weight-medium ml-1">Đăng Nhập</a></p>
+                        <p class="text-muted">Quay Lại<a href="{{URL::to('/get-email-admin')}}" class="text-primary font-weight-medium ml-1">Nhận Mã Xác Thực</a></p>
                     </div> <!-- end col -->
                 </div>
                 <!-- end row -->

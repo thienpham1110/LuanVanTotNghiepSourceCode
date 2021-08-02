@@ -235,9 +235,9 @@ class OrderController extends Controller
                 'order_address' => 'bail|required|max:255|min:20',
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
             ]);
             $order_admin_detail = Session::get('order_admin');
             $transport_fee=TransportFee::where('tinhthanhpho_id', $data['city'])
@@ -246,8 +246,7 @@ class OrderController extends Controller
             $order_code=substr(str_shuffle(str_repeat("RGUWB", 5)), 0, 2).substr(str_shuffle(str_repeat("0123456789", 5)), 0, 6);
             $order_old=Order::where('dondathang_ma_don_dat_hang', $order_code)->first();
             if (!$order_admin_detail) {
-                Session::put('message', 'Add Fail, No Products');
-                return Redirect::to('/order-add');
+                return Redirect::to('/order-add')->with('error','Thêm không thành công, chưa chọn sản phẩm!');
             } else {
                 if (!$order_old) {
                     $order_code = substr(str_shuffle(str_repeat("RGWUB", 5)), 0, 2).substr(str_shuffle(str_repeat("0123456789", 5)), 0, 6);
@@ -415,7 +414,7 @@ class OrderController extends Controller
                 }
             }
             Session::forget('order_admin');
-            return Redirect::to('/order');
+            return Redirect::to('/order')->with('message','Tạo đơn hàng thành công!');
         }
     }
 
@@ -469,7 +468,7 @@ class OrderController extends Controller
             });
             $order_delivery_update->save();
             $order->save();
-            return Redirect::to('/order-show-detail/'.$order_id);
+            return Redirect::to('/order-show-detail/'.$order_id)->with('message','Xác nhận đơn hàng thành công!');
         }
     }
 
@@ -480,7 +479,7 @@ class OrderController extends Controller
         }else{
             $order=Order::find($order_id);
             if (!$order) {
-                return Redirect::to('/order')->with('error', 'Order not found');
+                return Redirect::to('/order')->with('error', 'Đơn hàng không tồn tại!');
             } else {
                 $order_delivery=Delivery::where('giaohang_ma_don_dat_hang', $order->dondathang_ma_don_dat_hang)->first();
                 $order_detail=OrderDetail::where('chitietdondathang_ma_don_dat_hang', $order->dondathang_ma_don_dat_hang)->get();
@@ -502,7 +501,7 @@ class OrderController extends Controller
                 }
                 $order_delivery_update->save();
                 $order->save();
-                return Redirect::to('/order-show-detail/'.$order_id)->with('message', 'Confirm payment success');
+                return Redirect::to('/order-show-detail/'.$order_id)->with('message', 'Xác nhận thanh toán thành công!');
             }
         }
     }
@@ -511,7 +510,7 @@ class OrderController extends Controller
         $this->AuthLogin();
         $order=Order::find($order_id);
         if(!$order){
-            return Redirect::to('/order')->with('error','Order not found');
+            return Redirect::to('/order')->with('error','Đơn hàng không tồn tại!');
         }else{
             $order_delivery=Delivery::where('giaohang_ma_don_dat_hang', $order->dondathang_ma_don_dat_hang)->first();
             $order_delivery_update=Delivery::find($order_delivery->id);
@@ -533,7 +532,7 @@ class OrderController extends Controller
             }
             $order->save();
             $order_delivery_update->save();
-            return Redirect::to('/order-show-detail/'.$order_id)->with('message', 'Cancel success');
+            return Redirect::to('/order-show-detail/'.$order_id)->with('message', 'Hủy đơn hàng thành công!');
         }
     }
 
@@ -541,7 +540,7 @@ class OrderController extends Controller
         $this->AuthLogin();
         $order=Order::find($order_id);
         if(!$order){
-            return Redirect::to('/order')->with('error','Order not found');
+            return Redirect::to('/order')->with('error','Đơn hàng không tồn tại!');
         }else{
             $order_delivery=Delivery::where('giaohang_ma_don_dat_hang', $order->dondathang_ma_don_dat_hang)->first();
             $order_delivery_update=Delivery::find($order_delivery->id);
@@ -549,7 +548,7 @@ class OrderController extends Controller
             $order->dondathang_trang_thai=2;
             $order->save();
             $order_delivery_update->save();
-            return Redirect::to('/order-show-detail/'.$order_id)->with('message', 'Update in transit success');
+            return Redirect::to('/delivery-show-detail/'.$order_id)->with('message', 'Xác nhận lấy hàng thành công!');
         }
     }
 
@@ -560,7 +559,7 @@ class OrderController extends Controller
         }else{
             $order=Order::find($order_id);
             if (!$order) {
-                return Redirect::to('/order')->with('error', 'Order not found');
+                return Redirect::to('/order')->with('error','Đơn hàng không tồn tại!');
             } else {
                 $order_delivery=Delivery::where('giaohang_ma_don_dat_hang', $order->dondathang_ma_don_dat_hang)->first();
                 $order_delivery_update=Delivery::find($order_delivery->id);
@@ -580,7 +579,7 @@ class OrderController extends Controller
                 }
                 $order->save();
                 $order_delivery_update->save();
-                return Redirect::to('/order-show-detail/'.$order_id)->with('message', 'Confirm success');
+                return Redirect::to('/delivery-show-detail/'.$order_id)->with('message', 'Xác nhận giao hàng thành công!');
             }
         }
     }
@@ -592,7 +591,7 @@ class OrderController extends Controller
         }else{
             $order=Order::find($order_id);
             if (!$order) {
-                return Redirect::to('/order')->with('error', 'Order not found');
+                return Redirect::to('/order')->with('error', 'Đơn hàng không tồn tại!');
             } else {
                 $order_detail=OrderDetail::where('chitietdondathang_ma_don_dat_hang', $order->dondathang_ma_don_dat_hang)->get();
                 $order_delivery=Delivery::where('giaohang_ma_don_dat_hang', $order->dondathang_ma_don_dat_hang)->first();
@@ -623,7 +622,7 @@ class OrderController extends Controller
         $this->AuthLogin();
         $order=Order::find($order_id);
         if(!$order){
-            return Redirect::to('/order')->with('error','Order not found');
+            return Redirect::to('/order')->with('error','Đơn hàng không tồn tại!');
         }else{
             $order_detail=OrderDetail::where('chitietdondathang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->get();
             $order_delivery=Delivery::where('giaohang_ma_don_dat_hang',$order->dondathang_ma_don_dat_hang)->first();
@@ -656,7 +655,7 @@ class OrderController extends Controller
         }else{
             $order=Order::find($order_id);
             if (!$order) {
-                return Redirect::to('/order')->with('error', 'Order not found');
+                return Redirect::to('/order')->with('error','Đơn hàng không tồn tại!');
             } else {
                 if ($order->dondathang_tinh_trang_thanh_toan==0 && $order->dondathang_trang_thai==0) {
                     $order->dondathang_trang_thai=0;

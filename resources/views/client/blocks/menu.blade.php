@@ -6,16 +6,16 @@
                     <div class="main_menu d-none d-lg-block">
                         <nav>
                             <ul>
-                                <li class="active"><a href="{{URL::to ('/')}}">Home</a>
+                                <li class="active"><a href="{{URL::to ('/')}}">Trang Chủ</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to ('/shop-now')}}">shop now</a>
+                                    <a href="{{URL::to ('/shop-now')}}">Mua Hàng</a>
                                 </li>
                                 <li><a href="#">pages</a>
                                     <div class="mega_menu">
                                         <div class="mega_top fix">
                                             <div class="mega_items">
-                                                <h3><a href="#">Brand</a></h3>
+                                                <h3><a href="#">Thương Hiệu</a></h3>
                                                 <ul>
                                                     @foreach ($product_brand as $key => $brand)
                                                         <li><a href="{{URL::to ('/product-brand/'.$brand->id)}}">{{ $brand->thuonghieu_ten }}</a></li>
@@ -23,7 +23,7 @@
                                                 </ul>
                                             </div>
                                             <div class="mega_items">
-                                                <h3><a href="#">Category</a></h3>
+                                                <h3><a href="#">Loại Sản Phẩm</a></h3>
                                                 <ul>
                                                     @foreach ($product_type as $key => $pro_type)
                                                         <li><a href="{{URL::to ('/product-category/'.$pro_type->id)}}">{{ $pro_type->loaisanpham_ten }}</a></li>
@@ -63,10 +63,10 @@
                                     </div>
                                 </li>  --}}
                                 <li>
-                                    <a href="{{URL::to ('/promotion')}}">Promotion</a>
+                                    <a href="{{URL::to ('/promotion')}}">Khuyến Mãi</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to ('/about-us')}}">About Us</a>
+                                    <a href="{{URL::to ('/about-us')}}">Cửa Hàng</a>
                                 </li>
                             </ul>
                         </nav>
@@ -83,7 +83,7 @@
                                 <li><a href=""><h5>PAGES </h5></a></li>
                                     <div>
                                         <li>
-                                            <a href="#">Brand</a>
+                                            <a href="#">Thương Hiệu</a>
                                             <ul>
                                                 @foreach ($product_brand as $key => $brand)
                                                     <li><a href="{{URL::to ('/product-brand/'.$brand->id)}}">{{ $brand->thuonghieu_ten }}</a></li>
@@ -91,7 +91,7 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <a href="#">Category</a>
+                                            <a href="#">Loại Sản Phẩm</a>
                                             <ul>
                                                 @foreach ($product_type as $key => $pro_type)
                                                     <li><a href="{{URL::to ('/product-category/'.$pro_type->id)}}">{{ $pro_type->loaisanpham_ten }}</a></li>
@@ -99,7 +99,7 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <a href="#">Collection</a>
+                                            <a href="#">Dòng sản phẩm</a>
                                             <ul>
                                                 @foreach ($product_collection as $key => $collection)
                                                     <li><a href="{{URL::to ('/product-collection/'.$collection->id)}}">{{ $collection->dongsanpham_ten }}</a></li>
@@ -108,9 +108,11 @@
                                         </li>
                                     </div>
                                 <li>
-                                    <a href="{{URL::to ('/promotion')}}"><h5>promotion</h5></a>
+                                    <a href="{{URL::to ('/promotion')}}"><h5>Khuyến Mãi</h5></a>
                                 </li>
-                                <li><a href="contact.html"> <h5>contact us</h5></a></li>
+                                <li>
+                                    <a href="{{URL::to ('/about-us')}}">Cửa Hàng</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>

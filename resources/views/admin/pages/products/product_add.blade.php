@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/product')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Sản Phẩm</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
+                            <li class="breadcrumb-item active">Thêm Sản Phẩm</li>
                         </ol>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
             <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h4 class="header-title">Product Information</h4>
+                            <h4 class="header-title">Thông Tin Sản Phẩm</h4>
                             <hr>
                             @if(session()->has('message'))
                                 <div class="alert alert-success">
@@ -43,57 +43,57 @@
                                         <form action="{{ URL::to('/product-save') }}" enctype="multipart/form-data"class="form-horizontal" role="form"  method="post">
                                             {{ csrf_field() }}
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Product Information</label>
+                                                <label class="col-sm-2 col-form-label" >Thông Tin Sản Phẩm</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Product Code</label>
-                                                    <input type="text" name="product_code"  class="form-control" required="" placeholder="Example: SP01">
-                                                    <label class="col-form-label">Name</label>
-                                                    <input type="text" name="product_name" class="form-control" required="" placeholder="Example: AF1,..">
-                                                    <label class="col-form-label">Price</label>
-                                                    <input type="number" min="1" name="product_price" class="form-control" required="" placeholder="100.000 VNĐ">
+                                                    <label class="col-form-label">Mã Sản Phẩm</label>
+                                                    <input type="text" name="product_code"  class="form-control" required="" placeholder="Mã sản phẩm">
+                                                    <label class="col-form-label">Tên Sản Phẩm</label>
+                                                    <input type="text" name="product_name" class="form-control" required="" placeholder="Tên sản phẩm">
+                                                    <label class="col-form-label">Giá Bán</label>
+                                                    <input type="number" min="1" name="product_price" class="form-control" required="" placeholder="Giá bán">
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label">Gender</label>
+                                                            <label class="col-form-label">Giới Tính</label>
                                                             <select name="product_gender" class="form-control">
-                                                                <option value="1">Male</option>
-                                                                <option value="2">Famale</option>
+                                                                <option value="1">Nam</option>
+                                                                <option value="2">Nữ</option>
                                                                 <option value="3">Unisex</option>
-                                                                <option value="4">Kids</option>
+                                                                <option value="4">Trẻ Em</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label  class="col-form-label">Where production</label>
-                                                            <input type="text" name="product_production" required="" class="form-control"  placeholder="VN">
+                                                            <label  class="col-form-label">Nơi Sản Xuất</label>
+                                                            <input type="text" name="product_production" required="" class="form-control"  placeholder="Nơi sản xuất">
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label  class="col-form-label">Color</label>
-                                                            <input type="text" name="product_color" required="" class="form-control" placeholder="Red">
+                                                            <label  class="col-form-label">Màu Sắc</label>
+                                                            <input type="text" name="product_color" required="" class="form-control" placeholder="Màu sắc">
                                                         </div>
 
                                                         <div class="form-group col-md-6">
-                                                            <label  class="col-form-label">Accessories</label>
-                                                            <input type="text" name="product_accessories" required="" class="form-control"  placeholder="Box,tag,..">
+                                                            <label  class="col-form-label">Phụ Kiện</label>
+                                                            <input type="text" name="product_accessories" required="" class="form-control"  placeholder="Phụ Kiện">
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label  class="col-form-label">Material</label>
-                                                            <input type="text" name="product_material" required=""  class="form-control"  placeholder="Vai">
+                                                            <label  class="col-form-label">Chất Liệu</label>
+                                                            <input type="text" name="product_material" required=""  class="form-control"  placeholder="Chất liệu">
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label  class="col-form-label">Guarantee</label>
-                                                            <input type="text" name="product_guarantee" required="" class="form-control"  placeholder="1:1">
+                                                            <label  class="col-form-label">Bảo Hành</label>
+                                                            <input type="text" name="product_guarantee" required="" class="form-control"  placeholder="Bảo hành">
                                                         </div>
                                                     </div>
-                                                    <label  class="col-form-label">Feature</label>
-                                                    <textarea name="product_feature" required="" class="form-control" placeholder="Chạy bộ.."></textarea>
-                                                    <label class="col-form-label">Description</label>
-                                                    <textarea class="form-control" name="product_description" required=""  placeholder="Des.."></textarea>
+                                                    <label  class="col-form-label">Tính Năng</label>
+                                                    <textarea name="product_feature" required="" class="form-control" placeholder="Tính năng"></textarea>
+                                                    <label class="col-form-label">Mô Tả</label>
+                                                    <textarea class="form-control" name="product_description" required=""  placeholder="Mô tả"></textarea>
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Product Type</label>
+                                                <label class="col-sm-2 col-form-label" >Loại Sản Phẩm</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Name</label>
+                                                    <label class="col-form-label">Loại</label>
                                                     <select name="product_type" class="form-control">
                                                         @foreach ($product_type as $key => $pro_type)
                                                             <option value="{{ $pro_type->id }}">{{ $pro_type->loaisanpham_ten }}</option>
@@ -103,9 +103,9 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Brand</label>
+                                                <label class="col-sm-2 col-form-label">Thương Hiệu</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Name</label>
+                                                    <label class="col-form-label">Thương Hiệu</label>
                                                     <select name="brand" class="form-control">
                                                         @foreach ($product_brand as $key => $brand)
                                                             <option value="{{ $brand->id }}">{{ $brand->thuonghieu_ten }}</option>
@@ -115,9 +115,9 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Collection</label>
+                                                <label class="col-sm-2 col-form-label">Dòng Sản Phẩm</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Name</label>
+                                                    <label class="col-form-label">Dòng</label>
                                                     <select name="collection" class="form-control">
                                                         @foreach ($product_collection as $key => $collection)
                                                             <option value="{{ $collection->id }}">{{ $collection->dongsanpham_ten }}</option>
@@ -127,7 +127,7 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Images</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh</label>
                                                 <div class="col-sm-10">
                                                     <div class="user-image mb-3 text-center">
                                                         <div class="imgPreview" >
@@ -136,27 +136,26 @@
                                                     </div>
                                                     <div class="custom-file">
                                                         <input type="file" class="upload custom-file-input" required="" accept=".jpeg,.png,.gif,.jpg" name="product_img" id="images">
-                                                        <label class="custom-file-label" for="images">Choose image</label>
+                                                        <label class="custom-file-label" for="images">Chọn Ảnh</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Status</label>
+                                                <label class="col-sm-2 col-form-label">Trạng Thái</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Status</label>
+                                                    <label class="col-form-label">Trạng Thái</label>
                                                     <select name="product_status" class="form-control">
-                                                        <option value="1">Show</option>
-                                                        <option value="0">Hide</option>
+                                                        <option value="1">Hiển Thị</option>
+                                                        <option value="0">Ẩn</option>
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <hr>
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
-                                                        <button type="submit" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Add</button>
+                                                        <button type="submit" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Lưu</button>
                                                     </div>
                                                 </div>
                                             </div>

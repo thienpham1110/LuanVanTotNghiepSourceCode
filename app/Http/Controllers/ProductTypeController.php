@@ -52,14 +52,14 @@ class ProductTypeController extends Controller
                 'product_type_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                  'mimes' => 'Sai định dạng ảnh',
             ]);
             $product_type=new ProductType();
             if ($data['product_type_img']==null) {
-                return Redirect::to('/product-type-add')->with('error', 'Add Fail, Please choose picture');
+                return Redirect::to('/product-type-add')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
             } else {
                 $product_type->loaisanpham_ten = $data['product_type_name'];
                 $product_type->loaisanpham_mo_ta = $data['product_type_description'];
@@ -69,7 +69,7 @@ class ProductTypeController extends Controller
                 //them hinh anh
                 if ($get_image) {
                     if($path.$get_image){
-                        return Redirect::to('/product-type')->with('error', 'Add Fail, Please choose another photo');
+                        return Redirect::to('/product-type')->with('error', 'Thêm không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                     }else{
                         $get_name_image = $get_image->getClientOriginalName();
                         $name_image = current(explode('.', $get_name_image));
@@ -77,10 +77,10 @@ class ProductTypeController extends Controller
                         $get_image->move($path, $new_image);
                         $product_type->loaisanpham_anh = $new_image;
                         $product_type->save();
-                        return Redirect::to('/product-type')->with('message', 'Add Success');
+                        return Redirect::to('/product-type')->with('message', 'Thêm thành công!');
                     }
                 } else {
-                    return Redirect::to('/product-type')->with('error', 'Add Fail, Choose Image');
+                    return Redirect::to('/product-type')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
                 }
             }
         }
@@ -93,11 +93,11 @@ class ProductTypeController extends Controller
         }else{
             $unactive_product_type=ProductType::find($pro_type_id);
             if (!$unactive_product_type) {
-                return Redirect::to('/product-type')->with('error', 'Not found');
+                return Redirect::to('/product-type')->with('error', 'Không tồn tại!');
             } else {
                 $unactive_product_type->loaisanpham_trang_thai=0;
                 $unactive_product_type->save();
-                return Redirect::to('/product-type')->with('message', 'Hide Success');
+                return Redirect::to('/product-type')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -108,11 +108,11 @@ class ProductTypeController extends Controller
         }else{
             $active_product_type=ProductType::find($pro_type_id);
             if (!$active_product_type) {
-                return Redirect::to('/product-type')->with('error', 'Not found');
+                return Redirect::to('/product-type')->with('error', 'Không tồn tại!');
             } else {
                 $active_product_type->loaisanpham_trang_thai=1;
                 $active_product_type->save();
-                return Redirect::to('/product-type')->with('message', 'Show Success');
+                return Redirect::to('/product-type')->with('message', 'Hiển thị thành công!');
             }
         }
     }
@@ -124,7 +124,7 @@ class ProductTypeController extends Controller
         }else{
             $edit_product_type=ProductType::find($pro_type_id);
             if (!$edit_product_type) {
-                return Redirect::to('/product-type')->with('error', 'Not found');
+                return Redirect::to('/product-type')->with('error', 'Không tồn tại!');
             } else {
                 return view('admin.pages.product_type.product_type_edit')->with('product_type', $edit_product_type);
             }
@@ -138,7 +138,7 @@ class ProductTypeController extends Controller
         }else{
             $product_type=ProductType::find($pro_type_id);
             if (!$product_type) {
-                return Redirect::to('/product-type')->with('error', 'Not found');
+                return Redirect::to('/product-type')->with('error', 'Không tồn tại!');
             } else {
                 $data=$request->all();
                 $this->validate($request,[
@@ -147,10 +147,10 @@ class ProductTypeController extends Controller
                     'product_type_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
                 ],
                 [
-                    'required' => 'Field is not empty',
-                    'min' => 'Too short',
-                    'max' => 'Too long',
-                    'mimes' => 'Wrong image format'
+                    'required' => 'Không được để trống',
+                    'min' => 'Quá ngắn',
+                    'max' => 'Quá dài',
+                      'mimes' => 'Sai định dạng ảnh',
                 ]);
                 $product_type=ProductType::find($pro_type_id);
                 $product_type->loaisanpham_ten = $data['product_type_name'];
@@ -161,7 +161,7 @@ class ProductTypeController extends Controller
                 $path = 'public/uploads/admin/producttype/';
                 if ($get_image) {
                     if($path.$get_image && $path.$get_image!=$path.$old_name_img){
-                        return Redirect::to('/product-type-edit/'.$pro_type_id)->with('error', 'Update Fail, Please choose another photo');
+                        return Redirect::to('/product-type-edit/'.$pro_type_id)->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                     }else{
                         if ($old_name_img!=null) {
                             unlink($path.$old_name_img);
@@ -172,15 +172,15 @@ class ProductTypeController extends Controller
                         $get_image->move($path, $new_image);
                         $product_type->loaisanpham_anh = $new_image;
                         $product_type->save();
-                        return Redirect::to('/product-type')->with('message', 'Update Success');
+                        return Redirect::to('/product-type')->with('message', 'Cập nhật thành công');
                     }
                 } else {
                     if ($old_name_img!=null) {
                         $product_type->loaisanpham_anh = $old_name_img;
                         $product_type->save();
-                        return Redirect::to('/product-type')->with('message', 'Update Success');
+                        return Redirect::to('/product-type')->with('message', 'Cập nhật thành công');
                     } else {
-                        return Redirect::to('/product-type-edit/'.$pro_type_id)->with('error', 'Update Fail,Please Choose Image');
+                        return Redirect::to('/product-type-edit/'.$pro_type_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                     }
                 }
             }
@@ -194,15 +194,15 @@ class ProductTypeController extends Controller
         }else{
             $product_type=ProductType::find($product_type_id);
             if (!$product_type) {
-                return Redirect::to('/product-type')->with('error', 'Not found');
+                return Redirect::to('/product-type')->with('error', 'Không tồn tại!');
             } else {
                 $get_product_type=Product::where('loaisanpham_id', $product_type_id)->first();
                 if ($get_product_type) {
-                    return Redirect::to('/product-type')->with('error', 'Delete Fail, Can not delete');
+                    return Redirect::to('/product-type')->with('error', 'Không thể xóa!');
                 } else {
                     $delete_product_type=ProductType::find($product_type_id);
                     $delete_product_type->delete();
-                    return Redirect::to('/product-type')->with('message', 'Delete Success');
+                    return Redirect::to('/product-type')->with('message', 'Xóa thành công!');
                 }
             }
         }

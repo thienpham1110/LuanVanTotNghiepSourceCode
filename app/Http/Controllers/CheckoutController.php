@@ -66,13 +66,13 @@ class CheckoutController extends Controller
             $output = '';
             if($data['action']=="city"){
                 $select_province=Province::where('tinhthanhpho_id',$data['ma_id'])->orderby('id','ASC')->get();
-                $output.='<option>Choose Province</option>';
+                $output.='<option>---Chọn Quận Huyện---</option>';
                 foreach($select_province as $key =>$province){
                     $output.='<option value="'.$province->id.'">'.$province->quanhuyen_name.'</option>';
                 }
             }else{
     			$select_wards = Wards::where('quanhuyen_id',$data['ma_id'])->orderby('id','ASC')->get();
-    			$output.='<option>Choose Wards</option>';
+    			$output.='<option>---Chọn Xã Phường Thị trấn---</option>';
     			foreach($select_wards as $k => $ward){
     				$output.='<option value="'.$ward->id.'">'.$ward->xaphuongthitran_name.'</option>';
     			}
@@ -88,13 +88,13 @@ class CheckoutController extends Controller
             $output = '';
             if($data['action']=="order_city"){
                 $select_province=Province::where('tinhthanhpho_id',$data['ma_id'])->orderby('id','ASC')->get();
-                $output.='<option value="-1">Choose Province</option>';
+                $output.='<option value="-1">---Chọn Quận Huyện---</option>';
                 foreach($select_province as $key =>$province){
                     $output.='<option value="'.$province->id.'">'.$province->quanhuyen_name.'</option>';
                 }
             }else{
     			$select_wards = Wards::where('quanhuyen_id',$data['ma_id'])->orderby('id','ASC')->get();
-    			$output.='<option value="-1">Choose Wards</option>';
+    			$output.='<option value="-1">---Chọn Xã Phường Thị trấn---</option>';
     			foreach($select_wards as $k => $ward){
     				$output.='<option value="'.$ward->id.'">'.$ward->xaphuongthitran_name.'</option>';
     			}
@@ -113,9 +113,9 @@ class CheckoutController extends Controller
         $coupon =Session::get('coupon');
         if($coupon){
             $this->DeleteTransportFee();
-            return Redirect::to('/checkout')->with('message','Delete Success');
+            return Redirect::to('/checkout')->with('message','Xóa phí vận chuyển thành công!');
         }else{
-            return Redirect::to('/checkout')->with('error','Feeship Not Found');
+            return Redirect::to('/checkout')->with('error','Không tồn tại phí vận chuyển, phí vận chuyển mặc định!');
         }
     }
 
@@ -123,9 +123,9 @@ class CheckoutController extends Controller
         $coupon =Session::get('coupon');
         if($coupon){
             Session::forget('coupon');
-            return Redirect::to('/checkout')->with('message','Delete Success');
+            return Redirect::to('/checkout')->with('message','Xóa mã khuyến mãi thành công!');
         }else{
-            return Redirect::to('/checkout')->with('error','Coupon Not Found');
+            return Redirect::to('/checkout')->with('error','Không tồn tại mã giảm giá!');
         }
     }
 
@@ -166,7 +166,7 @@ class CheckoutController extends Controller
             Session::put('feeship', $fee);
         }
         Session::save();
-        return Redirect::to('/checkout')->with('message','Add Success');
+        return Redirect::to('/checkout')->with('message','Thêm phí vận chuyển thành công!');
     }
 
     public function OrderCheckoutSave(Request $request){
@@ -175,12 +175,12 @@ class CheckoutController extends Controller
             'order_checkout_name' => 'bail|required|max:255|min:6',
             'order_checkout_email' => 'bail|required|email',
             'order_checkout_phone_number' => 'bail|required|min:10',
-            'order_checkout_address' => 'bail|required|max:255|min:6',
+            'order_checkout_address' => 'bail|required|max:255|min:3',
         ],
         [
-            'required' => 'Field is not empty',
-            'min' => 'Too short',
-            'max' => 'Too long'
+            'required' => 'Không được để trống',
+            'min' => 'Quá ngắn',
+            'max' => 'Quá dài'
         ]);
         $order_detail=Session::get('cart');
         $order_transport_fee=Session::get('feeship');
@@ -188,10 +188,10 @@ class CheckoutController extends Controller
         $order_code=substr(str_shuffle(str_repeat("RGWUB", 5)), 0,2).substr(str_shuffle(str_repeat("0123456789", 5)), 0,6);
         $order_old=Order::where('dondathang_ma_don_dat_hang',$order_code)->first();
         if (!$order_detail) {
-            return Redirect::to('/shop-now')->with('message','Fail, No Products');
+            return Redirect::to('/shop-now')->with('message','Chưa có sản phẩm trong giỏ hàng!');
         }else{
             if($data['order_city']==-1 || $data['order_province']==-1 || $data['order_wards']==-1){
-                return Redirect::to('/checkout')->with('error','Please choose address');
+                return Redirect::to('/checkout')->with('error','Vui lòng chọn địa chỉ vận chuyển!');
             }else{
                 if (!$order_old) {
                     $order_code = substr(str_shuffle(str_repeat("RGWUB", 5)), 0, 2).substr(str_shuffle(str_repeat("0123456789", 5)), 0, 6);
@@ -272,7 +272,8 @@ class CheckoutController extends Controller
                     }
                     //send mail
                     $now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
-                    $title_mail = "New Order".' - Order Code: '.$order_code;
+                    $to_name="RGUWB";
+                    $title_mail = "Đơn Hàng Mới Từ RGUWB SHOP".' - Mã Đơn Hàng: '.$order_code;
                     $customer = Customer::find(Session::get('customer_id'));
                     $data['email'][] = $customer->khachhang_email;
                     $shipping_array = array(
@@ -296,10 +297,9 @@ class CheckoutController extends Controller
                       'coupon_code' => $coupon_code,
                       'order_code' => $order_code,
                     );
-
-                    Mail::send('layout.send_mail_order',  ['cart_array'=>$cart_array, 'shipping_array'=>$shipping_array ,'code'=>$ordercode_mail] , function($message) use ($title_mail,$data){
+                    Mail::send('layout.send_mail_order',  ['cart_array'=>$cart_array, 'shipping_array'=>$shipping_array ,'code'=>$ordercode_mail] , function($message) use ($to_name,$title_mail,$data){
                         $message->to($data['email'])->subject($title_mail);//send this mail with subject
-                        $message->from($data['email'],$title_mail);//send from this mail
+                        $message->from($data['email'],$to_name,$title_mail);//send from this mail
                     });
                     $order->dondathang_giam_gia=$discount;
                     $order->dondathang_phi_van_chuyen=$tran_fee;
@@ -326,7 +326,7 @@ class CheckoutController extends Controller
                     Session::forget('coupon');
                     Session::forget('feeship');
                     Session::forget('count_cart');
-                    return Redirect::to('/my-account')->with('message','Order Success');
+                    return Redirect::to('/my-account')->with('message','Đặt hàng thành công, vui lòng kiểm tra email hoặc đăng nhập để theo dõi đơn hàng!');
                 }
             }
         }

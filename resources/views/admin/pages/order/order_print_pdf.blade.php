@@ -10,13 +10,13 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/order-show-detail/'.$order->id)}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
-                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New Order</a>
+                                <a href="{{URL::to('/order-show-detail/'.$order->id)}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại</a>
+                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Tạo Mới Đơn Hàng</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
-                            <li class="breadcrumb-item active">Order Detail</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
+                            <li class="breadcrumb-item active">In Đơn Hàng</li>
                         </ol>
                     </div>
                 </div>
@@ -31,14 +31,14 @@
                                     <img src="{{asset('public/backend/images/logo-dark.png')}}" alt="" height="20">
                                 </div>
                                 <div class="float-right">
-                                    <h4 class="m-0 d-print-none">Invoice</h4>
+                                    <h4 class="m-0 d-print-none">Hóa Đơn</h4>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mt-3">
-                                        <p><b>Hello,
+                                        <p><b>Xin Chào,
                                             @if($order_customer)
                                                 {{ $order_customer->Customer->khachhang_ten}}
 
@@ -46,25 +46,28 @@
                                                 {{ $order_delivery->giaohang_nguoi_nhan}}
                                             @endif
                                         </b></p>
-                                        <p class="text-muted">Thanks a lot because you keep purchasing our products. Our company
-                                            promises to provide high quality products for you as well as outstanding
-                                            customer service for every transaction. </p>
+                                        <p class="text-muted">Cảm ơn rất nhiều vì bạn đã mua sản phẩm của chúng tôi. Cửa hàng chúng tôi
+                                            sẽ cung cấp cho bạn những sản phẩm chính hãng, chất lượng. </p>
                                     </div>
 
                                 </div><!-- end col -->
                                 <div class="col-md-4 offset-md-2">
                                     <div class="mt-3 float-right">
-                                        <p class="m-b-10"><strong>Order Date : </strong> <span class="float-right"> &nbsp;&nbsp;&nbsp;&nbsp;{{ $order->dondathang_ngay_dat_hang }}</span></p>
-                                        <p class="m-b-10"><strong>Order Status :&nbsp; </strong> <span class="float-right">
-                                            @if($order->dondathang_trang_thai==0)
-                                                Unprocess
-                                            @elseif($order->dondathang_trang_thai==1)
-                                            Payment Not Yet Delivered
-                                            @elseif($order->dondathang_trang_thai==2)
-                                            Processed
+                                        <p class="m-b-10"><strong>Ngày Đặt Hàng : </strong> <span class="float-right"> &nbsp;&nbsp;&nbsp;&nbsp;{{ $order->dondathang_ngay_dat_hang }}</span></p>
+                                        <p class="m-b-10"><strong>Trạng Thái :&nbsp; </strong> <span class="float-right">
+                                            @if($order->dondathang_trang_thai == 0)
+                                            Chưa xác nhận
+                                            @elseif($order->dondathang_trang_thai == 1)
+                                            Đã xác nhận
+                                            @elseif($order->dondathang_trang_thai == 2)
+                                            Đang vận chuyển
+                                            @elseif($order->dondathang_trang_thai == 3)
+                                            Đã giao hàng
+                                            @elseif($order->dondathang_trang_thai == 4)
+                                            Đơn hàng đã bị hủy
                                             @endif
                                         </span></p>
-                                        <p class="m-b-10"><strong>Order No. : </strong> <span class="float-right">{{ $order->dondathang_ma_don_dat_hang }}</span></p>
+                                        <p class="m-b-10"><strong>Mã Đơn Hàng. : </strong> <span class="float-right">{{ $order->dondathang_ma_don_dat_hang }}</span></p>
                                     </div>
                                 </div><!-- end col -->
                             </div>
@@ -72,7 +75,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-sm-6">
-                                    <h5>Billing Address</h5>
+                                    <h5>Địa Chỉ Mua Hàng</h5>
                                     <address>
                                             @if($order_customer)
                                                 {{ $order_customer->Customer->khachhang_ten}}
@@ -90,7 +93,7 @@
                                 </div> <!-- end col -->
 
                                 <div class="col-sm-6">
-                                    <h5>Shipping Address</h5>
+                                    <h5>Địa Chỉ Nhận Hàng</h5>
                                     <address>
                                         @if(!$order_delivery)
                                             {{ $order_customer->Customer->khachhang_ten}}
@@ -114,18 +117,18 @@
                                         <table class="table mt-4 table-centered">
                                             <thead>
                                             <tr>
-                                                <th>Product Name</th>
-                                                <th style="width: 20%">Price</th>
-                                                <th style="width: 20%">Quantity</th>
-                                                <th style="width: 20%" class="text-right">Total</th>
+                                                <th>Sản Phẩm</th>
+                                                <th style="width: 20%">Giá</th>
+                                                <th style="width: 20%">Số Lượng</th>
+                                                <th style="width: 20%" class="text-right">Tổng Cộng</th>
                                             </tr></thead>
                                             <tbody>
                                                 @foreach ($order_detail as $key =>$value )
                                                     @foreach ($product as $k =>$pro)
                                                         <tr>
                                                             <td>
-                                                                <b>{{ $value->Product->sanpham_ten}}</b> <br>
-                                                                {{ $pro->sanpham_mo_ta}} ,&nbsp;Size: {{ $value->Size->size}}
+                                                                <b>{{ $value->Product->sanpham_ten}} - Size: {{ $value->Size->size}}</b> <br>
+                                                                {{ $pro->sanpham_mo_ta}}
                                                             </td>
                                                             <td>{{number_format($value->chitietdondathang_don_gia ).' VNĐ' }}</td>
                                                             <td>{{ $value->chitietdondathang_so_luong}}</td>
@@ -144,17 +147,16 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="clearfix pt-5">
-                                        <h6 class="text-muted">Notes:</h6>
-
-                                        <small class="text-muted">
+                                        <h6 class="text-muted">Ghi Chú:</h6>
+                                        <span class="text-muted">
                                            {{ $order->dondathang_ghi_chu }}
-                                        </small>
+                                        </span>
                                     </div>
                                 </div> <!-- end col -->
                                 <div class="col-sm-6">
                                     <div class="float-right">
                                         <p>
-                                            <b>SubTotal :</b>&nbsp;&nbsp;&nbsp;
+                                            <b>Tổng :</b>&nbsp;&nbsp;&nbsp;
                                                 @if($order_coupon)
                                                     @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
                                                     {{number_format($order->dondathang_tong_tien - $order->dondathang_phi_van_chuyen + $order->Coupon->makhuyenmai_gia_tri ).' VNĐ' }}
@@ -170,9 +172,9 @@
                                                 @endif
 
                                         </p>
-                                        <p><b>Transport:</b> <span class="float-right">&nbsp;&nbsp;&nbsp;{{number_format($order->dondathang_phi_van_chuyen ).' VNĐ' }}</span></p>
+                                        <p><b>Phí Vận Chuyển:</b> <span class="float-right">&nbsp;&nbsp;&nbsp;{{number_format($order->dondathang_phi_van_chuyen ).' VNĐ' }}</span></p>
                                         <p>
-                                            <b>Discount:</b>
+                                            <b>Giảm Giá:</b>
                                             <span class="float-right">
                                                 @if($order_coupon)
                                                     @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
@@ -186,13 +188,13 @@
                                             </span>
                                         </p>
                                         <p>
-                                            <b>Total: </b>&nbsp;&nbsp;&nbsp;
+                                            <b>Tổng Cộng: </b>&nbsp;&nbsp;&nbsp;
                                             <span class="float-right">
                                                 {{number_format($order->dondathang_tong_tien ).' VNĐ' }}
                                             </span>
                                         </p>
                                         <p>
-                                            <b>Money to be paid: </b>&nbsp;&nbsp;&nbsp;
+                                            <b>Tổng Phải Thanh Toán: </b>&nbsp;&nbsp;&nbsp;
                                             <h3 class="total"> {{number_format($order_delivery->giaohang_tong_tien_thanh_toan ).' VNĐ' }}</h3>
                                         </p>
                                     </div>
@@ -203,7 +205,7 @@
 
                             <div class="mt-4 mb-1">
                                 <div class="text-right d-print-none">
-                                    <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> Print</a>
+                                    <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> In Hóa Đơn </a>
                                 </div>
                             </div>
                         </div> <!-- end card-box -->

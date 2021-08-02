@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/staff')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/staff')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Nhân Viên</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Add Staff</li>
+                            <li class="breadcrumb-item active">Thêm Nhân Viên</li>
                         </ol>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card-box">
-                            <h4 class="header-title">Create Account</h4>
+                            <h4 class="header-title">Thêm Nhân Viên</h4>
                             @if(session()->has('message'))
                                     <div class="alert alert-success">
                                         {!! session()->get('message') !!}
@@ -42,8 +42,8 @@
                             <form action="{{URL::to('/staff-add-save')}}" class="parsley-form" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="pass1">Name<span class="text-danger">*</span></label>
-                                    <input name="staff_name" type="text" placeholder="Name" required="" class="form-control">
+                                    <label for="pass1">Tên<span class="text-danger">*</span></label>
+                                    <input name="staff_name" type="text" placeholder="Tên" required="" class="form-control">
                                     @error('staff_name')
                                     <p class="alert alert-danger"> {{ $message }}</p>
                                     @enderror
@@ -56,31 +56,31 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="pass1">Password<span class="text-danger">*</span></label>
-                                    <input name="staff_password" type="password" placeholder="Password" required="" class="form-control">
+                                    <label for="pass1">Mật Khẩu<span class="text-danger">*</span></label>
+                                    <input name="staff_password" type="password" placeholder="Mật khẩu" required="" class="form-control">
                                     @error('staff_password')
                                     <p class="alert alert-danger"> {{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="passWord2">Confirm Password <span class="text-danger">*</span></label>
-                                    <input name="staff_password_confirm" type="password" required="" placeholder="Password" class="form-control">
+                                    <label for="passWord2">Xác Nhận Mật Khẩu <span class="text-danger">*</span></label>
+                                    <input name="staff_password_confirm" type="password" required="" placeholder="Xác nhận mật khẩu" class="form-control">
                                     @error('staff_password_confirm')
                                     <p class="alert alert-danger"> {{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-form-label">Role</label>
+                                    <label class="col-form-label">Quyền</label>
                                     <select name="admin_role" class="form-control">
                                         <option value="1">Admin</option>
-                                        <option value="2">Staff</option>
-                                        <option value="3">Shipper</option>
+                                        <option value="2">Nhân viên</option>
+                                        <option value="3">Giao Hàng</option>
                                     </select>
                                 </div>
 
                                 <div class="form-group text-right mb-0">
                                     <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
-                                        Submit
+                                        Lưu
                                     </button>
                                 </div>
                             </form>

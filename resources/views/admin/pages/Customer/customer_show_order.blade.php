@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/customer')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/customer')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Khách Hàng</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Customer Order</li>
+                            <li class="breadcrumb-item active">Đơn Hàng Khách Hàng</li>
                         </ol>
                     </div>
 
@@ -25,16 +25,16 @@
                     <div class="col-12">
                         <div class="card-box">
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <h4 class="mt-3 mb-3"><span>Customer: </span></h4>
+                                <h4 class="mt-3 mb-3"><span>Khách Hàng: </span></h4>
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Gender</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Tên</th>
+                                    <th class="font-weight-medium">Giới Tính</th>
                                     <th class="font-weight-medium">Email</th>
-                                    <th class="font-weight-medium">Phone Number</th>
-                                    <th class="font-weight-medium">Address</th>
-                                    <th class="font-weight-medium">Status</th>
+                                    <th class="font-weight-medium">Số Điện Thoại</th>
+                                    <th class="font-weight-medium">Địa Chỉ</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
@@ -48,7 +48,7 @@
                                             {{ $customer->khachhang_ho}}  {{ $customer->khachhang_ten}}
                                         </td>
                                         <td>
-                                            {{ $customer->khachhang_gioi_tinh?'Male':'Famale' }}
+                                            {{ $customer->khachhang_gioi_tinh?'Nam':'Nữ' }}
                                         </td>
                                         <td>
                                             {{ $customer->khachhang_email}}
@@ -60,23 +60,23 @@
                                             {{ $customer->khachhang_dia_chi }}
                                         </td>
                                         <td>
-                                            {{ $customer->khachhang_trang_thai?'Online':'Offline' }}
+                                            {{ $customer->khachhang_trang_thai?'Hoạt động':'Không hoạt động' }}
                                         </td>
 
                                     </tr>
                                 </tbody>
                             </table>
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <h4 class="mt-3 mb-3"><span>Order: </span></h4>
+                                <h4 class="mt-3 mb-3"><span>Đơn Hàng: </span></h4>
                                 <thead class="bg-light">
                                     <tr>
-                                        <th class="font-weight-medium">Orders Code</th>
-                                        <th class="font-weight-medium">Total</th>
-                                        <th class="font-weight-medium">Note</th>
-                                        <th class="font-weight-medium">Status Delivery</th>
-                                        <th class="font-weight-medium">Status Pay</th>
-                                        <th class="font-weight-medium">Status</th>
-                                        <th class="font-weight-medium">Action</th>
+                                        <th class="font-weight-medium">Mã Đơn Hàng</th>
+                                        <th class="font-weight-medium">Tổng Cộng</th>
+                                        <th class="font-weight-medium">Ghi Chú</th>
+                                        <th class="font-weight-medium">Trạng Thái Giao Hàng</th>
+                                        <th class="font-weight-medium">Trạng Thái Thanh Toán</th>
+                                        <th class="font-weight-medium">Trạng Thái</th>
+                                        <th class="font-weight-medium">Thao Tác</th>
                                     </tr>
                                     </thead>
                                     <tbody class="font-14">
@@ -93,13 +93,13 @@
                                             </td>
                                             <td>
                                                 @if($order->dondathang_trang_thai==2)
-                                                    In Transit
+                                                    Đang giao hàng
                                                 @elseif($order->dondathang_trang_thai==3)
-                                                    Delivered
+                                                    Đã giao hàng
                                                 @elseif($order->dondathang_trang_thai==4)
-                                                    Order Has Been Canceled
+                                                    Đơn hàng đã bị hủy
                                                 @else
-                                                    Not Delivered
+                                                    Chưa giao hàng
                                                 @endif
                                             </td>
                                             <td>
@@ -108,25 +108,24 @@
 
                                             <td>
                                                 @if($order->dondathang_trang_thai == 0)
-                                                Unconfirmed
+                                                Chưa xác nhận
                                                 @elseif($order->dondathang_trang_thai == 1)
-                                                Confirmed
+                                                Đã xác nhận
                                                 @elseif($order->dondathang_trang_thai == 2)
-                                                In Transit
+                                                Đang vận chuyển
                                                 @elseif($order->dondathang_trang_thai == 3)
-                                                Delivered - Processed
+                                                Đã giao hàng
                                                 @elseif($order->dondathang_trang_thai == 4)
-                                                Order Has Been Canceled
+                                                Đơn hàng đã bị hủy
                                                 @endif
                                             </td>
-
                                             <td>
                                                 <div class="btn-group dropdown">
                                                     <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$order->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
+                                                        <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$order->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Chi Tiết</a>
                                                         @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=4)
-                                                        <a class="dropdown-item" href="{{URL::to('/order-canceled/'.$order->id)}}"onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Cancel Order</a>
+                                                        <a class="dropdown-item" href="{{URL::to('/order-canceled/'.$order->id)}}"onclick="return confirm('Hủy đơn hàng?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Hủy Đơn Hàng</a>
                                                         @endif
                                                     </div>
                                                 </div>

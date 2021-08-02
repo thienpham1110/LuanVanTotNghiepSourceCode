@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>product detail</li>
+                    <li>Chi Tiết Sản Phẩm</li>
                 </ul>
             </div>
         </div>
@@ -55,7 +55,7 @@
                             @foreach ($all_product_image as $key =>$pro_img)
                                 @if ($count_img<=3)
                                     <li>
-                                        <a class="active" data-toggle="tab" href="#p_tab2" role="tab" aria-controls="p_tab1" aria-selected="false"><img src="{{asset('public/uploads/admin/productimages/'.$pro_img->anhsanpham_ten)}}" alt=""></a>
+                                        <a class="active" data-toggle="tab" href="#p_tab2" role="tab" aria-controls="p_tab1" aria-selected="false"><img src="{{asset('public/uploads/admin/productimages/'.$pro_img->anhsanpham_ten)}}" width="90px" height="120px" alt=""></a>
                                     </li>
                                     @php
                                         $count_img++;
@@ -129,7 +129,7 @@
                             @endfor --}}
                             <input type="hidden" value="{{ $average }}" id="average_rating">
                             <input type="hidden" value="{{ $count_rate }}" id="count_rate">
-                            <li><a href="#"> Number of reviews : <span>{{ $count_rate }}</span> <h4>{{ $average }} Point</h4></a></li>
+                            <li><a href="#"> số lượt đánh giá : <span>{{ $count_rate }}</span> <h4>{{ $average }} Điểm</h4></a></li>
                         </ul>
                     </div>
 
@@ -150,7 +150,7 @@
                     <form action="{{ URL::to('/add-cart') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="box_quantity mb-20 ">
-                                <h5>quantity</h5>
+                                <h5>Số lượng</h5>
                                 <input name="product_quantity" class="product_quantity_{{ $product->id }}" min="1" value="1" type="number">
                                 <input name="product_quantity_in_stock" class="product_quantity_in_stock_{{ $product->id }}" min="1"
                                 @php
@@ -168,7 +168,7 @@
                                 <input name="product_img" value="{{ $product->sanpham_anh }}" class="product_img_{{ $product->id }}" type="hidden">
                                 <input name="product_name" id="wishlist_viewed_product_name{{ $product->id }}" value="{{ $product->sanpham_ten }}" class="product_name_{{ $product->id }}" type="hidden">
                                 <input name="product_price" class="product_price_{{ $product->id }}" value="{{number_format($product->sanpham_gia_ban ,0,',','') }}" type="hidden">
-                                <button type="button" data-id_product="{{ $product->id}}" class="add-to-cart"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <button type="button" data-id_product="{{ $product->id}}" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Thêm Vào Giỏ Hàng</button>
                                 <a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title="add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         </div>
                         <div class="mb-20 col-md-4">
@@ -212,7 +212,7 @@
                             </div> --}}
                             <div id="ratetotal"></div>
                             <div class="rating-users">
-                              <i class="icon-user"></i> {{ $count_rate }} Rating
+                              <i class="icon-user"></i> {{ $count_rate }} Lượt đánh giá
                             </div>
                           </div>
                           <div class="histo">
@@ -396,13 +396,13 @@
                 <div class="product_info_button">
                     <ul class="nav" role="tablist">
                         <li>
-                            <a class="active"  data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">Data sheet</a>
+                            <a class="active"  data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">Thông tin sản phẩm</a>
                        </li>
                         <li>
-                            <a data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Description</a>
+                            <a data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Mô Tả</a>
                         </li>
                         <li>
-                           <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
+                           <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Đánh giá</a>
                         </li>
                     </ul>
                 </div>
@@ -517,10 +517,16 @@
                                     <div class="col-lg-12 col-md-12">
                                         <label for="author">Name</label>
                                         <input id="review-name" class="review_name" name="review_name" required="" type="text">
+                                        @error('review_name')
+                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="col-12">
                                         <label for="review_comment">Your review </label>
                                         <textarea name="review_comment" class="review_comment" required="" id="review-comment"></textarea>
+                                        @error('review_comment')
+                                        <p class="alert alert-danger"> {{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="rate-error" align="center"></div>
                                 </div>
@@ -594,7 +600,7 @@
     <div class="row">
         <div class="col-12">
             <div class="block_title">
-            <h3>other products category:</h3>
+            <h3>Sản Phẩm Khác:</h3>
         </div>
         </div>
     </div>
@@ -619,8 +625,8 @@
                             <ul>
                                 <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
                                 <input type="hidden" value="{{number_format($product->sanpham_gia_ban,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
-                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">View Detail</a></li>
+                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Thêm Yêu Thích</a></li>
+                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">Chi Tiết</a></li>
                             </ul>
                         </div>
                     </div>
@@ -637,7 +643,7 @@
     <div class="row">
         <div class="col-12">
             <div class="block_title">
-            <h3>Related Products</h3>
+            <h3>Sản Phẩm Liên Quan</h3>
         </div>
         </div>
     </div>
@@ -662,8 +668,8 @@
                             <ul>
                                 <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
                                 <input type="hidden" value="{{number_format($product->sanpham_gia_ban,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
-                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">View Detail</a></li>
+                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Thêm Yêu Thích</a></li>
+                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">Chi Tiết</a></li>
                             </ul>
                         </div>
                     </div>
@@ -678,7 +684,7 @@
     <div class="row">
         <div class="col-12">
             <div class="block_title">
-            <h3>Products Viewed</h3>
+            <h3>Sản phẩm đã xem</h3>
         </div>
         </div>
     </div>
@@ -703,8 +709,8 @@
                             <ul>
                                 <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
                                 <input type="hidden" value="{{number_format($product->sanpham_gia_ban,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
-                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">View Detail</a></li>
+                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Thêm Yêu Thích</a></li>
+                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">Chi Tiết</a></li>
                             </ul>
                         </div>
                     </div>

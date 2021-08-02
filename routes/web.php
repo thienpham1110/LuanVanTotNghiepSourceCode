@@ -271,6 +271,8 @@ Route::post('/product-import-edit-detail-save/{product_import_detail_id}', 'Prod
 
 Route::get('/product-import-delete-detail/{product_import_detail}', 'ProductImportController@ProductImportDeletetDetail');
 
+Route::get('/product-import-delete/{product_import_id}', 'ProductImportController@DeleteProductImport');
+
 //Product Discount
 Route::get('/product-discount', 'ProductDiscountController@Index');
 Route::get('/product-discount-add', 'ProductDiscountController@ProductDiscountAdd');
@@ -325,7 +327,7 @@ Route::post('/approval-comment', 'CommentController@ApprovalComment');
 Route::get('/show-comment-detail/{comment_id}', 'CommentController@ShowCommentDetail');
 Route::post('/admin-reply-to-comment', 'CommentController@AdminReplyToComment');
 Route::get('/delete-comment/{comment_id}', 'CommentController@DeleteComment');
-
+Route::get('/admin-reply-delete-comment/{comment_id}', 'CommentController@DeleteCommentReply');
 
 //Statistical
 Route::get('/product-view-statistics', 'StatisticsController@ShowProductViewsStatistics');

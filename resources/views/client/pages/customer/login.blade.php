@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>login</li>
+                    <li>Đăng nhập</li>
                 </ul>
 
             </div>
@@ -35,7 +35,7 @@
            <div class="col-md-3"></div>
             <div class="col-lg-6 col-md-6">
                 <div class="account_form">
-                    <h2 style="text-align: center">login</h2>
+                    <h2 style="text-align: center">Đăng nhập</h2>
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
                             <p class="alert alert-danger">{{ $error}}</p>
@@ -48,16 +48,16 @@
                             <input type="email" required="" name="customer_email_login">
                         </p>
                         <p>
-                            <label>Passwords <span>*</span></label>
+                            <label>Mật Khẩu <span>*</span></label>
                             <input type="password" required="" name="customer_password_login">
                         </p>
                         <div class="login_submit">
-                            <button type="submit">login</button>
+                            <button type="submit">Đăng nhập</button>
                             {{--  <label for="remember">
                                 <input id="remember" type="checkbox">
                                 Remember me
                             </label>  --}}
-                            <a href="{{ URL::to('/show-verification-password-customer')}}">Lost your password?</a>
+                            <a href="{{ URL::to('/show-verification-password-customer')}}">Quên Mật Khẩu?</a>
                         </div>
                     </form>
                  </div>

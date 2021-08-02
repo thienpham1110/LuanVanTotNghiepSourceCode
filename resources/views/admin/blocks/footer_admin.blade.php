@@ -6,7 +6,7 @@
             </div>
             <div class="col-md-6">
                 <div class="text-md-right footer-links d-none d-sm-block">
-                    <a href="{{URL::to('/about-us')}}">About Us</a>
+                    <a href="{{URL::to('/about-us')}}">Cửa hàng</a>
                 </div>
             </div>
         </div>

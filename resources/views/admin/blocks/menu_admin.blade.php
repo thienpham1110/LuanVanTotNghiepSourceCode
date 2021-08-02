@@ -7,7 +7,7 @@
                 <li>
                     <a href="{{URL::to('/dashboard')}}" class="waves-effect">
                         <i class="remixicon-dashboard-line"></i>
-                        <span> Dashboards </span>
+                        <span> Admin </span>
                     </a>
                 </li>
                 @if(Session::get('admin_id'))
@@ -15,51 +15,51 @@
                         <li>
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="remixicon-stack-line"></i>
-                                <span>Manage Product </span>
+                                <span>Quản Lý Sản Phẩm </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/product')}}">Product</a>
+                                    <a href="{{URL::to('/product')}}">Sản Phẩm</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/brand')}}">Brand</a>
+                                    <a href="{{URL::to('/brand')}}">Thương Hiệu</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/product-type')}}">Product Type</a>
+                                    <a href="{{URL::to('/product-type')}}">Loại Sản Phẩm</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/collection')}}">Collection</a>
+                                    <a href="{{URL::to('/collection')}}">Dòng Sản Phẩm</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/coupon-code')}}">Coupon Code</a>
+                                    <a href="{{URL::to('/coupon-code')}}">Mã Khuyến Mãi</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/product-discount')}}">Discount</a>
+                                    <a href="{{URL::to('/product-discount')}}">Khuyến Mãi</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/comment')}}">Comment</a>
+                                    <a href="{{URL::to('/comment')}}">Bình Luận</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="remixicon-stack-line"></i>
-                                <span>Product Import</span>
+                                <span>Quản Lý Nhập Hàng</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/product-import')}}">Product Import</a>
+                                    <a href="{{URL::to('/product-import')}}">Đơn Nhập Hàng</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/supplier')}}">Supplier</a>
+                                    <a href="{{URL::to('/supplier')}}">Nhà Cung Cấp</a>
                                 </li>
                                 <li>
                                     <a href="{{URL::to('/size')}}">Size</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/product-import-add')}}">Product Import Add</a>
+                                    <a href="{{URL::to('/product-import-add')}}">Thêm Đơn Nhập Hàng</a>
                                 </li>
                             </ul>
                         </li>
@@ -67,18 +67,18 @@
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="remixicon-layout-line"></i>
                                 {{-- <span class="badge badge-pink float-right">New</span> --}}
-                                <span>Manage Order</span>
+                                <span>Quản Lý Đơn Hàng</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/order')}}">Order</a>
+                                    <a href="{{URL::to('/order')}}">Đơn Hàng</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/order-add')}}">Unfinished Order</a>
+                                    <a href="{{URL::to('/order-add')}}">Đơn Hàng Đang Tạo</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/transport-fee')}}">Transport fee</a>
+                                    <a href="{{URL::to('/transport-fee')}}">Phí Vận Chuyển</a>
                                 </li>
                             </ul>
                         </li>
@@ -90,18 +90,18 @@
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="remixicon-layout-line"></i>
                                 {{-- <span class="badge badge-pink float-right">New</span> --}}
-                                <span>Manage Delivery</span>
+                                <span>Quản Lý Giao Hàng</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/update-order-id-delivery')}}">Delivery Order</a>
+                                    <a href="{{URL::to('/update-order-id-delivery')}}">Giao Hàng</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/transport-fee')}}">Transport fee</a>
+                                    <a href="{{URL::to('/transport-fee')}}">Phí Vận chuyển</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/customer')}}">Customer</a>
+                                    <a href="{{URL::to('/customer')}}">Khách Hàng</a>
                                 </li>
                             </ul>
                         </li>
@@ -112,19 +112,19 @@
                         <li>
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="remixicon-folder-add-line"></i>
-                                <span>Manage News</span>
+                                <span>Quản Lý Tin Tức</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level nav" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/about-store')}}">About Store</a>
+                                    <a href="{{URL::to('/about-store')}}">Cửa Hàng</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/product-news')}}">News</a>
+                                    <a href="{{URL::to('/product-news')}}">Tin Tức</a>
                                 </li>
 
                                 <li>
-                                    <a href="javascript: void(0);" aria-expanded="false">Website
+                                    <a href="javascript: void(0);" aria-expanded="false">Hiển Thị Website
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul class="nav-third-level nav" aria-expanded="false">
@@ -142,43 +142,43 @@
                         <li>
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="remixicon-folder-add-line"></i>
-                                <span>Manage Statistics</span>
+                                <span>Quản Lý Thống Kê</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level nav" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/sales-statistics')}}">Sales Statistics</a>
+                                    <a href="{{URL::to('/sales-statistics')}}">Thống Kê Bán Hàng</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/import-statistics')}}">Import Statistics</a>
+                                    <a href="{{URL::to('/import-statistics')}}">Thống Kê Nhập</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/product-view-statistics')}}">Product View Statisticss</a>
+                                    <a href="{{URL::to('/product-view-statistics')}}">Thống Kê Lượt Xem</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('/product-in-stock-statistics')}}">Product In Stock Statisticss</a>
+                                    <a href="{{URL::to('/product-in-stock-statistics')}}">Thống Kê Tồn Kho</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="remixicon-stack-line"></i>
-                                <span>Manage User</span>
+                                <span>Quản Lý User</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/customer')}}">Customer</a>
+                                    <a href="{{URL::to('/customer')}}">Khách Hàng</a>
                                 </li>
                                 @if(Session::get('admin_role')==1)
                                     <li>
-                                        <a href="{{URL::to('/staff')}}">Staff</a>
+                                        <a href="{{URL::to('/staff')}}">Nhân Viên</a>
                                     </li>
                                     <li>
-                                        <a href="{{URL::to('/admin-change-password-staff')}}">Change Password Staff</a>
+                                        <a href="{{URL::to('/admin-change-password-staff')}}">Đổi Mật Khẩu Nhân Viên</a>
                                     </li>
                                     <li>
-                                        <a href="{{URL::to('/admin-change-email-staff')}}">Change Email Staff</a>
+                                        <a href="{{URL::to('/admin-change-email-staff')}}">Đổi Email Nhân Viên</a>
                                     </li>
                                 @endif
                             </ul>

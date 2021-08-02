@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>Customer Show Order Detail</li>
+                    <li>Chi Tiết Đơn Hàng</li>
                 </ul>
 
             </div>
@@ -25,27 +25,27 @@
                     <div class="order_table table-responsive mb-30">
                         <div class="payment_method">
                             <div class="order_button">
-                                <a type="button" class="btn btn-warning" href="{{ URL::to('/show-order-tracking')}}">Back To List</a>
-                                <a type="button" class="btn btn-success" href="{{ URL::to('/shop-now')}}" >Shopping</a>
-                                <a type="button" class="btn btn-danger" href="{{ URL::to('/login-customer')}}" >Login To Edit</a>
+                                <a type="button" class="btn btn-warning" href="{{ URL::to('/show-order-tracking')}}">Quay Lại</a>
+                                <a type="button" class="btn btn-success" href="{{ URL::to('/shop-now')}}" >Mua Hàng</a>
+                                <a type="button" class="btn btn-danger" href="{{ URL::to('/login-customer')}}" >Đăng Nhập</a>
                             </div>
                         </div>
                     </div>
                 </div>
                     <div class="col-lg-12 col-md-12">
-                        <h3>Order Infomation</h3>
+                        <h3>Thông tin đơn hàng</h3>
                         <div class="order_table table-responsive mb-30">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Order No.</th>
-                                        <th>Order Day</th>
-                                        <th>Status Payment</th>
-                                        <th>Status</th>
-                                        <th>Discount</th>
-                                        <th>Transport Fee</th>
-                                        <th>SubTotal</th>
-                                        <th>Total</th>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th>Trạng thái thanh toán</th>
+                                        <th>Trạng thái đơn hàng</th>
+                                        <th>Khuyến mãi</th>
+                                        <th>Phí vận chuyển</th>
+                                        <th>Tổng</th>
+                                        <th>Tổng cộng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,28 +59,28 @@
                                         <td>{{ date('d-m-Y', strtotime($customer_order->dondathang_ngay_dat_hang)) }}</td>
                                         <td>
                                             @if($customer_order->dondathang_tinh_trang_thanh_toan==0)
-                                            Unpaid
+                                            Chưa thanh toán
                                             @elseif ($customer_order->dondathang_tinh_trang_thanh_toan==1)
-                                                Paid
+                                            Đã thanh toán
                                             @elseif ($customer_order->dondathang_tinh_trang_thanh_toan==2)
-                                                Order Has Been Canceled - Paid
+                                            Đơn hàng đã bị hủy - đã thanh toán
                                             @elseif ($customer_order->dondathang_tinh_trang_thanh_toan==3)
-                                                Order Has Been Canceled - Unpaid
+                                            Đơn hàng đã bị hủy
                                             @endif
                                         </td>
                                         <td>
                                             @if($customer_order->dondathang_tinh_trang_thanh_toan==0 && $customer_order->dondathang_trang_thai==0)
-                                               Unconfirmed
+                                            Chưa xác nhận
                                             @elseif($customer_order->dondathang_tinh_trang_thanh_toan==0 && $customer_order->dondathang_trang_thai==1)
-                                                Confirmed and unpaid
+                                            Đã xác nhận - chưa thanh toán
                                             @elseif($customer_order->dondathang_tinh_trang_thanh_toan==1 && $customer_order->dondathang_trang_thai==1)
-                                                Confirmed and paid
+                                            Đã xác nhận - đã thanh toán
                                             @elseif($customer_order->dondathang_trang_thai==2)
-                                                In Transit
+                                            Đang vận chuyển
                                             @elseif($customer_order->dondathang_trang_thai==3)
-                                                Delivered
+                                            Đã giao hàng
                                             @elseif($customer_order->dondathang_trang_thai==4)
-                                               Order Has Been Canceled
+                                            Đơn hàng đã bị hủy
                                             @endif
                                         </td>
                                         <td>
@@ -105,18 +105,18 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
-                        <h3>Delivery order</h3>
+                        <h3>Thông tin giao hàng</h3>
                         <div class="order_table table-responsive mb-30">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Customer</th>
+                                        <th>Người nhận</th>
                                         <th>Email</th>
-                                        <th>Phone Number</th>
-                                        <th>Address</th>
-                                        <th>Pay Method</th>
-                                        <th>Status</th>
-                                        <th>Money To Be Paid</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Phương thức thanh toán</th>
+                                        <th>Trạng thái giao hàng</th>
+                                        <th>Tổng tiền phải trả</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,16 +125,16 @@
                                         <td >{{ $customer_delivery->giaohang_nguoi_nhan_email }} </td>
                                         <td>{{$customer_delivery->giaohang_nguoi_nhan_so_dien_thoai }}</td>
                                         <td>{{ $customer_delivery->giaohang_nguoi_nhan_dia_chi }}</td>
-                                        <td>{{$customer_delivery->giaohang_phuong_thuc_thanh_toan?'Bank Transfer':'COD' }}</td>
+                                        <td>{{$customer_delivery->giaohang_phuong_thuc_thanh_toan?'Chuyển khoản':'Thanh toán khi nhận hàng' }}</td>
                                         <td>
                                             @if($customer_delivery->giaohang_trang_thai==0)
-                                            Not Delivered
+                                           Chưa giao hàng
                                             @elseif ($customer_delivery->giaohang_trang_thai==1)
-                                            In Transit
+                                           Đang giao hàng
                                             @elseif ($customer_delivery->giaohang_trang_thai==2)
-                                            Delivered
+                                            Đã giao hàng
                                             @else
-                                            Order Has Been Canceled
+                                            Đơn Hàng đã bị hủy
                                             @endif
                                         </td>
                                         <td>
@@ -146,17 +146,17 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
-                        <h3>Your order</h3>
+                        <h3>Chi tiết đơn hàng</h3>
                         <div class="order_table table-responsive mb-30">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>images</th>
-                                        <th>Product</th>
+                                        <th>Ảnh</th>
+                                        <th>Sản phẩm</th>
                                         <th>Size</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Tổng cộng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -175,7 +175,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Subtotal</th>
+                                        <th>Tổng</th>
 
                                         <td>
                                             @if($discount==true)
@@ -186,7 +186,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Shipping</th>
+                                        <th>Phí vận chuyển</th>
                                         <td>
                                             <strong>
                                                 {{number_format($feeship,0,',','.').' VNĐ' }}
@@ -194,7 +194,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Discount Coupon</th>
+                                        <th>Mã khuyến mãi</th>
                                         <td>
                                             <strong>
                                                 @if($discount)
@@ -206,13 +206,13 @@
                                         </td>
                                     </tr>
                                     <tr class="order_total">
-                                        <th>Order Total</th>
+                                        <th>Tổng cộng</th>
                                         <td><strong>
                                         {{number_format($total,0,',','.').' VNĐ' }}
                                         </strong></td>
                                     </tr>
                                     <tr class="order_total">
-                                        <th>Money To Be Paid</th>
+                                        <th>Tổng tiền phải trả</th>
                                         <td><strong>
                                             {{number_format($customer_delivery->giaohang_tong_tien_thanh_toan,0,',','.').' VNĐ' }}
                                         </strong></td>

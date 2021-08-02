@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Statistical Product Views</li>
+                            <li class="breadcrumb-item active">Thống Kê Lượt Xem Sản Phẩm</li>
                         </ol>
                     </div>
                 </div>
@@ -24,25 +24,25 @@
                                 <form class="form-inline">
                                     @csrf
                                     <div class="form-group mr-3">
-                                        <label for="status-select" class="mr-2">From Day</label>
+                                        <label for="status-select" class="mr-2">Từ Ngày</label>
                                         <input type="date" id="search_from_day_views" class="form-control search_from_day_views">
                                     </div>
                                     <div class="form-group">
-                                        <label for="status-select" class="mr-2">To Day</label>
+                                        <label for="status-select" class="mr-2">Đến Ngày</label>
                                         <input type="date" id="search_to_day_views" class="form-control search_to_day_views">
                                     </div>
                                     <div class="form-group mx-sm-3">
-                                        <a type="button" class="btn btn-success waves-effect waves-light clear-search-views">Clear</a>
+                                        <a type="button" class="btn btn-success waves-effect waves-light clear-search-views">Đặt Lại</a>
                                     </div>
                                     <div class="form-group mx-sm-3">
                                         <label class="mr-2">Type</label>
                                         <select class="custom-select search-view-select">
-                                            <option selected="" value="0"> All</option>
-                                            <option value="1">Day</option>
-                                            <option value="2">Week-7-Day</option>
-                                            <option value="3">Month-30-Day</option>
-                                            <option value="4">Quarter Of The Year - 120 - Day</option>
-                                            <option value="5">Year - 365 - Day</option>
+                                            <option selected="" value="0"> Tất Cả</option>
+                                            <option value="1">Ngày</option>
+                                            <option value="2">Tuần-7-Ngày</option>
+                                            <option value="3">Tháng-30-Ngày</option>
+                                            <option value="4">Quý - 120 - Ngày</option>
+                                            <option value="5">Năm - 365 - Ngày</option>
                                         </select>
                                     </div>
                                 </form>
@@ -58,11 +58,11 @@
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Views Of The Day</th>
-                                    <th class="font-weight-medium">Views Date</th>
-                                    <th class="font-weight-medium">Total Views Product</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Sản Phẩm</th>
+                                    <th class="font-weight-medium">Lượt Xem Trong Ngày</th>
+                                    <th class="font-weight-medium">Ngày</th>
+                                    <th class="font-weight-medium">Tổng Lượt Xem</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14 show_views_type_search" >
@@ -80,7 +80,7 @@
                                             {{ $views->viewssanpham_views }}
                                         </td>
                                         <td>
-                                           {{ $views->viewssanpham_ngay_xem }}
+                                            {{ date('d-m-Y', strtotime($views->viewssanpham_ngay_xem )) }}
                                         </td>
                                         @foreach ($total_view_array as $k=>$sum_views)
                                             @if($sum_views['product_id']==$views->sanpham_id)

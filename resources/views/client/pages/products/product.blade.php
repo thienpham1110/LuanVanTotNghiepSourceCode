@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="{{URL::to ('/')}}">home</a></li>
+                    <li><a href="{{URL::to ('/')}}">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
                     <?php
                     $pages_name=Session::get('pages_name');
@@ -17,7 +17,7 @@
                     }elseif($search_keywword){
                         echo '<li>'.$search_keywword.'</li>';
                     }else{
-                        echo '<li>Shop Now</li>';
+                        echo '<li>Mua Hàng</li>';
                     }
                     ?>
                 </ul>
@@ -31,7 +31,7 @@
     <div class="row pos_home">
             <div class="col-lg-3 col-md-12">
                 <!--newsletter block start-->
-                <div class="sidebar_widget newsletter mb-30">
+                {{-- <div class="sidebar_widget newsletter mb-30">
                     <div class="block_title">
                         <h3>newsletter</h3>
                     </div>
@@ -40,13 +40,13 @@
                         <input placeholder="Your email address" type="text">
                         <button type="submit">Subscribe</button>
                     </form>
-                </div>
+                </div> --}}
                 <!--newsletter block end-->
 
                 <!--wishlist block start-->
                 <div class="sidebar_widget wishlist mb-30">
                     <div class="block_title">
-                        <h3><a href="#">Wishlist</a></h3>
+                        <h3><a href="#">Yêu Thích</a></h3>
                     </div>
                     <div id="list_row_wishlist">
                     </div>
@@ -54,14 +54,14 @@
                     <div class="block_content">
                         <p id="count_product_wishlist">
                         </p>
-                        <a href="{{URL::to('/my-wishlists')}}">» My wishlists</a>
+                        <a href="{{URL::to('/my-wishlists')}}">» Yêu Thích</a>
                     </div>
                 </div>
                 <!--wishlist block end-->
                 <!--viewed block start-->
                 <div class="sidebar_widget wishlist mb-30">
                     <div class="block_title">
-                        <h3><a href="#">Product Viewed</a></h3>
+                        <h3><a href="#">Sản phẩm đã xem</a></h3>
                     </div>
                     @php
                         $count_re=0;
@@ -88,15 +88,14 @@
                         @endif
                     @endforeach
                      <div class="block_content">
-                         <p>{{ $count_re }}  products</p>
-                         <a href="#">» My wishlists</a>
+                         <p>{{ $count_re }}  Sản phẩm</p>
                      </div>
                 </div>
                 <!--viewed block end-->
                 <!--special product start-->
                 <div class="sidebar_widget special">
                     <div class="block_title">
-                        <h3>Special Products</h3>
+                        <h3>Sản phẩm nổi bật</h3>
                     </div>
                     @php
                         $count_rate_break=0;
@@ -157,11 +156,22 @@
             </div>
             <div class="col-lg-9 col-md-12">
                 <!--shop toolbar start-->
+                @if(session()->has('message'))
+                    <div class="alert alert-success">
+                        {!! session()->get('message') !!}
+                        {!! session()->forget('message') !!}
+                    </div>
+                @elseif(session()->has('error'))
+                    <div class="alert alert-danger">
+                        {!! session()->get('error') !!}
+                        {!! session()->forget('error') !!}
+                    </div>
+                @endif
                 <div class="col-md-12 mb-35">
                     <form class="form-inline" action="{{URL::to('/search-product-filter-customer')}}" method="GET">
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_brand" class="custom-select" id="status-select">
-                                <option value="" selected="">---Brand---</option>
+                                <option value="" selected="">---Thương Hiệu---</option>
                                 @foreach ($product_brand as $key => $brand)
                                     @if(isset($search_filter_customer))
                                         @foreach ($search_filter_customer as $key=>$brd)
@@ -179,7 +189,7 @@
                         </div>
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_product_type" class="custom-select" id="status-select">
-                                <option value="" selected="">---Catygory---</option>
+                                <option value="" selected="">---Loại Sản Phẩm---</option>
                                 @foreach ($product_type as $key => $pro_type)
                                     @if(isset($search_filter_customer))
                                         @foreach ($search_filter_customer as $key=>$type_pro)
@@ -197,7 +207,7 @@
                         </div>
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_collection" class="custom-select" id="status-select">
-                                <option value="" selected="">---Collection---</option>
+                                <option value="" selected="">---Dòng Sản Phẩm---</option>
                                 @foreach ($product_collection as $key => $collection)
                                     @if(isset($search_filter_customer))
                                         @foreach ($search_filter_customer as $key=>$collec)
@@ -215,7 +225,7 @@
                         </div>
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_price" class="custom-select" id="status-select">
-                                <option value="" selected="">---Price---</option>
+                                <option value="" selected="">---Giá---</option>
                                 @if(isset($search_filter_customer))
                                     @foreach ($search_filter_customer as $key=>$price)
                                         @if($price['search_customer_price']==1)
@@ -224,49 +234,49 @@
                                             <option value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                             <option value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                             <option value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                            <option value="6">Other Price</option>
+                                            <option value="6">Tất Cả</option>
                                         @elseif($price['search_customer_price']==2)
                                             <option value="1">< 500.000 VNĐ</option>
                                             <option selected value="2">500.000 VNĐ - 1.000.000 VNĐ</option>
                                             <option value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                             <option value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                             <option value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                            <option value="6">Other Price</option>
+                                            <option value="6">Tất Cả</option>
                                         @elseif($price['search_customer_price']==3)
                                             <option value="1">< 500.000 VNĐ</option>
                                             <option value="2">500.000 VNĐ - 1.000.000 VNĐ</option>
                                             <option selected value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                             <option value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                             <option value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                            <option value="6">Other Price</option>
+                                            <option value="6">Tất Cả</option>
                                         @elseif($price['search_customer_price']==4)
                                             <option value="1">< 500.000 VNĐ</option>
                                             <option value="2">500.000 VNĐ - 1.000.000 VNĐ</option>
                                             <option value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                             <option selected value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                             <option value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                            <option value="6">Other Price</option>
+                                            <option value="6">Tất Cả</option>
                                         @elseif($price['search_customer_price']==5)
                                             <option value="1">< 500.000 VNĐ</option>
                                             <option value="2">500.000 VNĐ - 1.000.000 VNĐ</option>
                                             <option value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                             <option value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                             <option selected value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                            <option value="6">Other Price</option>
+                                            <option value="6">Tất Cả</option>
                                         @elseif($price['search_customer_price']==6)
                                             <option value="1">< 500.000 VNĐ</option>
                                             <option value="2">500.000 VNĐ - 1.000.000 VNĐ</option>
                                             <option value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                             <option value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                             <option value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                            <option selected value="6">Other Price</option>
+                                            <option selected value="6">Tất Cả</option>
                                         @else
                                             <option value="1">< 500.000 VNĐ</option>
                                             <option value="2">500.000 VNĐ - 1.000.000 VNĐ</option>
                                             <option value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                             <option value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                             <option value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                            <option value="6">Other Price</option>
+                                            <option value="6">Tất Cả</option>
                                         @endif
                                     @endforeach
                                 @else
@@ -275,47 +285,47 @@
                                     <option value="3">1.000.000 VNĐ - 2.000.000 VNĐ</option>
                                     <option value="4">2.000.000 VNĐ - 5.000.000 VNĐ</option>
                                     <option value="5">5.000.000 VNĐ - 10.000.000 VNĐ</option>
-                                    <option value="6">Other Price</option>
+                                    <option value="6">Tất Cả</option>
                                 @endif
                             </select>
                         </div>
                         <div class="form-group col-lg-3 mt-3">
                             <select name="search_customer_gender" class="custom-select" id="status-select">
-                                <option value="" selected="">---Gender---</option>
+                                <option value="" selected="">---Giới Tính---</option>
                                 @if(isset($search_filter_customer))
                                     @foreach ($search_filter_customer as $key=>$gender)
                                         @if($gender['search_customer_gender']==1)
-                                            <option selected value="1">Male</option>
-                                            <option value="2">Famale</option>
+                                            <option selected value="1">Nam</option>
+                                            <option value="2">Nữ</option>
                                             <option value="3">Unisex</option>
-                                            <option value="4">Kids</option>
+                                            <option value="4">Trẻ Em</option>
                                         @elseif($gender['search_customer_gender']==2)
-                                            <option value="1">Male</option>
-                                            <option selected value="2">Famale</option>
+                                            <option value="1">Nam</option>
+                                            <option selected value="2">Nữ</option>
                                             <option value="3">Unisex</option>
-                                            <option value="4">Kids</option>
+                                            <option value="4">Trẻ Em</option>
                                         @elseif($gender['search_customer_gender']==3)
-                                            <option value="1">Male</option>
-                                            <option value="2">Famale</option>
+                                            <option value="1">Nam</option>
+                                            <option value="2">Nữ</option>
                                             <option selected value="3">Unisex</option>
-                                            <option value="4">Kids</option>
+                                            <option value="4">Trẻ Em</option>
                                         @elseif($gender['search_customer_gender']==4)
-                                            <option value="1">Male</option>
-                                            <option value="2">Famale</option>
+                                            <option value="1">Nam</option>
+                                            <option value="2">Nữ</option>
                                             <option value="3">Unisex</option>
-                                            <option selected value="4">Kids</option>
+                                            <option selected value="4">Trẻ Em</option>
                                         @else
-                                            <option value="1">Male</option>
-                                            <option value="2">Famale</option>
+                                            <option value="1">Nam</option>
+                                            <option value="2">Nữ</option>
                                             <option value="3">Unisex</option>
-                                            <option value="4">Kids</option>
+                                            <option value="4">Trẻ Em</option>
                                         @endif
                                     @endforeach
                                 @else
-                                    <option value="1">Male</option>
-                                    <option value="2">Famale</option>
+                                    <option value="1">Nam</option>
+                                    <option value="2">Nữ</option>
                                     <option value="3">Unisex</option>
-                                    <option value="4">Kids</option>
+                                    <option value="4">Trẻ Em</option>
                                 @endif
                             </select>
                         </div>
@@ -338,8 +348,8 @@
                             </select>
                         </div>
                         <div class="form-group col-lg-3">
-                            <button type="submit" class="btn btn-danger waves-effect waves-light mt-3 mr-3"><i class="mdi mdi-search-web mr-1"></i>Search</button>
-                            <a href="{{URL::to('/shop-now')}}" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-search-web mr-1"></i>All</a>
+                            <button type="submit" class="btn btn-danger waves-effect waves-light mt-3 mr-3"><i class="mdi mdi-search-web mr-1"></i>Tìm</button>
+                            <a href="{{URL::to('/shop-now')}}" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-search-web mr-1"></i>Tất Cả</a>
                         </div>
                     </form>
                 </div>
@@ -369,8 +379,8 @@
                                                 <ul>
                                                     <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
                                                     <input type="hidden" value="{{number_format($product->sanpham_gia_ban,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
-                                                    <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                                    <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">View Detail</a></li>
+                                                    <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Thêm Yêu Thích</a></li>
+                                                    <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">Chi Tiết</a></li>
                                                 </ul>
                                             </div>
                                         </div>

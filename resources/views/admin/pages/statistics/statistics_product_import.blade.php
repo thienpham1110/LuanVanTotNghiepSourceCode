@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Statistics Product Import</li>
+                            <li class="breadcrumb-item active">Thống Kê Nhập</li>
                         </ol>
                     </div>
                 </div>
@@ -24,25 +24,25 @@
                                 <form class="form-inline">
                                     @csrf
                                     <div class="form-group mr-3">
-                                        <label for="status-select" class="mr-2">From Day</label>
+                                        <label for="status-select" class="mr-2">Từ Ngày</label>
                                         <input type="date" id="search_from_day_statistical_product_import" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label for="status-select" class="mr-2">To Day</label>
+                                        <label for="status-select" class="mr-2">Đến Ngày</label>
                                         <input type="date" id="search_to_day_statistical_product_import" class="form-control">
                                     </div>
                                     <div class="form-group mx-sm-3">
-                                        <a type="button" class="btn btn-success waves-effect waves-light clear-search-statistical-product-import">Clear</a>
+                                        <a type="button" class="btn btn-success waves-effect waves-light clear-search-statistical-product-import">Đặt Lại</a>
                                     </div>
                                     <div class="form-group mx-sm-3">
-                                        <label class="mr-2">Type</label>
+                                        <label class="mr-2">Ngày</label>
                                         <select class="custom-select search-type-statistical-product-import">
-                                            <option selected="" value="0"> All</option>
-                                            <option value="1">Day</option>
-                                            <option value="2">Week-7-Day</option>
-                                            <option value="3">Month-30-Day</option>
-                                            <option value="4">Quarter Of The Year - 120 - Day</option>
-                                            <option value="5">Year - 365 - Day</option>
+                                            <option selected="" value="0"> Tất Cả</option>
+                                            <option value="1">Ngày</option>
+                                            <option value="2">Tuần-7-Ngày</option>
+                                            <option value="3">Tháng-30-Ngày</option>
+                                            <option value="4">Quý - 120 - Ngày</option>
+                                            <option value="5">Năm - 365 - Ngày</option>
                                         </select>
                                     </div>
                                 </form>
@@ -55,17 +55,42 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box show_search_import_product_statistics">
+                            <label class="col-form-label"> <h4>Thống Kê</h4></label>
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-                                <h4 class="mt-3 mb-3"><span>Total: </span><span>{{number_format( $sum_total_import ,0,',','.' ).' VNĐ' }}</span></h4>
-                                <h4 class="mt-3 mb-3"><span>Import: </span><span>{{ number_format( $count_import ,0,',','.' ) }} </span></h4>
-                                <h4 class="mt-3 mb-3"><span>Product: </span><span>{{ number_format( $count_detail ,0,',','.' ) }} </span></h4>
-                                <h4 class="mt-3 mb-3"><span>Import Quantity: </span><span>{{ number_format( $sum_detail ,0,',','.' ) }}</span></h4>
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">No.</th>
-                                    <th class="font-weight-medium">Day</th>
-                                    <th class="font-weight-medium">Supplier</th>
-                                    <th class="font-weight-medium">Total</th>
+                                    <th class="font-weight-medium">Tổng Cộng</th>
+                                    <th class="font-weight-medium">Số Đơn Nhập</th>
+                                    <th class="font-weight-medium">Số Sản Phẩm</th>
+                                    <th class="font-weight-medium">Số Lượng Nhập</th>
+                                </tr>
+                                </thead>
+                                <tbody class="font-14 " >
+
+                                    <tr>
+                                        <td>
+                                            {{number_format( $sum_total_import ,0,',','.' ).' VNĐ' }}
+                                        </td>
+                                        <td>
+                                            {{ number_format( $count_import ,0,',','.' ) }}
+                                        </td>
+                                        <td>
+                                            {{ number_format( $count_detail ,0,',','.' ) }}
+                                        </td>
+                                        <td>
+                                            {{ number_format( $sum_detail ,0,',','.' ) }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <label class="col-form-label"> <h4>Đơn Nhập</h4></label>
+                            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                                <thead class="bg-light">
+                                <tr>
+                                    <th class="font-weight-medium">Mã Đơn Nhập</th>
+                                    <th class="font-weight-medium">Ngày Nhập</th>
+                                    <th class="font-weight-medium">Nhà Cung Cấp</th>
+                                    <th class="font-weight-medium">Tổng Cộng</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14 " >

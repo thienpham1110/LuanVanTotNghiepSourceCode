@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>Verification Code Register</li>
+                    <li>Nhập Email Đăng Ký</li>
                 </ul>
             </div>
         </div>
@@ -39,15 +39,15 @@
                         <form action="{{URL::to('/verification-email-customer')}}" method="POST">
                             @csrf
                             <div class="blog_thumb blog__hover">
-                                <input type="email" required="" name="verification_email">
+                                <input type="email" required="" placeholder="Email" name="verification_email">
                             </div>
                             <div class="blog_fullwidth_desc">
-                                <p>Enter your email to register</p>
-                                 <button type="submit">Confirm</button>
+                                <p>Nhập email đăng ký để nhận mã xác thực</p>
+                                 <button type="submit">Xác Nhận</button>
                             </div>
                             <div class="blog_fullwidth_desc">
-                                <p>If you already have a verification code</p>
-                                 <a href="{{URL::to('/register-customer')}}">Register</a>
+                                <p>Nếu đã có mã xác thực</p>
+                                 <a href="{{URL::to('/register-customer')}}">Đăng ký</a>
                             </div>
                         </form>
                     </div>

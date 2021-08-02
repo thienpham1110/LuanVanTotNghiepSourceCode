@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/staff-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/staff-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Mới</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Staff</li>
+                            <li class="breadcrumb-item active">Nhân Viên</li>
                         </ol>
                     </div>
 
@@ -30,42 +30,41 @@
                                 <div class="col-lg-12">
                                     <form class="form-inline" action="{{URL::to('/admin-search-staff')}}" method="GET">
                                         <div class="form-group">
-                                            <label for="inputPassword2" class="sr-only">Search</label>
                                             <input type="search" class="form-control" name="search_staff_keyword"
                                             @if(isset($search_keyword))
                                                 value="{{ $search_keyword }}"
                                             @endif
-                                            placeholder="Search Keyword...">
+                                            placeholder="Từ khóa">
                                         </div>
                                         <div class="form-group mx-sm-3">
-                                            <label for="status-select" class="mr-2">Gender</label>
+                                            <label for="status-select" class="mr-2">Giới Tính</label>
                                             <select class="custom-select" name="search_select_gender" id="status-select">
                                                 @if(isset($search_gender))
                                                     @if($search_gender==-1)
-                                                        <option selected="" value="-1">All</option>
-                                                        <option value="1">Male</option>
-                                                        <option value="0">Female</option>
+                                                        <option selected="" value="-1">Tất Cả</option>
+                                                        <option value="1">Nam</option>
+                                                        <option value="0">Nữ</option>
                                                     @elseif($search_gender==1)
-                                                        <option  value="-1">All</option>
-                                                        <option selected="" value="1">Male</option>
-                                                        <option value="0">Female</option>
+                                                        <option  value="-1">Tất Cả</option>
+                                                        <option selected="" value="1">Nam</option>
+                                                        <option value="0">Nữ</option>
                                                     @elseif($search_gender==0)
-                                                        <option value="-1">All</option>
-                                                        <option value="1">Male</option>
-                                                        <option selected="" value="0">Female</option>
+                                                        <option value="-1">Tất Cả</option>
+                                                        <option value="1">Nam</option>
+                                                        <option selected="" value="0">Nữ</option>
                                                     @endif
                                                 @else
-                                                    <option selected="" value="-1">All</option>
-                                                    <option value="1">Male</option>
-                                                    <option value="0">Female</option>
+                                                    <option selected="" value="-1">Tất Cả</option>
+                                                    <option value="1">Nam</option>
+                                                    <option value="0">Nữ</option>
                                                 @endif
                                             </select>
                                         </div>
                                         <div class="form-group mx-sm-3">
-                                            <button type="submit" class="btn btn-success waves-effect waves-light">Search</button>
+                                            <button type="submit" class="btn btn-success waves-effect waves-light">Tìm</button>
                                         </div>
                                         <div class="form-group ">
-                                            <a href="{{URL::to('/staff')}}" class="btn btn-success waves-effect waves-light">All</a>
+                                            <a href="{{URL::to('/staff')}}" class="btn btn-success waves-effect waves-light">Tất Cả</a>
                                         </div>
                                     </form>
                                 </div>
@@ -92,33 +91,40 @@
                                 @endif
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Gender</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Tên</th>
+                                    <th class="font-weight-medium">Giới Tính</th>
                                     <th class="font-weight-medium">Email</th>
-                                    <th class="font-weight-medium">Phone Number</th>
-                                    <th class="font-weight-medium">Address</th>
-                                    <th class="font-weight-medium">Status</th>
-                                    <th class="font-weight-medium">Role</th>
-                                    <th class="font-weight-medium">Action</th>
+                                    <th class="font-weight-medium">Số Điện Thoại</th>
+                                    <th class="font-weight-medium">Địa Chỉ</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
+                                    <th class="font-weight-medium">Quyền Đăng Nhập</th>
+                                    <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
                                     @foreach ($all_staff as $key=>$staff)
                                     <tr>
                                         <td>
+                                            @if($staff->admin_anh)
                                             <a href="javascript: void(0);">
                                                 <img src="{{asset('public/uploads/admin/staff/'.$staff->admin_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
                                             </a>
+                                            @else
+                                            <a href="javascript: void(0);">
+                                                <img src="{{URL::asset('public/backend/images/users/rguwb.png')}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
+                                            </a>
+                                            @endif
+
                                         </td>
                                         <td>
                                             {{ $staff->admin_ho}}  {{ $staff->admin_ten}}
                                         </td>
                                         <td>
                                             @if($staff->admin_gioi_tinh!=true)
-                                                Null
+                                               Chưa Cập Nhật
                                             @else
-                                                {{ $staff->admin_gioi_tinh?'Male':'Famale' }}
+                                                {{ $staff->admin_gioi_tinh?'Nam':'Nữ' }}
                                             @endif
 
                                         </td>
@@ -126,13 +132,21 @@
                                             {{ $staff->admin_email}}
                                         </td>
                                         <td>
-                                            {{ $staff->admin_so_dien_thoai }}
+                                            @if($staff->admin_so_dien_thoai)
+                                             {{ $staff->admin_so_dien_thoai }}
+                                            @else
+                                            Chưa Cập Nhật
+                                            @endif
                                         </td>
                                         <td>
+                                            @if( $staff->admin_dia_chi)
                                             {{ $staff->admin_dia_chi }}
+                                            @else
+                                            Chưa Cập Nhật
+                                            @endif
                                         </td>
                                         <td>
-                                            {{ $staff->admin_trang_thai?'Online':'Offline' }}
+                                            {{ $staff->admin_trang_thai?'Hoạt Động':'Không Hoạt Động' }}
                                         </td>
                                         <td>
 
@@ -148,8 +162,8 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/staff-edit/'.$staff->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                    <a class="dropdown-item" href="index_order_detail.php"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/staff-edit/'.$staff->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Cập Nhật</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/staff-delete/'.$staff->id)}}" onclick="return confirm('Xóa nhân viên?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Xóa</a>
                                                 </div>
                                             </div>
                                         </td>

@@ -133,10 +133,11 @@ class SearchController extends Controller
                 'search_customer_gender' =>  $search_customer_gender,
                 'search_customer_size' =>  $search_customer_size
             );
-            if ($search_customer_size!=null) {
+            if ($search_customer_size!=null ) {
                 $in_stock=ProductInStock::where('sanphamtonkho_so_luong_ton', '>', 0)->where('size_id',$search_customer_size)->orderby('id', 'DESC')->first();
                 if(!$in_stock){
-                    $all_product_in_stock=ProductInStock::where('sanphamtonkho_so_luong_ton', '>', 0)->orderby('id', 'DESC')->get();
+                    $size_name = Size::find($search_customer_size);
+                    return Redirect::to('/shop-now')->with('error','Không có sản phẩm nào size: '.$size_name->size);
                 }else{
                     $all_product_in_stock=ProductInStock::where('sanphamtonkho_so_luong_ton', '>', 0)->where('size_id', $search_customer_size)->orderby('id', 'DESC')->get();
                 }
@@ -1714,25 +1715,25 @@ class SearchController extends Controller
                 return Redirect::to('/staff');
             } elseif ($search_keyword!=null && $search_gender==-1) {
                 $all_staff=Admin::orwhere('admin_ten', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_dia_chi', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_so_dien_thoai', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_ho', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_email', 'like', '%'.$search_keyword.'%')->orderby('id', 'DESC')->paginate(5);
+                ->orwhere('admin_dia_chi', 'like', '%'.$search_keyword.'%')
+                ->orwhere('admin_so_dien_thoai', 'like', '%'.$search_keyword.'%')
+                ->orwhere('admin_ho', 'like', '%'.$search_keyword.'%')
+                ->orwhere('admin_email', 'like', '%'.$search_keyword.'%')->orderby('id', 'DESC')->paginate(5);
             } elseif ($search_keyword!=null && $search_gender!=-1) {
                 $all_staff=Admin::where('admin_gioi_tinh', '=', $search_gender)->orderby('id', 'DESC')->paginate(5);
                 $all_staff=Admin::orwhere('admin_ten', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_dia_chi', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_so_dien_thoai', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_ho', 'like', '%'.$search_keyword.'%')
-            ->orwhere('admin_email', 'like', '%'.$search_keyword.'%')->orderby('id', 'DESC')->paginate(5);
+                ->orwhere('admin_dia_chi', 'like', '%'.$search_keyword.'%')
+                ->orwhere('admin_so_dien_thoai', 'like', '%'.$search_keyword.'%')
+                ->orwhere('admin_ho', 'like', '%'.$search_keyword.'%')
+                ->orwhere('admin_email', 'like', '%'.$search_keyword.'%')->orderby('id', 'DESC')->paginate(5);
             } elseif ($search_keyword==null && $search_gender!=-1) {
                 $all_staff=Admin::where('admin_gioi_tinh', '=', $search_gender)->orderby('id', 'DESC')->paginate(5);
             }
             $all_staff->appends(['search_staff_keyword' => $search_keyword,'search_select_gender' => $search_gender]);
             return view('admin.pages.staff.staff')
-        ->with('search_keyword', $search_keyword)
-        ->with('search_gender', $search_gender)
-        ->with('all_staff', $all_staff);
+            ->with('search_keyword', $search_keyword)
+            ->with('search_gender', $search_gender)
+            ->with('all_staff', $all_staff);
         }
     }
 

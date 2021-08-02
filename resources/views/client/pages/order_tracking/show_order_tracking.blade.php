@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>order tracking</li>
+                    <li>Đơn Hàng</li>
                 </ul>
             </div>
         </div>
@@ -23,17 +23,16 @@
                     <!-- Tab panes -->
                     <div class="tab-content dashboard_content">
                         <div>
-                            <h3>Orders</h3>
+                            <h3>Đơn Hàng</h3>
                             <div class="coron_table table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Order</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Detail</th>
-                                            <th>Cancel</th>
+                                            <th>Đơn hàng</th>
+                                            <th>Ngày đặt hàng</th>
+                                            <th>Trạng thái</th>
+                                            <th>Tổng cộng</th>
+                                            <th>Chi tiết</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,20 +44,20 @@
                                                     <td>
                                                         <span class="success">
                                                             @if($order->dondathang_trang_thai==0)
-                                                            Unconfirmed
+                                                            Chưa xác nhận
                                                             @elseif($order->dondathang_trang_thai==1)
-                                                            Confirmed
+                                                            Đã xác nhận
                                                             @elseif($order->dondathang_trang_thai==2)
-                                                            In Transit
+                                                            Đang vận chuyển
                                                             @elseif($order->dondathang_trang_thai==3)
-                                                            Delivered
+                                                            Đã giao hàng
                                                             @else
-                                                            Order Has Been Canceled
+                                                            Đơn Hàng đã bị hủy
                                                             @endif
                                                         </span>
                                                     </td>
                                                     <td>{{number_format($order->dondathang_tong_tien  ,0,',','.').' VNĐ' }}</td>
-                                                    <td><a href="{{URL::to('/show-order-tracking-detai/'.$order->id)}}" class="view">Detail</a></td>
+                                                    <td><a href="{{URL::to('/show-order-tracking-detai/'.$order->id)}}" class="view">Chi tiết</a></td>
                                                 </tr>
                                             @endforeach
                                         {{--  @endif  --}}

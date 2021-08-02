@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Comment</li>
+                            <li class="breadcrumb-item active">Bình Luận Đánh Giá</li>
                         </ol>
                     </div>
                 </div>
@@ -23,42 +23,42 @@
                                 <div class="col-lg-12">
                                     <form class="form-inline" action="{{URL::to('/admin-search-comment')}}" method="GET">
                                         <div class="form-group mr-3">
-                                            <label for="status-select" class="mr-2">From Day</label>
+                                            <label for="status-select" class="mr-2">Từ Ngày</label>
                                             <input type="date" name="search_admin_from_day_comment"  class="form-control">
                                         </div>
                                         <div class="form-group mr-3">
-                                            <label for="status-select" class="mr-2">To Day</label>
+                                            <label for="status-select" class="mr-2">Đến Ngày</label>
                                             <input type="date" name="search_admin_to_day_comment"  class="form-control">
                                         </div>
                                         <div class="form-group mr-3">
-                                            <label for="status-select" class="mr-2">Status</label>
+                                            <label for="status-select" class="mr-2">Trạng Thái</label>
                                             <select class="custom-select" name="search_select_status_comment" id="status-select">
                                                 @if(isset($search_filter))
                                                     @if($search_filter['search_select_status_comment']==-1)
-                                                        <option selected="" value="-1">All</option>
-                                                        <option value="1">Approval</option>
-                                                        <option value="0">UnApproval</option>
+                                                        <option selected="" value="-1">Tất Cả</option>
+                                                        <option value="1">Duyệt</option>
+                                                        <option value="0">Chưa Duyệt</option>
                                                     @elseif($search_filter['search_select_status_comment']==1)
-                                                        <option value="-1">All</option>
-                                                        <option selected="" value="1">Approval</option>
-                                                        <option value="0">UnApproval</option>
+                                                        <option value="-1">Tất Cả</option>
+                                                        <option selected="" value="1">Duyệt</option>
+                                                        <option value="0">Chưa Duyệt</option>
                                                     @elseif($search_filter['search_select_status_comment']==0)
-                                                        <option value="-1">All</option>
-                                                        <option value="1">Approval</option>
-                                                        <option selected="" value="0">UnApproval</option>
+                                                        <option value="-1">Tất Cả</option>
+                                                        <option value="1">Duyệt</option>
+                                                        <option selected="" value="0">Chưa Duyệt</option>
                                                     @endif
                                                 @else
-                                                    <option selected="" value="-1">All</option>
-                                                    <option value="1">Approval</option>
-                                                    <option value="0">UnApproval</option>
+                                                    <option selected="" value="-1">Tất Cả</option>
+                                                    <option value="1">Duyệt</option>
+                                                    <option value="0">Chưa Duyệt</option>
                                                 @endif
                                             </select>
                                         </div>
                                         <div class="form-group mr-3">
-                                            <button type="submit" href="index_save_add.php" class="btn btn-success waves-effect waves-light">Search</button>
+                                            <button type="submit" href="index_save_add.php" class="btn btn-success waves-effect waves-light">Tìm</button>
                                         </div>
                                         <div class="form-group mr-3">
-                                            <a href="{{URL::to('/comment')}}" class="btn btn-success waves-effect waves-light">All</a>
+                                            <a href="{{URL::to('/comment')}}" class="btn btn-success waves-effect waves-light">Tất Cả</a>
                                         </div>
                                     </form>
                                 </div>
@@ -87,13 +87,13 @@
                                 <div id="notify_comment"></div>
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Approval</th>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Comment</th>
-                                    <th class="font-weight-medium">Star Rating</th>
-                                    <th class="font-weight-medium">Day</th>
-                                    <th class="font-weight-medium">Product</th>
-                                    <th class="font-weight-medium">Action</th>
+                                    <th class="font-weight-medium">Duyệt</th>
+                                    <th class="font-weight-medium">Tên</th>
+                                    <th class="font-weight-medium">Bình Luận</th>
+                                    <th class="font-weight-medium">Điểm</th>
+                                    <th class="font-weight-medium">Ngày</th>
+                                    <th class="font-weight-medium">Sản Phẩm</th>
+                                    <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
@@ -151,8 +151,8 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/show-comment-detail/'.$comment->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
-                                                    <a class="dropdown-item" href="{{URL::to('/delete-comment/'.$comment->id)}}" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/show-comment-detail/'.$comment->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Chi Tiết</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/delete-comment/'.$comment->id)}}" onclick="return confirm('Xóa bình luận?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Xóa</a>
                                                 </div>
                                             </div>
                                         </td>

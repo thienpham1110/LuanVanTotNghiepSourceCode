@@ -347,17 +347,42 @@ class StatisticsController extends Controller
             }
             $output = '';
             $output .= '
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-            <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format($sum_total_import, 0, ',', '.')." VNĐ" .'</span></h4>
-            <h4 class="mt-3 mb-3"><span>Import: </span><span>'. number_format($count_import, 0, ',', '.') .' </span></h4>
-            <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format($count_detail, 0, ',', '.') .'</span></h4>
-            <h4 class="mt-3 mb-3"><span>Import Quantity: </span><span>'.number_format($sum_detail, 0, ',', '.') .'</span></h4>
+            <label class="col-form-label"> <h4>Thống Kê</h4></label>
+            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                <thead class="bg-light">
+                <tr>
+                    <th class="font-weight-medium">Tổng Cộng</th>
+                    <th class="font-weight-medium">Số Đơn Nhập</th>
+                    <th class="font-weight-medium">Số Sản Phẩm</th>
+                    <th class="font-weight-medium">Số Lượng Nhập</th>
+                </tr>
+                </thead>
+                <tbody class="font-14 " >
+
+                    <tr>
+                        <td>
+                            '.number_format( $sum_total_import ,0,',','.' ).' VNĐ' .'
+                        </td>
+                        <td>
+                        '. number_format( $count_import ,0,',','.' ) .'
+                        </td>
+                        <td>
+                            '. number_format( $count_detail ,0,',','.' ) .'
+                        </td>
+                        <td>
+                        '. number_format( $sum_detail ,0,',','.' ) .'
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <label class="col-form-label"> <h4>Đơn Nhập</h4></label>
+            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
             <thead class="bg-light">
                 <tr>
-                    <th class="font-weight-medium">No.</th>
-                    <th class="font-weight-medium">Day</th>
-                    <th class="font-weight-medium">Supplier</th>
-                    <th class="font-weight-medium">Total</th>
+                    <th class="font-weight-medium">Mã Đơn Nhập</th>
+                    <th class="font-weight-medium">Ngày Nhập</th>
+                    <th class="font-weight-medium">Nhà Cung Cấp</th>
+                    <th class="font-weight-medium">Tổng Cộng</th>
                 </tr>
             </thead>
             <tbody class="font-14 show_views_type_search" >';
@@ -376,50 +401,6 @@ class StatisticsController extends Controller
                             '.number_format($product_import->donnhaphang_tong_tien, 0, ',', '.').' VNĐ' .'
                         </td>
                     </tr>';
-            }
-            $output .= '
-            </tbody>
-        </table>
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-            <h4 class="mt-3 mb-3"><span>Product: </span></h4>
-            <thead class="bg-light">
-                <tr>
-                    <th class="font-weight-medium">No.</th>
-                    <th class="font-weight-medium">Day</th>
-                    <th class="font-weight-medium">Product Name</th>
-                    <th class="font-weight-medium">Size</th>
-                    <th class="font-weight-medium">Import Price</th>
-                    <th class="font-weight-medium">Quantity</th>
-                    <th class="font-weight-medium">Total</th>
-                </tr>
-            </thead>
-            <tbody class="font-14 show_views_type_search" >';
-            if ($all_import_detail!=null) {
-                foreach ($all_import_detail as $key=>$product_import_detail) {
-                    $output .= ' <tr>
-                            <td>
-                                '. $product_import_detail->chitietnhap_ma_don_nhap_hang .'
-                            </td>
-                            <td>
-                                '. date('d-m-Y', strtotime($product_import_detail->ProductImport->donnhaphang_ngay_nhap)) .'
-                            </td>
-                            <td>
-                            '.$product_import_detail->Product->sanpham_ten .'
-                            </td>
-                            <td>
-                            '.$product_import_detail->Size->size .'
-                            </td>
-                            <td>
-                                '.number_format($product_import_detail->chitietnhap_gia_nhap, 0, ',', '.').' VNĐ' .'
-                            </td>
-                            <td>
-                            '.$product_import_detail->chitietnhap_so_luong_nhap .'
-                            </td>
-                            <td>
-                                '.number_format($product_import_detail->chitietnhap_so_luong_nhap* $product_import_detail->chitietnhap_gia_nhap, 0, ',', '.').' VNĐ' .'
-                            </td>
-                        </tr>';
-                }
             }
             $output .= '
             </tbody>
@@ -480,17 +461,42 @@ class StatisticsController extends Controller
             }
             $output = '';
             $output .= '
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-            <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format($sum_total_import, 0, ',', '.')." VNĐ" .'</span></h4>
-            <h4 class="mt-3 mb-3"><span>Import: </span><span>'. number_format($count_import, 0, ',', '.') .' </span></h4>
-            <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format($count_detail, 0, ',', '.') .'</span></h4>
-            <h4 class="mt-3 mb-3"><span>Import Quantity: </span><span>'.number_format($sum_detail, 0, ',', '.') .'</span></h4>
-            <thead class="bg-light">
+                <label class="col-form-label"> <h4>Thống Kê</h4></label>
+                <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="font-weight-medium">Tổng Cộng</th>
+                        <th class="font-weight-medium">Số Đơn Nhập</th>
+                        <th class="font-weight-medium">Số Sản Phẩm</th>
+                        <th class="font-weight-medium">Số Lượng Nhập</th>
+                    </tr>
+                    </thead>
+                    <tbody class="font-14 " >
+
+                        <tr>
+                            <td>
+                                '.number_format( $sum_total_import ,0,',','.' ).' VNĐ' .'
+                            </td>
+                            <td>
+                            '. number_format( $count_import ,0,',','.' ) .'
+                            </td>
+                            <td>
+                                '. number_format( $count_detail ,0,',','.' ) .'
+                            </td>
+                            <td>
+                            '. number_format( $sum_detail ,0,',','.' ) .'
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <label class="col-form-label"> <h4>Đơn Nhập</h4></label>
+                <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                <thead class="bg-light">
                 <tr>
-                    <th class="font-weight-medium">No.</th>
-                    <th class="font-weight-medium">Day</th>
-                    <th class="font-weight-medium">Supplier</th>
-                    <th class="font-weight-medium">Total</th>
+                    <th class="font-weight-medium">Mã Đơn Nhập</th>
+                    <th class="font-weight-medium">Ngày Nhập</th>
+                    <th class="font-weight-medium">Nhà Cung Cấp</th>
+                    <th class="font-weight-medium">Tổng Cộng</th>
                 </tr>
             </thead>
             <tbody class="font-14 show_views_type_search" >';
@@ -513,50 +519,6 @@ class StatisticsController extends Controller
             $output .= '
             </tbody>
         </table>
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-        <h4 class="mt-3 mb-3"><span>Product: </span></h4>
-        <thead class="bg-light">
-            <tr>
-                <th class="font-weight-medium">No.</th>
-                <th class="font-weight-medium">Day</th>
-                <th class="font-weight-medium">Product Name</th>
-                <th class="font-weight-medium">Size</th>
-                <th class="font-weight-medium">Import Price</th>
-                <th class="font-weight-medium">Quantity</th>
-                <th class="font-weight-medium">Total</th>
-            </tr>
-        </thead>
-        <tbody class="font-14 show_views_type_search" >';
-            if ($all_import_detail!=null) {
-                foreach ($all_import_detail as $key=>$product_import_detail) {
-                    $output .= ' <tr>
-                        <td>
-                            '. $product_import_detail->chitietnhap_ma_don_nhap_hang .'
-                        </td>
-                        <td>
-                            '. date('d-m-Y', strtotime($product_import_detail->ProductImport->donnhaphang_ngay_nhap)) .'
-                        </td>
-                        <td>
-                        '.$product_import_detail->Product->sanpham_ten .'
-                        </td>
-                        <td>
-                        '.$product_import_detail->Size->size .'
-                        </td>
-                        <td>
-                            '.number_format($product_import_detail->chitietnhap_gia_nhap, 0, ',', '.').' VNĐ' .'
-                        </td>
-                        <td>
-                        '.$product_import_detail->chitietnhap_so_luong_nhap .'
-                        </td>
-                        <td>
-                            '.number_format($product_import_detail->chitietnhap_so_luong_nhap* $product_import_detail->chitietnhap_gia_nhap, 0, ',', '.').' VNĐ' .'
-                        </td>
-                    </tr>';
-                }
-            }
-            $output .= '
-        </tbody>
-    </table>
         ';
             echo $output;
         }
@@ -723,26 +685,87 @@ class StatisticsController extends Controller
             }
             $output = '';
             $output .= '
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-        <h4 class="mt-3 mb-3"><span>Profit Has Shipping Fee: </span><span>'.number_format($sum_total_order_success - $sum_total_import, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Profit: </span><span>'.number_format($sum_total_order_success - $sum_total_import -$sum_total_fee_success, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Total Amount Sold: </span><span>'.number_format($sum_total_order_success, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format($sum_total_order, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Order: </span><span>'. number_format($count_order, 0, ',', '.') .' </span></h4>
-        <h4 class="mt-3 mb-3"><span>Unconfirmed Order: </span><span>'. number_format($count_order_unconfirmed, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Confirmed Order: </span><span>'. number_format($count_order_confirmed, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Orders In Transit: </span><span>'.number_format($count_order_in_transit, 0, ',', '.') .' </span></h4>
-        <h4 class="mt-3 mb-3"><span>Orders Delivered: </span><span>'. number_format($count_order_delivered, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Cancel Order: </span><span>'. number_format($count_order_cancel, 0, ',', '.') .' </span></h4>
-        <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format($count_detail, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Quantity Sold: </span><span>'. number_format($sum_detail, 0, ',', '.') .'</span></h4>
-            <thead class="bg-light">
+                <label class="col-form-label"> <h4>Thống Kê Doanh Thu</h4></label>
+                <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="font-weight-medium">Doanh Thu + Phí Vận Chuyển</th>
+                        <th class="font-weight-medium">Doanh Thu</th>
+                        <th class="font-weight-medium">Tổng Đã Bán</th>
+                        <th class="font-weight-medium">Tổng Đơn Hàng</th>
+                        <th class="font-weight-medium">Số Sản Phẩm</th>
+                        <th class="font-weight-medium">Số Lượng Đã Bán</th>
+                    </tr>
+                    </thead>
+                    <tbody class="font-14 " >
+
+                        <tr>
+                            <td>
+                                '.number_format($sum_total_order_success - $sum_total_import,0,',','.' ).' VNĐ' .'
+                            </td>
+                            <td>
+                                '.number_format($sum_total_order_success - $sum_total_import - $sum_total_fee_success,0,',','.' ).' VNĐ' .'
+                            </td>
+                            <td>
+                                '.number_format( $sum_total_order_success ,0,',','.' ).' VNĐ' .'
+                            </td>
+                            <td>
+                                '.number_format( $sum_total_order ,0,',','.' ).' VNĐ'.'
+                            </td>
+                            <td>
+                                '. number_format( $count_detail ,0,',','.' ) .'
+                            </td>
+                            <td>
+                                '. number_format( $sum_detail ,0,',','.' ) .'
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <label class="col-form-label"> <h4>Thống Kê Đơn Hàng</h4></label>
+                <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="font-weight-medium">Số Đơn Hàng</th>
+                        <th class="font-weight-medium">Đơn Hàng Chưa Xác Nhận</th>
+                        <th class="font-weight-medium">Đơn Hàng Đã Xác Nhận</th>
+                        <th class="font-weight-medium">Đơn Hàng Đang Vận Chuyển</th>
+                        <th class="font-weight-medium">Đơn Hàng Đã Giao</th>
+                        <th class="font-weight-medium">Đơn Hàng Đã Hủy</th>
+                    </tr>
+                    </thead>
+                    <tbody class="font-14 " >
+
+                        <tr>
+                            <td>
+                                '. number_format( $count_order ,0,',','.' ).'
+                            </td>
+                            <td>
+                                '. number_format( $count_order_unconfirmed ,0,',','.' ).'
+                            </td>
+                            <td>
+                                '. number_format( $count_order_confirmed ,0,',','.' ).'
+                            </td>
+                            <td>
+                                 '. number_format( $count_order_in_transit ,0,',','.' ) .'
+                            </td>
+                            <td>
+                                '. number_format( $count_order_delivered ,0,',','.' ) .'
+                            </td>
+                            <td>
+                                '. number_format( $count_order_cancel ,0,',','.' ) .'
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <label class="col-form-label"> <h4>Đơn Hàng</h4></label>
+                <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                <thead class="bg-light">
                 <tr>
-                    <th class="font-weight-medium">No.</th>
-                    <th class="font-weight-medium">Day</th>
-                    <th class="font-weight-medium">Customer</th>
-                    <th class="font-weight-medium">Total</th>
-                    <th class="font-weight-medium">Status</th>
+                    <th class="font-weight-medium">Mã Đơn Hàng</th>
+                    <th class="font-weight-medium">Ngày Đặt Hàng</th>
+                    <th class="font-weight-medium">Khách Hàng</th>
+                    <th class="font-weight-medium">Tổng Cộng</th>
+                    <th class="font-weight-medium">Trạng Thái</th>
                 </tr>
             </thead>
             <tbody class="font-14 show_views_type_search" >';
@@ -762,62 +785,18 @@ class StatisticsController extends Controller
                         </td>
                         <td>';
                 if ($order->dondathang_trang_thai==0) {
-                    $output .= ' Unconfirmed';
+                    $output .= '  Chưa Xác Nhận';
                 } elseif ($order->dondathang_trang_thai==1) {
-                    $output .= '  Confirmed';
+                    $output .= '  Đã Xác Nhận';
                 } elseif ($order->dondathang_trang_thai==2) {
-                    $output .= ' In Transit';
+                    $output .= ' Đang Giao Hàng';
                 } elseif ($order->dondathang_trang_thai==3) {
-                    $output .= ' Delivered';
+                    $output .= '   Đã Giao Hàng';
                 } elseif ($order->dondathang_trang_thai==4) {
-                    $output .= ' Order Has Been Canceled';
+                    $output .= ' Đơn Hàng Đã Bị Hủy';
                 }
                 $output .= '</td>
                     </tr>';
-            }
-            $output .= '
-            </tbody>
-        </table>
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-            <h4 class="mt-3 mb-3"><span>Product: </span></h4>
-            <thead class="bg-light">
-                <tr>
-                    <th class="font-weight-medium">No.</th>
-                    <th class="font-weight-medium">Day</th>
-                    <th class="font-weight-medium">Product Name</th>
-                    <th class="font-weight-medium">Size</th>
-                    <th class="font-weight-medium">Price</th>
-                    <th class="font-weight-medium">Quantity</th>
-                    <th class="font-weight-medium">Total</th>
-                </tr>
-            </thead>
-            <tbody class="font-14 show_views_type_search" >';
-            if ($all_order_detail!=null) {
-                foreach ($all_order_detail as $k=>$order_detail) {
-                    $output .= ' <tr>
-                            <td>
-                                '. $order_detail->chitietdondathang_ma_don_dat_hang .'
-                            </td>
-                            <td>
-                                '. date('d-m-Y', strtotime($order_detail->Order->dondathang_ngay_dat_hang)) .'
-                            </td>
-                            <td>
-                            '.$order_detail->Product->sanpham_ten .'
-                            </td>
-                            <td>
-                            '.$order_detail->Size->size .'
-                            </td>
-                            <td>
-                                '.number_format($order_detail->chitietdondathang_don_gia, 0, ',', '.').' VNĐ' .'
-                            </td>
-                            <td>
-                            '.$order_detail->chitietdondathang_so_luong .'
-                            </td>
-                            <td>
-                                '.number_format($order_detail->chitietdondathang_so_luong* $order_detail->chitietdondathang_don_gia, 0, ',', '.').' VNĐ' .'
-                            </td>
-                        </tr>';
-                }
             }
             $output .= '
             </tbody>
@@ -919,26 +898,87 @@ class StatisticsController extends Controller
             }
             $output = '';
             $output .= '
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-        <h4 class="mt-3 mb-3"><span>Profit Has Shipping Fee: </span><span>'.number_format($sum_total_order_success - $sum_total_import, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Profit: </span><span>'.number_format($sum_total_order_success - $sum_total_import -$sum_total_fee_success, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Total Amount Sold: </span><span>'.number_format($sum_total_order_success, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Total: </span><span>'.number_format($sum_total_order, 0, ',', '.').' VNĐ' .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Order: </span><span>'. number_format($count_order, 0, ',', '.') .' </span></h4>
-        <h4 class="mt-3 mb-3"><span>Unconfirmed Order: </span><span>'. number_format($count_order_unconfirmed, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Confirmed Order: </span><span>'. number_format($count_order_confirmed, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Orders In Transit: </span><span>'.number_format($count_order_in_transit, 0, ',', '.') .' </span></h4>
-        <h4 class="mt-3 mb-3"><span>Orders Delivered: </span><span>'. number_format($count_order_delivered, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Cancel Order: </span><span>'. number_format($count_order_cancel, 0, ',', '.') .' </span></h4>
-        <h4 class="mt-3 mb-3"><span>Product: </span><span>'.number_format($count_detail, 0, ',', '.') .'</span></h4>
-        <h4 class="mt-3 mb-3"><span>Quantity Sold: </span><span>'. number_format($sum_detail, 0, ',', '.') .'</span></h4>
+            <label class="col-form-label"> <h4>Thống Kê Doanh Thu</h4></label>
+            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                <thead class="bg-light">
+                <tr>
+                    <th class="font-weight-medium">Doanh Thu + Phí Vận Chuyển</th>
+                    <th class="font-weight-medium">Doanh Thu</th>
+                    <th class="font-weight-medium">Tổng Đã Bán</th>
+                    <th class="font-weight-medium">Tổng Đơn Hàng</th>
+                    <th class="font-weight-medium">Số Sản Phẩm</th>
+                    <th class="font-weight-medium">Số Lượng Đã Bán</th>
+                </tr>
+                </thead>
+                <tbody class="font-14 " >
+
+                    <tr>
+                        <td>
+                            '.number_format($sum_total_order_success - $sum_total_import,0,',','.' ).' VNĐ' .'
+                        </td>
+                        <td>
+                            '.number_format($sum_total_order_success - $sum_total_import - $sum_total_fee_success,0,',','.' ).' VNĐ' .'
+                        </td>
+                        <td>
+                            '.number_format( $sum_total_order_success ,0,',','.' ).' VNĐ' .'
+                        </td>
+                        <td>
+                            '.number_format( $sum_total_order ,0,',','.' ).' VNĐ'.'
+                        </td>
+                        <td>
+                            '. number_format( $count_detail ,0,',','.' ) .'
+                        </td>
+                        <td>
+                            '. number_format( $sum_detail ,0,',','.' ) .'
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <label class="col-form-label"> <h4>Thống Kê Đơn Hàng</h4></label>
+            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
+                <thead class="bg-light">
+                <tr>
+                    <th class="font-weight-medium">Số Đơn Hàng</th>
+                    <th class="font-weight-medium">Đơn Hàng Chưa Xác Nhận</th>
+                    <th class="font-weight-medium">Đơn Hàng Đã Xác Nhận</th>
+                    <th class="font-weight-medium">Đơn Hàng Đang Vận Chuyển</th>
+                    <th class="font-weight-medium">Đơn Hàng Đã Giao</th>
+                    <th class="font-weight-medium">Đơn Hàng Đã Hủy</th>
+                </tr>
+                </thead>
+                <tbody class="font-14 " >
+
+                    <tr>
+                        <td>
+                            '. number_format( $count_order ,0,',','.' ).'
+                        </td>
+                        <td>
+                            '. number_format( $count_order_unconfirmed ,0,',','.' ).'
+                        </td>
+                        <td>
+                            '. number_format( $count_order_confirmed ,0,',','.' ).'
+                        </td>
+                        <td>
+                             '. number_format( $count_order_in_transit ,0,',','.' ) .'
+                        </td>
+                        <td>
+                            '. number_format( $count_order_delivered ,0,',','.' ) .'
+                        </td>
+                        <td>
+                            '. number_format( $count_order_cancel ,0,',','.' ) .'
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <label class="col-form-label"> <h4>Đơn Hàng</h4></label>
+            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
             <thead class="bg-light">
                 <tr>
-                    <th class="font-weight-medium">No.</th>
-                    <th class="font-weight-medium">Day</th>
-                    <th class="font-weight-medium">Customer</th>
-                    <th class="font-weight-medium">Total</th>
-                    <th class="font-weight-medium">Status</th>
+                    <th class="font-weight-medium">Mã Đơn Hàng</th>
+                    <th class="font-weight-medium">Ngày Đặt Hàng</th>
+                    <th class="font-weight-medium">Khách Hàng</th>
+                    <th class="font-weight-medium">Tổng Cộng</th>
+                    <th class="font-weight-medium">Trạng Thái</th>
                 </tr>
             </thead>
             <tbody class="font-14 show_views_type_search" >';
@@ -957,63 +997,19 @@ class StatisticsController extends Controller
                             '.number_format($order->dondathang_tong_tien, 0, ',', '.').' VNĐ' .'
                         </td>
                         <td>';
-                if ($order->dondathang_trang_thai==0) {
-                    $output .= ' Unconfirmed';
-                } elseif ($order->dondathang_trang_thai==1) {
-                    $output .= '  Confirmed';
-                } elseif ($order->dondathang_trang_thai==2) {
-                    $output .= ' In Transit';
-                } elseif ($order->dondathang_trang_thai==3) {
-                    $output .= ' Delivered';
-                } elseif ($order->dondathang_trang_thai==4) {
-                    $output .= ' Order Has Been Canceled';
-                }
+                        if ($order->dondathang_trang_thai==0) {
+                            $output .= '  Chưa Xác Nhận';
+                        } elseif ($order->dondathang_trang_thai==1) {
+                            $output .= '  Đã Xác Nhận';
+                        } elseif ($order->dondathang_trang_thai==2) {
+                            $output .= ' Đang Giao Hàng';
+                        } elseif ($order->dondathang_trang_thai==3) {
+                            $output .= '   Đã Giao Hàng';
+                        } elseif ($order->dondathang_trang_thai==4) {
+                            $output .= ' Đơn Hàng Đã Bị Hủy';
+                        }
                 $output .= '</td>
                     </tr>';
-            }
-            $output .= '
-            </tbody>
-        </table>
-        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 " cellspacing="0" id="tickets-table">
-            <h4 class="mt-3 mb-3"><span>Product: </span></h4>
-            <thead class="bg-light">
-                <tr>
-                    <th class="font-weight-medium">No.</th>
-                    <th class="font-weight-medium">Day</th>
-                    <th class="font-weight-medium">Product Name</th>
-                    <th class="font-weight-medium">Size</th>
-                    <th class="font-weight-medium">Price</th>
-                    <th class="font-weight-medium">Quantity</th>
-                    <th class="font-weight-medium">Total</th>
-                </tr>
-            </thead>
-            <tbody class="font-14 show_views_type_search" >';
-            if ($all_order_detail!=null) {
-                foreach ($all_order_detail as $k=>$order_detail) {
-                    $output .= ' <tr>
-                            <td>
-                                '. $order_detail->chitietdondathang_ma_don_dat_hang .'
-                            </td>
-                            <td>
-                                '. date('d-m-Y', strtotime($order_detail->Order->dondathang_ngay_dat_hang)) .'
-                            </td>
-                            <td>
-                            '.$order_detail->Product->sanpham_ten .'
-                            </td>
-                            <td>
-                            '.$order_detail->Size->size .'
-                            </td>
-                            <td>
-                                '.number_format($order_detail->chitietdondathang_don_gia, 0, ',', '.').' VNĐ' .'
-                            </td>
-                            <td>
-                            '.$order_detail->chitietdondathang_so_luong .'
-                            </td>
-                            <td>
-                                '.number_format($order_detail->chitietdondathang_so_luong* $order_detail->chitietdondathang_don_gia, 0, ',', '.').' VNĐ' .'
-                            </td>
-                        </tr>';
-                }
             }
             $output .= '
             </tbody>

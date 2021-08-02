@@ -53,14 +53,14 @@ class SlideShowController extends Controller
                 'slideshow_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                'mimes' => 'Sai định dạng ảnh',
             ]);
             $get_number=SlideShow::where('slidequangcao_thu_tu', $data['slideshow_no'])->first();
             if ($get_number) {
-                return Redirect::to('/slideshow-add')->with('error', 'Add Fail, Number already exists');
+                return Redirect::to('/slideshow-add')->with('error', 'Thêm không thành công, số thứ tự đã tồn tại!');
             } else {
                 $slideshow=new SlideShow();
                 $slideshow->slidequangcao_tieu_de = $data['slideshow_title'];
@@ -73,7 +73,7 @@ class SlideShowController extends Controller
                 //them hinh anh
                 if ($get_image) {
                     if($path.$get_image){
-                        return Redirect::to('/collection-add')->with('error', 'Add Fail, Please choose another photo');
+                        return Redirect::to('/collection-add')->with('error', 'Thêm không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                     }else{
                         $get_name_image = $get_image->getClientOriginalName();
                         $name_image = current(explode('.', $get_name_image));
@@ -81,12 +81,11 @@ class SlideShowController extends Controller
                         $get_image->move($path, $new_image);
                         $slideshow->slidequangcao_anh = $new_image;
                         $slideshow->save();
-                        return Redirect::to('/slideshow')->with('message', 'Add Success');
+                        return Redirect::to('/slideshow')->with('message', 'Thêm thành công!');
                     }
+                }else {
+                    return Redirect::to('/slideshow')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
                 }
-                $slideshow->slidequangcao_anh = '';
-                $slideshow->save();
-                return Redirect::to('/slideshow')->with('message', 'Add Success');
             }
         }
     }
@@ -98,11 +97,11 @@ class SlideShowController extends Controller
         }else{
             $unactive_slideshow=SlideShow::find($slideshow_id);
             if (!$unactive_slideshow) {
-                return Redirect::to('slideshow')->with('error', 'Not found');
+                return Redirect::to('slideshow')->with('error', 'Không tồn tại!');
             } else {
                 $unactive_slideshow->slidequangcao_trang_thai=0;
                 $unactive_slideshow->save();
-                return Redirect::to('/slideshow')->with('message', 'Hide Success');
+                return Redirect::to('/slideshow')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -113,11 +112,11 @@ class SlideShowController extends Controller
         }else{
             $active_slideshow=SlideShow::find($slideshow_id);
             if (!$active_slideshow) {
-                return Redirect::to('slideshow')->with('error', 'Not found');
+                return Redirect::to('slideshow')->with('error', 'Không tồn tại!');
             } else {
                 $active_slideshow->slidequangcao_trang_thai=1;
                 $active_slideshow->save();
-                return Redirect::to('/slideshow')->with('message', 'Show Success');
+                return Redirect::to('/slideshow')->with('message', 'Hiển thị thành công!');
             }
         }
     }
@@ -129,7 +128,7 @@ class SlideShowController extends Controller
         }else{
             $edit_slideshow=SlideShow::find($slideshow_id);
             if (!$edit_slideshow) {
-                return Redirect::to('slideshow')->with('error', 'Not found');
+                return Redirect::to('slideshow')->with('error', 'Không tồn tại!');
             } else {
                 return view('admin.pages.slideshow.slideshow_edit')
             ->with('slideshow', $edit_slideshow);
@@ -151,10 +150,10 @@ class SlideShowController extends Controller
                 'slideshow_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                'mimes' => 'Sai định dạng ảnh',
             ]);
             $get_number=SlideShow::where('slidequangcao_thu_tu', $data['slideshow_no'])->whereNotIn('id', [$slideshow_id])->first();
             if ($get_number) {
@@ -171,7 +170,7 @@ class SlideShowController extends Controller
                 $path = 'public/uploads/admin/slideshow/';
                 if ($get_image) {
                     if($path.$get_image && $path.$get_image!=$path.$old_name){
-                        return Redirect::to('/slideshow-edit/'.$slideshow_id)->with('error', 'Update Fail, Please choose another photo');
+                        return Redirect::to('/slideshow-edit/'.$slideshow_id)->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                     }else{
                         if ($old_name!=null) {
                             unlink($path.$old_name);
@@ -182,15 +181,15 @@ class SlideShowController extends Controller
                         $get_image->move($path, $new_image);
                         $slideshow->slidequangcao_anh = $new_image;
                         $slideshow->save();
-                        return Redirect::to('/slideshow')->with('message', 'Update Success');
+                        return Redirect::to('/slideshow')->with('message', 'Cập nhật thành công!');
                     }
                 } else {
                     if ($old_name!=null) {
                         $slideshow->slidequangcao_anh= $old_name;
                         $slideshow->save();
-                        return Redirect::to('/slideshow')->with('message', 'Update Success');
+                        return Redirect::to('/slideshow')->with('message', 'Cập nhật thành công!');
                     } else {
-                        return Redirect::to('/slideshow-edit/'.$slideshow_id)->with('error', 'Update Fail,Please Choose Image');
+                        return Redirect::to('/slideshow-edit/'.$slideshow_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                     }
                 }
             }
@@ -203,10 +202,10 @@ class SlideShowController extends Controller
         }else{
             $delete_slideshow=SlideShow::find($slideshow_id);
             if (!$delete_slideshow) {
-                return Redirect::to('slideshow')->with('error', 'Not found');
+                return Redirect::to('slideshow')->with('error', 'Không tồn tại!');
             } else {
                 $delete_slideshow->delete();
-                return Redirect::to('/slideshow')->with('message', 'Delete Success');
+                return Redirect::to('/slideshow')->with('message', 'Xóa thành công!');
             }
         }
     }

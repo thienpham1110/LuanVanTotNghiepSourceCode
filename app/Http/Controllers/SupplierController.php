@@ -54,10 +54,10 @@ class SupplierController extends Controller
                 'supplier_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                  'mimes' => 'Sai định dạng ảnh',
             ]);
             $supplier= new Supplier();
             $supplier->nhacungcap_ten = $data['supplier_name'];
@@ -74,9 +74,9 @@ class SupplierController extends Controller
                 $get_image->move($path, $new_image);
                 $supplier->nhacungcap_anh = $new_image;
                 $supplier->save();
-                return Redirect::to('/supplier')->with('message', 'Add Success');
+                return Redirect::to('/supplier')->with('message', 'Thêm thành công!');
             } else {
-                return Redirect::to('/supplier-add')->with('error', 'Add Fail,Please Choose Image');
+                return Redirect::to('/supplier-add')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
             }
         }
     }
@@ -88,11 +88,11 @@ class SupplierController extends Controller
         }else{
             $unactive_supplier=Supplier::find($supplier_id);
             if (!$unactive_supplier) {
-                return Redirect::to('/supplier')->with('error', 'Not found');
+                return Redirect::to('/supplier')->with('error', 'Không tồn tại!');
             } else {
                 $unactive_supplier->nhacungcap_trang_thai=0;
                 $unactive_supplier->save();
-                return Redirect::to('/supplier')->with('message', 'Hide Success');
+                return Redirect::to('/supplier')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -103,11 +103,11 @@ class SupplierController extends Controller
         } else {
             $active_supplier=Supplier::find($supplier_id);
             if (!$active_supplier) {
-                return Redirect::to('/supplier')->with('error', 'Not found');
+                return Redirect::to('/supplier')->with('error', 'Không tồn tại!');
             } else {
                 $active_supplier->nhacungcap_trang_thai=1;
                 $active_supplier->save();
-                return Redirect::to('/supplier')->with('message', 'Show Success');
+                return Redirect::to('/supplier')->with('message', 'Hiển thị thành công!');
             }
         }
     }
@@ -119,7 +119,7 @@ class SupplierController extends Controller
         } else {
             $edit_supplier=Supplier::find($supplier_id);
             if (!$edit_supplier) {
-                return Redirect::to('/supplier')->with('error', 'Not found');
+                return Redirect::to('/supplier')->with('error', 'Không tồn tại!');
             } else {
                 return view('admin.pages.supplier.supplier_edit')->with('supplier', $edit_supplier);
             }
@@ -133,7 +133,7 @@ class SupplierController extends Controller
         }else{
             $edit_supplier=Supplier::find($supplier_id);
             if (!$edit_supplier) {
-                return Redirect::to('/supplier')->with('error', 'Not found');
+                return Redirect::to('/supplier')->with('error', 'Không tồn tại!');
             } else {
                 $data=$request->all();
                 $this->validate($request,[
@@ -144,10 +144,10 @@ class SupplierController extends Controller
                     'supplier_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
                 ],
                 [
-                    'required' => 'Field is not empty',
-                    'min' => 'Too short',
-                    'max' => 'Too long',
-                    'mimes' => 'Wrong image format'
+                    'required' => 'Không được để trống',
+                    'min' => 'Quá ngắn',
+                    'max' => 'Quá dài',
+                      'mimes' => 'Sai định dạng ảnh',
                 ]);
                 $supplier= Supplier::find($supplier_id);
                 $supplier->nhacungcap_ten = $data['supplier_name'];
@@ -159,23 +159,28 @@ class SupplierController extends Controller
                 $get_image = $request->file('supplier_img');
                 $path = 'public/uploads/admin/supplier/';
                 if ($get_image) {
-                    if ($old_name_img!=null) {
-                        unlink($path.$old_name_img);
+                    if($path.$get_image && $path.$get_image!=$path.$old_name_img){
+                        return Redirect::to('/supplier-edit/'.$supplier_id)
+                        ->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
+                    }else{
+                        if ($old_name_img!=null) {
+                            unlink($path.$old_name_img);
+                        }
+                        $get_name_image = $get_image->getClientOriginalName();
+                        $name_image = current(explode('.', $get_name_image));
+                        $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
+                        $get_image->move($path, $new_image);
+                        $supplier->nhacungcap_anh  = $new_image;
+                        $supplier->save();
+                        return Redirect::to('/supplier')->with('message', 'Cập nhật thành công!');
                     }
-                    $get_name_image = $get_image->getClientOriginalName();
-                    $name_image = current(explode('.', $get_name_image));
-                    $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
-                    $get_image->move($path, $new_image);
-                    $supplier->nhacungcap_anh  = $new_image;
-                    $supplier->save();
-                    return Redirect::to('/supplier')->with('message', 'Update Success');
                 } else {
                     if ($old_name_img!=null) {
                         $supplier->nhacungcap_anh = $old_name_img;
                         $supplier->save();
-                        return Redirect::to('/supplier')->with('message', 'Update Success');
+                        return Redirect::to('/supplier')->with('message', 'Cập nhật thành công!');
                     } else {
-                        return Redirect::to('/supplier-edit/'.$supplier_id)->with('error', 'Update Fail,Please Choose Image');
+                        return Redirect::to('/supplier-edit/'.$supplier_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                     }
                 }
             }
@@ -188,7 +193,7 @@ class SupplierController extends Controller
         }else{
             $delete_supplier=Supplier::find($supplier_id);
             if (!$delete_supplier) {
-                return Redirect::to('/supplier')->with('error', 'Not found');
+                return Redirect::to('/supplier')->with('error', 'Không tồn tại!');
             } else {
                 $delete_supplier->nhacungcap_trang_thai=2;
                 $delete_supplier->save();

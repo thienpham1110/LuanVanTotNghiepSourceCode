@@ -5,7 +5,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="footer_widget">
                         @if($get_about_us_bottom)
-                        <h3>About us</h3>
+                        <h3>Cửa Hàng</h3>
                         <p>{{ $get_about_us_bottom->cuahang_mo_ta }}</p>
                         <div class="footer_widget_contect">
                             <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ $get_about_us_bottom->cuahang_dia_chi }}</p>
@@ -26,25 +26,25 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="footer_widget">
-                        <h3>My Account</h3>
+                        <h3>Tài khoản</h3>
                         <ul>
                             @if(Session::get('customer_id')==true)
-                            <li><a href="{{ URL::to('/my-account')}}" title="My account">My account</a></li>
-                            <li><a href="{{URL::to('/logout-customer')}}" onclick="return confirm('You Sure?')"title="Logout">Logout</a></li>
+                            <li><a href="{{ URL::to('/my-account')}}" title="My account">Tài Khoản</a></li>
+                            <li><a href="{{URL::to('/logout-customer')}}" onclick="return confirm('You Sure?')"title="Logout">Đăng Xuất</a></li>
                             @endif
                             @if(Session::get('customer_id')!=true)
-                            <li><a href="{{ URL::to('/login-customer')}}" title="Login">Login</a></li>
-                            <li><a href="{{ URL::to('/show-verification-email-customer')}}" title="Login">Register</a></li>
+                            <li><a href="{{ URL::to('/login-customer')}}" title="Login">Đăng Nhập</a></li>
+                            <li><a href="{{ URL::to('/show-verification-email-customer')}}" title="Login">Đăng Ký</a></li>
                             @endif
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="footer_widget">
-                        <h3>Informations</h3>
+                        <h3>Thông tin cửa hàng</h3>
                         <ul>
-                            <li><a href="{{URL::to ('/about-us')}}">About us</a></li>
-                            <li><a href="{{URL::to ('/promotion')}}">Promotion</a></li>
+                            <li><a href="{{URL::to ('/about-us')}}">Cửa hàng</a></li>
+                            <li><a href="{{URL::to ('/promotion')}}">Khuyến mãi</a></li>
                         </ul>
                     </div>
                 </div>

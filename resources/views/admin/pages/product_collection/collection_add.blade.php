@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/collection')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                            <a href="{{URL::to('/collection')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Dòng Sản Phẩm</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Collection</li>
+                            <li class="breadcrumb-item active">Thêm Dòng Sản Phẩm</li>
                         </ol>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
             <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h4 class="header-title">Collection Information</h4>
+                            <h4 class="header-title">Thông Tin Dòng Sản Phẩm</h4>
                             <hr>
                             @if(session()->has('message'))
                                 <div class="alert alert-success">
@@ -43,15 +43,15 @@
                                         <form action="{{ URL::to('/collection-save') }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" >
                                             {{ csrf_field() }}
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Collection Type Information</label>
+                                                <label class="col-sm-2 col-form-label" >Thông Tin Dòng Sản Phẩm</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Name</label>
-                                                    <input type="text" name="collection_name" irequired="" class="form-control" placeholder="Example: AF1,..">
+                                                    <label class="col-form-label">Tên</label>
+                                                    <input type="text" name="collection_name" irequired="" class="form-control" placeholder="Tên dòng sản phẩm">
                                                     @error('collection_name')
                                                     <p class="alert alert-danger"> {{ $message }}</p>
                                                     @enderror
-                                                    <label class="col-form-label">Description</label>
-                                                    <textarea name="collection_description" required="" class="form-control" placeholder="Des.."></textarea>
+                                                    <label class="col-form-label">Mô Tả</label>
+                                                    <textarea name="collection_description" required="" class="form-control" placeholder="Mô tả"></textarea>
                                                     @error('collection_description')
                                                     <p class="alert alert-danger"> {{ $message }}</p>
                                                     @enderror
@@ -59,7 +59,7 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Images</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh</label>
                                                 {{--  <div class="col-sm-10">
                                                     <div class="fileupload btn btn-primary waves-effect mt-1">
                                                         <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
@@ -75,7 +75,7 @@
                                                     </div>
                                                     <div class="custom-file">
                                                         <input type="file" class="upload custom-file-input" required="" accept=".jpeg,.png,.gif,.jpg" name="collection_img" id="images">
-                                                        <label class="custom-file-label" for="images">Choose image</label>
+                                                        <label class="custom-file-label" for="images">Chọn Ảnh</label>
                                                         @error('collection_img')
                                                         <p class="alert alert-danger"> {{ $message }}</p>
                                                         @enderror
@@ -84,12 +84,12 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="example-email">Status</label>
+                                                <label class="col-sm-2 col-form-label" for="example-email">Trạng Thái</label>
                                                 <div class="col-sm-10">
-                                                    <label class="col-form-label">Status</label>
+                                                    <label class="col-form-label">Trạng Thái</label>
                                                     <select name="collection_status" class="form-control">
-                                                        <option value="1">Show</option>
-                                                        <option value="0">Hide</option>
+                                                        <option value="1">Hiển Thị</option>
+                                                        <option value="0">Ẩn</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -97,7 +97,7 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
-                                                        <button type="submit" name="collection_add" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Add</button>
+                                                        <button type="submit" name="collection_add" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Lưu</button>
                                                     </div>
                                                 </div>
                                             </div>

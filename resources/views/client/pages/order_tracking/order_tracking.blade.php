@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>Order Tracking</li>
+                    <li>Theo Dõi Đơn Hàng</li>
                 </ul>
             </div>
         </div>
@@ -39,11 +39,11 @@
                         <form action="{{URL::to('/get-order-tracking')}}" method="POST">
                             @csrf
                             <div class="blog_thumb blog__hover">
-                                <input type="text" required="" name="order_tracking">
+                                <input type="text" required="" placeholder="Nhập email hoặc mã đơn hàng" name="order_tracking">
                             </div>
                             <div class="blog_fullwidth_desc">
-                                <p>Enter your order number or email to check your order</p>
-                                 <button type="submit">search order</button>
+                                <p>Nhập email hoặc mã đơn hàng để kiểm tra</p>
+                                 <button type="submit">Tìm Đơn Hàng</button>
                             </div>
                         </form>
                     </div>

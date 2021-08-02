@@ -8,16 +8,16 @@
          <div class="col-lg-6 col-md-6">
              <div class="header_links">
                  <ul>
-                     <li><a href="{{URL::to('/my-wishlists')}}" title="wishlist">My wishlist</a></li>
-                     <li><a href="{{ URL::to('/order-tracking')}}" title="order tracking">Order Tracking</a></li>
-                     <li><a href="{{ URL::to('/cart')}}" title="My cart">My cart</a></li>
+                     <li><a href="{{URL::to('/my-wishlists')}}" title="wishlist">Yêu Thích</a></li>
+                     <li><a href="{{ URL::to('/order-tracking')}}" title="order tracking">Đơn Hàng</a></li>
+                     <li><a href="{{ URL::to('/cart')}}" title="My cart">Giỏ Hàng</a></li>
                      @if(Session::get('customer_id')==true)
-                     <li><a href="{{ URL::to('/my-account')}}" title="My account">My account</a></li>
-                     <li><a href="{{URL::to('/logout-customer')}}" onclick="return confirm('You Sure?')"title="Logout">Logout</a></li>
+                     <li><a href="{{ URL::to('/my-account')}}" title="My account">Tài Khoản: {{ Session::get('customer_name') }}</a></li>
+                     <li><a href="#" class="logout-customer" title="Logout">Đăng xuất</a></li>
                      @endif
                      @if(Session::get('customer_id')!=true)
-                     <li><a href="{{ URL::to('/login-customer')}}" title="Login">Login</a></li>
-                     <li><a href="{{ URL::to('/show-verification-email-customer')}}" title="Login">Register</a></li>
+                     <li><a href="{{ URL::to('/login-customer')}}" title="Login">Đăng Nhập</a></li>
+                     <li><a href="{{ URL::to('/show-verification-email-customer')}}" title="Login">Đăng Ký</a></li>
                      @endif
                  </ul>
              </div>
@@ -72,7 +72,7 @@
              <div class="header_right_info">
                  <div class="search_bar">
                     <form action="{{URL::to ('/search-product-customer')}}" method="GET">
-                        <input placeholder="Search Keyword..." required=""
+                        <input placeholder="Tìm Kiếm" required=""
                         @if(isset($search_keyword))
                         value="{{ $search_keyword }}"
                         @endif
@@ -99,7 +99,7 @@
                                     <div class="cart_info">
                                         <a href="#">{{ $product['product_name'] }}</a>
                                         <span class="cart_price">{{number_format($product['product_price']  ,0,',','.').' VNĐ' }}</span>
-                                        <span class="quantity">Qty: {{ $product['product_quantity'] }}</span>
+                                        <span class="quantity">Số Lượng: {{ $product['product_quantity'] }}</span>
                                     </div>
                                     <div class="cart_remove">
                                         <a title="Remove this item" href="{{ URL::to('/delete-mini-cart/'.$product['session_id'])}}"><i class="fa fa-times-circle"></i></a>
@@ -107,10 +107,10 @@
                                 </div>
                             @endforeach
                         @else
-                        <h5 style="text-align: center">There Are No Products In The Cart</h5>
+                        <h5 style="text-align: center">Không có sản phẩm nào trong giỏ hàng!</h5>
                         @endif
                          <div class="shipping_price">
-                            <span> Shipping Fee</span>
+                            <span>Phí Vận Chuyển</span>
                             <span>
                                 @if(Session::get('feeship'))
                                     @foreach (Session::get('feeship') as $k=>$fee)
@@ -125,7 +125,7 @@
                             </span>
                          </div>
                          <div class="total_price">
-                            <span> total </span>
+                            <span>Tổng tiền </span>
                             <span class="prices">
                                 @if(Session::get('cart'))
                                     @if(Session::get('feeship'))
@@ -139,7 +139,7 @@
                             </span>
                          </div>
                          <div class="cart_button">
-                            <a href="{{ URL::to('/cart')}}">My Cart</a>
+                            <a href="{{ URL::to('/cart')}}">Giỏ Hàng</a>
                          </div>
                      </div>
                      <a href="#"><i class="fa fa-shopping-cart">
@@ -153,7 +153,7 @@
                         @else
                             0
                         @endif
-                        Items -
+                        Sản Phẩm -
                         @if(Session::get('cart'))
                             {{number_format($subtotal,0,',','.').' VNĐ' }}
                         @else

@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>RGUWB Shop</title>
+    <title>RGUWB SHOP</title>
 </head>
 <body>
-    <h3>Form: {{ $name }}</h3>
-    <h4>Verification Code</h4>
-    <h5>Here is your verification code: <span> {{ $body }}</span></h5>
-    <h5>Valid for five minutes</h5>
-    <h4>If you didn't request this code, you can safely ignore this email. Someone else might have typed your email address by mistake.</h4>
+    <h3>Thư Gửi Từ: {{ $name }}</h3>
+    <h4>Mã Xác Thực Tài Khoản</h4>
+    <h5>Mã Xác Thực Của Bạn Là: <span> {{ $body }}</span></h5>
+    <h5>Mã Xác Thực Có Thời Hạn 5 Phút!</h5>
+    <h4>Nếu bạn không yêu cầu mã này, bạn có thể bỏ qua email này. Ai đó có thể đã nhập nhầm địa chỉ email của bạn.</h4>
 </body>
 </html>

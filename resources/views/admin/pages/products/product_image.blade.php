@@ -4,55 +4,24 @@
     <div class="content">
         <!-- Start Content-->
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/product')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Sản Phẩm</a>
+                                <a href="{{URL::to('/product-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Mới</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Images</li>
+                            <li class="breadcrumb-item active">Ảnh Sản Phẩm</li>
                         </ol>
                     </div>
-
                 </div>
             </div>
             <!-- content -->
-            <div class="row">
-                    <div class="col-12">
-                        <div class="card-box">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <form class="form-inline">
-                                        <div class="form-group">
-                                            <label for="inputPassword2" class="sr-only">Search</label>
-                                            <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
-                                        </div>
-                                        <div class="form-group mx-sm-3">
-                                            <label for="status-select" class="mr-2">Brand</label>
-                                            <select class="custom-select" id="status-select">
-                                                <option selected="">All</option>
-                                                <option value="1">Date</option>
-                                                <option value="2">Name</option>
-                                                <option value="3">Revenue</option>
-                                                <option value="4">Employees</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group mx-sm-3">
-                                            <a href="index_save_add.php" class="btn btn-success waves-effect waves-light">Search</a>
-                                        </div>
-                                    </form>
-                                </div>
-                               <!-- end col-->
-                            </div> <!-- end row -->
-                        </div> <!-- end card-box -->
-                    </div><!-- end col-->
-                </div>
                 <!-- end row -->
                 <div class="row">
                     <div class="col-12">
@@ -71,14 +40,14 @@
                                 @endif
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">ID</th>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Brand</th>
-                                    <th class="font-weight-medium">Category</th>
-                                    <th class="font-weight-medium">Collection</th>
-                                    <th class="font-weight-medium">Price</th>
-                                    <th class="font-weight-medium">Status</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Mã Sản Phẩm</th>
+                                    <th class="font-weight-medium">Sản Phẩm</th>
+                                    <th class="font-weight-medium">Thương Hiệu</th>
+                                    <th class="font-weight-medium">Loại Sản Phẩm</th>
+                                    <th class="font-weight-medium">Dòng Sản Phẩm</th>
+                                    <th class="font-weight-medium">Giá Bán</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
                                 </tr>
                                 </thead>
 
@@ -135,10 +104,10 @@
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Name Images</th>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">Action</th>
+                                    <th class="font-weight-medium">Sản Phẩm</th>
+                                    <th class="font-weight-medium">Tên Ảnh</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
                                 </thead>
 
@@ -160,7 +129,7 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/product-images-delete/'.$product_image->id)}}" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-images-delete/'.$product_image->id)}}" onclick="return confirm('Xóa Ảnh?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Xóa</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -194,10 +163,10 @@
                                         </div>
                                         <div class="custom-file">
                                             <input type="file" name="product_image[]" class="custom-file-input" accept=".jpeg,.png,.gif,.jpg" id="images" multiple="multiple">
-                                            <label class="custom-file-label" for="images">Choose image</label>
+                                            <label class="custom-file-label" for="images">Chọn Ảnh</label>
                                         </div>
                                         <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                                            Upload Images
+                                            Thêm Ảnh
                                         </button>
                                     </div>
                                 </form>

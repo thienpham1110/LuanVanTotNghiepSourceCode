@@ -51,13 +51,13 @@ class HeaderShowController extends Controller
                 'header_no' => 'bail|required'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài'
             ]);
             $get_number=HeaderShow::where('headerquangcao_thu_tu', $data['header_no'])->first();
             if ($get_number) {
-                return Redirect::to('/headershow-add')->with('error', 'Add Fail, Number already exists');
+                return Redirect::to('/headershow-add')->with('error', 'Thêm không thành công, số thứ tự đã tồn tại');
             } else {
                 $headershow=new HeaderShow();
                 $headershow->headerquangcao_noi_dung = $data['header_content'];
@@ -65,7 +65,7 @@ class HeaderShowController extends Controller
                 $headershow->headerquangcao_thu_tu = $data['header_no'];
                 $headershow->headerquangcao_trang_thai = $data['header_status'];
                 $headershow->save();
-                return Redirect::to('/headershow')->with('message', 'Add Success');
+                return Redirect::to('/headershow')->with('message', 'Thêm thành công!');
             }
         }
     }
@@ -77,11 +77,11 @@ class HeaderShowController extends Controller
         }else{
             $unactive_headershow=HeaderShow::find($headershow_id);
             if (!$unactive_headershow) {
-                return Redirect::to('/headershow')->with('error', 'Not found');
+                return Redirect::to('/headershow')->with('error', 'Không tồn tại!');
             } else {
                 $unactive_headershow->headerquangcao_trang_thai=0;
                 $unactive_headershow->save();
-                return Redirect::to('/headershow')->with('message', 'Hide Success');
+                return Redirect::to('/headershow')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -92,11 +92,11 @@ class HeaderShowController extends Controller
         }else{
             $active_headershow=HeaderShow::find($headershow_id);
             if (!$active_headershow) {
-                return Redirect::to('/headershow')->with('error', 'Not found');
+                return Redirect::to('/headershow')->with('error', 'Không tồn tại!');
             } else {
                 $active_headershow->headerquangcao_trang_thai=1;
                 $active_headershow->save();
-                return Redirect::to('/headershow')->with('message', 'Show Success');
+                return Redirect::to('/headershow')->with('message', 'Hiển thị thành công!');
             }
         }
     }
@@ -108,7 +108,7 @@ class HeaderShowController extends Controller
         }else{
             $edit_headershow=HeaderShow::find($headershow_id);
             if (!$edit_headershow) {
-                return Redirect::to('/headershow')->with('error', 'Not found');
+                return Redirect::to('/headershow')->with('error', 'Không tồn tại!');
             } else {
                 return view('admin.pages.headershow.headershow_edit')
             ->with('headershow', $edit_headershow);
@@ -128,13 +128,13 @@ class HeaderShowController extends Controller
                 'header_no' => 'bail|required'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
             ]);
             $get_number=HeaderShow::where('headerquangcao_thu_tu', $data['header_no'])->whereNotIn('id', [$headershow_id])->first();
             if ($get_number) {
-                return Redirect::to('/headershow-edit/'.$headershow_id)->with('error', 'Update Fail, Number already exists');
+                return Redirect::to('/headershow-edit/'.$headershow_id)->with('error', 'Cập nhật không thành công, số thứ tự đã tồn tại');
             } else {
                 $headershow=HeaderShow::find($headershow_id);
                 $headershow->headerquangcao_noi_dung = $data['header_content'];
@@ -142,7 +142,7 @@ class HeaderShowController extends Controller
                 $headershow->headerquangcao_thu_tu = $data['header_no'];
                 $headershow->headerquangcao_trang_thai = $data['header_status'];
                 $headershow->save();
-                return Redirect::to('/headershow')->with('message', 'Update Success');
+                return Redirect::to('/headershow')->with('message', 'Cập nhật thành công!');
             }
         }
     }
@@ -153,10 +153,10 @@ class HeaderShowController extends Controller
         }else{
             $delete_headershow=HeaderShow::find($headershow_id);
             if (!$delete_headershow) {
-                return Redirect::to('/headershow')->with('error', 'Not found');
+                return Redirect::to('/headershow')->with('error', 'Không tồn tại!');
             } else {
                 $delete_headershow->delete();
-                return Redirect::to('/headershow')->with('message', 'Delete Success');
+                return Redirect::to('/headershow')->with('message', 'Xóa thành công!');
             }
         }
     }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>RGUWB Admin</title>
+    <title>RGUWB ADMIN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
     <meta content="Coderthemes" name="author">
@@ -429,7 +429,6 @@ $("#ProductMoreImagesInput").change(function () {
         $.ajax({
             url:"{{url('/approval-comment')}}",
             method:"POST",
-
             data:{comment_status:comment_status,comment_id:comment_id,comment_product_id:comment_product_id,_token:_token},
             success:function(data){
                 location.reload();
@@ -532,13 +531,13 @@ $("#ProductMoreImagesInput").change(function () {
                  method: 'POST',
                  data:{product_id:product_id,product_name:product_name,product_image:product_image,_token:_token},
                  success:function(data){
-                     Swal.fire({
-                         title: "Add Success",
-                         type: "success",
-                         showConfirmButton: !1,
-                        timer: 500
-                         })
-                         location.reload();
+                    Swal.fire({
+                        title: "Add Success",
+                        type: "success",
+                        showConfirmButton: !1,
+                       timer: 500
+                    })
+                    location.reload();
                  }
              });
          });
@@ -581,9 +580,9 @@ $("#ProductMoreImagesInput").change(function () {
         var total=0;
         $('.product_total').each(function(i,e){
             var amount=$(this).val()-0;
-        total +=amount;
-    });
-    $('.total').html(total+".00 VNĐ");
+            total +=amount;
+        });
+        $('.total').html(total+".00 VNĐ");
     }
 </script>
 

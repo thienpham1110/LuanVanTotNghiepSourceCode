@@ -75,15 +75,15 @@ class ProductController extends Controller
                 'product_guarantee' => 'bail|required|max:255|min:6'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                'mimes' => 'Sai định dạng ảnh',
             ]);
             $product= new Product();
             $get_product=Product::where('sanpham_ma_san_pham', $data['product_code'])->first();
             if ($get_product) {
-                return Redirect::to('/product-add')->with('error', 'Add Fail, Product already exists');
+                return Redirect::to('/product-add')->with('error', 'Thêm không thành công, sản phẩm đã tồn tại!');
             } else {
                 $get_image = $request->file('product_img');
                 if ($get_image) {
@@ -107,7 +107,8 @@ class ProductController extends Controller
                     //them hinh anh
                     if ($get_image) {
                         if($path.$get_image){
-                            return Redirect::to('/product-add')->with('error', 'Add Fail, Please choose another photo');
+                            return Redirect::to('/product-add')->with('error', 'Thêm không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
+
                         }else{
                             $get_name_image = $get_image->getClientOriginalName();
                             $name_image = current(explode('.', $get_name_image));
@@ -115,11 +116,11 @@ class ProductController extends Controller
                             $get_image->move($path, $new_image);
                             $product->sanpham_anh = $new_image;
                             $product->save();
-                            return Redirect::to('/product')->with('message', 'Add Success');
+                            return Redirect::to('/product')->with('message', 'Thêm thành công!');
                         }
                     }
                 } else {
-                    return Redirect::to('/product-add')->with('error', 'Add Fail, Please Choose Image');
+                    return Redirect::to('/product-add')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
                 }
             }
         }
@@ -132,11 +133,11 @@ class ProductController extends Controller
         }else{
             $unactive_product=Product::find($product_id);
             if (!$unactive_product) {
-                return Redirect::to('/product')->with('error', 'Product not found');
+                return Redirect::to('/product')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $unactive_product->sanpham_trang_thai=0;
                 $unactive_product->save();
-                return Redirect::to('/product')->with('message', 'Hide Success');
+                return Redirect::to('/product')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -147,11 +148,11 @@ class ProductController extends Controller
         }else{
             $active_product=Product::find($product_id);
             if (!$active_product) {
-                return Redirect::to('/product')->with('error', 'Product not found');
+                return Redirect::to('/product')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $active_product->sanpham_trang_thai=1;
                 $active_product->save();
-                return Redirect::to('/product')->with('message', 'Show Success');
+                return Redirect::to('/product')->with('message', 'Hiển thị thành công!');
             }
         }
     }
@@ -162,18 +163,18 @@ class ProductController extends Controller
         }else{
             $product=Product::find($product_id);
             if (!$product) {
-                return Redirect::to('/product')->with('error', 'Product not found');
+                return Redirect::to('/product')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $get_import_detail=ProductImportDetail::where('sanpham_id', $product_id)->first();
                 $get_order_detail=OrderDetail::where('sanpham_id', $product_id)->first();
                 $get_image=ProductImage::where('sanpham_id', $product_id)->first();
                 $get_in_stock=ProductInStock::where('sanpham_id', $product_id)->first();
                 if ($get_image || $get_import_detail ||$get_order_detail ||$get_in_stock) {
-                    return Redirect::to('/product')->with('error', 'Can not delete');
+                    return Redirect::to('/product')->with('error', 'Không thể xóa!');
                 } else {
                     $delete_product=Product::find($product_id);
                     $delete_product->delete();
-                    return Redirect::to('/product')->with('message', 'Show Success');
+                    return Redirect::to('/product')->with('message', 'Xóa thành công!');
                 }
             }
         }
@@ -186,7 +187,7 @@ class ProductController extends Controller
         }else{
             $edit_product=Product::find($product_id);
             if (!$edit_product) {
-                return Redirect::to('/product')->with('error', 'Product not found');
+                return Redirect::to('/product')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $all_product_type=ProductType::orderby('id', 'desc')->get();
                 $all_brand=Brand::orderby('id', 'desc')->get();
@@ -219,14 +220,14 @@ class ProductController extends Controller
                 'product_guarantee' => 'bail|required|max:255|min:6'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                'mimes' => 'Sai định dạng ảnh',
             ]);
             $get_product=Product::where('sanpham_ma_san_pham', $data['product_code'])->whereNotIn('id', [$product_id])->first();
             if ($get_product) {
-                return Redirect::to('/product-edit/'.$product_id)->with('error', 'Edit Fail, Product already exists');
+                return Redirect::to('/product-edit/'.$product_id)->with('error', 'Cập nhật không thành công, sản phẩm đã tồn tại!');
             } else {
                 $product= Product::find($product_id);
                 $product->sanpham_ma_san_pham = $data['product_code'];
@@ -249,7 +250,7 @@ class ProductController extends Controller
                 $path = 'public/uploads/admin/product/';
                 if ($get_image) {
                     if($path.$get_image && $path.$get_image!=$path.$old_name){
-                        return Redirect::to('/product-edit/'.$product_id)->with('error', 'Update Fail, Please choose another photo');
+                        return Redirect::to('/product-edit/'.$product_id)->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                     }else{
                         if ($old_name!=null) {
                             unlink($path.$old_name);
@@ -260,15 +261,15 @@ class ProductController extends Controller
                         $get_image->move($path, $new_image);
                         $product->sanpham_anh = $new_image;
                         $product->save();
-                        return Redirect::to('/product')->with('message', 'Update Success');
+                        return Redirect::to('/product')->with('message', 'Cập nhật thành công!');
                     }
                 } else {
                     if ($old_name!=null) {
                         $product->sanpham_anh = $old_name;
                         $product->save();
-                        return Redirect::to('/product')->with('message', 'Update Success');
+                        return Redirect::to('/product')->with('message', 'Cập nhật thành công!');
                     } else {
-                        return Redirect::to('/product-edit/'.$product_id)->with('error', 'Update Fail, Please Choose Image');
+                        return Redirect::to('/product-edit/'.$product_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                     }
                 }
             }
@@ -282,7 +283,7 @@ class ProductController extends Controller
         }else{
             $product=Product::find($product_id);
             if (!$product) {
-                return Redirect::to('/product')->with('error', 'Product not found');
+                return Redirect::to('/product')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $all_product_images=ProductImage::where('sanpham_id', $product_id)->orderby('id', 'desc')->paginate(5)->fragment('all_product_images');
                 return view('admin.pages.products.product_image')
@@ -299,7 +300,7 @@ class ProductController extends Controller
         }else{
             $product=Product::find($product_id);
             if (!$product) {
-                return Redirect::to('/product')->with('error', 'Product not found');
+                return Redirect::to('/product')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $get_image = $request->file('product_image');
                 // $request->validate([
@@ -317,9 +318,9 @@ class ProductController extends Controller
                         $product_image->sanpham_id = $product_id;
                         $product_image->save();
                     }
-                    return Redirect::to('/product-images/'.$product_id)->with('message', 'Add Images Success');
+                    return Redirect::to('/product-images/'.$product_id)->with('message', 'Thêm ảnh thành công!');
                 } else {
-                    return Redirect::to('/product-images/'.$product_id)->with('error', 'Add Images Fail, Please Choose Image');
+                    return Redirect::to('/product-images/'.$product_id)->with('error', 'Thêm hình ảnh không thành công, vui lòng chọn ảnh!');
                 }
             }
         }
@@ -331,11 +332,11 @@ class ProductController extends Controller
         }else{
             $product=ProductImage::find($product_image_id);
             if (!$product) {
-                return Redirect::to('/product')->with('error', 'Product not found');
+                return Redirect::to('/product')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $product_id=$product->sanpham_id;
                 ProductImage::find($product_image_id)->delete();
-                return Redirect::to('/product-images/'.$product_id)->with('message', 'Delete Images Success');
+                return Redirect::to('/product-images/'.$product_id)->with('message', 'Xóa hình ảnh thành công!');
             }
         }
     }

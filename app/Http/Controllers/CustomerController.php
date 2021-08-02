@@ -86,23 +86,24 @@ class CustomerController extends Controller
         $get_email=Customer::where('khachhang_email',$data['verification_email'])->first();
         $get_email_user=UserAccount::where('user_email',$data['verification_email'])->first();
         if($get_email && $get_email_user){
-            return redirect()->back()->with('error','Account already exists');
+            return redirect()->back()->with('error','Tài khoản đã tồn tại!');
         }else{
             $verification_code=substr(str_shuffle(str_repeat("QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm", 5)), 0,5).substr(str_shuffle(str_repeat("0123456789", 5)), 0,5);
             $to_name="RGUWB";
             $to_mail=$data['verification_email'];
-            $data=array("name"=>"RGUWB Shop","body"=>$verification_code);
+            $title_mail = "Mã Xác Thực Từ RGUWB SHOP";
+            $data=array("name"=>"RGUWB SHOP","body"=>$verification_code);
             $verification[] = array(
                 'verification_time' => $now + 300,
                 'verification_code' => $verification_code,
                 'verification_email' => $to_mail,
             );
             Session::put('verification_email_customer',$verification);
-            Mail::send('layout.verification_email',  $data, function($message) use ($to_name,$to_mail){
-                $message->to($to_mail)->subject('Verification Code');//send this mail with subject
-                $message->from($to_mail, $to_name);//send from this mail
+            Mail::send('layout.verification_email',  $data, function($message) use ($to_name,$to_mail,$title_mail ){
+                $message->to($to_mail)->subject($title_mail );//send this mail with subject
+                $message->from($to_mail, $to_name,$title_mail );//send from this mail
             });
-            return Redirect::to('/register-customer')->with('message','We have sent the verification code to your email, enter the verification code to register');
+            return Redirect::to('/register-customer')->with('message','Chúng tôi đã gửi mã xác minh vào email của bạn, hãy nhập mã xác minh để đăng ký tài khoản!');
         }
     }
 
@@ -141,16 +142,16 @@ class CustomerController extends Controller
             'customer_confirm_password_register' => 'bail|required|max:255|min:6'
         ],
         [
-            'required' => 'Field is not empty',
-            'email' => 'Email format is incorrect',
-            'min' => 'Too short',
-            'max' => 'Too long'
+            'required' => 'Không được để trống',
+            'email' => 'Email sai định dạng',
+            'min' => 'Quá ngắn',
+            'max' => 'Quá dài'
         ],);
         if($data['customer_password_register']!= $data['customer_confirm_password_register']){
-            return Redirect::to('/register-customer')->with('error','Confirmation password is incorrect');
+            return Redirect::to('/register-customer')->with('error','Mật khẩu xác nhận không chính xác!');
         }else{
             if(!isset($verification)){
-                return Redirect::to('/show-verification-email-customer')->with('error','Enter your email to register');
+                return Redirect::to('/show-verification-email-customer')->with('error','Nhập email của bạn để đăng ký!');
             }else{
                 foreach($verification as $key=>$value){
                     $verification_time=$value['verification_time'];
@@ -159,10 +160,10 @@ class CustomerController extends Controller
                     break;
                 }
                 if($verification_code != $data['customer_verification_code_register'] || $verification_email != $data['customer_email_register']){
-                    return Redirect::to('/register-customer')->with('error','Verification code or email is incorrect');
+                    return Redirect::to('/register-customer')->with('error','Mã xác minh hoặc email không chính xác!');
                 }elseif($now > $verification_time){
                     Session::forget('verification_email_customer');
-                    return Redirect::to('/show-verification-email-customer')->with('error','The verification code has expired');
+                    return Redirect::to('/show-verification-email-customer')->with('error','Mã xác minh đã hết hạn!');
                 }else{
                     $user_acc=new UserAccount();
                     $customer=new Customer();
@@ -178,7 +179,7 @@ class CustomerController extends Controller
                     $customer->save();
                     $user_acc->save();
                     Session::forget('verification_email_customer');
-                    return Redirect::to('/login-customer')->with('message','Register Success, Login Now');
+                    return Redirect::to('/login-customer')->with('message','Đăng ký tài khoản thành công!');
                 }
             }
         }
@@ -215,11 +216,12 @@ class CustomerController extends Controller
         $get_email=Customer::where('khachhang_email',$data['verification_password'])->first();
         $get_email_user=UserAccount::where('user_email',$data['verification_password'])->first();
         if(!$get_email && !$get_email_user){
-            return redirect()->back()->with('error','Account does not exist');
+            return redirect()->back()->with('error','Tài khoản không tồn tại!');
         }else{
             $verification_code=substr(str_shuffle(str_repeat("QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm", 5)), 0,5).substr(str_shuffle(str_repeat("0123456789", 5)), 0,5);
             $to_name="RGUWB";
             $to_mail=$data['verification_password'];
+            $title_mail = "Mã Xác Thực Từ RGUWB SHOP";
             $data=array("name"=>"RGUWB Shop","body"=>$verification_code);
             $verification[] = array(
                 'verification_pass_time' => $now + 300,
@@ -227,11 +229,11 @@ class CustomerController extends Controller
                 'verification_pass_email' => $to_mail,
             );
             Session::put('verification_password_customer',$verification);
-            Mail::send('layout.verification_email',  $data, function($message) use ($to_name,$to_mail){
-                $message->to($to_mail)->subject('Verification Code');//send this mail with subject
-                $message->from($to_mail, $to_name);//send from this mail
+            Mail::send('layout.verification_email',  $data, function($message) use ($to_name,$to_mail, $title_mail ){
+                $message->to($to_mail)->subject( $title_mail);//send this mail with subject
+                $message->from($to_mail, $to_name, $title_mail );//send from this mail
             });
-            return Redirect::to('/reset-password-customer')->with('message','We have sent the verification code to your email, enter the verification code to reset password');
+            return Redirect::to('/reset-password-customer')->with('message','Chúng tôi đã gửi mã xác minh đến email của bạn, hãy nhập mã xác minh để đặt lại mật khẩu!');
         }
     }
 
@@ -267,16 +269,16 @@ class CustomerController extends Controller
             'customer_password_reset_password' => 'bail|required|max:255|min:6'
         ],
         [
-            'required' => 'Field is not empty',
-            'min' => 'Too short',
-            'max' => 'Too long'
+            'required' => 'Không được để trống',
+            'min' => 'Quá ngắn',
+            'max' => 'Quá dài'
         ]);
         $verification=Session::get('verification_password_customer');
         if($data['customer_password_reset_password']!= $data['customer_confirm_password_reset_password']){
-            return Redirect::to('/reset-password-customer')->with('error','Confirmation password is incorrect');
+            return Redirect::to('/reset-password-customer')->with('error','Mật khẩu xác nhận không chính xác!');
         }else{
             if(!isset($verification)){
-                return Redirect::to('/show-verification-password-customer')->with('error','Enter your email to reset password');
+                return Redirect::to('/show-verification-password-customer')->with('error','Nhập email của bạn để đặt lại mật khẩu!');
             }else{
                 foreach($verification as $key=>$value){
                     $verification_time=$value['verification_pass_time'];
@@ -285,10 +287,10 @@ class CustomerController extends Controller
                     break;
                 }
                 if($verification_code != $data['customer_verification_code_reset_password'] || $verification_email != $data['customer_email_reset_password']){
-                    return Redirect::to('/reset-password-customer')->with('error','Verification code or email is incorrect');
+                    return Redirect::to('/reset-password-customer')->with('error','Mã xác minh hoặc email không chính xác!');
                 }elseif($now > $verification_time){
                     Session::forget('verification_password_customer');
-                    return Redirect::to('/show-verification-password-customer')->with('error','The verification code has expired');
+                    return Redirect::to('/show-verification-password-customer')->with('error','Mã xác minh đã hết hạn!');
                 }else{
                     $get_email_user=UserAccount::where('user_email',$verification_email)->first();
                     $user_acc= UserAccount::find($get_email_user->id);
@@ -297,7 +299,7 @@ class CustomerController extends Controller
                     $user_acc->remember_token=$verification_code;
                     $user_acc->save();
                     Session::forget('verification_password_customer');
-                    return Redirect::to('/login-customer')->with('message','Reset Password Success, Login Now');
+                    return Redirect::to('/login-customer')->with('message','Đặt lại mật khẩu thành công!');
                 }
             }
         }
@@ -314,9 +316,9 @@ class CustomerController extends Controller
             'change_confirm_new_password' => 'bail|required|max:255|min:6'
         ],
         [
-            'required' => 'Field is not empty',
-            'min' => 'Too short',
-            'max' => 'Too long'
+            'required' => 'Không được để trống',
+            'min' => 'Quá ngắn',
+            'max' => 'Quá dài'
         ]);
         if(md5($data['change_old_password']) != $user_account_update_password->user_password){
             return redirect()->back()->with('error','Incorrect Password');
@@ -328,7 +330,7 @@ class CustomerController extends Controller
             Session::forget('customer_id');
             Session::forget('customer_name');
             Session::forget('user_id');
-            return Redirect::to('/login-customer')->with('message','Changed password successfully, please login again');
+            return Redirect::to('/login-customer')->with('message','Đã thay đổi mật khẩu thành công, vui lòng đăng nhập lại!');
         }
     }
     //login
@@ -341,24 +343,24 @@ class CustomerController extends Controller
             'customer_password_login' => 'required|max:255|min:6'
         ],
         [
-            'customer_email_login.required' => 'field is not empty',
-            'customer_email_login.email' => 'Email format is incorrect',
-            'customer_password_login.min' => 'password is too short',
+            'customer_email_login.required' => 'không được để trống',
+            'customer_email_login.email' => 'Email sai định dạng',
+            'customer_password_login.min' => 'Mật khẩu quá ngắn',
         ],);
         if(!$email){
-            return Redirect::to('/login-customer')->with('error','Account does not exist');
+            return Redirect::to('/login-customer')->with('error','Tài khoản không tồn tại!');
         }else{
             if($email->user_password != $customer_password){
                 $user_login_fail=UserAccount::find($email->id);
                 $user_login_fail->user_login_fail +=1;
                 $user_login_fail->save();
-                return Redirect::to('/login-customer')->with('error','Incorrect password');
+                return Redirect::to('/login-customer')->with('error','Mật khẩu không chính xác!');
             }else{
                 if($email->user_login_fail >= 5){
-                    return Redirect::to('/show-verification-password-customer')->with('error','You have logged in incorrectly more times than specified');
+                    return Redirect::to('/show-verification-password-customer')->with('error','Bạn đã đăng nhập sai quá số lần quy định, nhập email của bạn để đặt lại mật khẩu!');
                 }else{
                     if($email->loainguoidung_id !=4){
-                        return Redirect::to('/login-customer')->with('error','Access is not allowed');
+                        return Redirect::to('/login-customer')->with('error','Không được phép truy cập');
                     }else{
                         $user_login_fail=UserAccount::find($email->id);
                         $user_login_fail->user_login_fail = 0;
@@ -386,7 +388,7 @@ class CustomerController extends Controller
         if($login){
             return redirect()->back();
         }else{
-            return Redirect::to('/login-customer')->with('error','Please Login')->send();
+            return Redirect::to('/login-customer')->with('error','Vui lòng đăng nhập!')->send();
         }
     }
     public function ShowMyAccount(){
@@ -454,10 +456,10 @@ class CustomerController extends Controller
             'customer_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
         ],
         [
-            'required' => 'Field is not empty',
-            'min' => 'Too short',
-            'max' => 'Too long',
-            'mimes' => 'Wrong image format'
+            'required' => 'Không được để trống',
+            'min' => 'Quá ngắn',
+            'max' => 'Quá dài',
+            'mimes' => 'Sai định dạng ảnh'
         ]);
         $customer=Customer::find($customer_id);
         $customer->khachhang_ho=$data['customer_first_name'];
@@ -470,7 +472,7 @@ class CustomerController extends Controller
         $path = 'public/uploads/client/customer/';
             if($get_image){
                 if($path.$get_image && $path.$get_image!=$path.$old_name_img){
-                    return Redirect::to('/my-account')->with('error', 'Update Fail, Please choose another photo');
+                    return Redirect::to('/my-account')->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                 }else{
                     if($old_name_img!=null){
                         unlink($path.$old_name_img);
@@ -481,15 +483,15 @@ class CustomerController extends Controller
                     $get_image->move($path, $new_image);
                     $customer->khachhang_anh  = $new_image;
                     $customer->save();
-                    return Redirect::to('/my-account')->with('message', 'Update Success');
+                    return Redirect::to('/my-account')->with('message', 'Cập nhật thành công!');
                 }
             }else{
                 if ($old_name_img!=null) {
                     $customer->khachhang_anh = $old_name_img;
                     $customer->save();
-                    return Redirect::to('/my-account')->with('message', 'Update Success');
+                    return Redirect::to('/my-account')->with('message', 'Cập nhật thành công!');
                 } else {
-                    return Redirect::to('/my-account')->with('error', 'Update Fail,Please Choose Image');
+                    return Redirect::to('/my-account')->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                 }
             }
 
@@ -522,9 +524,9 @@ class CustomerController extends Controller
                 $order_delivery->save();
             }
             $delivery_update->save();
-            return Redirect::to('/customer-show-order/'.$order_id)->with('message','Update Success');
+            return Redirect::to('/customer-show-order/'.$order_id)->with('message', 'Cập nhật thành công!');
         }else{
-            return Redirect::to('/customer-show-order/'.$order_id)->with('error','Update Fail, Your order is being shipped');
+            return Redirect::to('/customer-show-order/'.$order_id)->with('error','Cập nhật không thành công, đơn hàng của bạn đang được vận chuyển!');
         }
     }
     public function LogoutCustomer(){
@@ -532,7 +534,6 @@ class CustomerController extends Controller
         Session::forget('customer_id');
         Session::forget('customer_name');
         Session::forget('user_id');
-        return Redirect::to('/login-customer');
     }
 
 

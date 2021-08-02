@@ -12,12 +12,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Nhập Hàng</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Import Add</li>
+                            <li class="breadcrumb-item active">Thêm Đơn Nhập</li>
                         </ol>
                     </div>
 
@@ -27,7 +27,7 @@
             <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h4 class="header-title">Product Import</h4>
+                            <h4 class="header-title">Thông Tin Nhập Hàng</h4>
                             <hr>
                             @if(session()->has('message'))
                                 <div class="alert alert-success">
@@ -49,15 +49,15 @@
                                                 <div class="col-sm-12">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4 class="header-title">Product List</h4>
+                                                            <h4 class="header-title">Sản Phẩm</h4>
                                                             <table id="scroll-vertical-datatable"class="table dt-responsive nowrap">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Selective</th>
-                                                                        <th>Images</th>
-                                                                        <th>Name</th>
-                                                                        <th>Price Retail</th>
-                                                                        <th>Brand</th>
+                                                                        <th>Chọn</th>
+                                                                        <th>Ảnh</th>
+                                                                        <th>Sản Phẩm</th>
+                                                                        <th>Giá Bán</th>
+                                                                        <th>Thương Hiệu</th>
                                                                         {{--  <th>Category</th>
                                                                         <th>Collection</th>  --}}
                                                                     </tr>
@@ -97,33 +97,33 @@
                                                 <div class="col-sm-12">
                                                     <div class="card">
                                                     <div class="card-body">
-                                                        <label class="col-form-label">Import No.</label>
-                                                        <input type="text" name="product_import_no" required="" class="form-control product_import_no" placeholder="Example: DH01,..">
+                                                        <label class="col-form-label">Mã Đơn Nhập</label>
+                                                        <input type="text" name="product_import_no" required="" class="form-control product_import_no" placeholder="Mã đơn nhập">
                                                         @error('product_import_no')
                                                         <p class="alert alert-danger"> {{ $message }}</p>
                                                         @enderror
-                                                        <label class=" col-form-label"> Day</label>
+                                                        <label class=" col-form-label"> Ngày Nhập</label>
                                                         <input type="date" name="product_import_day" required="" class="form-control product_import_day" >
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label  class="col-form-label">Staff</label>
+                                                                <label  class="col-form-label">Nhân Viên</label>
                                                                 @foreach ($get_admin as $key => $admin )
                                                                     <input type="text" value="{{ $admin->admin_ten  }}" readonly class="form-control product_import_staff">
                                                                     <input type="hidden" name="product_import_staff" value="{{ $admin->id }}"  class="form-control product_import_staff">
                                                                 @endforeach
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label class="col-form-label">Status</label>
+                                                                <label class="col-form-label">Trạng Thái</label>
                                                                 <select name="product_import_status" required="" class="form-control product_import_status">
-                                                                    <option value="1">Paid</option>
-                                                                    <option value="0">Unpaid</option>
+                                                                    <option value="1">Hoàn Thành</option>
+                                                                    <option value="0">Chưa Hoàn Thành</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <div class="form-group row">
                                                             <div class="col-sm-12">
-                                                                <label class="col-form-label">Supplier</label>
+                                                                <label class="col-form-label">Nhà Cung Cấp</label>
                                                                 <select name="product_import_supplier" class="form-control product_import_supplier">
                                                                     @foreach ($all_supplier as $key => $supplier)
                                                                     <option value="{{ $supplier->id }}">{{ $supplier->nhacungcap_ten }}</option>
@@ -138,18 +138,18 @@
                                             <hr>
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
-                                                    <label class="col-form-label">Product Import</label>
+                                                    <label class="col-form-label">Sản Phẩm Nhập</label>
                                                     <div class="table-responsive" id="ajax-queue">
                                                         <table class="table table-hover  mb-0">
                                                             <thead>
                                                             <tr>
                                                                 <td>#</td>
-                                                                <td>Image</td>
-                                                                <td>Product Name</td>
-                                                                <td>Quantity</td>
-                                                                <td>Price</td>
+                                                                <td>Ảnh</td>
+                                                                <td>Sản Phẩm</td>
+                                                                <td>Số Lượng</td>
+                                                                <td>Giá Nhập</td>
                                                                 <td>Size</td>
-                                                                <td>Total</td>
+                                                                <td>Tổng</td>
                                                             </tr>
                                                             </thead>
                                                             <tbody id="show-list-product">
@@ -193,11 +193,11 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
-                                                        <button type="submit" value="submit" name="" class="product-import-add-save add-save btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Save</button>
+                                                        <button type="submit" value="submit" name="" class="product-import-add-save add-save btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Lưu</button>
                                                     </div>
                                                     <div class="text-lg-left mt-3 mt-lg-0">
                                                         <div class="float-left">
-                                                            <p><b>Sub-total :</b></p>
+                                                            <p><b>Tổng Cộng :</b></p>
                                                             <h3 class="total"></h3>
                                                         </div>
                                                     </div>

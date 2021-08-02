@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item active">Admin</li>
                         </ol>
                     </div>
                 </div>

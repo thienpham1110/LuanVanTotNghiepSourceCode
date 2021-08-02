@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Statistical Product In Stock</li>
+                            <li class="breadcrumb-item active">Thống Kê Tồn Kho</li>
                         </ol>
                     </div>
                 </div>
@@ -24,20 +24,20 @@
                                 <form class="form-inline">
                                     @csrf
                                     <div class="form-group mr-3">
-                                        <label for="status-select" class="mr-2">Product Name</label>
+                                        <label for="status-select" class="mr-2">Sản Phẩm</label>
                                         <input type="search" id="search_name_statistics_product_in_stock" class="form-control search_name_statistics_product_in_stock">
                                     </div>
                                     <div class="form-group">
                                         <label for="status-select" class="mr-2">Size</label>
                                         <select class="custom-select search_size_statistics_product_in_stock" id="search_size_statistics_product_in_stock">
-                                            <option selected="" value="0"> All</option>
+                                            <option selected="" value="0"> Tất Cả</option>
                                             @foreach ($all_size as $key=>$size)
                                                 <option value="{{ $size->id }}">{{ $size->size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group mx-sm-3">
-                                        <a type="button" class="btn btn-success waves-effect waves-light clear-search-statistics-product-in-stock">Clear</a>
+                                        <a type="button" class="btn btn-success waves-effect waves-light clear-search-statistics-product-in-stock">Đặt Lại</a>
                                     </div>
                                 </form>
                             </div>
@@ -52,11 +52,11 @@
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">Name</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Sản Phẩm</th>
                                     <th class="font-weight-medium">Size</th>
-                                    <th class="font-weight-medium">Quantity In Stock</th>
-                                    <th class="font-weight-medium">Quantity Sold</th>
+                                    <th class="font-weight-medium">Số Lượng Tồn</th>
+                                    <th class="font-weight-medium">Số Lượng Đã Bán</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14 show_in_stock_search" >

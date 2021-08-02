@@ -12,7 +12,7 @@
                             <a href="index.html">
                                 <span><img src="{{asset('public/backend/images/logo-dark.png')}}" alt="" height="22"></span>
                             </a>
-                            <p class="text-muted mb-4 mt-3">Enter your email address and well send you an email with instructions to reset your password.</p>
+                            <p class="text-muted mb-4 mt-3">Nhập Email nhận mã xác thực để đặt lại mật khẩu.</p>
                             @if(session()->has('message'))
                                 <div class="alert alert-success">
                                     {!! session()->get('message') !!}
@@ -28,11 +28,11 @@
                         <form action="{{URL::to('/verification-email-admin')}}" method="POST" >
                             @csrf
                             <div class="form-group mb-3">
-                                <label for="emailaddress">Email address</label>
-                                <input class="form-control" name="verification_password" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                                <label for="emailaddress">Email</label>
+                                <input class="form-control" name="verification_password" type="email" id="emailaddress" required="" placeholder="Email">
                             </div>
                             <div class="form-group mb-0 text-center">
-                                <button class="btn btn-primary btn-block" type="submit"> Reset Password </button>
+                                <button class="btn btn-primary btn-block" type="submit">Lấy Mã Xác Thực </button>
                             </div>
                         </form>
                     </div> <!-- end card-body -->
@@ -40,8 +40,8 @@
                 <!-- end card -->
                 <div class="row mt-3">
                     <div class="col-12 text-center">
-                        <p class="text-muted">Back to <a href="{{URL::to('/admin')}}" class="text-primary font-weight-medium ml-1">Login</a></p>
-                        <p class="text-muted">If you already have a verification code <a href="{{URL::to('/reset-password-admin')}}" class="text-primary font-weight-medium ml-1">Reset Pasword</a></p>
+                        <p class="text-muted">Quay Lại <a href="{{URL::to('/admin')}}" class="text-primary font-weight-medium ml-1">Đăng Nhập</a></p>
+                        <p class="text-muted">Nếu Đã Có Mã Xác Thực <a href="{{URL::to('/reset-password-admin')}}" class="text-primary font-weight-medium ml-1">Đặt Lại Mật Khẩu Ngay</a></p>
                     </div> <!-- end col -->
                 </div>
                 <!-- end row -->

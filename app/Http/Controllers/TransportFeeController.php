@@ -25,13 +25,13 @@ class TransportFeeController extends Controller
             $output = '';
             if($data['action']=="city"){
                 $select_province=Province::where('tinhthanhpho_id',$data['ma_id'])->orderby('id','ASC')->get();
-                $output.='<option>Choose Province</option>';
+                $output.='<option>---Chọn Quận Huyện---</option>';
                 foreach($select_province as $key =>$province){
                     $output.='<option value="'.$province->id.'">'.$province->quanhuyen_name.'</option>';
                 }
             }else{
     			$select_wards = Wards::where('quanhuyen_id',$data['ma_id'])->orderby('id','ASC')->get();
-    			$output.='<option>Choose Wards</option>';
+    			$output.='<option>---Chọn Xã Phường Thị Trấn---</option>';
     			foreach($select_wards as $k => $ward){
     				$output.='<option value="'.$ward->id.'">'.$ward->xaphuongthitran_name.'</option>';
     			}
@@ -45,7 +45,7 @@ class TransportFeeController extends Controller
         ->where('quanhuyen_id',$data['province'])
         ->where('xaphuong_id',$data['wards'])->orderby('id','DESC')->first();
         if($transport_fee_old){
-            return Redirect::to('/transport-fee')->with('error','Add Fail, Shipping Fee Has Been Charged For This Area');
+            return Redirect::to('/transport-fee')->with('error','Thêm không thành công, phí vận chuyển đã được tính cho khu vực này!');
         }else{
             $transport_fee=new TransportFee();
             $transport_fee->tinhthanhpho_id=$data['city'];
@@ -54,7 +54,8 @@ class TransportFeeController extends Controller
             $transport_fee->phivanchuyen_phi_van_chuyen=$data['transport_fee'];
             $transport_fee->phivanchuyen_ngay_giao_hang_du_kien=$data['transport_fee_day'];
             $transport_fee->save();
-            return Redirect::to('/transport-fee')->with('message','Add Success');
+            return Redirect::to('/transport-fee')->with('message', 'Thêm thành công!');
+
         }
     }
     // public function SelectFee(){
@@ -83,13 +84,11 @@ class TransportFeeController extends Controller
         $fee_value = rtrim($data['fee_value'],'.');
         $transport_fee->phivanchuyen_phi_van_chuyen=$fee_value;
         $transport_fee->save();
-        Session::put('message','Update Success');
     }
     public function TransportFeeUpdateDay(Request $request){
         $data =$request->all();
         $transport_fee= TransportFee::find($data['feeship_id']);
         $transport_fee->phivanchuyen_ngay_giao_hang_du_kien=$data['fee_value'];
         $transport_fee->save();
-        Session::put('message','Update Success');
     }
 }

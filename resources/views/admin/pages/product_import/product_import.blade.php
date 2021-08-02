@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right mr-3">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-import-add-multiple')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/product-import-add-multiple')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Mới</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Import</li>
+                            <li class="breadcrumb-item active">Nhập Hàng</li>
                         </ol>
                     </div>
                 </div>
@@ -28,11 +28,11 @@
                                 <div class="col-lg-12">
                                     <form class="form-inline" action="{{URL::to('/admin-search-import')}}" method="GET">
                                         <div class="form-group mr-3">
-                                            <label for="status-select" class="mr-2">From Day</label>
+                                            <label for="status-select" class="mr-2">Từ</label>
                                             <input type="date" name="search_admin_from_day_import"  class="form-control">
                                         </div>
                                         <div class="form-group mr-3">
-                                            <label for="status-select" class="mr-2">To Day</label>
+                                            <label for="status-select" class="mr-2">Đến</label>
                                             <input type="date" name="search_admin_to_day_import"  class="form-control">
                                         </div>
                                         <div class="form-group mr-3">
@@ -40,14 +40,14 @@
                                             @if(isset($search_filter_admin))
                                             value="{{ $search_filter_admin[0]['search_admin_from_total_import'] }}"
                                             @endif
-                                            name="search_admin_from_total_import" class="form-control" placeholder="From Total">
+                                            name="search_admin_from_total_import" class="form-control" placeholder="Giá Từ">
                                         </div>
                                         <div class="form-group mr-3">
                                             <input type="number" min="1"
                                             @if(isset($search_filter_admin))
                                             value="{{ $search_filter_admin[0]['search_admin_to_total_import'] }}"
                                             @endif
-                                            name="search_admin_to_total_import" class="form-control" placeholder="To total">
+                                            name="search_admin_to_total_import" class="form-control" placeholder="Đến Giá">
                                         </div>
                                         <div class="form-group mr-3 mt-3">
                                             <label for="inputPassword2" class="sr-only">Search</label>
@@ -55,13 +55,13 @@
                                             @if(isset($search_filter_admin))
                                             value="{{ $search_filter_admin[0]['search_import_keyword'] }}"
                                             @endif
-                                            placeholder="Search Keyword...">
+                                            placeholder="Từ khóa">
                                         </div>
                                         <div class="form-group mx-sm-3 mt-3">
-                                            <button type="submit" class="btn btn-success waves-effect waves-light ">Search</button>
+                                            <button type="submit" class="btn btn-success waves-effect waves-light ">Tìm</button>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light">All</a>
+                                            <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light">Tất Cả</a>
                                         </div>
                                     </form>
                                 </div>
@@ -89,12 +89,12 @@
                                 @endif
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">ID</th>
-                                    <th class="font-weight-medium">Date</th>
-                                    <th class="font-weight-medium">Total</th>
-                                    <th class="font-weight-medium">Supplier</th>
-                                    <th class="font-weight-medium">Status</th>
-                                    <th class="font-weight-medium">Action</th>
+                                    <th class="font-weight-medium">Mã Đơn Nhập</th>
+                                    <th class="font-weight-medium">Ngày Nhập</th>
+                                    <th class="font-weight-medium">Tổng Cộng</th>
+                                    <th class="font-weight-medium">Nhà Cung Cấp</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
+                                    <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
                                 </thead>
 
@@ -132,8 +132,9 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/product-import-show-detail/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
-                                                    <a class="dropdown-item" href="{{URL::to('/product-import-edit/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-import-show-detail/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Chi Tiết</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-import-edit/'.$product_import->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Cập Nhật</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/product-import-delete/'.$product_import->id)}}" onclick="return confirm('Xóa đơn nhập?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Xóa</a>
                                                 </div>
                                             </div>
                                         </td>

@@ -8,7 +8,7 @@
                 <ul>
                     <li><a href="index.html">home</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>about us</li>
+                    <li>Cửa Hàng</li>
                 </ul>
 
             </div>

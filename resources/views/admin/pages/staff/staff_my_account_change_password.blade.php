@@ -9,8 +9,8 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
-                            <li class="breadcrumb-item active">Change Password</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
+                            <li class="breadcrumb-item active">Đổi Mật Khẩu Tài Khoản</li>
                         </ol>
                     </div>
                 </div>
@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card-box">
-                            <h4 class="header-title">Change Password</h4>
+                            <h4 class="header-title">Đổi Mật Khẩu</h4>
                             <p class="sub-header">
                             <hr>
                             @if(session()->has('message'))
@@ -37,29 +37,29 @@
                             <form action="{{URL::to('/staff-my-account-change-password-save')}}" class="parsley-form" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="pass1">Password<span class="text-danger">*</span></label>
-                                    <input id="pass1" name="my_account_old_password" type="password" placeholder="Password" required="" class="form-control">
+                                    <label for="pass1">Mật Khẩu<span class="text-danger">*</span></label>
+                                    <input id="pass1" name="my_account_old_password" type="password" placeholder="Mật khẩu" required="" class="form-control">
                                     @error('my_account_old_password')
                                     <p class="alert alert-danger"> {{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="pass1">New Password<span class="text-danger">*</span></label>
-                                    <input id="pass1" name="my_account_new_password" type="password" placeholder="Password" required="" class="form-control">
+                                    <label for="pass1">Mật Khẩu Mới<span class="text-danger">*</span></label>
+                                    <input id="pass1" name="my_account_new_password" type="password" placeholder="Mật khẩu mới" required="" class="form-control">
                                     @error('my_account_new_password')
                                     <p class="alert alert-danger"> {{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="passWord2">Confirm new Password <span class="text-danger">*</span></label>
-                                    <input data-parsley-equalto="#pass1" name="my_account_confirm_new_password" type="password" required="" placeholder="Password" class="form-control" id="passWord2">
+                                    <label for="passWord2">Xác Nhận Mật Khẩu Mới<span class="text-danger">*</span></label>
+                                    <input name="my_account_confirm_new_password" type="password" required="" placeholder="Xác nhận mật khẩu mới" class="form-control">
                                     @error('my_account_confirm_new_password')
                                     <p class="alert alert-danger"> {{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="form-group text-right mb-0">
                                     <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
-                                        Submit
+                                        Lưu
                                     </button>
                                 </div>
                             </form>

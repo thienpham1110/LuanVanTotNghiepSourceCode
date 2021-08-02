@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>Shopping Cart</li>
+                    <li>Giỏ Hàng</li>
                 </ul>
             </div>
         </div>
@@ -37,12 +37,12 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="product_remove">Delete</th>
-                                    <th class="product_thumb">Image</th>
-                                    <th class="product_name">Product</th>
-                                    <th class="product-price">Price</th>
-                                    <th class="product_quantity">Quantity</th>
-                                    <th class="product_total">Total</th>
+                                    <th class="product_remove">Xóa</th>
+                                    <th class="product_thumb">Ảnh</th>
+                                    <th class="product_name">Tên Sản Phẩm</th>
+                                    <th class="product-price">Giá</th>
+                                    <th class="product_quantity">Số Lượng</th>
+                                    <th class="product_total">Tổng Tiền</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,8 +66,8 @@
                                     @endforeach
                                 @else
                                 <tr >
-                                    <td colspan="6" ><h4 style="text-align: center">There Are No Products In The Cart</h4>
-                                        <a type="button" class="btn btn-danger" href="{{ URL::to('/shop-now')}}" >Shop Now</a>
+                                    <td colspan="6" ><h4 style="text-align: center">Không có sản phẩm nào trong giỏ hàng!</h4>
+                                        <a type="button" class="btn btn-danger" href="{{ URL::to('/shop-now')}}" >Mua Hàng</a>
                                     </td>
                                 </tr>
                                 @endif
@@ -76,8 +76,8 @@
                     </div>
                     <div class="cart_submit">
                         @if(Session::get('cart')==true)
-                        <a type="button" class="btn btn-danger mr-2" href="{{ URL::to('/shop-now')}}" >Shop Now</a>
-                        <button type="submit" >update cart</button>
+                        <a type="button" class="btn btn-danger mr-2" href="{{ URL::to('/shop-now')}}">Mua Hàng</a>
+                        <button type="submit" >Cập Nhật Giỏ Hàng</button>
                         @endif
                     </div>
                 </div>
@@ -89,27 +89,31 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <div class="coupon_code">
-                        <h3>Coupon</h3>
+                        <h3>Mã Giảm Giá</h3>
                         @if(Session::get('cart'))
-                            <form action="{{ URL::to('/check-coupon')}}" method="POST">
-                                @csrf
-                                <div class="coupon_inner">
-                                    <p>Enter your coupon code if you have one.</p>
-                                    @if(session()->has('message'))
-                                        <div class="alert alert-success">
-                                            {!! session()->get('message') !!}
-                                        </div>
-                                    @elseif(session()->has('error'))
-                                        <div class="alert alert-danger">
-                                            {!! session()->get('error') !!}
-                                        </div>
-                                    @endif
-                                    <input placeholder="Coupon code" required="" name="cart_coupon" type="text">
-                                    <button type="submit" class="check-coupon">Apply coupon</button>
-                                </div>
-                            </form>
+                            @if(Session::get('customer_id'))
+                                <form action="{{ URL::to('/check-coupon')}}" method="POST">
+                                    @csrf
+                                    <div class="coupon_inner">
+                                        <p>Nhập mã giảm giá, nếu có.</p>
+                                        @if(session()->has('message'))
+                                            <div class="alert alert-success">
+                                                {!! session()->get('message') !!}
+                                            </div>
+                                        @elseif(session()->has('error'))
+                                            <div class="alert alert-danger">
+                                                {!! session()->get('error') !!}
+                                            </div>
+                                        @endif
+                                        <input placeholder="Coupon code" required="" name="cart_coupon" type="text">
+                                        <button type="submit" class="check-coupon">Thêm Mã Khuyến Mãi</button>
+                                    </div>
+                                </form>
+                            @else
+                            <h4 style="text-align: center">Vui lòng đăng nhập để sử dụng mã giảm giá!</h4>
+                            @endif
                         @else
-                            <h4 style="text-align: center">There Are No Products In The Cart</h4>
+                            <h4 style="text-align: center">Không có sản phẩm nào trong giỏ hàng!</h4>
                         @endif
                     </div>
                 </div>
@@ -151,10 +155,10 @@
                 </div> --}}
                 <div class="col-lg-6 col-md-6">
                     <div class="coupon_code">
-                        <h3>Cart Totals</h3>
+                        <h3>Tổng Giỏ Hàng</h3>
                         <div class="coupon_inner">
                             <div class="cart_subtotal">
-                                <p>Subtotal</p>
+                                <p>Tổng</p>
                                 <p class="cart_amount">
                                     @if(Session::get('cart')==true)
                                     {{number_format($subtotal,0,',','.').' VNĐ' }}
@@ -162,8 +166,8 @@
                                 </p>
                             </div>
                             <div class="cart_subtotal ">
-                                 <p>Coupon</p>
-                                 <p class="cart_amount"><span>Discount:
+                                 <p>Mã khuyến mãi</p>
+                                 <p class="cart_amount"><span>Khuyến Mãi:
                                     @if(Session::get('cart')==true)
                                         @if(Session::get('coupon'))
                                             @foreach (Session::get('coupon') as $key=>$cou)
@@ -183,12 +187,12 @@
                                             {{number_format($total_coupon,0,',','.').' VNĐ' }}
                                         @endif
                                     @else
-                                    No Products
+                                    Không có sản phẩm
                                     @endif
                                 </p>
                              </div>
                             <div class="cart_subtotal">
-                                <p>Total</p>
+                                <p>Tổng tiền</p>
                                 <p class="cart_amount">
                                     @if(Session::get('cart')==true)
                                     @if(Session::get('coupon'))
@@ -213,9 +217,9 @@
                             </div>
                             <div class="checkout_btn">
                                @if(Session::get('customer_id')!=NULL)
-                                <a href="{{ URL::to('/checkout')}}">Proceed to Checkout</a>
+                                <a href="{{ URL::to('/checkout')}}">Thanh Toán</a>
                                @else
-                               <a href="{{ URL::to('/login-customer')}}">Proceed to Checkout</a>
+                               <a href="{{ URL::to('/login-customer')}}">Thanh Toán</a>
                                @endif
                             </div>
                             @endif

@@ -31,20 +31,20 @@ class CommentController extends Controller
     public function PostCommentCustomer(Request $request){
         $data=$request->all();
         $this->validate($request,[
-            'review_name' => 'bail|required|max:255|min:6',
-            'review_comment' => 'bail|required|max:255|min:6'
+            'review_name' => 'bail|required|max:255|min:1',
+            'review_comment' => 'bail|required|max:255|min:1'
         ],
         [
-            'required' => 'Field is not empty',
-            'min' => 'Too short',
-            'max' => 'Too long'
+            'required' => 'Không được để trống',
+            'min' => 'Quá ngắn',
+            'max' => 'Quá dài'
         ]);
         $customer=Session::get('customer_id');
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $comment_date = Carbon::now('Asia/Ho_Chi_Minh');
         // var_dump($data['review_name']);
         if($data['review_name']==NULL || $data['review_comment']==NULL || $data['starRateV']==NULL){
-            return redirect()->back()->with('error','Fail,Please enter all fields and select a rating star');
+            return redirect()->back()->with('error','Thêm đánh giá không thành công, vui lòng nhập đầy đủ các trường và chọn sao đánh giá!');
         }else{
             if($customer){
                 $comment=new Comment();
@@ -70,7 +70,7 @@ class CommentController extends Controller
                 $comment->sanpham_id=$data['product_id'];
                 $comment->save();
             }
-            return redirect()->back()->with('message','Successfully added review, pending approval');
+            return redirect()->back()->with('message','Đã thêm đánh giá thành công, đang chờ phê duyệt!');
         }
     }
 
@@ -165,15 +165,15 @@ class CommentController extends Controller
             'reply_admin_comment' => 'bail|required|max:255|min:6'
         ],
         [
-            'required' => 'Field is not empty',
-            'min' => 'Too short',
-            'max' => 'Too long'
+            'required' => 'Không được để trống',
+            'min' => 'Quá ngắn',
+            'max' => 'Quá dài'
         ]);
         if(Session::get('admin_role')==3){
             return Redirect::to('/dashboard');
         }else{
             if (!$request) {
-                return Redirect::to('comment')->with('error', 'Not found');
+                return Redirect::to('comment')->with('error', 'Không tồn tại đánh giá!');
             } else {
                 $data = $request->all();
                 $user_id=Session::get('admin_id');
@@ -181,7 +181,7 @@ class CommentController extends Controller
                 date_default_timezone_set('Asia/Ho_Chi_Minh');
                 $comment_date = Carbon::now('Asia/Ho_Chi_Minh');
                 if ($data['reply_admin_comment']==null) {
-                    return redirect()->back()->with('error', 'Fail, Please enter a comment');
+                    return redirect()->back()->with('error', 'Phản hồi không thành công, vui lòng nhập phản hồi!');
                 } else {
                     if (isset($data['reply_customer_id'])) {
                         $comment=new Comment();
@@ -193,6 +193,9 @@ class CommentController extends Controller
                         $comment->admin_id=$admin_id->id;
                         $comment->khachhang_id=$data['reply_customer_id'];
                         $comment->sanpham_id=$data['reply_product_id'];
+                        $comment_update=Comment::find($data['reply_comment_id']);
+                        $comment_update->binhluan_trang_thai=1;
+                        $comment_update->save();
                         $comment->save();
                     } else {
                         $comment=new Comment();
@@ -203,9 +206,12 @@ class CommentController extends Controller
                         $comment->binhluan_id_phan_hoi=$data['reply_comment_id'];
                         $comment->admin_id=$admin_id->id;
                         $comment->sanpham_id=$data['reply_product_id'];
+                        $comment_update=Comment::find($data['reply_comment_id']);
+                        $comment_update->binhluan_trang_thai=1;
+                        $comment_update->save();
                         $comment->save();
                     }
-                    return redirect()->back()->with('message', 'Successfully Comment');
+                    return redirect()->back()->with('message', 'Phản hồi thành công!');
                 }
             }
         }
@@ -218,11 +224,26 @@ class CommentController extends Controller
         }else{
             $comment=Comment::find($comment_id);
             if (!$comment) {
-                return Redirect::to('comment')->with('error', 'Not found');
+                return Redirect::to('comment')->with('error', 'Không tồn tại đánh giá!');
             } else {
                 $comment->delete();
                 Comment::where('binhluan_id_phan_hoi', $comment_id)->delete();
-                return Redirect::to('comment')->with('message', 'Delete Success');
+                return Redirect::to('comment')->with('message', 'Xóa thành công!');
+            }
+        }
+    }
+
+    public function DeleteCommentReply($comment_id){
+        $this->AuthLogin();
+        if(Session::get('admin_role')==3){
+            return Redirect::to('/dashboard');
+        }else{
+            $comment=Comment::find($comment_id);
+            if (!$comment) {
+                return Redirect::to('comment')->with('error', 'Không tồn tại đánh giá!');
+            } else {
+                $comment->delete();
+                return redirect()->back()->with('message','Xóa thành công!');
             }
         }
     }

@@ -51,16 +51,16 @@ class CouponCodeController extends Controller
                 'coupon_code_quantity' => 'bail|required'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài'
             ]);
             if (empty($data['coupon_code_from_day']) && empty($data['coupon_code_to_day'])) {
-                return Redirect::to('/coupon-code-add')->with('error', 'Add Fail, Please select a date');
+                return Redirect::to('/coupon-code-add')->with('error', 'Thêm không thành công, vui lòng chọn ngày!');
             } else {
                 $get_code=Coupon::where('makhuyenmai_ma', $data['coupon_code_code'])->first();
                 if ($get_code) {
-                    return Redirect::to('/coupon-code-add')->with('error', 'Add Fail, Coupon already exists');
+                    return Redirect::to('/coupon-code-add')->with('error', 'Thêm không thành công, mã giảm giá đã tồn tại!');
                 } else {
                     $coupon_code=new Coupon();
                     $coupon_code->makhuyenmai_ten_ma = $data['coupon_code_name'];
@@ -72,7 +72,7 @@ class CouponCodeController extends Controller
                     $coupon_code->makhuyenmai_ngay_bat_dau = $data['coupon_code_from_day'];
                     $coupon_code->makhuyenmai_ngay_ket_thuc = $data['coupon_code_to_day'];
                     $coupon_code->save();
-                    return Redirect::to('/coupon-code')->with('message', 'Add Success');
+                    return Redirect::to('/coupon-code')->with('message', 'Thêm mã giảm giá thành công!');
                 }
             }
         }
@@ -85,11 +85,11 @@ class CouponCodeController extends Controller
         }else{
             $unactive_coupon_code=Coupon::find($coupon_code_id);
             if (!$unactive_coupon_code) {
-                return Redirect::to('/coupon-code')->with('error', 'Not found');
+                return Redirect::to('/coupon-code')->with('error', 'Không tồn tại mã giảm giá!');
             } else {
                 $unactive_coupon_code->makhuyenmai_trang_thai=0;
                 $unactive_coupon_code->save();
-                return Redirect::to('/product-type')->with('message', 'Hide Success');
+                return Redirect::to('/product-type')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -100,11 +100,11 @@ class CouponCodeController extends Controller
         }else{
             $active_coupon_code=Coupon::find($coupon_code_id);
             if (!$active_coupon_code) {
-                return Redirect::to('/coupon-code')->with('error', 'Not found');
+                return Redirect::to('/coupon-code')->with('error','Không tồn tại mã giảm giá!');
             } else {
                 $active_coupon_code->makhuyenmai_trang_thai=1;
                 $active_coupon_code->save();
-                return Redirect::to('/product-type')->with('message', 'Show Success');
+                return Redirect::to('/product-type')->with('message', 'Hiển thị thành công');
             }
         }
     }
@@ -116,7 +116,7 @@ class CouponCodeController extends Controller
         }else{
             $edit_coupon_code=Coupon::find($coupon_code_id);
             if (!$edit_coupon_code) {
-                return Redirect::to('/coupon-code')->with('error', 'Not found');
+                return Redirect::to('/coupon-code')->with('error', 'Không tồn tại mã giảm giá!');
             } else {
                 return view('admin.pages.coupon_code.coupon_code_edit')
             ->with('coupon_code', $edit_coupon_code);
@@ -131,7 +131,7 @@ class CouponCodeController extends Controller
         }else{
             $coupon=Coupon::find($coupon_code_id);
             if (!$coupon) {
-                return Redirect::to('/coupon-code')->with('error', 'Not found');
+                return Redirect::to('/coupon-code')->with('error', 'Không tồn tại mã giảm giá!');
             } else {
                 $data=$request->all();
                 $this->validate($request,[
@@ -140,16 +140,16 @@ class CouponCodeController extends Controller
                     'coupon_code_quantity' => 'bail|required'
                 ],
                 [
-                    'required' => 'Field is not empty',
-                    'min' => 'Too short',
-                    'max' => 'Too long'
+                    'required' => 'Không được để trống',
+                    'min' => 'Quá ngắn',
+                    'max' => 'Quá dài'
                 ]);
                 if (empty($data['coupon_code_from_day']) && empty($data['coupon_code_to_day'])) {
-                    return Redirect::to('/coupon-code-edit')->with('error', 'Fail ,Please select a date');
+                    return Redirect::to('/coupon-code-edit')->with('error', 'Cập nhật không thành công, vui lòng chọn ngày!');
                 } else {
                     $get_code=Coupon::where('makhuyenmai_ma', $data['coupon_code_code'])->whereNotIn('id', [$coupon_code_id])->first();
                     if ($get_code) {
-                        return Redirect::to('/coupon-code-edit')->with('error', 'Update Fail, Coupon already exists');
+                        return Redirect::to('/coupon-code-edit')->with('error', 'Cập nhật không thành công, mã giảm giá đã tồn tại!');
                     } else {
                         $coupon_code=Coupon::find($coupon_code_id);
                         $coupon_code->makhuyenmai_ten_ma = $data['coupon_code_name'];
@@ -161,7 +161,7 @@ class CouponCodeController extends Controller
                         $coupon_code->makhuyenmai_ngay_bat_dau = $data['coupon_code_from_day'];
                         $coupon_code->makhuyenmai_ngay_ket_thuc = $data['coupon_code_to_day'];
                         $coupon_code->save();
-                        return Redirect::to('/coupon-code')->with('message', 'Update Success');
+                        return Redirect::to('/coupon-code')->with('message', 'Cập nhật mã giảm giá thành công!');
                     }
                 }
             }
@@ -174,10 +174,10 @@ class CouponCodeController extends Controller
         }else{
             $delete_coupon=Coupon::find($coupon_code_id);
             if (!$delete_coupon) {
-                return Redirect::to('/coupon-code')->with('error', 'Not found');
+                return Redirect::to('/coupon-code')->with('error', 'Không tồn tại mã giảm giá!');
             } else {
                 $delete_coupon->delete();
-                return Redirect::to('/coupon-code')->with('message', 'Delete Success');
+                return Redirect::to('/coupon-code')->with('message', 'Xóa mã giảm giá thành công!');
             }
         }
     }

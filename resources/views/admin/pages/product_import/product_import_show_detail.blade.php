@@ -10,12 +10,13 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/product-import')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Nhập Hàng</a>
+                                <a href="{{URL::to('/product-import-add-multiple')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Mới</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Import ShowDetail</li>
+                            <li class="breadcrumb-item active">Chi Tiết Đơn Nhập</li>
                         </ol>
                     </div>
                 </div>
@@ -24,7 +25,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title">Product Import</h4>
+                        <h4 class="header-title">Thông Tin Đơn Nhập</h4>
                         <hr>
                         @if(session()->has('message'))
                             <div class="alert alert-success">
@@ -44,16 +45,16 @@
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <label class="col-form-label"> <h4> Supplier Information</h4></label>
+                                                    <label class="col-form-label"> <h4>Thông Tin Nhà Cung Cấp</h4></label>
                                                     <div class="table-responsive" id="ajax-queue">
                                                         <table class="table table-hover  mb-0">
                                                             <thead>
                                                             <tr>
-                                                                <td>Name</td>
-                                                                <td>Phone Number</td>
+                                                                <td>Tên</td>
+                                                                <td>Số Điện Thoại</td>
                                                                 <td>Email</td>
-                                                                <td>Address</td>
-                                                                <td>Status</td>
+                                                                <td>Địa Chỉ</td>
+                                                                <td>Trạng Thái</td>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -87,15 +88,15 @@
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                            <label class="col-form-label"> <h4> Import Information</h4></label>
+                                            <label class="col-form-label"> <h4>Thông Tin Nhập</h4></label>
                                             <div class="table-responsive" id="ajax-queue">
                                                 <table class="table table-hover  mb-0">
                                                     <thead>
                                                     <tr>
-                                                        <td>Import No.</td>
-                                                        <td>Import Day</td>
-                                                        <td>Total</td>
-                                                        <td>Status</td>
+                                                        <td>Mã Đơn Nhập</td>
+                                                        <td>Ngày Nhập</td>
+                                                        <td>Tổng Cộng</td>
+                                                        <td>Trạng Thái</td>
                                                     </tr>
                                                     </thead>
                                                     <tbody >
@@ -140,17 +141,17 @@
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <label class="col-form-label"> <h4> Product Information</h4></label>
+                                                    <label class="col-form-label"> <h4>Chi Tiết Nhập</h4></label>
                                                     <div class="table-responsive" id="ajax-queue">
                                                         <table class="table table-hover  mb-0">
                                                             <thead>
                                                             <tr>
-                                                                <td>Images</td>
-                                                                <td>Product</td>
+                                                                <td>Ảnh</td>
+                                                                <td>Sản Phẩm</td>
                                                                 <td>Size</td>
-                                                                <td>Quantity</td>
-                                                                <td>Price</td>
-                                                                <td>Total</td>
+                                                                <td>Số Lượng Nhập</td>
+                                                                <td>Giá Nhập</td>
+                                                                <td>Tổng</td>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

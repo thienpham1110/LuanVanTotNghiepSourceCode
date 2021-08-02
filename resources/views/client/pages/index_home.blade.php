@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="block_title">
-                <h3>  New Products</h3>
+                <h3>Sản phẩm mới</h3>
             </div>
             </div>
         </div>
@@ -37,8 +37,8 @@
                             <ul>
                                 <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
                                 <input type="hidden" value="{{number_format($product->sanpham_gia_ban,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
-                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">View Detail</a></li>
+                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Thêm Yêu Thích</a></li>
+                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">Chi Tiết</a></li>
                             </ul>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="block_title">
-                <h3>featured Products</h3>
+                <h3>Sản phẩm nổi bật</h3>
             </div>
             </div>
         </div>
@@ -81,8 +81,8 @@
                             <ul>
                                 <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
                                 <input type="hidden" value="{{number_format($product->sanpham_gia_ban,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
-                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">View Detail</a></li>
+                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Thêm Yêu Thích</a></li>
+                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">Chi Tiết</a></li>
                             </ul>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="block_title">
-                <h3>Product Viewed</h3>
+                <h3>Sản phẩm đã xem</h3>
             </div>
             </div>
         </div>
@@ -122,8 +122,8 @@
                             <ul>
                                 <input type="hidden" value="{{ $product->sanpham_ten }}" id="wishlist_viewed_product_name{{ $product->id }}">
                                 <input type="hidden" value="{{number_format($product->sanpham_gia_ban,0,',','.').' VNĐ' }}" id="wishlist_viewed_product_price{{ $product->id }}">
-                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Add to Wishlist</a></li>
-                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">View Detail</a></li>
+                                <li><a type="button" onclick="add_wistlist(this.id);" id="{{ $product->id }}" title=" Add to Wishlist ">Thêm Yêu Thích</a></li>
+                                <li><a class="views-product-detail" data-views_product_id="{{$product->id}}" id="wishlist_viewed_product_url{{ $product->id }}"href="{{URL::to('/product-detail/'.$product->id)}}"title="Quick view">Chi Tiết</a></li>
                             </ul>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
     <!--brand logo strat-->
     <div class="brand_logo brand_two">
         <div class="block_title">
-            <h3>Brands</h3>
+            <h3>Thương Hiệu</h3>
         </div>
         <div class="row">
             <div class="brand_active owl-carousel">

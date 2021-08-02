@@ -60,7 +60,7 @@ class CartController extends Controller
                     if($val['session_id']==$key){
                         $get_in_stock=ProductInStock::where('sanpham_id',$val['product_id'])->where('size_id',$val['product_size_id'])->first();
                         if($get_in_stock->sanphamtonkho_so_luong_ton < $value){
-                            return Redirect::to('/cart')->with('error','Update Fail, Quantity is too big');
+                            return Redirect::to('/cart')->with('error','Cập nhật giỏ hàng không thành công, số lượng quá lớn!');
                         }else{
                             $cart[$k]['product_quantity']=$value;
                         }
@@ -69,9 +69,9 @@ class CartController extends Controller
             }
             Session::put('cart', $cart);
 			Session::save();
-            return Redirect::to('/cart')->with('message','Update Quantity Success');
+            return Redirect::to('/cart')->with('message','Cập nhật giỏ hàng thành công!');
         }else{
-            return Redirect::to('/cart')->with('error','Update Fail');
+            return Redirect::to('/cart')->with('error','Cập nhật giỏ hàng không thành công');
         }
     }
 
@@ -180,7 +180,7 @@ class CartController extends Controller
         $today = date("Y-m-d");
         if($data['cart_coupon'] =='' || !(Coupon::where('makhuyenmai_ma',$data['cart_coupon'])->where('makhuyenmai_trang_thai', 1)->first())){
             $this->DeleteCoupon();
-            return redirect()->back()->with('error', 'Add Coupon Fail, Coupon Not Found ');
+            return redirect()->back()->with('error', 'Mã giảm giá không tồn tại!');
         }else{
             if(Session::get('customer_id')){
                 $coupon=Coupon::where('makhuyenmai_ma',$data['cart_coupon'])
@@ -188,7 +188,7 @@ class CartController extends Controller
                 ->where('makhuyenmai_user', 'LIKE', '%' . Session::get('customer_id') . '%')
                 ->first();
                 if ($coupon) {
-                    return redirect()->back()->with('error', 'Discount Code Already Used');
+                    return redirect()->back()->with('error', 'Mã giảm giá đã được sử dụng!');
                 }else{
                     $coupon_login = Coupon::where('makhuyenmai_ma', $data['cart_coupon'])
                     ->where('makhuyenmai_trang_thai', 1)
@@ -227,59 +227,14 @@ class CartController extends Controller
                             Session::put('coupon',$cou);
                         }
                         Session::save();
-                        return redirect()->back()->with('message','Add Coupon Success');
+                        return redirect()->back()->with('message','Thêm mã giảm giá thành công');
                     }
                     else{
                         $this->DeleteCoupon();
-                        return redirect()->back()->with('error','Add Coupon Fail, Coupon Codes Are Out Of Stock Or Expired');
+                        return redirect()->back()->with('error','Thêm mã giảm giá không thành công, mã giảm giá đã hết hoặc đã hết hạn sử dụng!');
                     }
-                }
-            }else{
-                $coupon = Coupon::where('makhuyenmai_ma', $data['cart_coupon'])
-                ->where('makhuyenmai_trang_thai', 1)
-                ->whereDate('makhuyenmai_ngay_bat_dau', '<=', $today)
-                ->whereDate('makhuyenmai_ngay_ket_thuc','>=',$today)
-                ->where('makhuyenmai_so_luong','>', 0)->first();
-                // print_r($coupon);
-                if(!$coupon){
-                    return redirect()->back()->with('error', 'Add Coupon Fail, Coupon Codes Are Out Of Stock Or Expired');
-                }else{
-                    $coupon_session=Session::get('coupon');
-                    if($coupon_session==true){
-                        $is_ava=0;
-                        foreach ($coupon_session as $key => $val) {
-                            if ($val['coupon_code'] == $data['cart_coupon']) {
-                                $is_ava++;
-                            }
-                        }
-                        if($is_ava==0){
-                            $cou[]=array(
-                                'coupon_id' =>$coupon->id,
-                                'coupon_code' =>$coupon->makhuyenmai_ma,
-                                'coupon_quantity' =>$coupon->makhuyenmai_so_luong,
-                                'coupon_type' =>$coupon->makhuyenmai_loai_ma,
-                                'coupon_number' =>$coupon->makhuyenmai_gia_tri,
-                                'coupon_status' =>$coupon->makhuyenmai_trang_thai,
-                                'coupon_time'=>$now + 180
-                            );
-                            Session::put('coupon',$cou);
-                        }
-                    }else{
-                        $cou[]=array(
-                            'coupon_id' =>$coupon->id,
-                            'coupon_code' =>$coupon->makhuyenmai_ma,
-                            'coupon_quantity' =>$coupon->makhuyenmai_so_luong,
-                            'coupon_type' =>$coupon->makhuyenmai_loai_ma,
-                            'coupon_number' =>$coupon->makhuyenmai_gia_tri,
-                            'coupon_status' =>$coupon->makhuyenmai_trang_thai,
-                        );
-                        Session::put('coupon',$cou);
-                    }
-                    Session::save();
-                    return redirect()->back()->with('message','Add Coupon Success');
                 }
             }
         }
-
     }
 }

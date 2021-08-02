@@ -97,11 +97,11 @@ class AboutStoreController extends Controller
             'about_store_number' => 'bail|required|max:255',
             'about_store_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
         ],[
-            'required' => 'Fields cannot be left blank',
-            'email' => 'Wrong email format',
-            'max' => 'Too long',
-            'min' => 'Length is too small',
-            'mimes' => 'Wrong image format'
+            'required' => 'Không được để trống',
+            'email' => 'Email sai định dạng',
+            'max' => 'Quá dài',
+            'min' => 'Quá ngắn',
+            'mimes' => 'Sai định dạng ảnh'
         ]);
         if(Session::get('admin_role')==3){
             return Redirect::to('/dashboard');
@@ -109,7 +109,7 @@ class AboutStoreController extends Controller
             $data=$request->all();
             $get_about=AboutStore::where('cuahang_thu_tu', $data['about_store_number'])->first();
             if ($get_about) {
-                return Redirect::to('/about-store-add')->with('error', 'Add Fail, Number already exists');
+                return Redirect::to('/about-store-add')->with('error', 'Thêm không thành công, số thứ tự đã tồn tại!');
             } else {
                 $about_store=new AboutStore();
                 $about_store->cuahang_tieu_de = $data['about_store_title'];
@@ -124,7 +124,7 @@ class AboutStoreController extends Controller
                 //them hinh anh
                 if ($get_image) {
                     if($path.$get_image){
-                        return Redirect::to('/about-store-add')->with('error', 'Add Fail, Please choose another photo');
+                        return Redirect::to('/about-store-add')->with('error', 'Thêm không thành công, trùng tên ảnh vui lòng chọn ảnh khác!');
                     }else{
                         $get_name_image = $get_image->getClientOriginalName();
                         $name_image = current(explode('.', $get_name_image));
@@ -132,10 +132,10 @@ class AboutStoreController extends Controller
                         $get_image->move($path, $new_image);
                         $about_store->cuahang_anh = $new_image;
                         $about_store->save();
-                        return Redirect::to('/about-store')->with('message', 'Add Success');
+                        return Redirect::to('/about-store')->with('message', 'Thêm thành công');
                     }
                 } else {
-                    return Redirect::to('/about-store-add')->with('error', 'Add Fail,Please Choose Image');
+                    return Redirect::to('/about-store-add')->with('error', 'Thêm không thành công,vui lòng chọn ảnh!');
                 }
             }
         }
@@ -148,11 +148,11 @@ class AboutStoreController extends Controller
         }else{
             $unactive_about_store=AboutStore::find($about_store_id);
             if (!$unactive_about_store) {
-                return Redirect::to('/about-store')->with('error', 'Not found');
+                return Redirect::to('/about-store')->with('error', 'Không tồn tại');
             } else {
                 $unactive_about_store->cuahang_trang_thai=0;
                 $unactive_about_store->save();
-                return Redirect::to('/about-store')->with('message', 'Hide Success');
+                return Redirect::to('/about-store')->with('message', 'Ẩn thành công');
             }
         }
     }
@@ -163,11 +163,11 @@ class AboutStoreController extends Controller
         }else{
             $active_about_store=AboutStore::find($about_store_id);
             if (!$active_about_store) {
-                return Redirect::to('/about-store')->with('error', 'Not found');
+                return Redirect::to('/about-store')->with('error', 'Không tồn tại');
             } else {
                 $active_about_store->cuahang_trang_thai=1;
                 $active_about_store->save();
-                return Redirect::to('/about-store')->with('message', 'Show Success');
+                return Redirect::to('/about-store')->with('message', 'Hiển thị thành công');
             }
         }
     }
@@ -179,10 +179,10 @@ class AboutStoreController extends Controller
         }else{
             $edit_about_store=AboutStore::find($about_store_id);
             if (!$edit_about_store) {
-                return Redirect::to('/about-store')->with('error', 'Not found');
+                return Redirect::to('/about-store')->with('error', 'Không tồn tại');
             } else {
                 return view('admin.pages.aboutstore.about_store_edit')
-        ->with('about_store', $edit_about_store);
+            ->with('about_store', $edit_about_store);
             }
         }
     }
@@ -198,11 +198,11 @@ class AboutStoreController extends Controller
             'about_store_number' => 'bail|required|max:255',
             'about_store_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
         ],[
-            'required' => 'Field is not empty',
-            'email' => 'Email format is incorrect',
-            'max' => 'Too long',
-            'min' => 'Length is too small',
-            'mimes' => 'Wrong image format'
+            'required' => 'Không được để trống',
+            'email' => 'Email sai định dạng',
+            'max' => 'Quá dài',
+            'min' => 'Quá ngắn',
+            'mimes' => 'Sai định dạng ảnh'
         ]);
         if(Session::get('admin_role')==3){
             return Redirect::to('/dashboard');
@@ -210,7 +210,7 @@ class AboutStoreController extends Controller
             $data=$request->all();
             $about_store=AboutStore::find($about_store_id);
             if (!$about_store) {
-                return Redirect::to('/about-store')->with('error', 'Not found');
+                return Redirect::to('/about-store')->with('error', 'Không tồn tại');
             } else {
                 $about_store->cuahang_tieu_de = $data['about_store_title'];
                 $about_store->cuahang_mo_ta = $data['about_store_description'];
@@ -224,7 +224,7 @@ class AboutStoreController extends Controller
                 $path = 'public/uploads/admin/aboutstore/';
                 if ($get_image) {
                     if($path.$get_image && $path.$get_image!=$path.$old_name){
-                        return Redirect::to('/about-store-edit/'.$about_store_id)->with('error', 'Update Fail, Please choose another photo');
+                        return Redirect::to('/about-store-edit/'.$about_store_id)->with('error', 'Thêm không thành công, trùng tên ảnh vui lòng chọn ảnh khác!');
                     }else{
                         if ($old_name!=null) {
                             unlink($path.$old_name);
@@ -235,15 +235,15 @@ class AboutStoreController extends Controller
                         $get_image->move($path, $new_image);
                         $about_store->cuahang_anh= $new_image;
                         $about_store->save();
-                        return Redirect::to('/about-store')->with('message', 'Update Success');
+                        return Redirect::to('/about-store')->with('message', 'Cập nhật thành công');
                     }
                 } else {
                     if ($old_name!=null) {
                         $about_store->cuahang_anh = $old_name;
                         $about_store->save();
-                        return Redirect::to('/about-store')->with('message', 'Update Success');
+                        return Redirect::to('/about-store')->with('message', 'Cập nhật thành công');
                     } else {
-                        return Redirect::to('/about-store-edit/'.$about_store_id)->with('error', 'Update Fail,Please Choose Image');
+                        return Redirect::to('/about-store-edit/'.$about_store_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                     }
                 }
             }
@@ -256,10 +256,10 @@ class AboutStoreController extends Controller
         }else{
             $delete_about=AboutStore::find($about_store_id);
             if (!$delete_about) {
-                return Redirect::to('/about-store')->with('error', 'Not found');
+                return Redirect::to('/about-store')->with('error', 'Không tồn tại');
             } else {
                 $delete_about->delete();
-                return Redirect::to('/about-store')->with('message', 'Delete Success');
+                return Redirect::to('/about-store')->with('message', 'Xóa thành công');
             }
         }
     }

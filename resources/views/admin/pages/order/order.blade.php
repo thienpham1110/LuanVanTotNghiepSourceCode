@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Mới</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Order</li>
+                            <li class="breadcrumb-item active">Đơn Hàng</li>
                         </ol>
                     </div>
                 </div>
@@ -28,11 +28,11 @@
                             <div class="col-lg-12">
                                 <form class="form-inline" action="{{URL::to('/admin-search-order')}}" method="GET">
                                     <div class="form-group mr-3">
-                                        <label for="status-select" class="mr-2">From Day</label>
+                                        <label for="status-select" class="mr-2">Từ</label>
                                         <input type="date" name="search_admin_from_day_order"  class="form-control ">
                                     </div>
                                     <div class="form-group mr-3">
-                                        <label for="status-select" class="mr-2">To Day</label>
+                                        <label for="status-select" class="mr-2">Đến</label>
                                         <input type="date" name="search_admin_to_day_order"  class="form-control ">
                                     </div>
                                     <div class="form-group mr-3">
@@ -40,14 +40,14 @@
                                         @if(isset($search_filter_admin))
                                         value="{{ $search_filter_admin[0]['search_admin_from_total_order'] }}"
                                         @endif
-                                        name="search_admin_from_total_order" class="form-control" placeholder="From Total">
+                                        name="search_admin_from_total_order" class="form-control" placeholder="Giá từ">
                                     </div>
                                     <div class="form-group mr-3">
                                         <input type="number" min="1"
                                         @if(isset($search_filter_admin))
                                         value="{{ $search_filter_admin[0]['search_admin_to_total_order'] }}"
                                         @endif
-                                        name="search_admin_to_total_order" class="form-control" placeholder="To total">
+                                        name="search_admin_to_total_order" class="form-control" placeholder="Đến giá">
                                     </div>
                                     <div class="form-group mr-3 mt-3">
                                         <label for="inputPassword2" class="sr-only">Search</label>
@@ -55,13 +55,13 @@
                                         @if(isset($search_filter_admin))
                                         value="{{ $search_filter_admin[0]['search_order_keyword'] }}"
                                         @endif
-                                        placeholder="Search Keyword...">
+                                        placeholder="Từ khóa">
                                     </div>
                                     <div class="form-group mx-sm-3 mt-3">
-                                        <button type="submit" class="btn btn-success waves-effect waves-light search-admin-order">Search</button>
+                                        <button type="submit" class="btn btn-success waves-effect waves-light search-admin-order">Tìm</button>
                                     </div>
                                     <div class="form-group mt-3">
-                                        <a href="{{URL::to('/order')}}" class="btn btn-success waves-effect waves-light">All</a>
+                                        <a href="{{URL::to('/order')}}" class="btn btn-success waves-effect waves-light">Tất Cả</a>
                                     </div>
                                 </form>
                             </div>
@@ -87,14 +87,14 @@
                                 @endif
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Orders Code</th>
-                                    <th class="font-weight-medium">Day</th>
-                                    <th class="font-weight-medium">Total</th>
-                                    <th class="font-weight-medium">Note</th>
-                                    <th class="font-weight-medium">Status Delivery</th>
-                                    <th class="font-weight-medium">Status Pay</th>
-                                    <th class="font-weight-medium">Status</th>
-                                    <th class="font-weight-medium">Action</th>
+                                    <th class="font-weight-medium">Mã Đơn Hàng</th>
+                                    <th class="font-weight-medium">Ngày Đặt </th>
+                                    <th class="font-weight-medium">Tổng Cộng</th>
+                                    <th class="font-weight-medium">Ghi Chú</th>
+                                    <th class="font-weight-medium">Trạng Thái Giao Hàng</th>
+                                    <th class="font-weight-medium">Trạng Thái Thanh Toán</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
+                                    <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
@@ -111,43 +111,43 @@
                                             {{number_format($order->dondathang_tong_tien,0,',','.' )." VND" }}
                                         </td>
                                         <td>
-                                            {{ $order->dondathang_ghi_chu }}
+                                            {{ $order->dondathang_ghi_chu?$order->dondathang_ghi_chu:'Không có ghi chú' }}
                                         </td>
                                         <td>
                                             @if($order->dondathang_trang_thai==2)
-                                                In Transit
+                                                Đang giao hàng
                                             @elseif($order->dondathang_trang_thai==3)
-                                                Delivered
+                                                Đã giao hàng
                                             @elseif($order->dondathang_trang_thai==4)
-                                                Order Has Been Canceled
+                                                Đơn hàng đã bị hủy
                                             @else
-                                                Not Delivered
+                                                Chưa giao hàng
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $order->dondathang_tinh_trang_thanh_toan?'Paid':'Unpaid' }}
+                                            {{ $order->dondathang_tinh_trang_thanh_toan?'Đã thanh toán':'Chưa thanh toán' }}
                                         </td>
 
                                         <td>
                                             @if($order->dondathang_trang_thai == 0)
-                                            Unconfirmed
+                                            Chưa xác nhận
                                             @elseif($order->dondathang_trang_thai == 1)
-                                            Confirmed
+                                            Đã xác nhận
                                             @elseif($order->dondathang_trang_thai == 2)
-                                            In Transit
+                                            Đang vận chuyển
                                             @elseif($order->dondathang_trang_thai == 3)
-                                            Delivered - Processed
+                                            Đã giao hàng
                                             @elseif($order->dondathang_trang_thai == 4)
-                                            Order Has Been Canceled
+                                            Đơn hàng đã bị hủy
                                             @endif
                                         </td>
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$order->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/order-show-detail/'.$order->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Chi Tiết</a>
                                                     @if($order->dondathang_trang_thai!=3 && $order->dondathang_trang_thai!=2 && $order->dondathang_trang_thai!=4)
-                                                    <a class="dropdown-item" href="{{URL::to('/order-canceled/'.$order->id)}}"onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Cancel Order</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/order-canceled/'.$order->id)}}"onclick="return confirm('Hủy Đơn Hàng?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Hủy Đơn Hàng</a>
                                                     @endif
                                                 </div>
                                             </div>

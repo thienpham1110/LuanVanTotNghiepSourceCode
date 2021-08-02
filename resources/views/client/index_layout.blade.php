@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>RGUWB Shop</title>
+        <title>RGUWB SHOP</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{csrf_token()}}">
@@ -378,7 +378,6 @@
             ratedIndex = parseInt($(this).data("index"));
             localStorage.setItem("rating",ratedIndex);
             $(".starRateV").val(parseInt(localStorage.getItem("rating")));
-
         })
         $('.rps i').mouseleave(function(){
             resetColors();
@@ -433,6 +432,33 @@
     } );
 </script>
 
+<script>
+    $(document).ready(function(){
+        $('.logout-customer').click(function(){
+            swal({
+                title: "Bạn có muốn đăng xuất",
+                showCancelButton: true,
+                cancelButtonText: "Cancel",
+                confirmButtonClass: "btn btn-danger",
+                cancelButtonClass: "btn btn-success",
+                confirmButtonText: "Logout",
+                closeOnConfirm: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url:"{{url('/logout-customer')}}",
+                        method:"GET",
+                        success:function(){
+                            window.location.href = "{{url('/login-customer')}}";
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('.add-to-cart').click(function(){
@@ -453,8 +479,7 @@
                     method: 'POST',
                     data:{product_id:product_id,product_size_id:product_size_id,product_price:product_price,
                         product_name:product_name ,product_img:product_img,product_quantity:product_quantity,_token:_token},
-                    success:function(data){
-                        {{--  alert(data);  --}}
+                        success:function(data){
                         swal({
                             title: "Đã thêm sản phẩm vào giỏ hàng",
                             showCancelButton: true,

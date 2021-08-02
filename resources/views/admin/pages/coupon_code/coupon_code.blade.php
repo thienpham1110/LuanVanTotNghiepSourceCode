@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/coupon-code-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/coupon-code-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Mới</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Coupon</li>
+                            <li class="breadcrumb-item active">Mã Khuyến Mãi</li>
                         </ol>
                     </div>
                 </div>
@@ -38,15 +38,15 @@
                                 @endif
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Coupon Code</th>
-                                    <th class="font-weight-medium">Quantity</th>
-                                    <th class="font-weight-medium">Coupon Type</th>
-                                    <th class="font-weight-medium">Value</th>
-                                    <th class="font-weight-medium">From Day</th>
-                                    <th class="font-weight-medium">To Day</th>
-                                    <th class="font-weight-medium">Status</th>
-                                    <th class="font-weight-medium">Action</th>
+                                    <th class="font-weight-medium">Tên</th>
+                                    <th class="font-weight-medium">Mã</th>
+                                    <th class="font-weight-medium">Số Lượng</th>
+                                    <th class="font-weight-medium">Loại Mã</th>
+                                    <th class="font-weight-medium">Giá Trị</th>
+                                    <th class="font-weight-medium">Từ Ngày</th>
+                                    <th class="font-weight-medium">Đến Ngày</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
+                                    <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
@@ -92,8 +92,8 @@
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/coupon-code-edit/'.$coupon_code->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                    <a class="dropdown-item" href="{{URL::to('/delete-coupon-code/'.$coupon_code->id)}}" onclick="return confirm('You Sure?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/coupon-code-edit/'.$coupon_code->id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Cập Nhật</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/delete-coupon-code/'.$coupon_code->id)}}" onclick="return confirm('Xóa mã khuyến mãi?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Xóa</a>
                                                 </div>
                                             </div>
                                         </td>

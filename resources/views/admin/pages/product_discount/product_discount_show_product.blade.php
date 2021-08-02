@@ -10,13 +10,13 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/product-discount')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
-                                <a href="{{URL::to('/product-discount-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/product-discount')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Khuyến Mãi</a>
+                                <a href="{{URL::to('/product-discount-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Mới</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Discount</li>
+                            <li class="breadcrumb-item active">Chi Tiết Khuyến Mãi</li>
                         </ol>
                     </div>
                 </div>
@@ -26,14 +26,16 @@
                     <div class="col-12">
                         <div class="card-box">
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <h4 class="mt-3 mb-3"><span>Discount: </span></h4>
+                                <h4 class="mt-3 mb-3"><span>Thông Tin Khuyến Mãi: </span></h4>
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">Title</th>
-                                    <th class="font-weight-medium">Number</th>
-                                    <th class="font-weight-medium">Time</th>
-                                    <th class="font-weight-medium">Status</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Tiêu Đề</th>
+                                    <th class="font-weight-medium">Nội Dung</th>
+                                    <th class="font-weight-medium">Giá Trị</th>
+                                    <th class="font-weight-medium">Thời Gian</th>
+                                    <th class="font-weight-medium">Ngày Khuyến Mãi</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
@@ -47,6 +49,9 @@
                                             {{ $product_discount->khuyenmai_tieu_de}}
                                         </td>
                                         <td>
+                                            {{ $product_discount->khuyenmai_noi_dung}}
+                                        </td>
+                                        <td>
                                             @if($product_discount->khuyenmai_loai==1)
                                             {{number_format($product_discount->khuyenmai_gia_tri ).' %' }}
                                             @else
@@ -54,26 +59,29 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{number_format( $product_discount->khuyenmai_so_ngay_khuyen_mai ).' Day' }}
+                                            {{number_format( $product_discount->khuyenmai_so_ngay_khuyen_mai ).' Ngày' }}
                                         </td>
                                         <td>
-                                            {{$product_discount->khuyenmai_trang_thai?' On Promotion':' Promotion Ends'}}
+                                            {{ date('d-m-Y', strtotime( $product_discount->khuyenmai_ngay_khuyen_mai)) }}
+                                        </td>
+                                        <td>
+                                            {{$product_discount->khuyenmai_trang_thai?'Còn Khuyến Mãi':' Hết Khuyến Mãi'}}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
-                                <h4 class="mt-3 mb-3"><span>Product: </span></h4>
+                                <h4 class="mt-3 mb-3"><span>Sản Phẩm: </span></h4>
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Images</th>
-                                    <th class="font-weight-medium">Name</th>
-                                    <th class="font-weight-medium">Number Discount</th>
-                                    <th class="font-weight-medium">Price</th>
-                                    <th class="font-weight-medium">Price Discount</th>
-                                    <th class="font-weight-medium">Title</th>
-                                    <th class="font-weight-medium">Status</th>
-                                    <th class="font-weight-medium">Product Status</th>
+                                    <th class="font-weight-medium">Ảnh</th>
+                                    <th class="font-weight-medium">Sản Phẩm</th>
+                                    <th class="font-weight-medium">Giá Trị Khuyến Mãi</th>
+                                    <th class="font-weight-medium">Giá Bán</th>
+                                    <th class="font-weight-medium">Giá Khuyến Mãi</th>
+                                    <th class="font-weight-medium">Tiêu Đề</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
+                                    <th class="font-weight-medium">Trạng Thái Sản Phẩm</th>
                                 </tr>
                                 </thead>
 
@@ -109,7 +117,7 @@
                                                         {{ $product_discount->khuyenmai_tieu_de }}
                                                     </td>
                                                     <td>
-                                                        {{$product_discount->khuyenmai_trang_thai?' On Promotion':' Promotion Ends'}}
+                                                        {{$product_discount->khuyenmai_trang_thai?'Còn Khuyến Mãi':' Hết Khuyến Mãi'}}
                                                     </td>
                                                     <td>
                                                         @php
@@ -123,9 +131,9 @@
                                                             @endif
                                                         @endforeach
                                                         @if($quantity>0)
-                                                            In Stock
+                                                            Còn Hàng
                                                         @else
-                                                            Out of stock
+                                                          Hết Hàng
                                                         @endif
                                                     </td>
                                                 </tr>

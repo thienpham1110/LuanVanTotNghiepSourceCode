@@ -53,14 +53,14 @@ class BrandController extends Controller
                 'brand_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                'mimes' => 'Sai định dạng ảnh'
             ]);
             $get_brand=Brand::where('thuonghieu_ten', $data['brand_name'])->first();
             if ($get_brand) {
-                return Redirect::to('/brand-add')->with('error', 'Brand already exists');
+                return Redirect::to('/brand-add')->with('error', 'Thương hiệu đã tồn tại!');
             } else {
                 $brand=new Brand();
                 $brand->thuonghieu_ten = $data['brand_name'];
@@ -71,7 +71,7 @@ class BrandController extends Controller
                 //them hinh anh
                 if ($get_image) {
                     if($path.$get_image){
-                        return Redirect::to('/collection-add')->with('error', 'Add Fail, Please choose another photo');
+                        return Redirect::to('/collection-add')->with('error', 'Thêm không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                     }else{
                         $get_name_image = $get_image->getClientOriginalName();
                         $name_image = current(explode('.', $get_name_image));
@@ -79,10 +79,10 @@ class BrandController extends Controller
                         $get_image->move($path, $new_image);
                         $brand->thuonghieu_anh = $new_image;
                         $brand->save();
-                        return Redirect::to('/brand')->with('message', 'Add Success');
+                        return Redirect::to('/brand')->with('message', 'Thêm thành công!');
                     }
                 } else {
-                    return Redirect::to('/brand-add')->with('error', 'Add Fail,Please Choose Image');
+                    return Redirect::to('/brand-add')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
                 }
             }
         }
@@ -95,11 +95,11 @@ class BrandController extends Controller
         }else{
             $unactive_brand=Brand::find($brand_id);
             if (!$unactive_brand) {
-                return Redirect::to('/brand')->with('error', 'Brand not found');
+                return Redirect::to('/brand')->with('error', 'Thương hiệu không tồn tại!');
             } else {
                 $unactive_brand->thuonghieu_trang_thai=0;
                 $unactive_brand->save();
-                return Redirect::to('/brand')->with('message', 'Hide Success');
+                return Redirect::to('/brand')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -109,11 +109,11 @@ class BrandController extends Controller
         }else{
             $active_brand=Brand::find($brand_id);
             if (!$active_brand) {
-                return Redirect::to('/brand')->with('error', 'Brand not found');
+                return Redirect::to('/brand')->with('error', 'Thương hiệu không tồn tại!');
             } else {
                 $active_brand->thuonghieu_trang_thai=1;
                 $active_brand->save();
-                return Redirect::to('/brand')->with('message', 'Show Success');
+                return Redirect::to('/brand')->with('message', 'Hiển thị thành công!');
             }
         }
     }
@@ -125,7 +125,7 @@ class BrandController extends Controller
         }else{
             $edit_brand=Brand::find($brand_id);
             if (!$edit_brand) {
-                return Redirect::to('/brand')->with('error', 'Brand not found');
+                return Redirect::to('/brand')->with('error', 'Thương hiệu không tồn tại!');
             } else {
                 return view('admin.pages.brand.brand_edit')->with('brand', $edit_brand);
             }
@@ -139,7 +139,7 @@ class BrandController extends Controller
         }else{
             $edit_brand=Brand::find($brand_id);
             if (!$edit_brand) {
-                return Redirect::to('/brand')->with('error', 'Brand not found');
+                return Redirect::to('/brand')->with('error', 'Thương hiệu không tồn tại!');
             } else {
                 $data=$request->all();
                 $this->validate($request,[
@@ -148,14 +148,14 @@ class BrandController extends Controller
                     'brand_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
                 ],
                 [
-                    'required' => 'Field is not empty',
-                    'min' => 'Too short',
-                    'max' => 'Too long',
-                    'mimes' => 'Wrong image format'
+                    'required' => 'Không được để trống',
+                    'min' => 'Quá ngắn',
+                    'max' => 'Quá dài',
+                    'mimes' => 'Sai định dạng ảnh'
                 ]);
                 $get_brand=Brand::where('thuonghieu_ten', $data['brand_name'])->whereNotIn('id', [$brand_id])->first();
                 if ($get_brand) {
-                    return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Brand already exists');
+                    return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Thương hiệu đã tồn tại!');
                 } else {
                     $brand= Brand::find($brand_id);
                     $brand->thuonghieu_ten = $data['brand_name'];
@@ -166,7 +166,7 @@ class BrandController extends Controller
                     $path = 'public/uploads/admin/brand/';
                     if ($get_image) {
                         if($path.$get_image && $path.$get_image!=$path.$old_name_img){
-                            return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Update Fail, Please choose another photo');
+                            return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                         }else{
                             if ($old_name_img!=null) {
                                 unlink($path.$old_name_img);
@@ -177,15 +177,15 @@ class BrandController extends Controller
                             $get_image->move($path, $new_image);
                             $brand->thuonghieu_anh  = $new_image;
                             $brand->save();
-                            return Redirect::to('/brand')->with('message', 'Update Success');
+                            return Redirect::to('/brand')->with('message', 'Cập nhật thành công!');
                         }
                     } else {
                         if ($old_name_img!=null) {
                             $brand->thuonghieu_anh = $old_name_img;
                             $brand->save();
-                            return Redirect::to('/brand')->with('message', 'Update Success');
+                            return Redirect::to('/brand')->with('message', 'Cập nhật thành công!');
                         } else {
-                            return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Update Fail,Please Choose Image');
+                            return Redirect::to('/brand-edit/'.$brand_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                         }
                     }
                 }
@@ -200,15 +200,15 @@ class BrandController extends Controller
         }else{
             $brand=Brand::find($brand_id);
             if (!$brand) {
-                return Redirect::to('/brand')->with('error', 'Brand not found');
+                return Redirect::to('/brand')->with('error', 'Thương hiệu không tồn tại!');
             } else {
                 $get_brand=Product::where('thuonghieu_id', $brand_id)->first();
                 if ($get_brand) {
-                    return Redirect::to('/brand')->with('error', 'Delete Fail, Can not delete');
+                    return Redirect::to('/brand')->with('error', 'Không thể xóa thương hiệu!');
                 } else {
                     $delete_brand=Brand::find($brand_id);
                     $delete_brand->delete();
-                    return Redirect::to('/brand')->with('message', 'Delete Success');
+                    return Redirect::to('/brand')->with('message', 'Xóa thành công!');
                 }
             }
         }

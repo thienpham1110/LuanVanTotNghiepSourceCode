@@ -55,20 +55,20 @@ class SizeController extends Controller
                 'size_number' => 'bail|required'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
             ]);
             $get_size=Size::orwhere('size', $data['size'])->orwhere('size_thu_tu', $data['size_number'])->first();
             if ($get_size) {
-                return Redirect::to('/size-add')->with('error', 'Add Fail, Size or number already exists');
+                return Redirect::to('/size-add')->with('error', 'Thêm không thành công, size hoặc số thứ tự đã tồn tại!');
             } else {
                 $size= new Size();
                 $size->size = $data['size'];
                 $size->size_thu_tu = $data['size_number'];
                 $size->size_trang_thai = $data['size_status'];
                 $size->save();
-                return Redirect::to('/size')->with('message', 'Add Success');
+                return Redirect::to('/size')->with('message', 'Thêm thành công!');
             }
         }
     }
@@ -80,11 +80,11 @@ class SizeController extends Controller
         }else{
             $unactive_size=Size::find($size_id);
             if (!$unactive_size) {
-                return Redirect::to('/size')->with('error', 'Not found');
+                return Redirect::to('/size')->with('error', 'Không tồn tại!');
             } else {
                 $unactive_size->size_trang_thai=0;
                 $unactive_size->save();
-                return Redirect::to('/product-type')->with('message', 'Hide Success');
+                return Redirect::to('/product-type')->with('message', 'Ẩn thành công!');
             }
         }
     }
@@ -95,11 +95,11 @@ class SizeController extends Controller
         }else{
             $active_size=Size::find($size_id);
             if (!$active_size) {
-                return Redirect::to('/size')->with('error', 'Not found');
+                return Redirect::to('/size')->with('error', 'Không tồn tại!');
             } else {
                 $active_size->size_trang_thai=1;
                 $active_size->save();
-                return Redirect::to('/product-type')->with('message', 'Show Success');
+                return Redirect::to('/product-type')->with('message', 'Hiển thị thành công!');
             }
         }
     }
@@ -111,7 +111,7 @@ class SizeController extends Controller
         }else{
             $edit_size= Size::find($size_id);
             if (!$edit_size) {
-                return Redirect::to('/size')->with('error', 'Not found');
+                return Redirect::to('/size')->with('error', 'Không tồn tại!');
             } else {
                 return view('admin.pages.size.size_edit')->with('size', $edit_size);
             }
@@ -129,21 +129,21 @@ class SizeController extends Controller
                 'size_number' => 'bail|required'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
             ]);
             $get_size=Size::where('size', $data['size'])->whereNotIn('id', [$size_id])->first();
             $get_size_number=Size::where('size_thu_tu', $data['size_number'])->whereNotIn('id', [$size_id])->first();
             if ($get_size || $get_size_number) {
-                return Redirect::to('/size-edit/'.$size_id)->with('error', 'Edit Fail, Size already exists');
+                return Redirect::to('/size-edit/'.$size_id)->with('error', 'Cập nhật không thành công, size hoặc số thứ tự đã tồn tại!');
             } else {
                 $size= Size::find($size_id);
                 $size->size = $data['size'];
                 $size->size_thu_tu = $data['size_number'];
                 $size->size_trang_thai = $data['size_status'];
                 $size->save();
-                return Redirect::to('/size')->with('message', 'Update Success');
+                return Redirect::to('/size')->with('message', 'Cập nhật thành công!');
             }
         }
     }
@@ -156,14 +156,14 @@ class SizeController extends Controller
             $get_in_stock=ProductInStock::where('size_id', $size_id)->first();
             $get_order=OrderDetail::where('size_id', $size_id)->first();
             if ($get_order || $get_in_stock || $get_import) {
-                return Redirect::to('/size')->with('error', 'Delete Fail, Can not delete');
+                return Redirect::to('/size')->with('error', 'Không thể xóa!');
             } else {
                 $delete_size=Size::find($size_id);
                 if (!$delete_size) {
-                    return Redirect::to('/size')->with('error', 'Not found');
+                    return Redirect::to('/size')->with('error', 'Không tồn tại!');
                 } else {
                     $delete_size->delete();
-                    return Redirect::to('/size')->with('message', 'Delete Success');
+                    return Redirect::to('/size')->with('message', 'Xóa thành công!');
                 }
             }
         }

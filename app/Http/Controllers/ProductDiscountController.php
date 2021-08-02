@@ -58,7 +58,7 @@ class ProductDiscountController extends Controller
         }else{
             $product_in_stock=ProductInstock::where('sanphamtonkho_so_luong_ton', '>', 0)->first();
             if (!$product_in_stock) {
-                return Redirect::to('/product-discount')->with('error', 'Product not found');
+                return Redirect::to('/product-discount')->with('error', 'Sản phẩm không tồn tại!');
             } else {
                 $discount=Discount::where('khuyenmai_trang_thai', 1)->get();//lay con km
                 if ($discount->count()>0) {
@@ -80,7 +80,7 @@ class ProductDiscountController extends Controller
                     }
                 }
                 if (empty($pro_id)) {
-                    return Redirect::to('/product-discount')->with('error', 'Product not found');
+                    return Redirect::to('/product-discount')->with('error', 'Sản phẩm không tồn tại!');
                 } else {
                     $product=Product::whereIn('id', $pro_id)->paginate(10);
                     return view('admin.pages.product_discount.product_discount_add')
@@ -103,13 +103,13 @@ class ProductDiscountController extends Controller
                 'product_discount_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
             ],
             [
-                'required' => 'Field is not empty',
-                'min' => 'Too short',
-                'max' => 'Too long',
-                'mimes' => 'Wrong image format'
+                'required' => 'Không được để trống',
+                'min' => 'Quá ngắn',
+                'max' => 'Quá dài',
+                  'mimes' => 'Sai định dạng ảnh',
             ]);
             if (empty($data['product_discount_product_id'])) {
-                return Redirect::to('/product-discount')->with('message', 'Add Fail, No Products');
+                return Redirect::to('/product-discount')->with('message', 'Thêm không thành công, chưa chọn sản phẩm!');
             } else {
                 $discount=new Discount();
                 $discount->khuyenmai_tieu_de=$data['product_discount_title'];
@@ -122,18 +122,14 @@ class ProductDiscountController extends Controller
                 $get_image = $request->file('product_discount_img');
                 $path = 'public/uploads/admin/productdiscount';
                 if ($get_image) {
-                    if($path.$get_image){
-                        return Redirect::to('/product-discount')->with('error', 'Add Fail, Please choose another photo');
-                    }else{
-                        $get_name_image = $get_image->getClientOriginalName();
-                        $name_image = current(explode('.', $get_name_image));
-                        $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
-                        $get_image->move($path, $new_image);
-                        $discount->khuyenmai_anh = $new_image;
-                        $discount->save();
-                    }
+                    $get_name_image = $get_image->getClientOriginalName();
+                    $name_image = current(explode('.', $get_name_image));
+                    $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
+                    $get_image->move($path, $new_image);
+                    $discount->khuyenmai_anh = $new_image;
+                    $discount->save();
                 } else {
-                    return Redirect::to('/product-discount-add')->with('error', 'Add Fail, Choose Image');
+                    return Redirect::to('/product-discount-add')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
                 }
                 foreach ($data['product_discount_product_id'] as $key =>$value) {
                     $product_discount=new ProductDiscount();
@@ -141,7 +137,7 @@ class ProductDiscountController extends Controller
                     $product_discount->khuyenmai_id=$discount->id;
                     $product_discount->save();
                 }
-                return Redirect::to('/product-discount')->with('message', 'Add Success');
+                return Redirect::to('/product-discount')->with('message', 'Thêm thành công!');
             }
         }
     }
@@ -153,7 +149,7 @@ class ProductDiscountController extends Controller
         }else{
             $discount=Discount::find($product_discount_id);
             if (!$discount) {
-                return Redirect::to('/product-discount')->with('error', 'Not found');
+                return Redirect::to('/product-discount')->with('error', 'Không tồn tại!');
             } else {
                 $product_discount=ProductDiscount::where('khuyenmai_id', $product_discount_id)->get();//sp km cua tin khuyen mai
             $all_discount=Discount::where('khuyenmai_trang_thai', 1)->get();//lay con km
@@ -176,7 +172,7 @@ class ProductDiscountController extends Controller
                 }
             }
                 if (empty($pro_id)) {
-                    return Redirect::to('/product-discount')->with('error', 'Product not found');
+                    return Redirect::to('/product-discount')->with('error', 'Sản phẩm không tồn tại!');
                 } else {
                     $product=Product::whereIn('id', $pro_id)->paginate(5);
                     return view('admin.pages.product_discount.product_discount_edit')
@@ -196,7 +192,7 @@ class ProductDiscountController extends Controller
         }else{
             $discount=Discount::find($product_discount_id);
             if (!$discount) {
-                return Redirect::to('/product-discount')->with('error', 'Not found');
+                return Redirect::to('/product-discount')->with('error', 'Không tồn tại!');
             } else {
                 $data=$request->all();
                 $this->validate($request,[
@@ -207,14 +203,13 @@ class ProductDiscountController extends Controller
                     'product_discount_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
                 ],
                 [
-                    'required' => 'Field is not empty',
-                    'min' => 'Too short',
-                    'max' => 'Too long',
-                    'mimes' => 'Wrong image format'
+                    'required' => 'Không được để trống',
+                    'min' => 'Quá ngắn',
+                    'max' => 'Quá dài',
+                    'mimes' => 'Sai định dạng ảnh',
                 ]);
                 if (empty($data['product_discount_product_id'])) {
-                    Session::put('message', 'Update Fail, No Products');
-                    return Redirect::to('/product-discount');
+                    return Redirect::to('/product-discount')->with('error','Cập nhật không thành công, không có sản phẩm!');
                 } else {
                     $discount=Discount::find($product_discount_id);
                     $discount->khuyenmai_tieu_de=$data['product_discount_title'];
@@ -229,7 +224,7 @@ class ProductDiscountController extends Controller
                     $path = 'public/uploads/admin/productdiscount/';
                     if ($get_image) {
                         if($path.$get_image && $path.$get_image!=$path.$old_name_img){
-                            return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Add Fail, Please choose another photo');
+                            return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
                         }else{
                             if ($old_name_img!=null) {
                                 unlink($path.$old_name_img);
@@ -246,7 +241,7 @@ class ProductDiscountController extends Controller
                             $discount->khuyenmai_anh =  $old_name_img;
                             $discount->save();
                         } else {
-                            return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Update Fail,Please Choose Image');
+                            return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
                         }
                     }
                     ProductDiscount::where('khuyenmai_id', $product_discount_id)->delete();
@@ -256,7 +251,7 @@ class ProductDiscountController extends Controller
                         $product_discount->khuyenmai_id=$discount->id;
                         $product_discount->save();
                     }
-                    return Redirect::to('/product-discount')->with('message', 'Update Success');
+                    return Redirect::to('/product-discount')->with('message', 'Cập nhật thành công!');
                 }
             }
         }
@@ -269,7 +264,7 @@ class ProductDiscountController extends Controller
         }else{
             $discount=Discount::find($discount_id);
             if (!$discount) {
-                return Redirect::to('/product-discount')->with('error', 'Not found');
+                return Redirect::to('/product-discount')->with('error', 'Không tồn tại!');
             } else {
                 $product_discount=ProductDiscount::where('khuyenmai_id', $discount_id)->get();
                 if ($product_discount->count()>0) {
@@ -295,7 +290,7 @@ class ProductDiscountController extends Controller
         }else{
             $discount=Discount::find($discount_id);
             if (!$discount) {
-                return Redirect::to('/product-discount')->with('error', 'Not found');
+                return Redirect::to('/product-discount')->with('error', 'Không tồn tại!');
             } else {
                 $product_discount=ProductDiscount::where('khuyenmai_id', $discount_id)->get();
                 foreach ($product_discount as $key =>$del_dis) {
@@ -303,7 +298,7 @@ class ProductDiscountController extends Controller
                     $del_pro_dis->delete();
                 }
                 $discount->delete();
-                return Redirect::to('/product-discount')->with('message', 'Delete Success');
+                return Redirect::to('/product-discount')->with('message', 'Xóa thành công!');
             }
         }
     }

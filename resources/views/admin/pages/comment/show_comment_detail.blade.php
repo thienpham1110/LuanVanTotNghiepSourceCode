@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/comment')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/comment')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Bình Luận</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Detail Comment</li>
+                            <li class="breadcrumb-item active">Chi Tiết Bình Luận Đánh Giá</li>
                         </ol>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
             <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h4 class="header-title">Comment from:  {{ $comment->binhluan_ten_nguoi_danh_gia }}</h4>
+                            <h4 class="header-title">Đánh Giá Từ:  {{ $comment->binhluan_ten_nguoi_danh_gia }}</h4>
                             <hr>
                             <div class="row">
                                 <div class="col-12">
@@ -56,10 +56,11 @@
                                                         <div class="col-md-2">
                                                             <img width="70%" src="{{URL::asset('public/backend/images/users/rguwb.png')}}" class="img img-responsive img-thumbnail">
                                                         </div>
-                                                        <div class="col-md-10">
+                                                        <div class="col-md-8">
                                                             <p style="color:blue;">@Admin</p>
                                                             <p style="color:#000;">{{ $comment_rep->binhluan_noi_dung }}</p>
                                                         </div>
+                                                        <div class="col-md-2"><a href="{{ URL::to('/admin-reply-delete-comment/'.$comment_rep->id)}}" class="btn btn-danger waves-effect waves-light btn-sm comment-admin" onclick="return confirm('Xóa bình luận?')"><i class="mdi mdi-close mr-1"></i></a></div>
                                                     </div>
                                                     <p></p>
                                                 @else
@@ -88,7 +89,7 @@
                 </div>
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title">Reply To Comment</h4>
+                        <h4 class="header-title">Phản Hồi Đánh Giá</h4>
                         <hr>
                         <div class="row">
                             <div class="col-12">
@@ -97,7 +98,7 @@
                                         @csrf
                                         <div class="form-group row">
                                             <div class="col-sm-12">
-                                                <textarea name="reply_admin_comment" required="" class="form-control" placeholder="reply comment"></textarea>
+                                                <textarea name="reply_admin_comment" required="" class="form-control" placeholder="Phản hồi"></textarea>
                                                 <input type="hidden" name="reply_product_id" value="{{ $comment->sanpham_id }}">
                                                 @error('reply_admin_comment')
                                                 <p class="alert alert-danger"> {{ $message }}</p>
@@ -111,7 +112,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <div class="text-lg-left mt-3 mt-lg-0">
-                                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Reply To Comment</button>
+                                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Gửi Phản Hồi</button>
                                                 </div>
                                             </div>
                                         </div>

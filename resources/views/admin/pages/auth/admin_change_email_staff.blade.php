@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Change Password</li>
+                            <li class="breadcrumb-item active">Đổi Email Đăng Nhập</li>
                         </ol>
                     </div>
                 </div>
@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card-box">
-                            <h4 class="header-title">Change Password</h4>
+                            <h4 class="header-title">Đổi Email Đăng Nhập</h4>
                             <p class="sub-header">
                             <hr>
                             @if(session()->has('message'))
@@ -44,15 +44,15 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="pass1">New Email<span class="text-danger">*</span></label>
-                                    <input id="pass1" name="staff_new_email" type="email" placeholder="Password" required="" class="form-control">
+                                    <label for="pass1">Email Mới<span class="text-danger">*</span></label>
+                                    <input id="pass1" name="staff_new_email" type="email" placeholder="Email mới" required="" class="form-control">
                                     @error('staff_new_email')
                                     <p class="alert alert-danger"> {{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="form-group text-right mb-0">
                                     <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
-                                        Submit
+                                        Lưu
                                     </button>
                                 </div>
                             </form>

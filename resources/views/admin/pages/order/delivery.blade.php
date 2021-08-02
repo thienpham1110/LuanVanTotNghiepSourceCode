@@ -10,12 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Thêm Đơn Hàng</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Order</li>
+                            <li class="breadcrumb-item active">Giao Hàng</li>
                         </ol>
                     </div>
                 </div>
@@ -28,18 +28,17 @@
                             <div class="col-lg-12">
                                 <form class="form-inline" action="{{URL::to('/admin-search-delivery')}}" method="GET">
                                     <div class="form-group">
-                                        <label for="inputPassword2" class="sr-only">Search</label>
                                         <input type="search" class="form-control" required="" name="search_delivery_keyword"
                                         @if(isset($search_keyword))
                                         value="{{ $search_keyword }}"
                                         @endif
-                                        placeholder="Search Keyword...">
+                                        placeholder="Từ khóa">
                                     </div>
                                     <div class="form-group mx-sm-3">
-                                        <button type="submit" class="btn btn-success waves-effect waves-light">Search</button>
+                                        <button type="submit" class="btn btn-success waves-effect waves-light">Tìm</button>
                                     </div>
                                     <div class="form-group ">
-                                        <a href="{{URL::to('/delivery')}}" class="btn btn-success waves-effect waves-light">All</a>
+                                        <a href="{{URL::to('/delivery')}}" class="btn btn-success waves-effect waves-light">Tất Cả</a>
                                     </div>
                                 </form>
                             </div>
@@ -65,15 +64,15 @@
                                 @endif
                                 <thead class="bg-light">
                                 <tr>
-                                    <th class="font-weight-medium">Orders Code</th>
-                                    <th class="font-weight-medium">Money To Be Paid</th>
-                                    <th class="font-weight-medium">Customer</th>
+                                    <th class="font-weight-medium">Mã Đơn Hàng</th>
+                                    <th class="font-weight-medium">Tổng Thanh Toán</th>
+                                    <th class="font-weight-medium">Khách Hàng</th>
                                     <th class="font-weight-medium">Email</th>
-                                    <th class="font-weight-medium">Phone Number</th>
-                                    <th class="font-weight-medium">Address</th>
-                                    <th class="font-weight-medium">Pay Method</th>
-                                    <th class="font-weight-medium">Status</th>
-                                    <th class="font-weight-medium">Action</th>
+                                    <th class="font-weight-medium">Số Điện Thoại</th>
+                                    <th class="font-weight-medium">Địa Chỉ</th>
+                                    <th class="font-weight-medium">Phương Thức Thanh Toán</th>
+                                    <th class="font-weight-medium">Trạng Thái</th>
+                                    <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
                                 </thead>
                                 <tbody class="font-14">
@@ -98,16 +97,22 @@
                                             {{ $delivery->giaohang_nguoi_nhan_dia_chi}}
                                         </td>
                                         <td>
-                                            {{ $delivery->giaohang_phuong_thuc_thanh_toan?'Bank Transfer':'COD'}}
+                                            {{ $delivery->giaohang_phuong_thuc_thanh_toan?'Chuyển khoản':'Thanh toán khi nhận hàng'}}
                                         </td>
                                         <td>
-                                            {{ $delivery->giaohang_trang_thai?'Delivered':'Not Delivered'}}
+                                            @if($delivery->giaohang_trang_thai==0)
+                                            Chưa giao hàng
+                                            @elseif($delivery->giaohang_trang_thai==1)
+                                            Đã lấy hàng
+                                            @elseif($delivery->giaohang_trang_thai==2)
+                                            Đã giao hàng
+                                            @endif
                                         </td>
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{URL::to('/delivery-show-detail/'.$delivery->dondathang_id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Detail</a>
+                                                    <a class="dropdown-item" href="{{URL::to('/delivery-show-detail/'.$delivery->dondathang_id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Chi Tiết</a>
                                                 </div>
                                             </div>
                                         </td>

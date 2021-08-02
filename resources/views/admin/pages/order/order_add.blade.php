@@ -10,11 +10,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/order')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>                            </div>
+                                <a href="{{URL::to('/order')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Đơn Hàng</a>
                             </div>
+                        </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="index.php">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Product Import Add</li>
+                            <li class="breadcrumb-item active">Thêm Đơn Hàng Mới</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +24,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title">Product Order</h4>
+                        <h4 class="header-title">Thêm Đơn Hàng Mới</h4>
                         <hr>
                         <div class="row">
                             <div class="col-12">
@@ -43,9 +44,9 @@
                                         <thead class="bg-light">
                                         <tr>
                                             <th class="font-weight-medium">#</th>
-                                            <th class="font-weight-medium">Images</th>
-                                            <th class="font-weight-medium">Name</th>
-                                            <th class="font-weight-medium">Price</th>
+                                            <th class="font-weight-medium">Ảnh </th>
+                                            <th class="font-weight-medium">Sản Phẩm</th>
+                                            <th class="font-weight-medium">Giá</th>
                                             <th class="font-weight-medium">Size</th>
                                         </tr>
                                         </thead>
@@ -98,17 +99,17 @@
                                             {{ csrf_field() }}
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
-                                                    <label class="col-form-label">Order</label>
+                                                    <label class="col-form-label">Đơn Hàng</label>
                                                     <div class="table-responsive" id="ajax-queue">
                                                         <table class="table table-hover  mb-0">
                                                             <thead>
                                                             <tr>
                                                                 <td>#</td>
-                                                                <td>Product Name</td>
+                                                                <td>Sản Phẩm</td>
                                                                 <td>Size</td>
-                                                                <td>Price</td>
-                                                                <td>Quantity</td>
-                                                                <td>Total</td>
+                                                                <td>Giá</td>
+                                                                <td>Số Lượng</td>
+                                                                <td>Tổng</td>
                                                             </tr>
                                                             </thead>
                                                             <tbody id="show-list-product-order">
@@ -128,6 +129,11 @@
                                                                                     <button type="button" data-id_product="{{ $product['session_id']}}" name="delete-row-order-admin" class="delete-row-order-admin btn btn-danger waves-effect waves-light btn-sm">
                                                                                         <i class="mdi mdi-close mr-1"></i>
                                                                                     </button>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="javascript: void(0);">
+                                                                                        <img src="{{asset('public/uploads/admin/product/'.$product->sanpham_anh)}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-lg img-thumbnail">
+                                                                                    </a>
                                                                                 </td>
                                                                                 <td>{{ $product['product_name'] }}</td>
                                                                                 <td>{{ $product['product_size_name'] }}</td>
@@ -156,45 +162,39 @@
                                                         <div class="card-body">
                                                             <div class="form-row">
                                                                 <div class="form-group col-md-12">
-                                                                    <label class="col-form-label">Delivery Information</label>
+                                                                    <label class="col-form-label">Thông Tin Giao Hàng</label>
                                                                 </div>
                                                             </div>
                                                             <div class="form-row">
                                                                 <div class="form-group col-md-12">
-                                                                    <label class="col-form-label">Customer</label>
-                                                                    <input type="text" name="order_customer" class="form-control" required="" placeholder="Thien">
+                                                                    <label class="col-form-label">Khách Hàng</label>
+                                                                    <input type="text" name="order_customer" class="form-control" required="" placeholder="khách hàng">
                                                                     <label class="col-form-label">Email</label>
-                                                                    <input type="text" name="order_email" class="form-control" required="" placeholder="cus@gmail.com">
-                                                                    <label class="col-form-label">Phone Number</label>
-                                                                    <input type="number" name="order_phone_number" class="form-control" required="" placeholder="096...">
-                                                                    <label class="col-form-label">Address</label>
-                                                                    <input type="text" name="order_address" class="form-control" required="" placeholder="HCM">
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-12">
-                                                                    <label class="col-form-label">Transport</label>
+                                                                    <input type="text" name="order_email" class="form-control" required="" placeholder="Email">
+                                                                    <label class="col-form-label">Số Điện Thoại</label>
+                                                                    <input type="number" name="order_phone_number" class="form-control" required="" placeholder="Số điện thoại">
+                                                                    <label class="col-form-label">Địa Chỉ</label>
+                                                                    <input type="text" name="order_address" class="form-control" required="" placeholder="Địa chỉ">
                                                                 </div>
                                                             </div>
                                                             <div class="form-row">
                                                                 <div class="form-group col-md-12">
                                                                     <div class="form-group row">
                                                                         <div class="col-sm-12">
-                                                                            <label class="col-form-label">City</label>
+                                                                            <label class="col-form-label">Thành Phố</label>
                                                                             <select name="city" id="city" class="choose required city form-control">
-                                                                                <option>Choose City</option>
+                                                                                <option>---Chọn Thành Phố---</option>
                                                                                 @foreach ($city as $key=>$cty)
                                                                                     <option value="{{$cty->id}}">{{ $cty->tinhthanhpho_name }}</option>
                                                                                 @endforeach
                                                                             </select>
-                                                                            <label class="col-form-label">Province</label>
+                                                                            <label class="col-form-label">Quận Huyện</label>
                                                                             <select name="province" id="province" class="choose required province form-control">
-                                                                                <option>Province</option>
+                                                                                <option>---Chọn Quận Huyện---</option>
                                                                             </select>
-                                                                            <label class="col-form-label">Wards</label>
+                                                                            <label class="col-form-label">Xã Phường</label>
                                                                             <select name="wards" id="wards" class="wards required form-control">
-                                                                                <option >Wards</option>
+                                                                                <option >---Chọn Xã Phường Thị Trấn---</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -203,28 +203,28 @@
                                                             <hr>
                                                             <div class="form-row">
                                                                 <div class="form-group col-md-12">
-                                                                    <label class="col-form-label">Note</label>
-                                                                    <textarea class="form-control" name="order_note"  placeholder="Des.."></textarea>
-                                                                    <label class="col-form-label">Discoutn</label>
-                                                                    <input type="number" min="0" name="product_order_discount" class="form-control product_order_discount" placeholder="coupon code">
-                                                                    <label class="col-form-label">Payment Status</label>
+                                                                    <label class="col-form-label">Ghi Chú</label>
+                                                                    <textarea class="form-control" name="order_note"  placeholder="Ghi chú"></textarea>
+                                                                    <label class="col-form-label">Giảm Giá</label>
+                                                                    <input type="number" min="0" name="product_order_discount" class="form-control product_order_discount" placeholder="Giảm giá">
+                                                                    <label class="col-form-label">Trạng Thái Thanh Toán</label>
                                                                     <select name="order_payment" class="form-control">
-                                                                        <option value="1">Paid</option>
-                                                                        <option value="0">Unpaid</option>
+                                                                        <option value="1">Đã Thanh Toán</option>
+                                                                        <option value="0">Chưa Thanh Toán</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                             <hr>
                                                             <div class="text-lg-left mt-3 mt-lg-0">
                                                                 <div class="float-left">
-                                                                    <p><b>Sub-total:</b> <span class="float-right total" ></span></p>
+                                                                    <p><b>Tổng Cộng:</b> <span class="float-right total" ></span></p>
                                                                      <h3 class="total"></h3>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                 <div class="col-sm-12">
                                                                     <div class="text-lg-right mt-3 mt-lg-0">
-                                                                        <button type="submit" value="submit" name="" class="product-import-add-save add-save btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Save</button>
+                                                                        <button type="submit" value="submit" name="" class="product-import-add-save add-save btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Lưu</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -236,7 +236,6 @@
                                     </div>
                                 </div>
                             </div>
-
                     </div>
                 </div>
             </div>

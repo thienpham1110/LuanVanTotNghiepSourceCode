@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>Verification Password</li>
+                    <li>Nhập email xác thực</li>
                 </ul>
             </div>
         </div>
@@ -39,15 +39,15 @@
                         <form action="{{URL::to('/verification-password-customer')}}" method="POST">
                             @csrf
                             <div class="blog_thumb blog__hover">
-                                <input type="email" required="" name="verification_password">
+                                <input type="email" required="" placeholder="Email" name="verification_password">
                             </div>
                             <div class="blog_fullwidth_desc">
-                                <p>Enter your email to reset password</p>
+                                <p>Nhập email để nhận mã xác thực</p>
                                  <button type="submit">Confirm</button>
                             </div>
                             <div class="blog_fullwidth_desc">
-                                <p>If you already have a verification code</p>
-                                 <a href="{{URL::to('/reset-password-customer')}}">Reset Password</a>
+                                <p>Nếu đã có mã xác thực</p>
+                                 <a href="{{URL::to('/reset-password-customer')}}">Quên Mật Khẩu</a>
                             </div>
                         </form>
                     </div>

@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="breadcrumb_content">
                 <ul>
-                    <li><a href="index.html">home</a></li>
+                    <li><a href="index.html">Trang Chủ</a></li>
                     <li><i class="fa fa-angle-right"></i></li>
-                    <li>my account</li>
+                    <li>Tài Khoản</li>
                 </ul>
             </div>
         </div>
@@ -34,10 +34,10 @@
                     <!-- Nav tabs -->
                     <div class="dashboard_tab_button">
                         <ul role="tablist" class="nav flex-column dashboard-list">
-                            <li><a href="#account-details" data-toggle="tab" class="nav-link active">Account details</a></li>
-                            <li> <a href="#orders" data-toggle="tab" class="nav-link">Orders</a></li>
-                            <li> <a href="#change-password" data-toggle="tab" class="nav-link">Change password</a></li>
-                            <li><a href="{{URL::to('/logout-customer')}}" onclick="return confirm('You Sure?')" class="nav-link">logout</a></li>
+                            <li><a href="#account-details" data-toggle="tab" class="nav-link active">Chi tiết tài khoản</a></li>
+                            <li> <a href="#orders" data-toggle="tab" class="nav-link">Đơn Hàng</a></li>
+                            <li> <a href="#change-password" data-toggle="tab" class="nav-link">Đổi Mật Khẩu</a></li>
+                            <li><a href="{{URL::to('/logout-customer')}}" onclick="return confirm('Đăng Xuất?')" class="nav-link">Đăng Xuất</a></li>
                         </ul>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content dashboard_content">
                         <div class="tab-pane fade show active" id="account-details">
-                            <h3>Account details </h3>
+                            <h3>Chi Tiết Tài Khoản </h3>
                             <div class="login">
                                 <div class="login_form_container">
                                     <div class="account_login_form">
@@ -54,25 +54,24 @@
                                             {{--  <p>Already have an account? <a href="#">Log in instead!</a></p>  --}}
                                             <div class="input-radio">
                                             @if ($customer->khachhang_gioi_tinh==1 || $customer->khachhang_gioi_tinh!=true)
-                                                <span class="custom-radio"><input type="radio" value="1" checked name="customer_gender"> Mr.</span>
-                                                <span class="custom-radio"><input type="radio" value="0" name="customer_gender"> Mrs.</span>
+                                                <span class="custom-radio"><input type="radio" value="1" checked name="customer_gender"> Nam</span>
+                                                <span class="custom-radio"><input type="radio" value="0" name="customer_gender"> Nữ</span>
                                             @else
-                                                <span class="custom-radio"><input type="radio" value="1" name="customer_gender"> Mr.</span>
-                                                <span class="custom-radio"><input type="radio" value="0" checked name="customer_gender"> Mrs.</span>
+                                                <span class="custom-radio"><input type="radio" value="1" name="customer_gender"> Nam</span>
+                                                <span class="custom-radio"><input type="radio" value="0" checked name="customer_gender"> Nữ</span>
                                             @endif
                                             </div> <br>
-                                            <label>First Name</label>
+                                            <label>Họ</label>
                                             <input type="text" value="{{ $customer->khachhang_ho}}" name="customer_first_name">
-                                            <label>Last Name</label>
+                                            <label>Tên</label>
                                             <input type="text" value="{{ $customer->khachhang_ten }}" name="customer_last_name">
                                             <label>Email</label>
                                             <input type="text" value="{{ $customer->khachhang_email }}" readonly>
-                                            <label>Phone Number</label>
+                                            <label>Số điện thoại</label>
                                             <input type="text" value="{{ $customer->khachhang_so_dien_thoai }}" name="customer_phone_number">
-                                            <label>Address</label>
+                                            <label>Địa chỉ</label>
                                             <input type="text" value="{{ $customer->khachhang_dia_chi }}" name="customer_address">
-                                            <label>Image</label>
-                                            <span><i class="mdi mdi-cloud-upload mr-1"></i>Upload</span>
+                                            <label>Ảnh</label>
                                             <input type="file" class="upload" name="customer_img" value="{{ $customer->khachhang_anh }}"multiple="" id="files">
                                             <img width="100px" height="100px" id="image" src="{{asset('public/uploads/client/customer/'.$customer->khachhang_anh)}}"/>
                                             {{--  <span class="example">
@@ -83,7 +82,7 @@
                                                 <label><br><em> </em></label>
                                             </span>
                                             <div class="save_button primary_btn default_button">
-                                                <button class="btn btn-success">Save</button>
+                                                <button class="btn btn-success">Lưu</button>
                                             </div>
                                         </form>
                                     </div>
@@ -91,17 +90,17 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="orders">
-                            <h3>Orders</h3>
+                            <h3>Đơn Hàng</h3>
                             <div class="coron_table table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Order</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Detail</th>
-                                            <th>Cancel</th>
+                                            <th>Mã Đơn Hàng</th>
+                                            <th>Ngày Đặt Hàng</th>
+                                            <th>Trạng Thái</th>
+                                            <th>Tổng Tiền</th>
+                                            <th>Chi Tiết</th>
+                                            <th>Hủy Đơn Hàng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -113,23 +112,23 @@
                                                     <td>
                                                         <span class="success">
                                                             @if($order->dondathang_trang_thai==0)
-                                                            Unconfirmed
+                                                           Chưa xác nhận
                                                             @elseif($order->dondathang_trang_thai==1)
-                                                            Confirmed
+                                                            Đã xác nhận
                                                             @elseif($order->dondathang_trang_thai==2)
-                                                            In Transit
+                                                            Đang vận chuyển
                                                             @elseif($order->dondathang_trang_thai==3)
-                                                            Delivered
+                                                           Đã giao hàng
                                                             @else
-                                                            Order Has Been Canceled
+                                                           Đơn hàng đã bị hủy
                                                             @endif
                                                         </span>
                                                     </td>
                                                     <td>{{number_format($order->dondathang_tong_tien  ,0,',','.').' VNĐ' }}</td>
-                                                    <td><a href="{{URL::to('/customer-show-order/'.$order->id)}}" class="view">Detail</a></td>
+                                                    <td><a href="{{URL::to('/customer-show-order/'.$order->id)}}" class="view">Chi Tiết</a></td>
                                                     @if($order->dondathang_trang_thai==0 || $order->dondathang_trang_thai==1)
                                                         <td>
-                                                            <a href="{{URL::to('/customer-cancel-order/'.$order->id)}}" class="view" onclick="return confirm('You Sure?')">Cancel</a>
+                                                            <a href="{{URL::to('/customer-cancel-order/'.$order->id)}}" class="view" onclick="return confirm('Hủy Đơn Hàng?')">Hủy</a>
                                                         </td>
                                                     @endif
                                                 </tr>
@@ -167,31 +166,31 @@
                                                 @endforeach
                                             @endif  --}}
                                         @else
-                                        There Are No Products In The Cart
+                                       Chưa có đơn hàng nào!
                                         @endif
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="change-password">
-                            <h3>Change Password</h3>
+                            <h3>Đổi Mật Khẩu</h3>
                             <div class="login">
                                 <div class="login_form_container">
                                     <div class="account_login_form">
                                         <form action="{{URL::to('/customer-change-password-save/'.$customer->khachhang_email)}}" method="POST">
                                             @csrf
-                                            <label>Password</label>
+                                            <label>Mật Khẩu</label>
                                             <input type="password" name="change_old_password">
-                                            <label>New Password</label>
+                                            <label>Mật Khẩu Mới</label>
                                             <input type="password" name="change_new_password">
-                                            <label>Confirm New Password</label>
+                                            <label>Xác Nhận Mật Khẩu Mới</label>
                                             <input type="password" name="change_confirm_new_password">
                                             <br>
                                             <span class="custom_checkbox">
                                                 <label><br><em> </em></label>
                                             </span>
                                             <div class="primary_btn">
-                                                <button type="submit" class="btn btn-success">Save</button>
+                                                <button type="submit" class="btn btn-success">Lưu</button>
                                             </div>
                                         </form>
                                     </div>

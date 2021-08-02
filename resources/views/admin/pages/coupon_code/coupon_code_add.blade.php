@@ -11,12 +11,12 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="{{URL::to('/coupon-code')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Back</a>
+                                <a href="{{URL::to('/coupon-code')}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại Mã Khuyến Mãi</a>
                             </div>
                         </div>
                         <ol class="breadcrumb page-title">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">RGUWB</a></li>
-                            <li class="breadcrumb-item active">Coupon Code</li>
+                            <li class="breadcrumb-item active">Thêm Mã Khuyến Mãi</li>
                         </ol>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
             <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h4 class="header-title">Coupon Information</h4>
+                            <h4 class="header-title">Thông Tin Mã Khuyến Mãi</h4>
                             <hr>
                             @if(session()->has('message'))
                                 <div class="alert alert-success">
@@ -41,13 +41,12 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-2">
-                                        <form action="{{ URL::to('/coupon-code-save')}}" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                        <form action="{{ URL::to('/coupon-code-save')}}" class="form-horizontal" role="form"  method="post" >
                                             {{ csrf_field() }}
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Coupon Name</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Name</label>
-                                                    <input type="text" name="coupon_code_name" class="form-control" required="" placeholder="voucher 1">
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Tên</label>
+                                                    <input type="text" name="coupon_code_name" class="form-control" required="" placeholder="Tên">
                                                     @error('coupon_code_name')
                                                     <p class="alert alert-danger"> {{ $message }}</p>
                                                     @enderror
@@ -55,10 +54,9 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Coupon Code</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Coupon Code</label>
-                                                    <input type="text" name="coupon_code_code" class="form-control" required="" placeholder="Example: COVID">
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Mã Code</label>
+                                                    <input type="text" name="coupon_code_code" class="form-control" required="" placeholder="Mã code">
                                                     @error('coupon_code_code')
                                                     <p class="alert alert-danger"> {{ $message }}</p>
                                                     @enderror
@@ -66,10 +64,9 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Coupon Quantity</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Coupon Quantity</label>
-                                                    <input type="number" min="1" name="coupon_code_quantity" class="form-control" required="" placeholder="1">
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Số Lượng</label>
+                                                    <input type="number" min="1" name="coupon_code_quantity" class="form-control" required="" placeholder="Số Lượng">
                                                     @error('coupon_code_quantity')
                                                     <p class="alert alert-danger"> {{ $message }}</p>
                                                     @enderror
@@ -77,9 +74,8 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Type Code</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Type Code</label>
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Loại Mã</label>
                                                     <select name="coupon_code_type" class="form-control">
                                                         <option value="0">%</option>
                                                         <option value="1">$</option>
@@ -88,36 +84,32 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Coupon Number <br> (% / đ)</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Coupon Number</label>
-                                                    <input type="number" min="1" name="coupon_code_value" class="form-control" required="" placeholder="1%">
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Giá Trị Khuyến Mãi</label>
+                                                    <input type="number" min="1" name="coupon_code_value" class="form-control" required="" placeholder="Giá trị">
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >From Day</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">From Day</label>
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Từ Ngày</label>
                                                     <input type="date" name="coupon_code_from_day" class="form-control" required="">
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >To Day</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">To Day</label>
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Đến Ngày</label>
                                                     <input type="date"  name="coupon_code_to_day" class="form-control" required="">
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" >Status</label>
-                                                <div class="col-sm-10">
-                                                    <label class="col-form-label">Status</label>
+                                                <div class="col-sm-12">
+                                                    <label class="col-form-label">Trạng Thái</label>
                                                     <select name="coupon_code_status" class="form-control">
-                                                        <option value="1">Show</option>
-                                                        <option value="0">Hide</option>
+                                                        <option value="1">Hiển Thị</option>
+                                                        <option value="0">Ẩn</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -125,7 +117,7 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
-                                                        <button type="submit" name="coupon_code_add" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Add</button>
+                                                        <button type="submit" name="coupon_code_add" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Lưu</button>
                                                     </div>
                                                 </div>
                                             </div>
