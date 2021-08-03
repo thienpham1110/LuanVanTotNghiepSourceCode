@@ -9,8 +9,8 @@ class Discount extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'khuyenmai_tieu_de', 'khuyenmai_noi_dung', 'khuyenmai_anh','khuyenmai_gia_tri',
-        'khuyenmai_loai','khuyenmai_so_ngay_khuyen_mai','khuyenmai_ngay_khuyen_mai','khuyenmai_trang_thai'
+    	'khuyenmai_tieu_de', 'khuyenmai_noi_dung', 'khuyenmai_anh','khuyenmai_loai','khuyenmai_gia_tri',
+        'khuyenmai_so_ngay_khuyen_mai','khuyenmai_ngay_khuyen_mai','khuyenmai_trang_thai'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_khuyenmai';

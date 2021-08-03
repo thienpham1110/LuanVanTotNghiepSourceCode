@@ -36,6 +36,7 @@
                         <ul role="tablist" class="nav flex-column dashboard-list">
                             <li><a href="#account-details" data-toggle="tab" class="nav-link active">Chi tiết tài khoản</a></li>
                             <li> <a href="#orders" data-toggle="tab" class="nav-link">Đơn Hàng</a></li>
+                            <li> <a href="#coupon-code" data-toggle="tab" class="nav-link">Nhận Mã Giảm Giá</a></li>
                             <li> <a href="#change-password" data-toggle="tab" class="nav-link">Đổi Mật Khẩu</a></li>
                             <li><a href="{{URL::to('/logout-customer')}}" onclick="return confirm('Đăng Xuất?')" class="nav-link">Đăng Xuất</a></li>
                         </ul>
@@ -172,6 +173,43 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="coupon-code">
+                            <h3>Mã Giảm Giá</h3>
+                            <div class="coron_table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nội Dung</th>
+                                            <th>Mã Giảm Giá</th>
+                                            <th>Giá Trị</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if($all_coupon_code!=null)
+                                            @foreach ($all_coupon_code as $key=>$coupon)
+                                                <tr>
+                                                    <td>{{ $coupon->makhuyenmai_ten_ma }}</td>
+                                                    <td>{{ $coupon->makhuyenmai_ma }}</td>
+                                                    <td>
+                                                        @if($coupon->makhuyenmai_loai_ma==1)
+                                                        {{number_format($coupon->makhuyenmai_gia_tri,0,',','.' )." VND" }}
+                                                        @else
+                                                        {{number_format($coupon->makhuyenmai_gia_tri,0,',','' )." %" }}
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="6" >
+                                                <h4 style="text-align: center" class="alert alert-danger">Không Có Mã Giảm Giá!</h4>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div class="tab-pane fade" id="change-password">
                             <h3>Đổi Mật Khẩu</h3>
                             <div class="login">
@@ -203,16 +241,5 @@
         </div>
 </section>
 <!-- End Maincontent  -->
-<script type="text/javascript">
-    document.getElementById("files").onchange = function () {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById("image").src = e.target.result;
-        };
-        reader.readAsDataURL(this.files[0]);
-    };
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );
-</script>
+
 @endsection

@@ -144,7 +144,7 @@ class ProductTypeController extends Controller
                 $this->validate($request,[
                     'product_type_name' => 'bail|required|max:255|min:6',
                     'product_type_description' => 'bail|required|max:255|min:6',
-                    'product_type_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+                    'product_type_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000'
                 ],
                 [
                     'required' => 'Không được để trống',

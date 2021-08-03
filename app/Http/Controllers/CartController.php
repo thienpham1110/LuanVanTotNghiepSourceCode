@@ -231,6 +231,9 @@ class CartController extends Controller
                     }
                     else{
                         $this->DeleteCoupon();
+                        $coupon_update=Coupon::where('makhuyenmai_ma', $data['cart_coupon'])->first();
+                        $coupon_update->makhuyenmai_trang_thai=-1;
+                        $coupon_update->save();
                         return redirect()->back()->with('error','Thêm mã giảm giá không thành công, mã giảm giá đã hết hoặc đã hết hạn sử dụng!');
                     }
                 }

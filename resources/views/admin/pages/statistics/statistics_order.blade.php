@@ -21,15 +21,15 @@
                     <div class="card-box">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form class="form-inline">
+                                <form action="{{url('export-order-xlsx')}}" method="POST" class="form-inline mt-2">
                                     @csrf
                                     <div class="form-group mr-3">
                                         <label for="status-select" class="mr-2">Từ Ngày</label>
-                                        <input type="date" id="search_from_day_statistical_order" class="form-control">
+                                        <input type="date" name="search_from_day_statistical_order" id="search_from_day_statistical_order" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="status-select" class="mr-2">Đến Ngày</label>
-                                        <input type="date" id="search_to_day_statistical_order" class="form-control">
+                                        <input type="date" name="search_to_day_statistical_order" id="search_to_day_statistical_order" class="form-control">
                                     </div>
                                     <div class="form-group mx-sm-3">
                                         <a type="button" class="btn btn-success waves-effect waves-light clear-search-statistical-order">Đặt Lại</a>
@@ -45,6 +45,7 @@
                                             <option value="5">Năm - 365 - Ngày</option>
                                         </select>
                                     </div>
+                                    <input type="submit" value="Xuất File Excel" onclick="return confirm('Xuất File Excel?')" name="export_order_xlsx" class="btn btn-success mt-2">
                                 </form>
                             </div>
                            <!-- end col-->

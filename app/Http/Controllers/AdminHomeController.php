@@ -180,7 +180,7 @@ class AdminHomeController extends Controller
                 'staff_phone_number' => 'bail|required|max:255|min:10',
                 'staff_address' => 'bail|required|max:255|min:20',
                 'staff_admin_id' => 'bail|required|max:255|min:15',
-                'staff_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+                'staff_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000'
             ],
             [
                 'required' => 'Không được để trống',
@@ -248,7 +248,7 @@ class AdminHomeController extends Controller
             'staff_email' => 'bail|required|email',
             'staff_address' => 'bail|required|max:255|min:20',
             'staff_admin_id' => 'bail|required|max:255|min:15',
-            'staff_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+            'staff_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000'
         ],
         [
             'required' => 'Không được để trống',

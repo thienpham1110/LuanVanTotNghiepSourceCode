@@ -107,7 +107,6 @@
                                             {{ date('d-m-Y', strtotime( $order->dondathang_ngay_dat_hang)) }}
                                         </td>
                                         <td>
-
                                             {{number_format($order->dondathang_tong_tien,0,',','.' )." VND" }}
                                         </td>
                                         <td>

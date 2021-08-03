@@ -147,7 +147,7 @@ class SlideShowController extends Controller
                 'slideshow_content' => 'bail|required|max:255|min:6',
                 'slideshow_link' => 'bail|required|max:255|min:10',
                 'slideshow_no' => 'bail|required',
-                'slideshow_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+                'slideshow_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000'
             ],
             [
                 'required' => 'Không được để trống',

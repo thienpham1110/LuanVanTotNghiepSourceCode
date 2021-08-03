@@ -11,7 +11,7 @@ class Comment extends Model
     protected $fillable = [
     	'binhluan_ten_nguoi_danh_gia', 'binhluan_noi_dung', 'binhluan_diem_danh_gia',
         'binhluan_ngay_danh_gia','binhluan_id_phan_hoi','binhluan_trang_thai',
-        'admin_id','khachhang_id','sanpham_id'
+        'khachhang_id','admin_id','sanpham_id'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_binhluan';

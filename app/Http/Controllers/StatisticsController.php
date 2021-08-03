@@ -3,23 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
 use Session;
 use App\Models\Product;
-use App\Models\ProductType;
 use App\Models\ProductInStock;
 use App\Models\ProductImportDetail;
-use App\Models\ProductImage;
-use App\Models\ProductDiscount;
-use App\Models\Brand;
 use App\Models\Size;
-use App\Models\Collection;
-use App\Models\HeaderShow;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\ProductViews;
 use App\Models\ProductImport;
 use Carbon\Carbon;
+use Excel;
+use App\Exports\ExcelOrder;
+use App\Exports\ExcelImport;
+use App\Exports\ExcelViews;
+use App\Exports\ExcelInStock;
 use Illuminate\Support\Facades\Redirect;
 session_start();
 class StatisticsController extends Controller
@@ -1017,5 +1015,51 @@ class StatisticsController extends Controller
         ';
             echo $output;
         }
+    }
+
+    public function ExportOrderXlsx(Request $request){
+        $today = date("Y-m-d");
+        $order_first=Order::select('dondathang_ngay_dat_hang')->orderby('dondathang_ngay_dat_hang','ASC')->first();
+        if($request->search_from_day_statistical_order && $request->search_to_day_statistical_order){
+            return Excel::download(new ExcelOrder($request->search_from_day_statistical_order,$request->search_to_day_statistical_order) ,'thong_ke_don_hang.xlsx');
+        }elseif($request->search_from_day_statistical_order && !$request->search_to_day_statistical_order){
+            return Excel::download(new ExcelOrder($request->search_from_day_statistical_order,$today) ,'thong_ke_don_hang.xlsx');
+        }elseif(!$request->search_from_day_statistical_order && $request->search_to_day_statistical_order){
+            return Excel::download(new ExcelOrder($order_first,$request->search_to_day_statistical_order) ,'thong_ke_don_hang.xlsx');
+        }else{
+            return Excel::download(new ExcelOrder($order_first,$today) ,'thong_ke_don_hang.xlsx');
+        }
+    }
+
+    public function ExportImportXlsx(Request $request){
+        $today = date("Y-m-d");
+        $import_first=ProductImport::select('donnhaphang_ngay_nhap')->orderby('donnhaphang_ngay_nhap','ASC')->first();
+        if($request->search_from_day_statistical_product_import && $request->search_to_day_statistical_product_import){
+            return Excel::download(new ExcelImport($request->search_from_day_statistical_product_import,$request->search_to_day_statistical_product_import) ,'thong_ke_nhap.xlsx');
+        }elseif($request->search_from_day_statistical_product_import && !$request->search_to_day_statistical_product_import){
+            return Excel::download(new ExcelImport($request->search_from_day_statistical_product_import,$today) ,'thong_ke_nhap.xlsx');
+        }elseif(!$request->search_from_day_statistical_product_import && $request->search_to_day_statistical_product_import){
+            return Excel::download(new ExcelImport($import_first,$request->search_to_day_statistical_product_import) ,'thong_ke_nhap.xlsx');
+        }else{
+            return Excel::download(new ExcelImport($import_first,$today) ,'thong_ke_nhap.xlsx');
+        }
+    }
+
+    public function ExportViewsXlsx(Request $request){
+        $today = date("Y-m-d");
+        $views_first=ProductViews::select('viewssanpham_ngay_xem')->orderby('viewssanpham_ngay_xem','ASC')->first();
+        if($request->search_from_day_views && $request->search_to_day_views){
+            return Excel::download(new ExcelViews($request->search_from_day_views,$request->search_to_day_views) ,'thong_ke_luot_xem_san_pham.xlsx');
+        }elseif($request->search_from_day_views && !$request->search_to_day_views){
+            return Excel::download(new ExcelViews($request->search_from_day_views,$today) ,'thong_ke_luot_xem_san_pham.xlsx');
+        }elseif(!$request->search_from_day_views && $request->search_to_day_views){
+            return Excel::download(new ExcelViews($views_first,$request->search_to_day_views) ,'thong_ke_luot_xem_san_pham.xlsx');
+        }else{
+            return Excel::download(new ExcelViews($views_first,$today) ,'thong_ke_luot_xem_san_pham.xlsx');
+        }
+    }
+
+    public function ExportInStockXlsx(){
+        return Excel::download(new ExcelInStock() ,'thong_ke_ton_kho.xlsx');
     }
 }

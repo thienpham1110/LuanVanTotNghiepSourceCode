@@ -212,7 +212,7 @@ class ProductController extends Controller
                 'product_name' => 'bail|required|max:255|min:6',
                 'product_description' => 'bail|required|min:6',
                 'product_color' => 'bail|required|max:255|min:6',
-                'product_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000',
+                'product_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000',
                 'product_feature' => 'bail|required|max:255|min:6',
                 'product_production' => 'bail|required|max:255|min:6',
                 'product_accessories' => 'bail|required|max:255|min:6',

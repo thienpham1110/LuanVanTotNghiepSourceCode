@@ -45,6 +45,7 @@
                                     <th class="font-weight-medium">Giá Trị</th>
                                     <th class="font-weight-medium">Từ Ngày</th>
                                     <th class="font-weight-medium">Đến Ngày</th>
+                                    <th class="font-weight-medium">Tình Trạng</th>
                                     <th class="font-weight-medium">Trạng Thái</th>
                                     <th class="font-weight-medium">Thao Tác</th>
                                 </tr>
@@ -65,13 +66,24 @@
                                             {{ $coupon_code->makhuyenmai_loai_ma?'Theo $':'Theo %' }}
                                         </td>
                                         <td>
-                                            {{ $coupon_code->makhuyenmai_gia_tri }}
+                                            @if($coupon_code->makhuyenmai_loai_ma==1)
+                                            {{number_format($coupon_code->makhuyenmai_gia_tri,0,',','.' )." VND" }}
+                                            @else
+                                            {{number_format($coupon_code->makhuyenmai_gia_tri,0,',','' )." %" }}
+                                            @endif
                                         </td>
                                         <td>
                                             {{ date('d-m-Y', strtotime( $coupon_code->makhuyenmai_ngay_bat_dau)) }}
                                         </td>
                                         <td>
                                             {{ date('d-m-Y', strtotime( $coupon_code->makhuyenmai_ngay_ket_thuc)) }}
+                                        </td>
+                                        <td>
+                                            @if ($coupon_code->makhuyenmai_so_luong<=0)
+                                            Số Lượng Đã Hết
+                                            @elseif ($coupon_code->makhuyenmai_trang_thai==-1)
+                                            Hết Hạn Sử Dụng
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="badge">

@@ -83,7 +83,7 @@
                                                             <option value="0">%</option>
                                                         @else
                                                             <option value="1">$</option>
-                                                            <option selected value="0">&</option>
+                                                            <option selected value="0">%</option>
                                                         @endif
                                                     </select>
                                                 </div>
@@ -107,21 +107,6 @@
                                                 <div class="col-sm-12">
                                                     <label class="col-form-label">Đến Ngày</label>
                                                     <input type="date" value="{{ $coupon_code->makhuyenmai_ngay_ket_thuc }}" name="coupon_code_to_day" class="form-control">
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    <label class="col-form-label">Trạng Thái</label>
-                                                    <select name="coupon_code_status" class="form-control">
-                                                        @if( $coupon_code->makhuyenmai_trang_thai==1)
-                                                            <option selected value="1">Hiển Thị</option>
-                                                            <option value="0">Ẩn</option>
-                                                        @else
-                                                            <option value="1">Hiển Thị</option>
-                                                            <option selected value="0">Ẩn</option>
-                                                        @endif
-                                                    </select>
                                                 </div>
                                             </div>
                                             <hr>

@@ -9,7 +9,7 @@ class Supplier extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    	'nhacungcap_ten', 'nhacungcap_dia_chi', 'nhacungcap_so_dien_thoai','nhacungcap_email','nhacungcap_trang_thai'
+    	'nhacungcap_ten', 'nhacungcap_dia_chi', 'nhacungcap_so_dien_thoai','nhacungcap_email','nhacungcap_anh','nhacungcap_trang_thai'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_nhacungcap';

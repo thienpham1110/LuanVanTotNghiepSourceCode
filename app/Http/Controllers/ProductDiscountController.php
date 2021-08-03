@@ -99,7 +99,7 @@ class ProductDiscountController extends Controller
                 'product_discount_title' => 'bail|required|max:255|min:6',
                 'product_discount_content' => 'bail|required|max:255|min:6',
                 'product_discount_number' => 'bail|required',
-                'product_discount_time' => 'bail|required',
+                'product_discount_time' => 'bail|required|min:1',
                 'product_discount_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
             ],
             [
@@ -108,36 +108,41 @@ class ProductDiscountController extends Controller
                 'max' => 'Quá dài',
                   'mimes' => 'Sai định dạng ảnh',
             ]);
+            $today = date("Y-m-d");
             if (empty($data['product_discount_product_id'])) {
                 return Redirect::to('/product-discount')->with('message', 'Thêm không thành công, chưa chọn sản phẩm!');
             } else {
-                $discount=new Discount();
-                $discount->khuyenmai_tieu_de=$data['product_discount_title'];
-                $discount->khuyenmai_noi_dung=$data['product_discount_content'];
-                $discount->khuyenmai_gia_tri=$data['product_discount_number'];
-                $discount->khuyenmai_loai=$data['product_discount_type'];
-                $discount->khuyenmai_so_ngay_khuyen_mai=$data['product_discount_time'];
-                $discount->khuyenmai_ngay_khuyen_mai=$data['product_discount_day'];
-                $discount->khuyenmai_trang_thai=$data['product_discount_status'];
-                $get_image = $request->file('product_discount_img');
-                $path = 'public/uploads/admin/productdiscount';
-                if ($get_image) {
-                    $get_name_image = $get_image->getClientOriginalName();
-                    $name_image = current(explode('.', $get_name_image));
-                    $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
-                    $get_image->move($path, $new_image);
-                    $discount->khuyenmai_anh = $new_image;
-                    $discount->save();
-                } else {
-                    return Redirect::to('/product-discount-add')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
+                if($data['product_discount_day']<$today){
+                    return Redirect::to('/product-discount-add')->with('error', 'Thêm không thành công, ngày khuyến mãi phải lớn hơn ngày hiện tại!');
+                }else{
+                    $discount=new Discount();
+                    $discount->khuyenmai_tieu_de=$data['product_discount_title'];
+                    $discount->khuyenmai_noi_dung=$data['product_discount_content'];
+                    $discount->khuyenmai_gia_tri=$data['product_discount_number'];
+                    $discount->khuyenmai_loai=$data['product_discount_type'];
+                    $discount->khuyenmai_so_ngay_khuyen_mai=$data['product_discount_time'];
+                    $discount->khuyenmai_ngay_khuyen_mai=$data['product_discount_day'];
+                    $discount->khuyenmai_trang_thai=$data['product_discount_status'];
+                    $get_image = $request->file('product_discount_img');
+                    $path = 'public/uploads/admin/productdiscount';
+                    if ($get_image) {
+                        $get_name_image = $get_image->getClientOriginalName();
+                        $name_image = current(explode('.', $get_name_image));
+                        $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
+                        $get_image->move($path, $new_image);
+                        $discount->khuyenmai_anh = $new_image;
+                        $discount->save();
+                    } else {
+                        return Redirect::to('/product-discount-add')->with('error', 'Thêm không thành công, vui lòng chọn ảnh!');
+                    }
+                    foreach ($data['product_discount_product_id'] as $key =>$value) {
+                        $product_discount=new ProductDiscount();
+                        $product_discount->sanpham_id=$value;
+                        $product_discount->khuyenmai_id=$discount->id;
+                        $product_discount->save();
+                    }
+                    return Redirect::to('/product-discount')->with('message', 'Thêm thành công!');
                 }
-                foreach ($data['product_discount_product_id'] as $key =>$value) {
-                    $product_discount=new ProductDiscount();
-                    $product_discount->sanpham_id=$value;
-                    $product_discount->khuyenmai_id=$discount->id;
-                    $product_discount->save();
-                }
-                return Redirect::to('/product-discount')->with('message', 'Thêm thành công!');
             }
         }
     }
@@ -199,8 +204,8 @@ class ProductDiscountController extends Controller
                     'product_discount_title' => 'bail|required|max:255|min:6',
                     'product_discount_content' => 'bail|required|max:255|min:6',
                     'product_discount_number' => 'bail|required',
-                    'product_discount_time' => 'bail|required',
-                    'product_discount_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+                    'product_discount_time' => 'bail|required|min:1',
+                    'product_discount_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000'
                 ],
                 [
                     'required' => 'Không được để trống',
@@ -208,50 +213,55 @@ class ProductDiscountController extends Controller
                     'max' => 'Quá dài',
                     'mimes' => 'Sai định dạng ảnh',
                 ]);
+                $today = date("Y-m-d");
                 if (empty($data['product_discount_product_id'])) {
                     return Redirect::to('/product-discount')->with('error','Cập nhật không thành công, không có sản phẩm!');
                 } else {
-                    $discount=Discount::find($product_discount_id);
-                    $discount->khuyenmai_tieu_de=$data['product_discount_title'];
-                    $discount->khuyenmai_noi_dung=$data['product_discount_content'];
-                    $discount->khuyenmai_gia_tri=$data['product_discount_number'];
-                    $discount->khuyenmai_loai=$data['product_discount_type'];
-                    $discount->khuyenmai_so_ngay_khuyen_mai=$data['product_discount_time'];
-                    $discount->khuyenmai_ngay_khuyen_mai=$data['product_discount_day'];
-                    $discount->khuyenmai_trang_thai=$data['product_discount_status'];
-                    $old_name_img=$discount->khuyenmai_anh;
-                    $get_image = $request->file('product_discount_img');
-                    $path = 'public/uploads/admin/productdiscount/';
-                    if ($get_image) {
-                        if($path.$get_image && $path.$get_image!=$path.$old_name_img){
-                            return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
-                        }else{
-                            if ($old_name_img!=null) {
-                                unlink($path.$old_name_img);
+                    if($data['product_discount_day']<$today){
+                        return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Cập nhật không thành công, ngày khuyến mãi phải lớn hơn ngày hiện tại!');
+                    }else{
+                        $discount=Discount::find($product_discount_id);
+                        $discount->khuyenmai_tieu_de=$data['product_discount_title'];
+                        $discount->khuyenmai_noi_dung=$data['product_discount_content'];
+                        $discount->khuyenmai_gia_tri=$data['product_discount_number'];
+                        $discount->khuyenmai_loai=$data['product_discount_type'];
+                        $discount->khuyenmai_so_ngay_khuyen_mai=$data['product_discount_time'];
+                        $discount->khuyenmai_ngay_khuyen_mai=$data['product_discount_day'];
+                        $discount->khuyenmai_trang_thai=$data['product_discount_status'];
+                        $old_name_img=$discount->khuyenmai_anh;
+                        $get_image = $request->file('product_discount_img');
+                        $path = 'public/uploads/admin/productdiscount/';
+                        if ($get_image) {
+                            if ($path.$get_image && $path.$get_image!=$path.$old_name_img) {
+                                return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Cập nhật không thành công, tên ảnh đã tồn tại vui lòng chọn ảnh khác!');
+                            } else {
+                                if ($old_name_img!=null) {
+                                    unlink($path.$old_name_img);
+                                }
+                                $get_name_image = $get_image->getClientOriginalName();
+                                $name_image = current(explode('.', $get_name_image));
+                                $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
+                                $get_image->move($path, $new_image);
+                                $discount->khuyenmai_anh = $new_image;
+                                $discount->save();
                             }
-                            $get_name_image = $get_image->getClientOriginalName();
-                            $name_image = current(explode('.', $get_name_image));
-                            $new_image =  $name_image.rand(0, 99).'.'.$get_image->getClientOriginalExtension();
-                            $get_image->move($path, $new_image);
-                            $discount->khuyenmai_anh = $new_image;
-                            $discount->save();
-                        }
-                    } else {
-                        if ($old_name_img!=null) {
-                            $discount->khuyenmai_anh =  $old_name_img;
-                            $discount->save();
                         } else {
-                            return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
+                            if ($old_name_img!=null) {
+                                $discount->khuyenmai_anh =  $old_name_img;
+                                $discount->save();
+                            } else {
+                                return Redirect::to('/product-discount-edit/'.$product_discount_id)->with('error', 'Cập nhật không thành công, vui lòng chọn ảnh!');
+                            }
                         }
+                        ProductDiscount::where('khuyenmai_id', $product_discount_id)->delete();
+                        foreach ($data['product_discount_product_id'] as $key =>$value) {
+                            $product_discount=new ProductDiscount();
+                            $product_discount->sanpham_id=$value;
+                            $product_discount->khuyenmai_id=$discount->id;
+                            $product_discount->save();
+                        }
+                        return Redirect::to('/product-discount')->with('message', 'Cập nhật thành công!');
                     }
-                    ProductDiscount::where('khuyenmai_id', $product_discount_id)->delete();
-                    foreach ($data['product_discount_product_id'] as $key =>$value) {
-                        $product_discount=new ProductDiscount();
-                        $product_discount->sanpham_id=$value;
-                        $product_discount->khuyenmai_id=$discount->id;
-                        $product_discount->save();
-                    }
-                    return Redirect::to('/product-discount')->with('message', 'Cập nhật thành công!');
                 }
             }
         }

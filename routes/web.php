@@ -345,6 +345,11 @@ Route::get('/sales-statistics', 'StatisticsController@ShowSalesStatistics');
 Route::get('/search-order-statistics', 'StatisticsController@SearchOrderStatistics');
 Route::get('/search-select-order-statistics', 'StatisticsController@SearchSelectOrderStatistics');
 
+Route::post('/export-order-xlsx','StatisticsController@ExportOrderXlsx');
+Route::post('/export-import-xlsx','StatisticsController@ExportImportXlsx');
+Route::post('/export-views-xlsx','StatisticsController@ExportViewsXlsx');
+Route::post('/export-in-stock-xlsx','StatisticsController@ExportInStockXlsx');
+
 //Search
 Route::get('/admin-search-staff', 'SearchController@AdminSearchStaff');
 Route::get('/admin-search-customer', 'SearchController@AdminSearchCustomer');

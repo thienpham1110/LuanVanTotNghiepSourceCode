@@ -10,7 +10,7 @@ class AboutStore extends Model
     public $timestamps = false;
     protected $fillable = [
     	'cuahang_tieu_de', 'cuahang_mo_ta', 'cuahang_dia_chi','cuahang_so_dien_thoai',
-        'cuahang_thu_tu','cuahang_email','cuahang_anh','cuahang_trang_thai'
+        'cuahang_email','cuahang_anh','cuahang_thu_tu','cuahang_trang_thai'
     ];
     protected $primaryKey = 'id';
  	protected $table = 'tbl_cuahang';

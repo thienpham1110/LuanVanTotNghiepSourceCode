@@ -433,9 +433,16 @@ class CustomerController extends Controller
             $all_header=null;
             $thu_tu_header=null;
         }
+        $all_coupon_code = Coupon::where('makhuyenmai_trang_thai', 1)->get();
+        if($all_coupon_code->count()>0){
+            $all_coupon_code = Coupon::where('makhuyenmai_trang_thai', 1)->get();
+        }else{
+            $all_coupon_code=null;
+        }
         return view('client.pages.customer.show_account')
         ->with('product_type',$all_product_type)
         ->with('product_brand',$all_brand)
+        ->with('all_coupon_code',$all_coupon_code)
         ->with('product_collection',$all_collection)
         ->with('header_show',$all_header)
         ->with('get_about_us_bottom',$get_about_us_bottom)
@@ -453,7 +460,7 @@ class CustomerController extends Controller
             'customer_last_name' => 'bail|required|max:255|min:6',
             'customer_phone_number' => 'bail|required|max:255|min:10',
             'customer_address' => 'bail|required|max:255|min:20',
-            'customer_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+            'customer_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000'
         ],
         [
             'required' => 'Không được để trống',

@@ -462,6 +462,17 @@ class OrderController extends Controller
                 'discount' =>  $order->dondathang_giam_gia,
                 'order_total' => $order->dondathang_tong_tien
             );
+            $get_coupon_code = Coupon::where('makhuyenmai_trang_thai', 1)
+            ->where('makhuyenmai_so_luong','>', 0)->first();
+            if($get_coupon_code){
+                $to_name="RGUWB";
+                $title_mail_coupon = "Gửi Bạn Mã Giảm Giá Từ RGUWB SHOP";
+                $data_coupon=array("name"=>"RGUWB SHOP","code"=>$get_coupon_code->makhuyenmai_ma,"name_code"=>$get_coupon_code->makhuyenmai_ma);
+                Mail::send('layout.send_mail_coupon_code', $data_coupon, function ($message) use ($title_mail_coupon,$to_name,$data) {
+                    $message->to($data['email'])->subject($title_mail_coupon);//send this mail with subject
+                $message->from($data['email'], $title_mail_coupon,$to_name);//send from this mail
+                });
+            }
             Mail::send('layout.send_mail_confirm_order', ['cart_array'=>$cart_array, 'shipping_array'=>$shipping_array ,'code'=>$ordercode_mail], function ($message) use ($title_mail, $data) {
                 $message->to($data['email'])->subject($title_mail);//send this mail with subject
             $message->from($data['email'], $title_mail);//send from this mail
@@ -675,13 +686,13 @@ class OrderController extends Controller
                 }
                 $product=Product::whereIn('id', $pro_id)->get();
                 return view('admin.pages.order.order_print_pdf')
-            ->with('order', $order)
-            ->with('product', $product)
-            ->with('order_detail', $order_detail)
-            ->with('order_delivery', $order_delivery)
-            ->with('order_customer', $order_customer)
-            ->with('order_transport', $order_transport)
-            ->with('order_coupon', $order_coupon);
+                ->with('order', $order)
+                ->with('product', $product)
+                ->with('order_detail', $order_detail)
+                ->with('order_delivery', $order_delivery)
+                ->with('order_customer', $order_customer)
+                ->with('order_transport', $order_transport)
+                ->with('order_coupon', $order_coupon);
             }
         }
     }

@@ -147,7 +147,7 @@
                             </a>
                             <ul class="nav-second-level nav" aria-expanded="false">
                                 <li>
-                                    <a href="{{URL::to('/sales-statistics')}}">Thống Kê Bán Hàng</a>
+                                    <a href="{{URL::to('/sales-statistics')}}">Thống Kê Đơn Hàng</a>
                                 </li>
                                 <li>
                                     <a href="{{URL::to('/import-statistics')}}">Thống Kê Nhập</a>

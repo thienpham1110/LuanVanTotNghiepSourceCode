@@ -40,6 +40,10 @@
                                         <a type="button" class="btn btn-success waves-effect waves-light clear-search-statistics-product-in-stock">Đặt Lại</a>
                                     </div>
                                 </form>
+                                <form action="{{url('export-in-stock-xlsx')}}" method="POST" class="form-inline mt-2">
+                                    @csrf
+                                    <input type="submit" value="Xuất File Excel" onclick="return confirm('Xuất File Excel?')" name="export_in_stock_xlsx" class="btn btn-success">
+                                </form>
                             </div>
                            <!-- end col-->
                         </div> <!-- end row -->

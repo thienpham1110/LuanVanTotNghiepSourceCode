@@ -196,7 +196,7 @@ class AboutStoreController extends Controller
             'about_store_phone_number' => 'bail|required|max:12|min:10',
             'about_store_email' => 'bail|required|email|max:255',
             'about_store_number' => 'bail|required|max:255',
-            'about_store_img' => 'bail|mimes:jpeg,jpg,png,gif|required|max:10000'
+            'about_store_img' => 'bail|mimes:jpeg,jpg,png,gif|max:10000'
         ],[
             'required' => 'Không được để trống',
             'email' => 'Email sai định dạng',

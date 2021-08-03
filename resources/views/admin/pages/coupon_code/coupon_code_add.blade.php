@@ -106,16 +106,6 @@
                                             <hr>
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
-                                                    <label class="col-form-label">Trạng Thái</label>
-                                                    <select name="coupon_code_status" class="form-control">
-                                                        <option value="1">Hiển Thị</option>
-                                                        <option value="0">Ẩn</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
                                                     <div class="text-lg-right mt-3 mt-lg-0">
                                                         <button type="submit" name="coupon_code_add" class="btn btn-success waves-effect waves-light mt-3"><i class="mdi mdi-content-save mr-1"></i>Lưu</button>
                                                     </div>
