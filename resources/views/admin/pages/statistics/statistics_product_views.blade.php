@@ -35,7 +35,7 @@
                                         <a type="button" class="btn btn-success waves-effect waves-light clear-search-views">Đặt Lại</a>
                                     </div>
                                     <div class="form-group mx-sm-3">
-                                        <label class="mr-2">Type</label>
+                                        <label class="mr-2">Ngày</label>
                                         <select class="custom-select search-view-select">
                                             <option selected="" value="0"> Tất Cả</option>
                                             <option value="1">Ngày</option>

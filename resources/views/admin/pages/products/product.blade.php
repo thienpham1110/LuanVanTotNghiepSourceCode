@@ -29,33 +29,33 @@
                                 <div class="col-lg-12">
                                      <form class="form-inline" action="{{URL::to('/admin-search-product')}}" method="GET">
                                         <div class="form-group mr-3">
-                                        <input type="number" min="1"
-                                        @if(isset($search_filter_admin))
-                                        value="{{ $search_filter_admin[0]['search_admin_from_price_product'] }}"
-                                        @endif
-                                        name="search_admin_from_price_product" class="form-control" placeholder="Giá từ">
-                                    </div>
-                                    <div class="form-group mr-3">
-                                        <input type="number" min="1"
-                                        @if(isset($search_filter_admin))
-                                        value="{{ $search_filter_admin[0]['search_admin_to_price_product'] }}"
-                                        @endif
-                                        name="search_admin_to_price_product" class="form-control" placeholder="Đến giá">
-                                    </div>
-                                    <div class="form-group mr-3">
-                                        <label for="inputPassword2" class="sr-only">Search</label>
-                                        <input type="search" class="form-control" name="search_product_keyword"
-                                        @if(isset($search_filter_admin))
-                                        value="{{ $search_filter_admin[0]['search_product_keyword'] }}"
-                                        @endif
-                                        placeholder="Từ khóa">
-                                    </div>
-                                    <div class="form-group mx-sm-3">
-                                        <button type="submit" class="btn btn-success waves-effect waves-light search-admin-order">Tìm</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <a href="{{URL::to('/product')}}" class="btn btn-success waves-effect waves-light">Tất Cả</a>
-                                    </div>
+                                            <input type="number" min="1"
+                                            @if(isset( $search_filter_admin[0]['search_admin_from_price_product']))
+                                            value="{{ $search_filter_admin[0]['search_admin_from_price_product'] }}"
+                                            @endif
+                                            name="search_admin_from_price_product" class="form-control" placeholder="Giá từ">
+                                        </div>
+                                        <div class="form-group mr-3">
+                                            <input type="number" min="1"
+                                            @if(isset( $search_filter_admin[0]['search_admin_to_price_product']))
+                                            value="{{ $search_filter_admin[0]['search_admin_to_price_product'] }}"
+                                            @endif
+                                            name="search_admin_to_price_product" class="form-control" placeholder="Đến giá">
+                                        </div>
+                                        <div class="form-group mr-3">
+                                            <label for="inputPassword2" class="sr-only">Search</label>
+                                            <input type="search" class="form-control" name="search_product_keyword"
+                                            @if(isset( $search_filter_admin[0]['search_product_keyword']))
+                                            value="{{ $search_filter_admin[0]['search_product_keyword'] }}"
+                                            @endif
+                                            placeholder="Từ khóa">
+                                        </div>
+                                        <div class="form-group mx-sm-3">
+                                            <button type="submit" class="btn btn-success waves-effect waves-light search-admin-order">Tìm</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="{{URL::to('/product')}}" class="btn btn-success waves-effect waves-light">Tất Cả</a>
+                                        </div>
                                     </form>
                                 </div>
                                <!-- end col-->

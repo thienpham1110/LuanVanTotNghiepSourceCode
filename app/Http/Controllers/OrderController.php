@@ -543,7 +543,7 @@ class OrderController extends Controller
             }
             $order->save();
             $order_delivery_update->save();
-            return Redirect::to('/order-show-detail/'.$order_id)->with('message', 'Hủy đơn hàng thành công!');
+            return redirect()->back()->with('message', 'Hủy đơn hàng thành công!');
         }
     }
 
@@ -559,7 +559,7 @@ class OrderController extends Controller
             $order->dondathang_trang_thai=2;
             $order->save();
             $order_delivery_update->save();
-            return Redirect::to('/delivery-show-detail/'.$order_id)->with('message', 'Xác nhận lấy hàng thành công!');
+            return redirect()->back()->with('message', 'Xác nhận lấy hàng thành công!');
         }
     }
 
@@ -590,7 +590,7 @@ class OrderController extends Controller
                 }
                 $order->save();
                 $order_delivery_update->save();
-                return Redirect::to('/delivery-show-detail/'.$order_id)->with('message', 'Xác nhận giao hàng thành công!');
+                return redirect()->back()->with('message', 'Xác nhận giao hàng thành công!');
             }
         }
     }

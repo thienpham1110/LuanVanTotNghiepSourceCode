@@ -28,11 +28,55 @@
                             <div class="col-lg-12">
                                 <form class="form-inline" action="{{URL::to('/admin-search-delivery')}}" method="GET">
                                     <div class="form-group">
-                                        <input type="search" class="form-control" required="" name="search_delivery_keyword"
+                                        <input type="search" class="form-control" name="search_delivery_keyword"
                                         @if(isset($search_keyword))
                                         value="{{ $search_keyword }}"
                                         @endif
                                         placeholder="Từ khóa">
+                                    </div>
+                                    <div class="form-group mx-sm-3">
+                                        <label class="mr-2">Trạng Thái</label>
+                                        <select class="custom-select" name="search_delivery_select_status">
+                                            @if(isset($search_delivery_select_status))
+                                                @if($search_delivery_select_status==-1)
+                                                    <option selected="" value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Giao Hàng</option>
+                                                    <option value="1">Đã Lấy Hàng</option>
+                                                    <option value="2">Đã Giao Hàng</option>
+                                                    <option value="3">Đã Hủy</option>
+                                                @elseif ($search_delivery_select_status==0)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option selected="" value="0">Chưa Giao Hàng</option>
+                                                    <option value="1">Đã Lấy Hàng</option>
+                                                    <option value="2">Đã Giao Hàng</option>
+                                                    <option value="3">Đã Hủy</option>
+                                                @elseif ($search_delivery_select_status==1)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Giao Hàng</option>
+                                                    <option selected="" value="1">Đã Lấy Hàng</option>
+                                                    <option value="2">Đã Giao Hàng</option>
+                                                    <option value="3">Đã Hủy</option>
+                                                @elseif ($search_delivery_select_status==2)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Giao Hàng</option>
+                                                    <option value="1">Đã Lấy Hàng</option>
+                                                    <option selected="" value="2">Đã Giao Hàng</option>
+                                                    <option value="3">Đã Hủy</option>
+                                                @elseif ($search_delivery_select_status==3)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Giao Hàng</option>
+                                                    <option value="1">Đã Lấy Hàng</option>
+                                                    <option value="2">Đã Giao Hàng</option>
+                                                    <option selected="" value="3">Đã Hủy</option>
+                                                @endif
+                                            @else
+                                                <option selected="" value="-1"> Tất Cả</option>
+                                                <option value="0">Chưa Giao Hàng</option>
+                                                <option value="1">Đã Lấy Hàng</option>
+                                                <option value="2">Đã Giao Hàng</option>
+                                                <option value="3">Đã Hủy</option>
+                                            @endif
+                                        </select>
                                     </div>
                                     <div class="form-group mx-sm-3">
                                         <button type="submit" class="btn btn-success waves-effect waves-light">Tìm</button>
@@ -113,6 +157,15 @@
                                                 <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{URL::to('/delivery-show-detail/'.$delivery->dondathang_id)}}"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Chi Tiết</a>
+                                                    @if($delivery->giaohang_trang_thai!=2 && $delivery->Order->dondathang_trang_thai==1)
+                                                    <a href="{{URL::to('/order-in-transit/'.$delivery->Order->id)}}" class="dropdown-item" onclick="return confirm('Xác nhận lấy hàng?')"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Xác Nhận Đã Lấy Hàng</a>
+                                                    @endif
+                                                    @if($delivery->giaohang_trang_thai==1 && $delivery->Order->dondathang_trang_thai==2 && $delivery->Order->dondathang_trang_thai!=3 && $delivery->Order->dondathang_trang_thai!=4 && $delivery->Order->dondathang_trang_thai!=0)
+                                                    <a href="{{URL::to('/order-confirm-delivery/'.$delivery->Order->id)}}" class="dropdown-item" onclick="return confirm('Xác nhận giao hàng?')"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Xác Nhận Giao Hàng</a>
+                                                    @endif
+                                                    @if($delivery->Order->dondathang_trang_thai!=3 && $delivery->Order->dondathang_trang_thai!=4 && $delivery->Order->dondathang_trang_thai!=0)
+                                                    <a href="{{URL::to('/order-canceled/'.$delivery->Order->id)}}"  class="dropdown-item" onclick="return confirm('Hủy đơn hàng?')"><i class="mdi mdi-delete mr-2"></i>Hủy Đơn Hàng</a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </td>

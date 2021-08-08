@@ -1766,9 +1766,9 @@ class SearchController extends Controller
             }
             $all_customer->appends(['search_customer_keyword' => $search_keyword,'search_select_gender' => $search_gender]);
             return view('admin.pages.customer.customer')
-        ->with('search_gender', $search_gender)
-        ->with('search_keyword', $search_keyword)
-        ->with('all_customer', $all_customer);
+            ->with('search_gender', $search_gender)
+            ->with('search_keyword', $search_keyword)
+            ->with('all_customer', $all_customer);
         }
     }
 
@@ -1778,19 +1778,41 @@ class SearchController extends Controller
             return Redirect::to('/dashboard');
         }else{
             $search_keyword=$request->search_delivery_keyword;
-            if ($search_keyword==null) {
+            $search_delivery_select_status=$request->search_delivery_select_status;
+            if ($search_keyword==null && $search_delivery_select_status==-1) {
                 return Redirect::to('/delivery');
             } else {
-                $all_delivery=Delivery::orwhere('giaohang_nguoi_nhan', 'like', '%'.$search_keyword.'%')
-            ->orwhere('giaohang_nguoi_nhan_so_dien_thoai', 'like', '%'.$search_keyword.'%')
-            ->orwhere('giaohang_nguoi_nhan_dia_chi', 'like', '%'.$search_keyword.'%')
-            ->orwhere('giaohang_nguoi_nhan_email', 'like', '%'.$search_keyword.'%')
-            ->orwhere('giaohang_ma_don_dat_hang', 'like', '%'.$search_keyword.'%')->orderby('id', 'DESC')->paginate(5);
-                $all_delivery->appends(['search_delivery_keyword' => $search_keyword]);
+                if($search_keyword!=null){
+                    if($search_delivery_select_status!=-1){
+                        $all_delivery=Delivery::orwhere('giaohang_nguoi_nhan', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_nguoi_nhan_so_dien_thoai', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_nguoi_nhan_dia_chi', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_nguoi_nhan_email', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_ma_don_dat_hang', 'like', '%'.$search_keyword.'%')
+                        ->where('giaohang_trang_thai',$search_delivery_select_status)
+                        ->orderby('id', 'DESC')->paginate(5);
+                    }else{
+                        $all_delivery=Delivery::orwhere('giaohang_nguoi_nhan', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_nguoi_nhan_so_dien_thoai', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_nguoi_nhan_dia_chi', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_nguoi_nhan_email', 'like', '%'.$search_keyword.'%')
+                        ->orwhere('giaohang_ma_don_dat_hang', 'like', '%'.$search_keyword.'%')
+                        ->orderby('id', 'DESC')->paginate(5);
+                    }
+                }else{
+                    if($search_delivery_select_status!=-1){
+                        $all_delivery=Delivery::where('giaohang_trang_thai',$search_delivery_select_status)
+                        ->orderby('id', 'DESC')->paginate(5);
+                    }else{
+                        return Redirect::to('/delivery');
+                    }
+                }
+                $all_delivery->appends(['search_delivery_keyword' => $search_keyword,'search_delivery_select_status' => $search_delivery_select_status]);
             }
             return view('admin.pages.order.delivery')
-        ->with('all_delivery', $all_delivery)
-        ->with('search_keyword', $search_keyword);
+            ->with('all_delivery', $all_delivery)
+            ->with('search_keyword', $search_keyword)
+            ->with('search_delivery_select_status', $search_delivery_select_status);
         }
     }
 
@@ -1805,232 +1827,474 @@ class SearchController extends Controller
             $search_admin_from_total_order=$request->search_admin_from_total_order;
             $search_admin_to_total_order=$request->search_admin_to_total_order;
             $search_order_keyword=$request->search_order_keyword;
+            $search_order_select_status=$request->search_order_select_status;
             if (!$search_filter  || $search_filter==null) {
                 return Redirect::to('/order');
-            } elseif ($search_admin_from_day_order ==null && $search_admin_to_day_order ==null && $search_admin_from_total_order ==null && $search_admin_to_total_order ==null && $search_order_keyword ==null) {
+            } elseif ($search_admin_from_day_order ==null && $search_admin_to_day_order ==null && $search_admin_from_total_order ==null && $search_admin_to_total_order ==null && $search_order_keyword ==null && $search_order_select_status ==-1) {
                 return Redirect::to('/order');
             } else {
                 $search_filter_admin[] = array(
-                'search_admin_from_day_order' => $search_admin_from_day_order,
-                'search_admin_to_day_order' =>  $search_admin_to_day_order,
-                'search_admin_from_total_order' =>  $search_admin_from_total_order,
-                'search_admin_to_total_order' =>  $search_admin_to_total_order,
-                'search_order_keyword' =>  $search_order_keyword
-            );
-                if ($search_order_keyword!=null) {
-                    if ($search_admin_from_day_order!=null) {
-                        if ($search_admin_to_day_order!=null) {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//all
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- to_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                    'search_admin_from_day_order' => $search_admin_from_day_order,
+                    'search_admin_to_day_order' =>  $search_admin_to_day_order,
+                    'search_admin_from_total_order' =>  $search_admin_from_total_order,
+                    'search_admin_to_total_order' =>  $search_admin_to_total_order,
+                    'search_order_keyword' =>  $search_order_keyword,
+                    'search_order_select_status'=>$search_order_select_status
+                );
+                if($search_order_select_status!=-1){
+                    if ($search_order_keyword!=null) {
+                        if ($search_admin_from_day_order!=null) {
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//all
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {// - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- from_total - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) {// - from_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- from_total - to_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- to_day
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {// - to_day - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) { // - to_day - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {// - to_day - from_total - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
                                 }
                             }
                         } else {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//- to_day
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {// - to_day - to_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- from_day
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//-from_day - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) { //- from_day - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//-from_day - to_total - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) { // - to_day - from_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {// - to_day - from_total - to_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- from_day - to_day
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- from_day - to_day - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- from_day - to_day - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- from_day - to_day - from_total - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
                                 }
                             }
                         }
                     } else {
-                        if ($search_admin_to_day_order!=null) {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//- from_day
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//-from_day - to_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                        if ($search_admin_from_day_order!=null) {
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- keyword - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- keyword - from_total - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) { //- from_day - from_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//-from_day - to_total - from_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - to_day
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- keyword - to_day - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - to_day - from_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- keyword - to_day - from_total - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
                                 }
                             }
                         } else {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//- from_day - to_day
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- from_day - to_day - to_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_day
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- keyword - from_day - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_day - from_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->where('dondathang_trang_thai', $search_order_select_status)
+                                    ->paginate(5);
+                                    } else {//- keyword - from_day - from_total - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) {//- from_day - to_day - from_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- from_day - to_day - from_total - to_total
-                                    $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_day - to_day
+                                        $all_order=Order::where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {//- keyword - from_day - to_day - to_total
+                                        $all_order=Order::where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) { //- keyword - from_day - to_day - from_total
+                                        $all_order=Order::where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->where('dondathang_trang_thai', $search_order_select_status)
+                                        ->paginate(5);
+                                    } else {
+                                        $all_order=Order::where('dondathang_trang_thai', $search_order_select_status)->paginate(5);
+                                    }
                                 }
                             }
                         }
                     }
-                } else {
-                    if ($search_admin_from_day_order!=null) {
-                        if ($search_admin_to_day_order!=null) {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//- keyword
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- keyword - to_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                }else{
+                    if ($search_order_keyword!=null) {
+                        if ($search_admin_from_day_order!=null) {
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//all
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->paginate(5);
+                                    } else {//- to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {// - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->paginate(5);
+                                    } else {//- from_total - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                        ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) {//- keyword - from_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- keyword - from_total - to_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- to_day
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->paginate(5);
+                                    } else {// - to_day - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) { // - to_day - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->paginate(5);
+                                    } else {// - to_day - from_total - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                        ->whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                        ->paginate(5);
+                                    }
                                 }
                             }
                         } else {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//- keyword - to_day
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- keyword - to_day - to_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- from_day
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//-from_day - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) { //- from_day - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//-from_day - to_total - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) {//- keyword - to_day - from_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- keyword - to_day - from_total - to_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- from_day - to_day
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- from_day - to_day - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- from_day - to_day - from_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- from_day - to_day - from_total - to_total
+                                        $all_order=Order::where('dondathang_ma_don_dat_hang', 'like', '%'.$search_order_keyword.'%')
+                                    ->paginate(5);
+                                    }
                                 }
                             }
                         }
                     } else {
-                        if ($search_admin_to_day_order!=null) {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//- keyword - from_day
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- keyword - from_day - to_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                        if ($search_admin_from_day_order!=null) {
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- keyword - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- keyword - from_total - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) {//- keyword - from_day - from_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- keyword - from_day - from_total - to_total
-                                    $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - to_day
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- keyword - to_day - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - to_day - from_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- keyword - to_day - from_total - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '>=', $search_admin_from_day_order)
+                                    ->paginate(5);
+                                    }
                                 }
                             }
                         } else {
-                            if ($search_admin_from_total_order!=null) {
-                                if ($search_admin_to_total_order!=null) {//- keyword - from_day - to_day
-                                    $all_order=Order::where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
-                                } else {//- keyword - from_day - to_day - to_total
-                                    $all_order=Order::where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
-                                ->paginate(5);
+                            if ($search_admin_to_day_order!=null) {
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_day
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- keyword - from_day - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                    ->paginate(5);
+                                    }
+                                } else {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_day - from_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {//- keyword - from_day - from_total - to_total
+                                        $all_order=Order::whereDate('dondathang_ngay_dat_hang', '<=', $search_admin_to_day_order)
+                                    ->paginate(5);
+                                    }
                                 }
                             } else {
-                                if ($search_admin_to_total_order!=null) { //- keyword - from_day - to_day - from_total
-                                    $all_order=Order::where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
-                                ->paginate(5);
+                                if ($search_admin_from_total_order!=null) {
+                                    if ($search_admin_to_total_order!=null) {//- keyword - from_day - to_day
+                                        $all_order=Order::where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                        ->paginate(5);
+                                    } else {//- keyword - from_day - to_day - to_total
+                                        $all_order=Order::where('dondathang_tong_tien', '>=', $search_admin_from_total_order)
+                                        ->paginate(5);
+                                    }
                                 } else {
-                                    return Redirect::to('/shop-now');
+                                    if ($search_admin_to_total_order!=null) { //- keyword - from_day - to_day - from_total
+                                        $all_order=Order::where('dondathang_tong_tien', '<=', $search_admin_to_total_order)
+                                    ->paginate(5);
+                                    } else {
+                                        return Redirect::to('/shop-now');
+                                    }
                                 }
                             }
                         }
                     }
                 }
                 $all_order->appends(['search_admin_from_day_order' => $search_admin_from_day_order,
-            'search_admin_to_day_order' => $search_admin_to_day_order,
-            'search_admin_from_total_order' => $search_admin_from_total_order,
-            'search_admin_to_total_order' => $search_admin_to_total_order,
-            'search_order_keyword' => $search_order_keyword ]);
+                'search_admin_to_day_order' => $search_admin_to_day_order,
+                'search_admin_from_total_order' => $search_admin_from_total_order,
+                'search_admin_to_total_order' => $search_admin_to_total_order,
+                'search_order_keyword' => $search_order_keyword,
+                'search_order_select_status'=>$search_order_select_status]);
             }
             return view('admin.pages.order.order')
-        ->with('search_filter_admin', $search_filter_admin)
-        ->with('all_order', $all_order);
+            ->with('search_filter_admin', $search_filter_admin)
+            ->with('all_order', $all_order);
         }
     }
 
@@ -2263,10 +2527,10 @@ class SearchController extends Controller
                     }
                 }
                 $all_product_import->appends(['search_admin_from_day_import' => $search_admin_from_day_import,
-            'search_admin_to_day_import' => $search_admin_to_day_import,
-            'search_admin_from_total_import' => $search_admin_from_total_import,
-            'search_admin_to_total_import' => $search_admin_to_total_import,
-            'search_import_keyword' => $search_import_keyword ]);
+                'search_admin_to_day_import' => $search_admin_to_day_import,
+                'search_admin_from_total_import' => $search_admin_from_total_import,
+                'search_admin_to_total_import' => $search_admin_to_total_import,
+                'search_import_keyword' => $search_import_keyword ]);
             }
             return view('admin.pages.product_import.product_import')
         ->with('search_filter_admin', $search_filter_admin)
@@ -2342,12 +2606,12 @@ class SearchController extends Controller
                     }
                 }
                 $comment_customer->appends(['search_admin_from_day_comment' => $search_admin_from_day_comment,
-            'search_admin_to_day_comment' => $search_admin_to_day_comment,
-            'search_select_status_comment' => $search_select_status_comment ]);
+                'search_admin_to_day_comment' => $search_admin_to_day_comment,
+                'search_select_status_comment' => $search_select_status_comment ]);
             }
             return view('admin.pages.comment.show_comment')
-        ->with('search_filter', $search_filter)
-        ->with('comment_customer', $comment_customer);
+            ->with('search_filter', $search_filter)
+            ->with('comment_customer', $comment_customer);
         }
     }
 
@@ -2359,7 +2623,6 @@ class SearchController extends Controller
             $search_filter_from_price=$request->search_admin_from_price_product;
             $search_filter_to_price=$request->search_admin_to_price_product;
             $search_filter_key=$request->search_product_keyword;
-            $search_filter=$request->all();
             if ($search_filter_to_price ==null && $search_filter_from_price ==null && $search_filter_key == null) {
                 return Redirect::to('/product');
             } else {
@@ -2422,8 +2685,8 @@ class SearchController extends Controller
             'search_product_keyword' => $search_filter_admin[0]['search_product_keyword'] ]);
             }
             return view('admin.pages.products.product')
-        ->with('search_filter_admin', $search_filter_admin)
-        ->with('all_product', $all_product);
+            ->with('search_filter_admin', $search_filter_admin)
+            ->with('all_product', $all_product);
         }
     }
 }

@@ -37,14 +37,14 @@
                                     </div>
                                     <div class="form-group mr-3">
                                         <input type="number" min="1"
-                                        @if(isset($search_filter_admin))
+                                        @if(isset( $search_filter_admin[0]['search_admin_from_total_order']))
                                         value="{{ $search_filter_admin[0]['search_admin_from_total_order'] }}"
                                         @endif
                                         name="search_admin_from_total_order" class="form-control" placeholder="Giá từ">
                                     </div>
                                     <div class="form-group mr-3">
                                         <input type="number" min="1"
-                                        @if(isset($search_filter_admin))
+                                        @if(isset($search_filter_admin[0]['search_admin_to_total_order']))
                                         value="{{ $search_filter_admin[0]['search_admin_to_total_order'] }}"
                                         @endif
                                         name="search_admin_to_total_order" class="form-control" placeholder="Đến giá">
@@ -52,10 +52,67 @@
                                     <div class="form-group mr-3 mt-3">
                                         <label for="inputPassword2" class="sr-only">Search</label>
                                         <input type="search" class="form-control" name="search_order_keyword"
-                                        @if(isset($search_filter_admin))
+                                        @if(isset($search_filter_admin[0]['search_order_keyword']))
                                         value="{{ $search_filter_admin[0]['search_order_keyword'] }}"
                                         @endif
                                         placeholder="Từ khóa">
+                                    </div>
+                                    <div class="form-group mx-sm-3 mt-3">
+                                        <label class="mr-2">Trạng Thái</label>
+                                        <select class="custom-select" name="search_order_select_status">
+                                            @if(isset($search_filter_admin[0]['search_order_select_status']))
+                                                @if($search_filter_admin[0]['search_order_select_status']==-1)
+                                                    <option selected="" value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Xác Nhận</option>
+                                                    <option value="1">Đã Xác Nhận</option>
+                                                    <option value="2">Đang Giao Hàng</option>
+                                                    <option value="3">Đã Giao Hàng</option>
+                                                    <option value="4">Đã Hủy</option>
+                                                @elseif ($search_filter_admin[0]['search_order_select_status']==0)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option selected="" value="0">Chưa Xác Nhận</option>
+                                                    <option value="1">Đã Xác Nhận</option>
+                                                    <option value="2">Đang Giao Hàng</option>
+                                                    <option value="3">Đã Giao Hàng</option>
+                                                    <option value="4">Đã Hủy</option>
+                                                @elseif ($search_filter_admin[0]['search_order_select_status']==1)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Xác Nhận</option>
+                                                    <option selected="" value="1">Đã Xác Nhận</option>
+                                                    <option value="2">Đang Giao Hàng</option>
+                                                    <option value="3">Đã Giao Hàng</option>
+                                                    <option value="4">Đã Hủy</option>
+                                                @elseif ($search_filter_admin[0]['search_order_select_status']==2)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Xác Nhận</option>
+                                                    <option value="1">Đã Xác Nhận</option>
+                                                    <option selected="" value="2">Đang Giao Hàng</option>
+                                                    <option value="3">Đã Giao Hàng</option>
+                                                    <option value="4">Đã Hủy</option>
+                                                @elseif ($search_filter_admin[0]['search_order_select_status']==3)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Xác Nhận</option>
+                                                    <option value="1">Đã Xác Nhận</option>
+                                                    <option value="2">Đang Giao Hàng</option>
+                                                    <option selected="" value="3">Đã Giao Hàng</option>
+                                                    <option value="4">Đã Hủy</option>
+                                                @elseif ($search_filter_admin[0]['search_order_select_status']==4)
+                                                    <option value="-1"> Tất Cả</option>
+                                                    <option value="0">Chưa Xác Nhận</option>
+                                                    <option value="1">Đã Xác Nhận</option>
+                                                    <option value="2">Đang Giao Hàng</option>
+                                                    <option value="3">Đã Giao Hàng</option>
+                                                    <option selected="" value="4">Đã Hủy</option>
+                                                @endif
+                                            @else
+                                                <option selected="" value="-1"> Tất Cả</option>
+                                                <option value="0">Chưa Xác Nhận</option>
+                                                <option value="1">Đã Xác Nhận</option>
+                                                <option value="2">Đang Giao Hàng</option>
+                                                <option value="3">Đã Giao Hàng</option>
+                                                <option value="4">Đã Hủy</option>
+                                            @endif
+                                        </select>
                                     </div>
                                     <div class="form-group mx-sm-3 mt-3">
                                         <button type="submit" class="btn btn-success waves-effect waves-light search-admin-order">Tìm</button>

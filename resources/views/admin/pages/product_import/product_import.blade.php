@@ -37,14 +37,14 @@
                                         </div>
                                         <div class="form-group mr-3">
                                             <input type="number" min="1"
-                                            @if(isset($search_filter_admin))
+                                            @if(isset( $search_filter_admin[0]['search_admin_from_total_import'] ))
                                             value="{{ $search_filter_admin[0]['search_admin_from_total_import'] }}"
                                             @endif
                                             name="search_admin_from_total_import" class="form-control" placeholder="Giá Từ">
                                         </div>
                                         <div class="form-group mr-3">
                                             <input type="number" min="1"
-                                            @if(isset($search_filter_admin))
+                                            @if(isset($search_filter_admin[0]['search_admin_to_total_import']))
                                             value="{{ $search_filter_admin[0]['search_admin_to_total_import'] }}"
                                             @endif
                                             name="search_admin_to_total_import" class="form-control" placeholder="Đến Giá">
@@ -52,7 +52,7 @@
                                         <div class="form-group mr-3 mt-3">
                                             <label for="inputPassword2" class="sr-only">Search</label>
                                             <input type="search" class="form-control" name="search_import_keyword"
-                                            @if(isset($search_filter_admin))
+                                            @if(isset($search_filter_admin[0]['search_import_keyword']))
                                             value="{{ $search_filter_admin[0]['search_import_keyword'] }}"
                                             @endif
                                             placeholder="Từ khóa">

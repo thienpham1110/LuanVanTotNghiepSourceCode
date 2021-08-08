@@ -18,10 +18,8 @@
                             <li class="breadcrumb-item active">Nhân Viên</li>
                         </ol>
                     </div>
-
                 </div>
             </div>
-
             <!-- content -->
             <div class="row">
                     <div class="col-12">
