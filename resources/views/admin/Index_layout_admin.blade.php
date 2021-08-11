@@ -698,3 +698,17 @@ $(document).ready(function(){
     });
 });
 </script>
+<script>
+    $('.select-product-import-add').on('change',function(){
+        var product_id = $(this).val();
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url : '{{url('/product-import-select-image')}}',
+            method: 'GET',
+            data:{product_id:product_id,_token:_token},
+            success:function(data){
+               $('.img-product-import-select').html(data);
+            }
+        });
+    });
+</script>

@@ -32,39 +32,31 @@
                                     <form action="{{ URL::to('product-import-add-detail-save/'.$product_import->id) }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post">
                                         {{ csrf_field() }}
                                         <div class="form-group row">
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-4 img-product-import-select">
+
+                                            </div>
+                                            <div class="col-sm-8">
                                                 <label class="col-form-label">Mã Đơn Nhập</label>
                                                 <input type="text" name="product_import_no" value="{{ $product_import->donnhaphang_ma_don_nhap_hang }}" required="" readonly class="form-control" >
                                                 <input type="hidden" name="product_import_id" value="{{ $product_import->id }}" required="" class="form-control" >
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="form-group row">
-                                            <div class="col-sm-12">
+                                                <hr>
                                                 <label class="col-form-label">Sản Phẩm</label>
-                                                <select name="product_import_detail_product_id" class="form-control">
+                                                <select name="product_import_detail_product_id" id="product-import-add" class="form-control select-product-import-add">
                                                     @foreach ($all_product as $key => $product)
                                                         <option value="{{ $product->id }}">{{ $product->sanpham_ten }} - {{ $product->sanpham_ma_san_pham }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
-                                            <div class="col-sm-12">
                                                 <label class="col-form-label">Size</label>
                                                 <select name="product_import_detail_size_id" class="form-control">
                                                     @foreach ($all_size as $key => $size)
                                                         <option value="{{ $size->id }}">{{ $size->size }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
-                                            <div class="col-sm-12">
                                                 <label class="col-form-label">Số Lượng</label>
                                                 <input type="text" name="product_import_detail_quantity" required="" class="form-control">
-                                            </div>
-                                            <div class="col-sm-12">
                                                 <label class="col-form-label">Giá Nhập</label>
                                                 <input type="text" name="product_import_detail_price" required="" class="form-control" >
                                             </div>
-
                                         </div>
                                         <hr>
                                         <div class="form-group row">

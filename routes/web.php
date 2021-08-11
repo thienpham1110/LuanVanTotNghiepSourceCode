@@ -273,6 +273,8 @@ Route::get('/product-import-delete-detail/{product_import_detail}', 'ProductImpo
 
 Route::get('/product-import-delete/{product_import_id}', 'ProductImportController@DeleteProductImport');
 
+Route::get('/product-import-select-image', 'ProductImportController@SelectImageProduct');
+
 //Product Discount
 Route::get('/product-discount', 'ProductDiscountController@Index');
 Route::get('/product-discount-add', 'ProductDiscountController@ProductDiscountAdd');

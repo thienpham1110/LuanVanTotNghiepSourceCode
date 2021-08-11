@@ -32,21 +32,18 @@
                                     <form action="{{ URL::to('product-import-edit-detail-save/'.$product_import_detail->id) }}" enctype="multipart/form-data" class="form-horizontal" role="form"  method="post" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                                         {{ csrf_field() }}
                                         <div class="form-group row">
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-4 img-product-import-select">
+                                                <img class=" mt-3" width="300px" height="300px" id="image" src="{{ asset('public/uploads/admin/product/'.$product_import_detail->Product->sanpham_anh) }}" />
+                                            </div>
+                                            <div class="col-sm-8">
                                                 <label class="col-form-label">Mã Đơn Nhập</label>
                                                 <input type="text" name="product_import_no" value="{{ $product_import_detail->chitietnhap_ma_don_nhap_hang }}" required="" readonly class="form-control" >
                                                 <input type="hidden" name="product_import_id" value="{{ $product_import_detail->donnhaphang_id }}" required="" class="form-control" >
-                                            </div>
-                                            <div class="col-sm-12">
                                                 <label class="col-form-label">Sản Phẩm</label>
                                                 <input type="text" value="{{ $product_import_detail->Product->sanpham_ten }} - {{ $product_import_detail->Product->sanpham_ma_san_pham }}" required="" readonly class="form-control">
                                                 <input type="hidden" name="product_import_detail_product_id" value="{{ $product_import_detail->sanpham_id }}" required="" readonly class="form-control">
-                                            </div>
-                                            <div class="col-sm-12">
                                                 <label class="col-form-label">Số Lượng Đã Bán</label>
                                                 <input type="text" value="{{ $product_in_stock->sanphamtonkho_so_luong_da_ban }}" required="" readonly class="form-control">
-                                            </div>
-                                            <div class="col-sm-12">
                                                 <label class="col-form-label">Số Lượng Tồn</label>
                                                 <input type="text" name="product_quantity_sold_old" value="{{ $product_in_stock->sanphamtonkho_so_luong_ton }}" required="" readonly class="form-control">
                                             </div>

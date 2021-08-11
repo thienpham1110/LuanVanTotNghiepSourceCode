@@ -591,7 +591,7 @@ class ProductImportController extends Controller {
         } else {
             $product_import_detail=ProductImportDetail::find($product_import_detail_id);
             $product_in_stock=ProductInstock::where('sanpham_id', '=', $product_import_detail->sanpham_id)
-        ->where('size_id', '=', $product_import_detail->size_id)->first();
+            ->where('size_id', '=', $product_import_detail->size_id)->first();
             if (($product_in_stock->sanphamtonkho_so_luong_ton-$product_import_detail->chitietnhap_so_luong_nhap) < 0) {
                 return Redirect::to('/product-import-show-detail/'.$product_import_detail->donnhaphang_id)->with('message', 'Delete Fail, Quantity Invalid');
             } elseif (($product_in_stock->sanphamtonkho_so_luong_ton - $product_import_detail->chitietnhap_so_luong_nhap) == 0) {
@@ -613,6 +613,18 @@ class ProductImportController extends Controller {
             }
             $product_import_detail->delete();
             return Redirect::to('/product-import-show-detail/'.$product_import_detail->donnhaphang_id);
+        }
+    }
+
+    public function SelectImageProduct(Request $request){
+        $this->AuthLogin();
+        if (Session::get('admin_role')==3) {
+            return Redirect::to('/dashboard');
+        } else {
+            $product_id=$request->product_id;
+            $product=Product::find($product_id);
+            $output = '<img class=" mt-3" width="300px" height="370px" id="image" src="'.asset('public/uploads/admin/product/'.$product->sanpham_anh).'" />';
+            echo  $output;
         }
     }
 }
